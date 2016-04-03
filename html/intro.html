@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+  <style type="text/css">
+  #symboles dd {margin: 1em;}
+  #symboles .mdemo {margin: 0 .3em;}
+  #javadl dt { font-style:italic;}
+  </style>
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>Introduction</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+ <dd id="smenu1">
+    <ul>
+		<li><a onclick="javascript=cacher_menu()" href="intro.html#copyleft">Avertissement</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="intro.html#symboles">Symboles et conventions</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="intro.html#impasses">Impasses</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="intro.html#historique">Un peu d'histoire</a></li>
+    </ul>
+ </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#pointeurs" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+
+<h1>Introduction</h1>
+
+<h2><a id="copyleft">A propos de ce cours</a></h2>
+
+<p> Vous pouvez <a href="http://lipm-bioinfo.toulouse.inra.fr/download/c_plus_plus/">t&eacute;l&eacute;charger</a>
+l'ensemble des fichiers constituant ce cours. Vous pourrez alors l'installer sur votre machine personnelle et le lire avec tout navigateur. Il vous suffira d'ouvrir le fichier <code>index.html</code></p>
+
+<p>Vous pouvez aussi installer ce cours sur votre serveur web, mais dans ce cas merci de noter que ce cours est placé sous licence
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr">Creative Commons, "Attribution - Pas d’Utilisation Commerciale - Pas de Modification 3.0 non transposé (CC BY-NC-ND 3.0)" </a></p>
+
+<p>Si vous trouvez des inexactitudes, ou si vous avez des id&eacute;es d'am&eacute;liorations, merci de me contacter.</p>
+  
+<h2><a id="symboles">Symboles et conventions utilis&eacute;s dans ce cours</a></h2>
+ 
+<dl>
+<dt class="mdemo"><a href="exos.html">Exercices</a></dt>
+<dd>Au boulot !!! Cliquez sur cette rubrique du menu et vous aurez quelques sujets d'exercices. Parmi eux, certains sont corrig&eacute;s. Dans ce cas, promis-jur&eacute;, j'ai r&eacute;ussi &agrave; compiler et &agrave; ex&eacute;cuter le programme, au moins avec gcc.</dd>
+
+<dt class="mdemo"><a href="http://www.cplusplus.com/ref/">cplusplus</a></dt>
+<dd>Un pointeur vers l'excellent site web http://www.cplusplus.com/. La référence du langage, y compris les entrées-sorties.(en Anglais).</dd>
+
+<dt class="mdemo"><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+<dd>Les FAQ C++: un livre, mais aussi un site web ! A lire et à relire pour bien comprendre l'esprit du C++</dd> 
+
+<dt class="mdemo"><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+<dd>Par Bjarne Stroustrup, les innovations apportées par la norme de 2011 du C++</dd> 
+
+<dt class="mdemo"><a href="http://www.boost.org/">BOOST</a></dt>
+<dd>Avant de programmer, allez donc voir si le projet BOOST n'aurait pas un objet tout fait &agrave; vous proposer!</dd>
+
+</dl>
+
+<hr class="nofloat" />
+<p> <img src="61.gif" alt="Pour les terriens"
+  width="20" />Cliquez l&agrave;-dessus pour acc&eacute;der &agrave; une page
+destin&eacute;e aux terriens normaux, qui vous donnera des explications plus
+simples &agrave; comprendre, en particulier
+gr&acirc;ce &agrave; des analogies avec le monde r&eacute;el.</p>
+
+  <p>Il y a des exemples de code dans le cours. Je
+ne garantis pas qu'ils fonctionnent, tout simplement parce qu'ils sont
+pour la plupart incomplets, ou sont du "pseudo-code" plut&ocirc;t que du
+code r&eacute;el. Regardez les exercices si vous voulez du code
+qui fonctionne pour de vrai.</p>
+
+  <p> Peut-&ecirc;tre voudrez-vous mettre en pratique les
+notions expliqu&eacute;es, sans obligatoirement regarder le corrig&eacute; des
+exercices. Dans ce cas, il vous faut savoir &eacute;crire un programme C++
+minimum, par exemple celui qui &eacute;crit <code>hello world</code> sur
+l'&eacute;cran. </p>
+
+<pre class="demo">#include &lt;iostream&gt;
+using namespace std;
+
+int main(int argc, char* argv[]) {
+    cout &lt;&lt; "Nombre de paramètres: " &lt;&lt; argc &lt;&lt; endl;
+    cout &lt;&lt; "Nom du programme    : " &lt;&lt; argv[0] &lt;&lt; endl;
+    cout &lt;&lt; "Hello world" &lt;&lt; endl;
+    cerr &lt;&lt; "Hello buggy world" &lt;&lt; endl;
+    return 0;
+};</pre>
+
+  <p>Il s'agit d'instructions d'entr&eacute;es-sorties. La
+premi&egrave;re &eacute;crit sur la sortie standard, la seconde sur l'erreur
+standard. Les deux premi&egrave;res lignes vous permettent d'utiliser la
+biblioth&egrave;que standard. Prenez-les pour l'instant comme des formules
+magiques, ce n'est qu'&agrave; la fin du cours que vous comprendrez
+r&eacute;ellement de quoi il retourne <a href="stdlib.html"><img class="noprint" alt="apres"
+ src="apres.gif" /></a>
+  </p>
+  
+  <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Le C++ 
+est un langage tr&egrave;s simple &agrave; apprendre (mais si...) mais il y a
+tout-de-m&ecirc;me quelques difficult&eacute;s. Celles-ci sont indiqu&eacute;es comme ce
+paragraphe-ci.</p></div>
+
+<div class="regle"><p><img alt="REGLE     D'OR" src="diam.gif" />Certaines
+r&egrave;gles, dites "r&egrave;gles d'or", sont plut&ocirc;t des
+r&egrave;gles de bon usage que des r&egrave;gles impos&eacute;es par le
+compilateur. Elles sont indiqu&eacute;es comme ceci.</p></div>
+
+<div class="autres"><p><img alt="Les autres ?" src="dechirure.gif"
+ width="20" />Et chez les autres, comment &ccedil;a se dit ?
+Derri&egrave;re cette ic&ocirc;ne sont regroup&eacute;es quelques comparaisons avec
+d'autres langages objets:
+certaines notions se retrouvent (mais se disent diff&eacute;remment), alors
+que d'autres notions sont absentes de certains langages.</p></div>
+
+  <p><a class="noprint" href="#">top</a></p><hr />
+  <h2><a id="impasses">Impasses...</a></h2>
+
+  <p>J'ai volontairement fait l'impasse sur plusieurs aspects du langage:</p>
+
+  <dl>
+    <dt><b>Fichiers sources</b> </dt>
+    <dd>Le d&eacute;coupage en fichiers <code>.h</code> et <code>.cpp</code>
+n'est pas abord&eacute;. </dd>
+    <dt><b>Fonctions <code>inline</code></b> </dt>
+    <dd>Les fonctions peuvent &ecirc;tre d&eacute;clar&eacute;es <code>inline</code> pour
+am&eacute;liroer la rapidit&eacute; d'ex&eacute;cution; ce point n'est pas abord&eacute; en d&eacute;tails. </dd>
+    <dt><b>H&eacute;ritage priv&eacute; ou prot&eacute;g&eacute;</b> </dt>
+    <dd>L'h&eacute;ritage priv&eacute; ou prot&eacute;g&eacute; n'est pas abord&eacute;. </dd>
+    <dt><b>R.T.T.I.</b> </dt>
+    <dd>Run Time Type Identification. Permet de d&eacute;terminer quel est le
+type d'une variable. Dans de rares cas cela est indispensable, mais la
+plupart du tempsdes m&eacute;canismes bas&eacute;s sur l'h&eacute;ritage seront pr&eacute;f&eacute;rables.
+    </dd>
+    <dt><b>C++11</b> </dt>
+    <dd>Les innovations de la nouvelle norme du C++, ne sont que très partiellement évoquées.</dd>
+  </dl>
+  <p><a class="noprint" href="#">top</a></p><hr />
+  
+  <h2><a id="historique">Un peu d'histoire.</a></h2>
+    <p>Le C++ est apparu durant les ann&eacute;es 80; il s'agit
+d'une cr&eacute;ation de Bjarne Stroustrup, un
+informaticien qui travaillait chez ATT sur de gros projets
+d'informatique distribu&eacute;e. Quelques dates:</p>
+  <ul>
+    <li>1965-1970 Le langage BCPL est largement utilis&eacute; pour la
+programmation syst&egrave;me, en particulier chez ATT </li>
+    <li>1969-1972 Naissance du langage B, une &eacute;volution de BCPL, puis
+du langage C, lui-m&ecirc;me une &eacute;volution de B </li>
+    <li>1978 The C Programming Language par Richie et Kernighan, ce
+livre a tenu lieu de manuel de r&eacute;f&eacute;rence du langage pendant plusieurs
+ann&eacute;es. </li>
+    <li>1979 Bjorne Stroustrup commence &agrave; travailler sur un nouveau C
+("C with Classes") </li>
+    <li>1983 La premi&egrave;re version du C++ est utilis&eacute;e en interne chez
+ATT </li>
+    <li>1983 Mise en place de la commission de normalisation du C par
+l'ANSI </li>
+    <li>1985 Premi&egrave;re impl&eacute;mentation commerciale du C++ </li>
+    <li>1985 Normalisation du C ("C Ansi") </li>
+    <li>1989 Premiers travaux de normalisation du C++ </li>
+    <li>Nov 1997 - Approbation du nouveau standard (Ansi C++) par le
+comit&eacute; de normalisation. Aussi appelé C++98 ou C++03 </li>
+    <li>1998-2011 - Reprise des travaux de normalisation</li>
+    <li>Juillet 2011 - Approbation du dernier standard à ce jour: C++11, appelé dans un premier temps C++0x. Ce document
+    porte essentiellement sur le C++98, cependant certaines innovations du C++11 ont été ajoutées et seront signalées.</li>
+    <li><strong>A suivre...</strong></li>	
+  </ul>
+  
+  <p>La syntaxe &eacute;volue bien entendu d'un langage &agrave;
+l'autre, mais comme ceux-ci sont fortement apparent&eacute;s entre eux, les
+diff&eacute;rences de syntaxe sont au fond mineures. Par contre, la mani&egrave;re dont les donn&eacute;es sont trait&eacute;es va beaucoup &eacute;voluer au cours du temps;
+BCPL et B sont des langages non typ&eacute;s: cela signifie que les donn&eacute;es seront toutes rassembl&eacute;es dans des tableaux de "mots", encore appel&eacute;s "cellules". La taille de chaque cellule est tout simplement la taille de cellule &eacute;l&eacute;mentaire utilis&eacute;e sur la machine (18 bits). Normal, au fond, pour un langage destin&eacute; &agrave; remplacer l'assembleur, tout en gardant ses principales caract&eacute;ristiques. Cela a cependant deux cons&eacute;quences importantes:</p>
+  <ul>
+    <li>La notion de pointeur ne pr&eacute;sente aucune difficult&eacute; &agrave; impl&eacute;menter </li>
+    <li>La correspondance forte entre pointeurs et tableau est
+    parfaitement naturelle.
+    </li>
+  </ul>
+  <p> En 1970, un nouvel ordinateur (DEC pdp 11) est acquis par l'&eacute;quipe: d&egrave;s lors, la taille des mots n'est plus 18 bits, mais 16 bits, et l'adressage se fait par octets. Le langage B est rapidement recod&eacute; pour fonctionner sur la nouvelle machine, mais de gros probl&egrave;mes se posent alors:</p>
+  <ul>
+    <li>Les op&eacute;rateurs mettant en jeu des pointeurs, con&ccedil;us pour des machines sur 18 bits, deviennent tr&egrave;s inefficaces avec la nouvelle machine. </li>
+    <li>Le pdp 11 &eacute;tant &eacute;quip&eacute; de coprocesseur flottant, comment en tirer parti avec un langage ne connaissant que des donn&eacute;es sur un mot, alors que 16 bits est insuffisant pour repr&eacute;senter un nombre r&eacute;el ??? (18 bits auraient &eacute;t&eacute; suffisants...)
+    </li>
+  </ul>
+  <p> La seule mani&egrave;re de s'en sortir est alors de doter
+le langage de variables de diff&eacute;rents <em>types</em>. Le nouveau
+langage, appel&eacute; C, inclut donc la notion de types: <code>int, char,
+float</code>, puis le type <code>struct</code> fait son apparition un
+peu plus tard.</p>
+
+  <h3>Langage proche de la machine ou abstraction de donn&eacute;es ?</h3>
+  <p>On voit donc bien l'&eacute;volution, qui s'est poursuivie jusqu'au C++: on part d'une situation o&ugrave; le langage n'est au fond qu'un "super-assembleur", pour gagner petit &agrave; petit en abstraction, (type <code>struct</code> en particulier), ce qui permettra au langage d'&ecirc;tre utilis&eacute; pour un usage plus g&eacute;n&eacute;ral. Toutefois, on reste toujours "proche de la machine", de sorte que le C peut dans la plupart des cas remplacer totalement l'assembleur, m&ecirc;me pour d&eacute;velopper du code proche du hardware (pilotes de p&eacute;riph&eacute;riques, par exemple). 
+Cette &eacute;volution a &eacute;t&eacute; poursuivie par Stroustrup lors de la conception du C++: le type   <code>class</code>, qui est l'aboutissement du type <code>struct</code>, permet d'impl&eacute;menter un tr&egrave;s haut niveau d'abstraction des donn&eacute;es; en m&ecirc;me temps, le C++ &eacute;tant un surensemble du C, il reste un langage de choix pour l'informatique syst&egrave;me.</p>
+
+<p><a class="noprint" href="#">top</a></p><hr /> 
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+<a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel
+Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+
+</div>
+</body>
+</html>

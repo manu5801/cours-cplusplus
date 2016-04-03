@@ -1,0 +1,1023 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>Surcharger fonctions et op&eacute;rateurs</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+ <dd id="smenu1" style="height:20em;overflow: scroll;">
+	<ul>
+		<li><a href="surch.html#existant">Modifier une fonction sans remettre en cause l'existant</a> 
+		<ul>
+			<li><a href="surch.html#decl-def">D&eacute;claration et d&eacute;finition de fonctions</a></li> 
+			<li><a href="surch.html#surch-fonc">Surcharge de fonctions</a></li> 
+			<li><a href="surch.html#surch-construc">Le constructeur de copie</a></li> 
+			<li><a href="surch.html#valdef">Valeurs par d&eacute;faut des arguments</a></li> 
+			<li><a href="surch.html#valdef-construc">Valeurs par d&eacute;faut et constructeurs</a></li> 
+		</ul></li>
+		<li><a href="surch.html#surch-op">Surcharger les op&eacute;rateurs</a> 
+		<ul>
+			<li><a href="surch.html#ope-fonc">Op&eacute;rateurs et fonctions</a></li> 
+			<li><a href="surch.html#ope-plus">Les quatre op&eacute;rations</a></li> 
+			<li><a href="surch.html#ope-incr">Les op&eacute;rateurs d'incr&eacute;mentation ou d&eacute;cr&eacute;mentation</a></li>
+			<li><a href="surch.html#ope-affec">L'op&eacute;rateur d'affectation</a></li> 
+			<li><a href="surch.html#conv-ope">Conversions et op&eacute;rateurs</a></li> 
+			<li><a href="surch.html#autres-ope">Autres op&eacute;rateurs</a></li> 
+		</ul></li>
+	</ul> </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#surcharge" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+<div id="contenu">
+<h1><a name="surch-fonc-op">Surcharger fonctions et op&eacute;rateurs </a></h1>
+
+<h2><a name="existant">Modifier une fonction sans remettre en cause l'existant </a></h2>
+
+<p>Il est fr&eacute;quent,  dans un processus de d&eacute;veloppement,
+de se trouver confront&eacute;s au probl&egrave;me suivant: Lors du codage de
+la  version initiale  du programme,  nous avons  utilis&eacute;  une fonction
+<code>f(X)</code>, o&ugrave; <code>X</code> est un entier. Or, justement dans
+la seconde  version du programme,  nous sommes capables  de travailler
+non plus seulement avec des entiers, mais aussi avec des complexes. Il
+nous faudra donc une fonction <code>f(X)</code>, o&ugrave; <code>X</code> est
+un   nombre    complexe.    <a   href="#surch-fonc"><img   alt="apres"
+src="apres.gif" /></a>    Autre    situation    fr&eacute;quente:
+l'algorithme de  <code>f</code> s'est un peu  compliqu&eacute;, et maintenant
+nous avons  besoin de passer  &agrave; <code>f</code> un  second param&egrave;tre...
+<a  href="#valdef"><img  alt="apres"  src="apres.gif" /></a>
+Comment  allons-nous faire  ? Deux  solutions si  nous  travaillons en
+C:</p>
+
+<ul>
+  <li>Changer le prototype de la fonction... mais cela veut
+      probablement dire r&eacute;&eacute;crire en partie le code qui <em>utilise</em>  cette
+      fonction <code>f</code>. Qui dit r&eacute;&eacute;criture du code dit risque
+      d'ajout d'erreurs.</li>
+  <li>Cr&eacute;er une nouvelle fonction <code>f_compl</code>, qui prendra un
+      nombre complexe comme param&egrave;tre... faisable, mais illogique,
+      sachant que <code>f</code> et <code>f_compl</code> font
+      exactement la m&ecirc;me chose: si deux fonctions font la m&ecirc;me chose,
+      on a envie de leur donner le m&ecirc;me nom. Programmes plus simples &agrave;
+      lire, donc &agrave; comprendre, donc &agrave; ma&icirc;triser.</li>
+</ul>
+
+<h3><a name="surch-fonc">Surcharge de fonctions</a></h3>
+
+<p>En C++, il est  possible  de d&eacute;clarer  et d&eacute;finir  plusieurs
+fonctions  ayant m&ecirc;me  nom, <em>&agrave;  condition que  les listes  de leurs
+arguments diff&egrave;rent</em>:  cela r&eacute;sout en partie le  probl&egrave;me que nous
+avons &eacute;voqu&eacute; plus haut, comme on le voit ci-dessous:</p>
+
+<pre class="demo">
+<b>float fonction (float x)</b> {                   
+   float y = 3 * x + 2;
+   return y;
+}
+
+<b>complexe fonction (const complexe &amp; x)</b> {
+   complexe y(0,0);
+   y.set_r (3*x.get_r() + 2);
+   y.set_i (3*x.get_i());
+   return y;
+}
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+ Il n'est  <em>pas possible</em> de surcharger une
+fonction  par une autre  fonction qui  aurait m&ecirc;me  nom et  m&ecirc;me liste
+d'arguments   <em>mais   une   valeur   de   retour   diff&eacute;rente</em>.
+ </p> </div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+<em>Rien</em> ne garantit que les deux versions de
+la  fonction  <code>f</code>  ci-dessus  font  la  m&ecirc;me  chose:  c'est au programmeur de s'en assurer,
+afin que le code reste compr&eacute;hensible.</p> </div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Ce m&eacute;canisme  est extr&ecirc;mement puissant, en ce sens
+qu'il va nous  permettre de donner un m&ecirc;me  nom &agrave; plusieurs fonctions,
+travaillant  sur   des  param&egrave;tres   de  types  diff&eacute;rents. 
+Mais comme souvent, ce
+qui donne de  la simplicit&eacute; &agrave; l'homme est  source de complication pour
+la machine...  il n'est  pas toujours &eacute;vident  pour le  compilateur de
+d&eacute;cider quelle  version de la fonction  sera utilis&eacute;e. Il peut m&ecirc;me y
+avoir parfois ambigu&iuml;t&eacute;. D'o&ugrave; l'existence de r&egrave;gles de surcharge, qui ne seront pas 
+explicit&eacute;es ici.
+</p></div>
+
+<h3><a name="surch-construc">Surcharge et constructeurs: le
+constructeur de copie</a></h3>
+
+<p>Un  constructeur <a   href="types.html#construct"><img   alt="avant"
+src="avant.gif" /></a> est   une  fonction
+"presque" comme une  autre... donc, il n'y a pas  de raison pour qu'on
+ne   puisse  pas   la  surcharger.    La surcharge du constructeur
+permet de fournir plusieurs possibilit&eacute;s d'initialisation, &agrave; partir de
+plusieurs types d'objets. </p>
+
+<p>Un  de   ces  constructeurs  est  particuli&egrave;rement
+important: il s'agit  du constructeur de copie, qui  va nous permettre
+d'initialiser  un objet  &agrave;  partir  d'un autre  objet  <em>de la  m&ecirc;me
+classe</em>.</p>
+
+<pre class="demo">
+class complexe {
+public:
+   <b>complexe(float x,float y)</b> : r(x), i(y) {};
+   <b>complexe(const complexe&amp; c)</b> : r(c.r),i(c.i) {
+       cout &lt;&lt; "ici constructeur de copie de complexe" &lt;&lt; endl};
+private:
+   float r;
+   float i;
+   ...
+}
+
+main() {
+   const complexe j(0,1);
+   complexe A=j;
+}
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+ Attention au  prototype du constructeur de copie.
+En particulier, le passage  <em>par r&eacute;f&eacute;rence</em> est indispensable: si l'on essaie de passer l'objet <em>par valeur</em>, on demande au compilateur de
+faire  une copie  de  l'objet afin  de  la passer  au constructeur  de
+copie. Comme le C++ est un langage r&eacute;cursif, le constructeur de copie va s'appeler lui-m&ecirc;me jusqu'&agrave; &eacute;puisement de la m&eacute;moire.</p></div>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+ De m&ecirc;me que
+le  langage offre  un constructeur  par d&eacute;faut,  de m&ecirc;me  il  offre un
+constructeur de  copie par d&eacute;faut.  Celui-ci fait  tout simplement une
+copie  membre  &agrave;  membre.   Lorsque  le constructeur  par  d&eacute;faut  est
+suffisant, <em>utilisez  celui-ci</em>.  Mais lorsque  le constructeur
+doit aussi  faire autre chose  (comme dans l'exemple  ci-dessus), vous
+devez fournir un constructeur de copie.</p></div>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="valdef">Valeurs par d&eacute;faut des arguments</a></h3>
+
+<p >Dans  une d&eacute;finition de fonction, il  est possible de
+sp&eacute;cifier  des valeurs  par d&eacute;faut  &agrave;  chaque argument.  Il s'agit  l&agrave;
+encore d'un moyen tr&egrave;s puissant  pour modifier une fonction sans tout
+remettre en cause; Soit par exemple le code suivant:</p>
+
+<pre class="demo">
+<b>float mult (float x)</b> {
+    return 2 * x;
+};
+
+main() {
+   ...
+   float y = f (4.5);
+};
+</pre>
+
+<p  >Supposons  qu'on d&eacute;sire modifier la fonction <code>mult</code> afin qu'elle soit capable de multiplier son argument par n'importe quel nombre entier, et pas seulement 2. L'ancienne version correspondrait toujours &agrave; une multiplication par deux. Nous donnons donc 2 comme valeur par d&eacute;faut au second param&egrave;tre, ce qui s'&eacute;crit: <code>float mult (float x, int m=2);</code>. 
+A partir de l&agrave;, seront accept&eacute;s:</p>
+
+<ul>
+  <li>Les appels "&agrave; l'ancienne mode" type <code>mult&nbsp;(x)</code></li>
+  <li>Les appels "&agrave; la nouvelle mode" type <code>mult&nbsp;(x,3)</code></li>
+</ul>
+
+<p>Voil&agrave; ce que cela donne dans notre exemple:</p>
+
+<pre class="demo">
+<b>float mult (float x, int m=2)</b> {
+    return  m * x;
+};
+
+main() {
+   ...
+   float y = f(4.5);         // meme resultat que ci-dessus
+   float z = f(4.5,3);       // cela etait impossible avec la version precedente
+};
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Les
+arguments   ayant    des   valeurs   par    d&eacute;faut   <em>se   trouvent
+obligatoirement</em> en  fin de liste: sinon,  le compilateur n'aurait
+aucun moyen de savoir de quels arguments vous parlez (il n'y a pas, en
+C++, de possibilit&eacute; de fournir  des arguments nomm&eacute;s, comme en perl ou
+en fortran 90).</p> </div>
+
+<h3><a name="valdef-construc">Valeurs par d&eacute;faut et constructeurs</a></h3>
+
+<p>Nous      avons      eu     pr&eacute;c&eacute;demment      <a
+href="types.html#construct-predef"><img   alt="avant"  src="avant.gif" /></a>
+quelques ennuis  avec  le constructeur  de la  classe
+<code>complexe</code>, tel qu'il &eacute;tait d&eacute;fini alors. La solution &agrave; nos
+probl&egrave;mes  est toute  simple:  il suffit  d'utiliser  des valeurs  par
+d&eacute;faut pour les param&egrave;tres pass&eacute;s au constructeur. Voici le code:</p>
+
+<pre class="demo">
+class complexe {
+private:
+  ...
+public:
+  <b>complexe(float x=0, float y=0)</b> {r=x;   i=y; _calc_module();};
+  ...
+};
+
+main() {
+  complexe C;        // sous-entendu initialiser a 0
+  complexe C1(2);    // sous-entendu initialiser a (2,0) [reel]
+  complexe C2(2,2);
+}
+</pre>
+
+<h3><a name="facil">Une facilit&eacute; d'&eacute;criture</a></h3>
+
+<p>Le code ci-dessus permet d'&eacute;crire:</p>
+
+<pre class="demo">
+main() {
+   <b>complexe A(5);
+   complexe B=5;
+   complexe C;</b>
+};
+</pre>
+
+<p>Les deux premi&egrave;res lignes ont exactement la m&ecirc;me signification,
+simplement  <code>C=5</code> est plus  parlant.Tout le  monde comprend
+que l'initialisation d'un complexe par  un r&eacute;el donne un complexe avec
+une partie imaginaire nulle. D'autre part, la troisi&egrave;me ligne conduit &agrave; l'initialisation &agrave; 0 
+d'un nombre complexe.</p>
+
+<h4>Le mot-cl&eacute; explicit</h4>
+
+<p >La facilit&eacute; d'un  jour devient handicap le lendemain:
+en     effet,    revenons     sur    la     classe    tableau     (    <a
+href="types.html#const"><img        alt="avant"        src="avant.gif" /></a>);
+Puisque  le  constructeur  ne comporte  qu'un  seul
+param&egrave;tre, nous pouvons &eacute;crire le code suivant:</p>
+
+<pre class="demo">
+main() {
+   tableau B = 1024;
+}
+</pre>
+
+<p >L&agrave;,  il n'est pas  du tout &eacute;vident, lorsqu'on  lit le
+code   ci-dessus,   que   cela   signifie  "allouer   un   buffer   de
+<em>taille</em> 1024 octets"...  Le
+concepteur de  <code>tableau</code> devrait donc  inhiber cette &eacute;criture,
+qui  se  r&eacute;v&egrave;le inad&eacute;quate.  D'autant plus que cette écriture correspond en fait
+à une conversion (depuis le type int vers le type tableau), qui en l'occurrence n'est pas souhaitable, 
+et peut provoquer des soucis soit à la compilation, soit à l'exécution. On peut donc inhiber cette conversion implicite
+en utilisant  le  mot-cl&eacute; <code>explicit</code> devant la d&eacute;finition du constructeur:</p>
+
+<pre class="demo">
+class tableau {
+  ...
+public:
+  explicit tableau(int);                                              
+};
+</pre>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="surch-op">Surcharger les op&eacute;rateurs</a></h2>
+
+<p>Lorsque nous &eacute;crivons le code suivant, en C:</p>
+
+<pre class="demo">
+int A=2;
+int B=3;
+int C;
+double A1=2.1;
+double B1=3.1,
+double C1;
+main() {
+   C = A + B;
+   C1= A1+B1;
+}
+</pre>
+
+<p >Nous  utilisons la surcharge des  op&eacute;rateurs "sans le
+savoir",  tel   M.Jourdain  faisant  de   la  prose.   En   effet,  du
+point-de-vue  des  instructions  en  langage  machine,  l'op&eacute;rateur
+<code>+</code> ne produira  pas le m&ecirc;me code dans  la premi&egrave;re et dans
+la  seconde ligne.   Dans  le premier  cas,  on fait  une addition  en
+arithm&eacute;tique  enti&egrave;re,  dans  le  second  cas on  fait  l'addition  en
+arithm&eacute;tique  flottante.    <br />  Le  C++  permettra   de  donner  une
+signification  &agrave;  l'op&eacute;rateur  <code>+</code>  (ainsi  qu'&agrave;  tous  les
+op&eacute;rateurs du langage) sp&eacute;cifique pour <em>chaque classe d&eacute;finie</em>.</p>
+
+<h3><a name="ope-fonc">Op&eacute;rateurs et fonctions</a></h3>
+
+<p>L'expression: <code>C&nbsp;=&nbsp;A&nbsp;+&nbsp;B</code> peut &ecirc;tre vue
+comme une mani&egrave;re diff&eacute;rente d'&eacute;crire  un appel de fonction. En effet,
+on pourrait aussi &eacute;crire: <code>C&nbsp;=&nbsp;add(A,B)</code> Le r&eacute;sultat serait
+le  m&ecirc;me que  l'expression  ci-dessus, mais  le  code nettement  moins
+lisible. Le C++ respecte  tout simplement la
+convention   suivante:    lorsqu'il   rencontre   une   instruction
+<code>C&nbsp;=&nbsp;A&nbsp;+&nbsp;B</code>,  il ex&eacute;cute  en r&eacute;alit&eacute;
+l'instruction     <code>C&nbsp;=&nbsp;operator+(A,C)</code>.</p>
+
+<p>La fonction  <code>operator+</code>  doit accepter
+deux param&egrave;tres de type  <code>complexe</code> en entr&eacute;e, et elle doit renvoyer &eacute;galement un complexe, d'o&ugrave; le prototype suivant:</p>
+
+<pre class="demo">
+complexe operator+(const complexe&amp;, const complexe&amp;);
+</pre>
+
+<p>L'addition de trois complexes peut s'&eacute;crire <code>D&nbsp;=&nbsp;A&nbsp;+&nbsp;B&nbsp;+&nbsp;C</code>
+soit (l'op&eacute;rateur  + &eacute;tant associatif  &agrave; droite):
+<code>D&nbsp;=&nbsp;A&nbsp;+&nbsp;(B&nbsp;+&nbsp;C)</code>,  ou  encore   <code>D&nbsp;=&nbsp;A&nbsp;+&nbsp;operator+(B,C)</code>
+soit <code>D&nbsp;=&nbsp;operator+(A,operator+(B,C))</code> 
+Il  va sans dire  que la premi&egrave;re  &eacute;criture est
+bien  plus compr&eacute;hensible  que la  derni&egrave;re,  cependant il  est bon  de
+l'avoir  pr&eacute;sente  &agrave; l'esprit,  en  particulier  lorsqu'on d&eacute;finit  le
+prototype de la fonction.</p>
+
+<p >La forme  utilisant un appel de fonction  et la forme
+utilisant  les op&eacute;rateurs  <em>sont &eacute;quivalentes</em>.  Simplement, la
+surcharge des op&eacute;rateurs va permettre &agrave; l'utilisateur de nos objets
+d'&eacute;crire un programme plus &eacute;l&eacute;gant.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Il  ne s'agit  pas de <em>cr&eacute;er</em>  de nouveaux
+op&eacute;rateurs,  il  s'agit  bien  de <em>surcharger</em>  les  op&eacute;rateurs
+existants.   Ni  plus,   ni   moins.  Les   r&egrave;gles   de  priorit&eacute;   et
+d'associativit&eacute; d&eacute;finies  pour les op&eacute;rateurs  du langage s'appliquent
+&eacute;galement aux op&eacute;rateurs surcharg&eacute;s.</p></div>
+
+<h4><a name="ope-surch">Op&eacute;rateurs: le bestiaire</a></h4>
+
+<p>Les  tables ci-dessous  indiquent:</p>
+
+<ul>
+  <li>La liste (<i>non exhaustive</i>) des op&eacute;rateurs, leurs significations, et la possibilit&eacute; ou non de surcharge</li>
+  <li>Les priorit&eacute;s et associativit&eacute;s des principaux op&eacute;rateurs</li>
+</ul>
+
+<table class="tableau">
+  <caption>Principaux op&eacute;rateurs du C++</caption>
+  <tr>
+  <th> Op&eacute;rateurs</th>
+  <th> signification </th>
+  <th> Surcharge </th>
+  <th> Int&eacute;r&ecirc;t de la surcharge </th>
+</tr>
+  <tr>
+    <td> :: </td>
+    <td> R&eacute;solution de port&eacute;e</td>
+    <td> NON </td>
+	<td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td> . </td>
+    <td> S&eacute;lection de membre</td>
+    <td> NON </td>
+	<td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td> += <br />-= <br /> *= <br /> /= <br /> %= </td>
+    <td> Op&eacute;rateurs unaires arithm&eacute;tiques.</td>
+	<td>OUI</td>
+	<td>Op&eacute;rations arithm&eacute;tiques unaires et performantes</td>
+  </tr>
+  <tr>
+    <td> + <br />- <br /> * <br /> / <br /> % </td>
+    <td> Op&eacute;rateurs binaires arithm&eacute;tiques.</td>
+	<td>OUI</td>
+	<td>Op&eacute;rations arithm&eacute;tiques binaires</td>
+  </tr>
+  <tr>
+    <td> ++ <br />-- </td>
+    <td> Incr&eacute;mentation, d&eacute;cr&eacute;mentation</td>
+	<td>OUI</td>
+	<td>It&eacute;rateurs</td>
+  </tr>
+  <tr>
+    <td> =</td>
+    <td> Op&eacute;rateur d'&eacute;galit&eacute;.</td>
+	<td>OUI</td>
+	<td>Cl&ocirc;nage entre deux objets.</td>
+  </tr>
+  <tr>
+    <td> &gt;&gt;<br />&lt;&lt;</td>
+    <td> D&eacute;calage &agrave; gauche ou &agrave; droite</td>
+	<td>OUI</td>
+	<td>entr&eacute;e<br />sortie.</td>
+  </tr>
+  <tr>
+    <td> []</td>
+    <td> Acc&egrave;s aux membres d'un tableau</td>
+	<td>OUI</td>
+	<td>Indi&ccedil;age g&eacute;n&eacute;ralis&eacute;</td>
+  </tr>
+  <tr>
+    <td> ()</td>
+    <td> Appel de fonction</td>
+	<td>OUI</td>
+	<td>Objets-fonctions </td>
+  </tr>
+  <tr>
+     <td> !  </td>
+    <td> Op&eacute;ration logique </td>
+	<td>OUI</td>
+	<td>Permet de comparer un objet &agrave; true/false</td>
+  </tr>
+  <tr>
+    <td> ==<br />!=</td>
+    <td> Egalit&eacute;, non &eacute;galit&eacute;</td>
+	<td>OUI</td>
+	<td>Egalit&eacute;, non &eacute;galit&eacute; entre deux objets</td>
+  </tr>
+  <tr>
+    <td> &gt;<br />&lt;<br />&gt;=<br />&lt;=</td>
+    <td> In&eacute;galit&eacute;s</td>
+	<td>OUI</td>
+	<td>In&eacute;galit&eacute;s </td>
+  </tr>
+  <tr>
+    <td> -&gt; <br />-&gt;* <br /> .* </td>
+    <td> S&eacute;lection de membre depuis un ou vers un pointeur.</td>
+	<td>OUI</td>
+	<td>Contr&ocirc;le de l'acc&egrave;s aux membres</td>
+  </tr>
+  <tr>
+    <td>&amp; <br />* </td>
+    <td> Pointeur, r&eacute;f&eacute;rence.</td>
+	<td>OUI</td>
+	<td>Objets &agrave; comptage de r&eacute;f&eacute;rence, it&eacute;rateurs</td>
+  </tr>
+  <tr>
+    <td> int<br />long<br />short<br />float<br />double<br />etc. </td>
+    <td> Conversion de types </td>
+    <td> OUI</td>
+	<td> Conversion vers un type pr&eacute;d&eacute;fini depuis un objet</td>
+  </tr>
+</table>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Vous
+pouvez mettre <em>n'importe quoi</em>  dans le code. Rien (sinon votre
+bon  sens)  ne  vous  emp&ecirc;che  de mettre  une  multiplication  dans  un
+op&eacute;rateur  <code>+</code>. Autrement  dit,  c'est un  jeu d'enfant  de
+faire dire  &agrave; un programme C++:  <code>16&nbsp;=&nbsp;4&nbsp;+&nbsp;4</code>... Mais bien
+s&ucirc;r ce n'est pas fait pour cela  ! Au contraire, le seul int&eacute;r&ecirc;t de la
+surcharge  des op&eacute;rateurs  est  que les  <em>utilisateurs</em> de  vos
+objets  pourront  &eacute;crire  des  programmes  plus  clairs.  Utilisez  la derni&egrave;re 
+colonne du tableau ci-dessus afin de surcharger vos op&eacute;rateurs &agrave; bon essient.</p>
+</div>
+
+<table class="tableau">
+  <caption>Priorit&eacute; et associativit&eacute; des op&eacute;rateurs</caption>
+  <tr><th colspan="11"> Op&eacute;rateurs (par priorit&eacute; descendante)</th><th> Associativit&eacute;</th></tr>
+  <tr>
+    <td> () </td>
+    <td> [] </td>
+    <td> -&gt; </td>
+    <td> . </td>
+    <td colspan="7">&nbsp;</td>
+    <td>--&gt;</td>
+  </tr>
+  
+  <tr>
+    <td> !</td>
+    <td> ~</td>
+    <td> ++</td>
+    <td> --</td>
+    <td> +</td>
+    <td>-</td>
+    <td> *</td>
+    <td> &amp;</td>
+    <td> (int)</td>
+    <td> sizeof</td>
+    <td> &nbsp;</td>
+    <td>&lt;--</td>
+  </tr>
+
+  <tr>
+    <td> *</td>
+    <td> /</td>
+    <td> %</td>
+    <td colspan="8">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+
+  <tr>
+    <td> +</td>
+    <td> -</td>
+    <td colspan="9">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> &lt;&lt;</td>
+    <td> &gt;&gt;</td>
+    <td colspan="9">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+
+  <tr>
+    <td> &lt;</td>
+    <td> &lt;=</td>
+    <td> &gt;</td>
+    <td> &gt;=</td>
+    <td colspan="7">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> ==</td>
+    <td> !=</td>
+    <td colspan="9">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> &amp;</td>
+    <td colspan="10">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> ^</td>
+    <td colspan="10">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> |</td>
+    <td colspan="10">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> &amp;&amp;</td>
+    <td colspan="10">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> ||</td>
+    <td colspan="10">&nbsp;  </td>
+    <td>--&gt;</td>
+  </tr>
+ 
+  <tr>
+    <td> ?:</td>
+    <td colspan="10">&nbsp;  </td>
+    <td>&lt;--</td>
+  </tr>
+ 
+  <tr>
+    <td> =</td>
+    <td> +=</td>
+    <td> -=</td>
+    <td> *=</td>
+    <td> /=</td>
+    <td> %=</td>
+    <td> &amp;=</td>
+    <td> ^=</td>
+    <td> |=</td>
+    <td> &lt;&lt;=</td>
+    <td> &gt;&gt;=</td>
+    <td>&lt;--</td>
+  </tr>
+
+  <tr>
+    <td> ,</td>
+    <td colspan="10">&nbsp;</td>
+    <td>--&gt;</td>
+  </tr>
+</table>
+
+<h4><a name="ope-ami">Fonction membre ou fonction ordinaire ?</a></h4>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+Faut-il    sp&eacute;cifier    un    op&eacute;rateur    comme    une
+fonction-membre ou comme  une fonction ordinaire (&eacute;ventuellement amie) ? La r&egrave;gle g&eacute;n&eacute;rale est la suivante:
+</p>
+
+<ul>
+  <li>Op&eacute;rateur unaire (ex: <code>++</code>). Fonction membre</li>
+  <li>Op&eacute;rateur binaire (ex: <code>+</code>). Fonction ordinaire</li>
+</ul>
+
+<p>En effet,  un  op&eacute;rateur unaire  modifie par  nature
+l'objet   sur   lequel    il   op&egrave;re   (<code>a   +=3</code>   modifie
+<code>a</code>).  Il est donc coh&eacute;rent d'en faire une fonction-membre.
+Un op&eacute;rateur binaire, par  contre, op&egrave;re sur <em>deux</em> objets.  En
+faire   une  fonction-membre  revient   &agrave;  "privil&eacute;gier"   de  mani&egrave;re
+arbitraire l'un des  deux objets.  Au mieux c'est  incoh&eacute;rent, au pire
+cela ne fonctionnera pas.</p></div>
+
+<h3><a name="ope-plus">Les quatre op&eacute;rations</a></h3>
+
+ <p >Le  code suivant montre  une  impl&eacute;mentation
+de l'op&eacute;rateur  <code>+=</code>  sur  la  classe
+<code>complexe</code>.   <code>+=</code> est impl&eacute;ment&eacute; en tant que fonction membre:</p>
+
+<pre class="demo">
+class complexe {
+private:
+  ...
+public:
+  ...
+  <b>complexe&amp; operator+= (const complexe&amp;)</b>;
+};
+
+<b>complexe&amp; complexe::operator+=(const complexe&amp; c) {
+  r += c.r;
+  i += c.i;
+  return *this;
+};</b>
+</pre>
+
+<p >Le code suivant montre l'impl&eacute;mentation de l'op&eacute;rateur <code>+</code>, qui est simplement une fonction 
+ordinaire, prenant deux complexes comme param&egrave;tres, et renvoyant un autre complexe:</p>
+
+<pre class="demo">
+complexe operator+(const complexe&amp; a, const complexe&amp; b) {
+  complexe r=a;
+  <b>r += b;</b>
+  return r;
+};
+</pre>
+
+<p >Nous avons d&eacute;fini <em>deux op&eacute;rateurs</em> (<code>+</code> et  <code>+=</code>),  mais seul  l'un  d'entre eux  (<code>+=</code>)
+acc&egrave;de  aux donn&eacute;es  priv&eacute;es.   Cela signifie  que  si nous  modifions
+l'impl&eacute;mentation  de <code>complexe</code>  (hypoth&egrave;se  r&eacute;aliste, nous
+avons    d&eacute;j&agrave;     vu    trois    impl&eacute;mentations     diff&eacute;rentes)  nous   n'aurons  <em>qu'un  seul</em>   op&eacute;rateur  &agrave;
+modifier: moins de travail, surtout moins de risque d'erreur.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Attention aux types  de retour des op&eacute;rateurs: en
+effet,  <code>operator+=</code>  renvoie  un <code>complexe&amp;</code>,
+tandis    que    <code>operator+</code>    renvoie    simplement    un
+<code>complexe</code>.   Pourquoi  ?  Il  est  toujours pr&eacute;f&eacute;rable  de
+renvoyer  une r&eacute;f&eacute;rence  plut&ocirc;t  qu'un objet,  pour  des questions  de performances:  en  effet, renvoyer  un  objet  signifie effectuer  une copie,  op&eacute;ration &eacute;ventuellement  longue pour  des  objets volumineux, alors que  renvoyer une r&eacute;f&eacute;rence signifie  renvoyer simplement... une adresse.   Op&eacute;ration tr&egrave;s  rapide,  et ind&eacute;pendante  de  la taille  de l'objet.    C'est  ainsi   que  <code>operator+=</code>   renvoie  une r&eacute;f&eacute;rence.     Par   contre,    <code>operator+</code>    renvoie   un <code>complexe</code>. Ce  serait en effet  une erreur dans ce  cas de renvoyer une  r&eacute;f&eacute;rence, car celle-ci pointerait  sur une <em>variable
+locale</em>     <a     href="types.html#ref-boum"><img     alt="avant"
+src="avant.gif" /></a>. Cela a d'ailleurs une cons&eacute;quence dans le code que nous &eacute;crirons lors de l'utilisation de ces op&eacute;rateurs: ainsi il sera plus performant d'&eacute;crire <code>a&nbsp;+=&nbsp;b</code> que d'&eacute;crire <code> a&nbsp;=&nbsp;a&nbsp;+&nbsp;b </code>, bien que les deux &eacute;critures soient autoris&eacute;es et signifient la m&ecirc;me chose. C'est vrai d&egrave;s que <code>a</code> et <code>b</code> sont des objets.</p></div>
+
+<h3><a name="ope-incr">Les op&eacute;rateurs d'incr&eacute;mentation ou d&eacute;cr&eacute;mentation</a></h3>
+
+<p>Les op&eacute;rateurs <code>++</code>  et <code>--</code>
+peuvent bien s&ucirc;r &ecirc;tre surcharg&eacute;s,  cependant un probl&egrave;me se pose: en C
+comme  en C++,  les  versions pr&eacute;d&eacute;finies  de  ces op&eacute;rateurs  peuvent
+&ecirc;tre:</p>
+
+<ul>
+  <li>soit pr&eacute;fix&eacute;es</li>
+  <li>soit postfix&eacute;es</li>
+</ul>
+
+<p>L'op&eacute;ration est la m&ecirc;me, simplement la valeur de retour sera
+diff&eacute;rente:</p>
+
+<ul>
+  <li>dans le cas <code>++i</code>, on incr&eacute;mente, <em>puis</em>
+      on &eacute;value le r&eacute;sultat et on le renvoie</li>
+  <li>dans le cas <code>i++</code>, on &eacute;value la variable, on
+      incr&eacute;mente, mais on renvoie la variable <em>avant incr&eacute;mentation</em></li>
+</ul>
+
+<p>Il est possible  (et m&ecirc;me recommand&eacute;) d'utiliser la
+m&ecirc;me distinction avec des op&eacute;rateurs surcharg&eacute;s. La convention adopt&eacute;e
+par  le  langage  est   d'effectuer  deux  d&eacute;clarations  de  fonctions
+diff&eacute;rentes:</p>
+
+<ul>
+  <li><code>operator++()</code> pour la version <em>pr&eacute;fix&eacute;e</em></li>
+  <li><code>operator++(int)</code> pour la version <em>postfix&eacute;e</em></li>
+</ul>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+ Dans le cas de l'op&eacute;rateur postfix&eacute;, on doit:</p>
+
+<ul>
+  <li>faire une copie locale de l'objet</li>
+  <li>renvoyer la copie de l'objet, donc impossible de renvoyer une
+      r&eacute;f&eacute;rence.</li>
+</ul>
+
+<p>d'o&ugrave; surco&ucirc;t (qui  peut ne pas &ecirc;tre n&eacute;gligeable,  suivant la taille de
+l'objet).  Moralit&eacute;: utilisez  <em>toujours</em> la  version pr&eacute;fix&eacute;e,
+sauf n&eacute;cessit&eacute; absolue.</p></div>
+
+<p>Les op&eacute;rateurs <code>++</code> et <code>--</code> servent &agrave; d&eacute;finir des it&eacute;rateurs  <a
+href="stdlib.html#iterateurs"><img    alt="apr&egrave;s"   src="apres.gif" /></a>.</p> 
+
+<h3><a name="ope-affec">L'op&eacute;rateur d'affectation</a></h3>
+
+<h4><a name="affec-init">Affectation n'est pas initialisation</a></h4>
+
+<p><img alt="NOOON" src="nepasfaire.png" />En d&eacute;pit  des apparences, les deux  lignes de code  ci-dessous ne sont
+pas &eacute;quivalentes.</p>
+
+<pre class="demo">
+complexe A=4;
+A=5;
+</pre>
+
+<p>En  effet,  la   premi&egrave;re  ligne  correspond  &agrave;  une
+d&eacute;claration de variable avec <em>initialisation</em>, alors  que la seconde ligne  correspond &agrave; une
+<em>affectation</em>.     L'initialisation    est   une    affectation
+<em>pr&eacute;c&eacute;d&eacute;e  d'une  allocation  de  m&eacute;moire</em>.   Dans  le  cas  de
+l'initialisation,  la  fonction  appel&eacute;e  est le  <em>constructeur  de
+copie</em>,   dans   le   cas    de   l'affectation   il   s'agit   de
+l'<code>operator=</code>.   Afin  d'&eacute;viter  de  r&eacute;&eacute;crire du  code,  la
+mani&egrave;re habituelle de  proc&eacute;der est de d&eacute;finir une  fonction priv&eacute;e de
+copie, fonction  qui sera appel&eacute;e par le  constructeur <em>et</em> par
+l'op&eacute;rateur  d'affectation.  Cela  pourrait donner  par  exemple, pour
+notre objet <code>tableau</code>:</p>
+
+<pre class="demo">
+class tableau {
+public:
+  explicit tableau(int);
+  tableau(const tableau&amp;);
+  tableau&amp; operator=(const tableau&amp;);
+  ~tableau() {free buffer;};
+  
+private:
+  int taille;
+  char* buffer;
+  <b>void copie(const tableau&amp;);</b>
+
+};
+
+void tableau::copie(const tableau&amp; b) {
+  ... copier le buffer de b ...
+};
+
+tableau::tableau(int t) {
+  buffer = malloc(t * sizeof(char));
+};
+
+tableau::tableau(const tableau&amp; b) {
+  taille = b.taille; 
+  buffer = malloc(taille * sizeof(char)); 
+  copie(b);
+};
+  
+tableau&amp; tableau::operator=(const tableau&amp; b) {
+  if (this !=&amp;b)
+  {
+    if (taille != b.taille)
+      buffer = realloc(buffer,b.taille * sizeof(char));
+    copie(b);
+  }
+  return *this;
+};
+
+void main() {
+  tableau B(1000);
+  tableau A(1000);
+  A=B;
+};
+</pre>
+
+<h5><a name="auto-ref">Auto r&eacute;f&eacute;rences</a></h5>
+
+<p  >Il est  important  de pr&eacute;voir,  dans les  op&eacute;rateurs
+d'affectation, le  cas <em>a priori</em>  stupide o&ugrave; une  variable est
+affect&eacute;e &agrave; elle-m&ecirc;me: cela est  un cas de figure tout-&agrave;-fait possible,
+par    le    jeu   des    pointeurs    et    des   r&eacute;f&eacute;rences.     Or,
+<code>operator=</code>  risque  alors  de  provoquer un  plantage (on croit traviller sur l'objet destination, alors qu'on
+travaille <em>aussi</em> sur l'objet source: D'où dans le code ci-dessous le <code>if (this != &amp;b)</code>.</p>
+
+<h4><a name="affect-trio">Le trio infernal</a></h4>
+
+<p>Le trio infernal est constitu&eacute; par les trois fonctions suivantes:</p>
+
+<ul>
+  <li>Constructeur de copie</li>
+  <li>Op&eacute;rateur d'affectation</li>
+  <li>Destructeur</li>
+</ul>
+
+<p>Si  l'une de ces trois fonctions  est inexistante, le
+compilateur  en produira  une  version  par d&eacute;faut.   Dans  le cas  du
+constructeur  de copie  ou  de l'affectation,  la  version par  d&eacute;faut
+consiste en une  simple copie membre &agrave; membre.  De  sorte que de nombreuses classes 
+se contentent de la version fournie par d&eacute;faut.</p>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+ <em>Si  vous fournissez  l'une de ces  trois fonctions,
+fournissez  les  trois</em>.  Sinon,  gros  risques  de plantages,  le
+compilateur se chargeant de fournir ses  versions "&agrave; lui" de la ou des
+fonctions manquantes...</p></div>
+
+<h4><a name="trio-cage">La mise en cage du trio infernal</a></h4>
+
+<p>Lorsque l'on  &eacute;crit un  objet, on  peut parfaitement
+<em>emp&ecirc;cher</em> les  utilisateurs de l'objet  en question d'utiliser
+copie et  constructeur de copie: pour  cela, il suffit  de les d&eacute;finir
+<em>dans  la  section  private</em>.   Ainsi,  seul  l'objet  lui-m&ecirc;me
+(c'est-&agrave;-dire  <em>vous</em>,  le  concepteur)  sera  capable  de  les
+utiliser.  Vous interdisez  aux <em>utilisateurs</em> de l'objet toute
+copie de  celui-ci.  Dans ce  cas, constructeur de copie  et op&eacute;rateur
+d'affectation peuvent d'ailleurs &ecirc;tre des fonctions vides...</p>
+
+<pre class="demo">
+class unique {
+private:
+   unique(const unique&amp;) {};
+   unique&amp; operator=(const unique&amp;) {};
+   ...
+</pre>
+
+<p>Nous verrons  lors du  chapitre sur l'h&eacute;ritage  une mise en cage  un peu
+moins         brutale         de         l'op&eacute;rateur&nbsp;=         <a
+href="heritage.html#prot-affect"><img    alt="apr&egrave;s"   src="apres.gif" /></a>.</p>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="conv-ope">Conversions et op&eacute;rateurs</a></h3>
+
+<h4>Conversions vers une classe</h4>
+<p >Nous  avons d&eacute;fini un  op&eacute;rateur <code>+</code>, mais
+celui-ci ne  nous permet  que d'ajouter deux  complexes entre  eux. Et
+pourtant, le code suivant est valide:</p>
+
+<pre class="demo">
+complexe A(1,1);
+float B=1;
+complexe C;
+C = A + B;
+C = B + A;
+</pre>
+
+<p>En  fait, dans un cas comme  celui-ci, le compilateur
+cherche  &agrave; effectuer  des conversions  de types.   Puisque  nous avons
+d&eacute;fini   des   valeurs   par    d&eacute;faut   pour  les param&egrave;tres du constructeur   <a
+href="#valdef-construc"><img        alt="avant"        src="avant.gif" /></a>, 
+le compilateur sait g&eacute;n&eacute;rer un complexe &agrave; partir d'un
+flottant. Il  sait donc  faire une conversion  de types  flottant vers
+complexe. Toutes  les conversions de  types seront donc trait&eacute;es &agrave;
+ l'aide de constructeurs surcharg&eacute;s.</p>
+
+<h4>Conversions depuis une classe</h4>
+
+<p  >   Cependant,  comment  allons-nous   effectuer  une
+conversion  de type  <em>depuis</em>  la classe  <code>complexe</code>
+<em>vers</em> un type de base  du langage ?  La technique ci-dessus ne
+le  permet  pas,  car  le  compilateur  ne  peut  deviner  <em>ce  que
+signifierait</em>  une telle  conversion. Nous  allons  alors d&eacute;finir,
+puis utiliser,  un <em>op&eacute;rateur de  conversion</em>. Dans le  cas des
+nombres  complexes,  par  exemple,  nous pourrions  consid&eacute;rer  qu'une
+conversion d'un complexe  vers un flottant consiste &agrave;  prendre la partie
+r&eacute;elle du complexe. D'o&ugrave; la d&eacute;finition suivante:</p>
+
+<pre class="demo">
+class complexe {
+     public:
+       ...
+       <b>operator float() {return r;};</b>
+     private:
+       ...
+     };
+</pre>
+
+<p>A partir de maintenant, on peut faire une conversion de type comme on
+a l'habitude en C:</p>
+
+<pre class="demo">
+...
+
+complexe J(1,0);
+<b>float I = (float)J;</b>
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Lorsqu'on d&eacute;finit un <code>operator type()</code>, il ne
+<em>faut pas</em> sp&eacute;cifier de type de retour. C'est un peu bizarre,
+mais assez logique, compte-tenu du fait que le type est d&eacute;j&agrave; sp&eacute;cifi&eacute;
+dans le nom de l'op&eacute;rateur lui-m&ecirc;me.
+</p></div>
+
+<h3><a name="autres-ope">Autres op&eacute;rateurs</a></h3>
+
+<p>Certains   op&eacute;rateurs seront &eacute;voqu&eacute;s un peu plus loin:</p>
+
+<ul>
+  <li><code>&lt;&lt;</code> et <code>&gt;&gt;</code> sont utilis&eacute;s
+      pour les entr&eacute;es-sorties <a  href="stdlib.html#stream-fmt"><img
+      alt="apr&egrave;s" src="apres.gif" /></a></li> 
+  <li><code>*</code>, <code>-&gt;</code>, <code>-&gt;*</code>,
+      <code>new</code> et <code>delete</code> permettent de
+      d&eacute;finir des fonctions avanc&eacute;es de gestion de m&eacute;moire <a
+      href="mem.html#compt"><img      alt="apr&egrave;s" 
+      src="apres.gif" /></a></li>
+  <li><code>[]</code> permet de d&eacute;finir des op&eacute;rateurs d'acc&egrave;s aux
+      tableaux.</li>
+  <li><code>()</code> permet de simuler des acc&egrave;s &agrave; des tableaux
+      multidimensionnels</li>
+  <li><code>()</code> permet &eacute;galement de d&eacute;finir des
+      objets fonctions: un objet fonction est un objet dont <em>la
+      seule raison d'&ecirc;tre</em> est d'encapsuler un appel de
+      fonction. cf. les exercices sur ce chapitre pour plus de
+      d&eacute;tails, et le chapitre sur la biblioth&egrave;que standard, qui fait
+      largement appel &agrave; cette notion d'objets fonctions</li>
+</ul>
+
+<p><a href="#">top</a></p><hr />
+<div class="autres langages"><p><img alt="DECHIRURE" src="dechirure.gif" />Autres langages objets</p>
+<table class="tableau">
+  <tr>
+    <th> Langage </th>
+    <th> Surcharge d'une fonction </th>
+    <th> Valeurs par d&eacute;faut des arguments </th>
+    <th> Surcharge des op&eacute;rateurs </th>
+  </tr>
+  <tr>
+    <td><b>C++</b> </td>
+    <td><b>OUI</b></td><td><b>OUI</b></td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>perl</b></td>
+    <td><b>Possible (1)</b></td><td><b>OUI</b></td><td><b>Possible (2)</b></td>
+  </tr>
+  <tr>
+    <td><b>java</b></td>
+    <td><b>OUI</b></td><td>NON</td><td>NON</td>
+  </tr>
+  <tr>
+    <td><b>python</b></td>
+    <td>NON</td><td><b>OUI</b></td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>php5</b></td>
+    <td>NON</td><td><b>OUI</b></td><td>NON</td>
+  </tr>
+</table>
+<ol>
+  <li>En perl, le typage des donn&eacute;es n'existe pas vraiment... du coup,
+    le passage d'arguments est assez "souple" pour qu'il 
+    soit possible de surcharger une fonction, m&ecirc;me si le langage ne
+    le pr&eacute;voit pas explicitement</li>
+  <li>La surcharge des op&eacute;rateurs est possible, en perl, par
+  l'interm&eacute;diaire du module OVERLOAD. D'autre part, le fonction
+  <code>tie</code> peut &ecirc;tre consid&eacute;r&eacute;e comme une sorte de surcharge
+  des op&eacute;rateurs d'acc&egrave;s  aux tableaux.</li> 
+</ol>
+</div>
+
+<p><a href="#">top</a></p><hr />
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+    <a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+</div></body> </html>

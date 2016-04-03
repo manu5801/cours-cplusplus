@@ -1,0 +1,2862 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <title>Au coeur des langages C/C++</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <script type="text/javascript" src="cours.js"></script>
+
+</head>
+
+<body>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript=montre('smenu1')">Sommaire</a></dt>
+    <dd id="smenu1"  style="height:20em;overflow:scroll;">
+    	<ul>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#expressions">Les expressions</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="types.html#instructions">Les instructions</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="types.html#constC">Les constantes en langage C</a></li> 		
+		<li><a onclick="javascript=cacher_menu()" href="types.html#decl-var">D&eacute;clarations de variables</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="types.html#type-predef">Les types de base</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#type-deriv">Les types dérivés</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#type-auto">Le type auto (C++11)</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#tableau">Les tableaux</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#struct">Les structures</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#union">Les unions</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#ptr-ref-const">Pointeurs (*), r&eacute;f&eacute;rences (&amp;), descripteur const</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="types.html#ptr-ana">Analogies avec le monde dit &quot;r&eacute;el&quot;</a>
+		<ul>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#clonage">Initialisation = Cl&ocirc;nage</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-egal">Op&eacute;rateur= : Je me prends pour un autre</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-surnom">R&eacute;f&eacute;rences = Surnoms</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-ptr">Pointeurs = Attention, on vous montre du doigt</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-prmval">Passage des param&egrave;tres par valeur</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-prmref">Passage du client par r&eacute;f&eacute;rence</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-prmconstref">Passage du coiffeur par const r&eacute;f&eacute;rence</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-retval">Retour d'un param&egrave;tre par valeur</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-retref">Retour d'un param&egrave;tre par r&eacute;f&eacute;rence</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#ptr-retptr">Retour d'un param&egrave;tre par pointeur</a></li>
+		   <li><a onclick="javascript=cacher_menu()" href="types.html#move">Utilisation du constructeur de déplacement</a></li>
+		</ul></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#ptr-virt">Retour au monde virtuel</a>
+		<ul>
+			<li><a onclick="javascript=cacher_menu()" href="types.html#ref">Le type r&eacute;f&eacute;rence</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#ptr">Le type pointeur</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#ref-pourquoi">Une r&eacute;f&eacute;rence, pour quoi faire ?</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#desc-const">Le descripteur const</a></li> 
+		</ul></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#structptr">Pointeurs sur une structure</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#malloc">Allocation mémoire</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="types.html#class">Le type class</a>
+		<ul>
+			<li><a onclick="javascript=cacher_menu()" href="types.html#priv-prot-pub">Sections priv&eacute;es, prot&eacute;g&eacute;es, publiques</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#pub">Section public </a></li>
+			<li><a onclick="javascript=cacher_menu()" href="types.html#prot">Section protected</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#fct-memb">Fonctions membres </a></li>
+			<li><a onclick="javascript=cacher_menu()" href="types.html#fct-amies">Fonctions amies</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#acces-donn">Acc&egrave;s aux donn&eacute;es</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#construct">Constructeurs</a></li>
+			<li><a onclick="javascript=cacher_menu()" href="types.html#destruct">Destructeur</a></li>
+			<li><a onclick="javascript=cacher_menu()" href="types.html#static">Le descripteur <code>static</code></a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#const">Le descripteur const</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="types.html#this">Le pointeur *this</a></li> 
+		</ul></li>
+	</ul>
+    </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#pointeurs" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+<div id="contenu">
+<h1><a name="type-base">Au coeur des langages C/C++</a></h1>
+
+<h2 id="expressions">Les expressions</h2>
+
+<p>Une expression est composée d'opérateurs et d'opérandes (variables ou constantes). L'expression la plus simple ne comporte
+qu'une variable. Par exemple:</p>
+
+<pre class="demo">a</pre>
+
+<p>Une expression renvoie toujours quelque chose. Par exemple, <code>3 + 4</code> renvoie 7. Pas étonnant.
+Mais l'expression <code>b = 3 + 4</code> met 7 dans la variable b, mais <em>en plus</em> elle renvoie 7.
+De sorte que l'expression <code>a = (b = 3 + 4)</code> mettra 7 dans b, mais <em>aussi</em> dans a.</p>
+
+<h2 id="instructions">Les instructions</h2>
+
+<p>Une instruction est&nbsp;:</p>
+
+<ul>
+    <li>soit une instruction simple: elle se termine toujours par un ";"</li>
+    <li>soit un bloc d'instructions (instruction compos&#233;e): il a la structure suivante:
+    <ul>
+        <li>Une accolade ouvrante "<code><b>{</b></code>"</li>
+        <li>Des définitions optionnelles (déclarations de variables) locales au bloc et des instructions</li>
+        <li>Une accolade fermante "<code><b>}</b></code>"</li>
+    </ul></li>
+</ul>
+
+<div class="attention"><img alt="ATTENTION" src="attention.gif" />Il y a ici une importante différence entre le C et le C++: en C, le bloc doit commencer par les déclarations de variables locales au bloc, alors qu'en C++ on peut "mélanger" intructions simples et déclarations de variables.
+</div>
+
+<h3>L'instruction conditionnelle <code>if</code></h3>
+
+<p><code><b>if ( expression ) instruction</b></code> L'expression est &#233;valu&#233;e&nbsp;: si le r&#233;sultat est diff&#233;rent
+de 0 (en C) ou de <code>false</code> (en C++), l'instruction est ex&#233;cut&#233;e, sinon rien n'est fait. Exemple:</p>
+
+<pre class="demo">
+   if (i==0) nb = nb + 1;
+</pre>
+
+<p>L'instruction <code>if</code> peut aussi rendre la forme <code><b>if... else</b> </code>:</p>
+
+<pre class="demo">
+if ( expression ) 
+   instruction1;
+else
+   instruction2;
+</pre>
+
+<p>ou encore <code><b>if...else if...else</b></code>:</p>
+<pre class="demo">
+if ( expression ) 
+   instruction1;
+else if ( expression2)
+   instruction2;   
+else
+   instruction3;
+</pre>
+
+<h3>L'instruction <code>switch</code></h3>
+
+<p>Dans ce dernier cas, on risque d'aboutir à un code pas très lisible; l'instruction <code><b>switch</b></code> offre une meilleure structuration du code:</p>
+
+<pre class="demo">
+<b>switch(expression)</b> {
+    <b>case valeur constante</b>: instructions1;
+    <b>case autre valeur constante</b>: instructions2;
+    <b>default</b>: instructions;
+}
+</pre>
+
+<p>Le <code><b>switch</b></code> est une instruction de prise de d&#233;cision &#224; choix multiples qui, en fonction de la valeur de l'expression,
+effectue les instructions associ&#233;es &#224; la valeur correspondante.</p>
+
+<div class="attention"><img alt="ATTENTION" src="attention.gif" />Si l'expression est égale à la première valeur constante, les instructions1
+ seront exécutées, mais le programme continuera et exécutera aussi les instructions2. Si vous voulez sortir du switch, il vous faudra terminer instructions1 par break, ainsi qu'on le voit ci-dessous:
+ 
+<pre class="demo">
+   switch(a) {
+       case '-' : exp = a - b; <b>break</b>;
+       case '+' : exp = a + b: <b>break</b>;
+       default  : cout &lt;&lt; "Operateur inconnu\n";
+   }
+</pre></div>
+
+<div class="attention"><img alt="ATTENTION" src="attention.gif" />L'utilisation des objets et de l'héritage vont permettre de supprimer un bon nombre d'instructions <code><b>switch</b></code> ou <code><b>if</b></code>.</div>
+
+<h3>L'instruction <b>while</b></h3>
+
+<p><code><b>while (expression) instruction;</b></code> L'expression est &#233;valu&#233;e&nbsp;; si elle est non nulle (en C) ou différente de false (en C++) le bloc instruction est ex&#233;cut&#233; et l'expression est &#224; nouveau &#233;valu&#233;e ceci jusqu'&#224; ce que l'expression
+prenne la valeur nulle. Exemple:</p>
+
+<pre class="demo">
+<b>while</b> (c!=' ') {
+   c = getchar();
+   chaine[i++] = c;
+}
+</pre>
+
+<h3>L'instruction de boucle <code>for</code></h3>
+
+<p><code><b>for (expression1; expression2; expression3) instruction;</b></code>: expression1&nbsp;est &#233;valu&#233;e
+(initialisation de la boucle); puis expression 2 est &#233;valu&#233;e : si sa valeur est nulle (false en C++) la boucle s'arr&#234;te,
+sinon la boucle continue avec l'ex&#233;cution de instruction, puis &#233;valuation de l'expression3; (qui contient généralement l'incrémentation d'une variable entière ou d'un itérateur), puis expression2 est &#224; nouveau &#233;valu&#233;e. La boucle for est équivalente à:
+<code><b>expression1; while(expression2) {instruction; expression3; }</b></code>. Exemple d'utilisation de la boucle for; calcul de 2 <sup>n</sup>:</p>
+
+<pre class="demo">
+   x=1;
+   <b>for</b> (int i=0; i&lt;n; i++)
+       x = 2*x;
+</pre>
+
+<h4>L'instruction de boucle <code>for</code> basée sur des intervalles</h4>
+
+<p>Nous verrons dans le chapitre sur la stdlib qu'il existe une autre intruction for, basée sur la notion d'intervalles, 
+et qui peut être très utile lorsque l'on travaille avec des conteneurs (équivalente au <code>foreach</code> de java ou de perl).</p>
+
+<h3>L'instruction <code>do... while</code></h3>
+
+<p><code><b>do instruction; while (expression);</b></code> Ressemble à l'instruction <code>while</code> précédemment rencontrée, sauf que l'expression étant évaluée <em>à la fin</em> de la boucle et non pas au début, le bloc instruction sera toujours exécuté au moins une fois.</p>
+
+<h3>L'instruction ? :</h3>
+
+<p>Il s'agit d'un if..then..else très compact, et qui peut être utilisé dans les expressions elles-mêmes. Elle permet
+d'écrire un code très compact, mais qui risque d'être fort peu lisible. Aussi: ne pas en abuser !</p>
+<p>Les deux codes suivants sont équivalents:</p>
+
+<pre class="demo">int A;
+if ( b == 1 )
+{
+	A = 3000;
+}
+else
+{
+	A = -10;
+}</pre>
+
+<pre class="demo">int A = b==1?3000:-10;</pre>
+
+<h3>Autres instructions utiles:</h3>
+
+<p><code><b>return</b></code> ou <code><b>return expression</b></code> L'instruction <code>return</code> sert &#224; sortir d'une fonction et
+&#224; retourner au programme appelant&nbsp;; si elle est suivie d'une expression, la valeur de l'expression est retourn&#233;e
+au programme appelant.</p>
+
+<p><code><b>break</b></code> L'instruction <code>break</code> ne peut appara&#238;tre que dans un <code>switch</code> ou une boucle <code>while</code>, <code>for</code> ou <code>do...while</code>:&nbsp;: elle termine l'ex&#233;cution du plus petit bloc (<code>switch</code> ou boucle) qui l'entoure.</p>
+
+<p><code><b>continue</b></code> L'instruction <code>continue</code> est utilis&#233;e uniquement dans une boucle&nbsp;; elle sert &#224; se positionner en fin de boucle, c'est &#224; dire, &#224; aller &#233;valuer l'expression de fin de boucle pour ex&#233;cuter, &#233;ventuellement, l'occurrence suivante de la boucle.</p>
+
+<p><code><b>goto identificateur</b></code> Dans l'instruction <code>goto</code> l'identificateur doit &#234;tre une &#233;tiquette situ&#233;e dans la fonction courante. L'ex&#233;cution continue &#224; la premi&#232;re instruction qui suit l'&#233;tiquette. (Une &#233;tiquette est un identificateur suivi de ; elle est visible dans toute la fonction o&#249; elle est d&#233;clar&#233;e.)</p>
+
+<div class="attention"><img alt="ATTENTION" src="attention.gif" />En C, comme en C++, comme dans tous les langages, on sait qu'on peut se passer de l'instruction goto: afin d'avoir un code bien structuré et lisible, <b><em>on doit</em></b> s'en passer.</div>
+
+<h2 id="constC">Les constantes en langage C</h2>
+
+<p>Il n'est pas possible de déclarer en langage C des constantes autres que littérales (pi = 3.14).
+Le préprocesseur va nous permettre de définir des constantes symboliques, qui sont en fait vues comme des macros:</p>
+
+<pre class="demo">
+#define PI 3.14
+#define PI2 3.14 * 3.14
+... 
+float x = PI;
+</pre>
+
+<div class="attention"><img alt="ATTENTION" src="attention.gif" />Dans l'exemple ci-dessus, PI sera remplacé dans l'étape précédent la compilation
+par <em>tout ce qui se trouve à partir de l'espace suivant PI jusqu'à la fin de ligne</em>. Donc ne pas mettre de <em>;</em>, ni de commentaire à la fin de la ligne.
+</div>
+
+<p>Nous verrons que la situation est très différente en C++</p>
+
+<h3>Constantes enti&#232;res</h3>
+
+<p>Les constantes enti&#232;res peuvent &#234;tre &#233;crites en d&#233;cimal (base 10), en octal (base 8) ou en hexad&#233;cimal (base 16). La d&#233;termination de la base se fait comme suit&nbsp;:</p>
+
+<ul>
+    <li>un nombre qui ne commence pas par un 0 (chiffre z&#233;ro) est en base 10</li>
+    <li>un nombre qui commence par un 0 suivi d'un ou plusieurs chiffres est en base 8</li>
+    <li>un nombre qui commence par un 0 suivi d'un x ou d'un X puis d'un ou plusieurs chiffres est en base 16; un caract&#232;re majuscule ou minuscule peut &#234;tre utilis&#233; pour coder un chiffre hexad&#233;cimal (a,b,c,d,e,f ou A,B,C,D,E,F).</li>
+</ul>
+
+<p>On peut ajouter &#224; une constante enti&#232;re le suffixe u ou U pour indiquer qu'elle est non sign&#233;e (<em>unsigned</em>). On peut lui
+ ajouter le suffixe l ou L pour indiquer qu'elle est de type <tt><b>long</b></tt>.</p>
+
+<h4>Quelques exemples&nbsp;:</h4>
+
+<table  class="tableau">
+<tr><th>165</th><td>constante enti&#232;re en base 10</td></tr>
+<tr><th>0245</th><td>constante enti&#232;re en base 8</td></tr>
+<tr><th>0xA5</th><td>constante enti&#232;re en base 16</td></tr>
+<tr><th>0xffff</th><td>constante enti&#232;re en base 16</td></tr>
+<tr><th>0x165u</th><td>constante enti&#232;re non signée en base 16</td></tr>
+</table>
+
+<h3>Constantes flottantes:</h3>
+
+<p>Une constante flottante sert &#224; repr&#233;senter un nombre r&#233;el; elle se compose d'une partie enti&#232;re, d'un point d&#233;cimal, d'une
+partie fractionnaire, d'un e ou E, d'un exposant entier &#233;ventuellement sign&#233;, d'un suffixe de type f ou F (pour
+<tt><b>float</b></tt>), l ou L (pour <tt><b>long double</b></tt>). On peut omettre la partie enti&#232;re ou la partie
+ fractionnaire, mais pas les deux; on peut aussi omettre le point d&#233;cimal ou le e suivi de l'exposant, mais pas les deux.</p>
+
+<h4>Quelques exemples&nbsp;:</h4>
+
+<table class="tableau">
+<tr><th>notation C</th><th>notation math&#233;matique</th></tr>
+<tr><td>3.15</td><td>3,15</td></tr>
+<tr><td>-45.20</td><td>-45,2</td></tr>
+<tr><td>-3.e10</td><td>-3 x 10<sup>10</sup></td></tr>
+<tr><td>8.5e-4</td><td>8,5 x 10 <sup>-4</sup></td></tr>
+<tr><td>35E-3</td><td>35 x 10 <sup>-3</sup></td></tr>
+<tr><td>-3E-5</td><td>-3 x 10 <sup>-5</sup></td></tr>
+</table>
+
+<h3> Constantes caract&#232;res</h3>
+
+<p>Une constante de type caract&#232;re est une s&#233;quence de un ou
+plusieurs caract&#232;res plac&#233;s entre apostrophes, par exemple
+'a'.</p>
+
+<p>La valeur d'une constante caract&#232;re ne contenant qu'un seul
+caract&#232;re est la valeur d&#233;cimale du caract&#232;re sur la machine
+d'ex&#233;cution (en g&#233;n&#233;ral, le code ASCII).</p>
+
+<p>Pour affecter &#224; une constante de type caract&#232;re certains
+caract&#232;res sp&#233;ciaux, on utilise les s&#233;quences d'&#233;chappement
+suivantes&nbsp;:</p>
+
+<table class="tableau">
+<tr><th>Nom français</th><th>Nom anglais</th><th>notation abrégée</th><th>notation C</th></tr>
+<tr><td>fin de ligne</td><td>newline (linefeed)</td><td>LF</td><td>&#92;n</td></tr>
+<tr><td>tabulation horizontale</td><td>horizontal tab</td><td>HT</td><td>&#92;t</td></tr>
+<tr><td>tabulation verticale</td><td>vertical tab</td><td>VT</td><td>&#92;v</td></tr>
+<tr><td>retour en arri&#232;re</td><td>backspace</td><td>BS</td><td>&#92;b</td></tr>
+<tr><td>retour chariot</td><td>carriage return</td><td>CR</td><td>&#92;r</td></tr>
+<tr><td>saut de page</td><td>formfeed</td><td>FF</td><td>&#92;f</td></tr>
+<tr><td>signal sonore</td><td>audible alert</td><td>BEL</td><td>&#92;</td></tr>
+<tr><td>antislash</td><td>backslash</td><td>&#92;</td><td>&#92;&#92;</td></tr>
+<tr><td>point d'interrogation</td><td>question mark</td><td>?</td><td>&#92;?</td></tr>
+<tr><td>apostrophe</td><td>single quote</td><td>'</td><td>&#92;'</td></tr>
+<tr><td>guillemet</td><td>double quote</td><td>&nbsp;</td><td>&#92;</td></tr>
+<tr><td>nombre octal</td><td>octal number</td><td>ooo</td><td>&#92;ooo  (o&nbsp;: chiffre octal)</td></tr>
+<tr><td>nombre hexad&#233;cimal</td><td>hexadecimal number</td><td>hh</td><td>&#92;xhh (h&nbsp;: chiffre hexad&#233;cimal)</td></tr>
+</table>
+
+<h3>Constantes cha&#238;nes de caract&#232;res</h3>
+
+<p>Une constante de type cha&#238;ne de caract&#232;res se compose d'une suite de caract&#232;res plac&#233;s entre guillemets&nbsp;: <tt><b>"ceci
+ est une chaine"</b></tt>. </p>
+ 
+ <p>De fa&#231;on interne, une constante cha&#238;ne de caract&#232;res est un tableau de caract&#232;res&nbsp;; elle se termine par un caract&#232;re
+nul `&#92;0'. Pour stocker une cha&#238;ne de n caract&#232;res, il faut donc n+1 octets.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Attention &#224; bien faire la diff&#233;rence entre une constante
+de type caract&#232;re et une cha&#238;ne de caract&#232;res qui ne contient qu'un caract&#232;re&nbsp;: la premi&#232;re est un entier, la seconde
+est un tableau qui contient un caract&#232;re et `&#92;0'.</p></div>
+
+<h2 id="decl-var">D&eacute;clarations de variables</h2>
+
+<p>Les types  de  base du  <code>C++</code> sont  les
+m&ecirc;mes   que  les   types  du   <code>C</code>,  avec   les  extensions
+suivantes:</p>
+
+<ul>
+  <li>Le type <code>bool</code></li>
+  <li>La notion de r&eacute;f&eacute;rence</li>
+  <li>Le type <code>class</code> (fondamental, car c'est lui qui
+      permet de d&eacute;finir les objets)</li>
+</ul>
+
+<h3><a name="portee-nom">La port&eacute;e d'un nom</a></h3>
+
+<p>Un nom  [de type,  de variable,  de fonction,  ... ]
+n'est utilisable qu'entre telle et telle ligne du code. Cet espace est
+appel&eacute; la port&eacute;e  du nom. La port&eacute;e du  nom <code>A</code> est d&eacute;finie
+de la mani&egrave;re suivante:</p>
+
+<ul>
+  <li>Elle commence &agrave; la ligne de d&eacute;claration de <code>A</code></li>
+  <li>Elle se termine &agrave; la fin du bloc dans lequel la variable
+      <code>A</code> a &eacute;t&eacute; d&eacute;finie. La fin de bloc est marqu&eacute;e par une
+      accolade fermante <code><b>}</b></code>.</li>
+</ul>
+
+<div class="attention"><p><img alt="NOOOOON" src="nepasfaire.png" />Une variable  peut  &ecirc;tre d&eacute;clar&eacute;e  &agrave; n'importe  quel
+endroit du code, alors que le  C impose une d&eacute;claration de variable en
+d&eacute;but de bloc uniquement.  Exemple:</p>
+
+<pre class="demo">
+...
+   {
+   ...
+   <b>int A=5;    // DEBUT DE LA PORTEE DE A</b>
+   ...
+   <b>};          // FIN DE LA PORTEE DE A</b>
+...
+</pre></div>
+
+<h4><a name="nom-global">Nom global</a></h4>
+
+<p>Un nom  global est  un nom  d&eacute;fini &agrave;  l'ext&eacute;rieur de
+toute  fonction,  de  toute  classe,   de  tout  espace  de  noms  (<a
+href="stdlib.html#namedecl"><img      alt="apres"      src="apres.gif" /></a>).
+Un nom  global sera  donc accessible  dans  tout le
+programme.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Ne pas confondre variable globale et variable locale &agrave; la fonction
+main:</p>
+
+<pre class="demo">
+...
+<b>int A;             // variable globale</b>
+
+int main() {
+<b>    int B;         // variable locale a main</b>
+    int C=f1();
+};
+    
+int f1() {
+    ...
+    int C=A;       // pas de pb, A est accessible
+    <b>C += B;        // ERREUR B n'est pas connu ici</b>
+    return C;
+};
+
+</pre></div>
+
+<h4><a name="portee-var">La portée d'une variable</a></h4>
+
+<p>La  port&eacute;e d'une variable est bien  entendu la port&eacute;e
+du nom de cette variable.  Concr&egrave;tement, la m&eacute;moire est allou&eacute;e d&egrave;s le
+d&eacute;but de la port&eacute;e, et la m&eacute;moire sera rendue au syst&egrave;me d&egrave;s la fin de
+la port&eacute;e.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Une  exception &agrave; la r&egrave;gle de
+la  port&eacute;e:  dans  l'exemple  ci-dessous,  la port&eacute;e  de  la  variable
+<code>i</code> est le  <em>bloc</em> situ&eacute; en-dessous de l'instruction
+<code>for</code>.   C'est  parfaitement logique,  car  cela permet  de
+d&eacute;finir des variables muettes  dans les boucles <code>for</code>, mais
+ce comportement est diff&eacute;rent de ce  qu'on conna&icirc;t en <code>C</code> (sauf depuis la norme de 99).</p>
+
+<pre class="demo">
+...
+for (<b>int i=0</b>; i&lt;10;i++)    // DEBUT DE PORTEE DE i
+   {...
+    ...
+   };                      //  FIN DE PORTEE DE i
+</pre></div>
+
+
+<h3><a>La structure d'une d&eacute;claration de variables</a></h3>
+
+<p>Une d&eacute;claration de variables comprend:</p>
+
+<ol>
+  <li>Un descripteur optionnel (<code>const</code>, <code>extern</code>,
+      <code>virtual</code>, ...)</li>
+  <li>Un type de base <em>obligatoire</em> (<code>int</code> etc., ou type
+      d&eacute;fini par le programmeur)</li>
+  <li>Un d&eacute;clarateur <em>obligatoire</em>. Celui-ci est constitu&eacute; de:
+      <ul>
+	<li>un nom choisi par le programmeur</li>
+	<li>un ou plusieurs op&eacute;rateurs de d&eacute;claration.</li> 
+      </ul></li>
+  <li>Un initialiseur optionnel.</li>
+</ol>
+
+<p>Exemple:</p>
+
+<pre class="demo">
+int* A [];
+</pre>
+
+<p>La d&eacute;claration de variables ci-dessus est
+constitu&eacute;e de la mani&egrave;re suivante:</p>
+
+<ol>
+  <li>Pas de descripteur</li>
+  <li>Type de base: <code>int</code></li>
+  <li>D&eacute;clarateur constitu&eacute; de:
+      <ul>
+	<li>Le nom <code>A</code></li>
+	<li>Les deux op&eacute;rateurs de d&eacute;claration <code><b>*</b></code> et
+	    <code><b>[]</b></code>. Les op&eacute;rateurs <em>postfix&eacute;s</em>
+	    (<code><b>[]</b></code>) ayant une priorit&eacute; sup&eacute;rieure aux
+	    op&eacute;rateur <em>pr&eacute;fix&eacute;s</em> (<code><b>*</b></code>), on a d&eacute;clar&eacute;
+	    un tableau de pointeurs, non pas un pointeur vers un tableau.</li>
+      </ul></li>
+  <li>Pas d'initialiseur.</li>
+</ol>
+
+<p>Quelques d&eacute;clarations l&eacute;gales:</p>
+
+<pre class="demo">
+char* ctbl[] = {"bleu","blanc","rouge"};    // 3 parties sont sp&eacute;cifi&eacute;es
+const int A = 2;                            // 4 parties
+int B;                                      // 2 parties seulement
+</pre>
+
+<p>quelques descripteurs sur lesquels nous reviendrons ult&eacute;rieurement:</p>
+
+<dl>
+  <dt><code><b>const</b></code></dt> 
+  <dd>Permet de d&eacute;finir une variable constante. Par exemple, un objet constant. Nous verrons dans la suite que cela peut apporter quelques complications.</dd>
+  <dt><code><b>mutable</b></code></dt>
+  <dd>Utilis&eacute; dans les d&eacute;claration de classes, en lien avec <code>const</code></dd>
+  <dt><code><b>static</b></code></dt>
+  <dd>Utilis&eacute; dans les d&eacute;clarations de classes ou de fonctions</dd>
+  <dt><code><b>virtual</b></code></dt>
+  <dd>Utilis&eacute; dans les d&eacute;claration de classes</dd>
+</dl>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="type-predef">Les types de base</a></h2>
+
+<h3><a name="char">Le type caractère&nbsp;: char</a></h3>
+
+<p>Il est le support des caract&#232;res le plus souvent cod&#233;s en
+ASCII parfois en EBCDIC. Il repr&#233;sente <em>un entier sur 8 bits</em>; sa valeur peut aller de:</p>
+
+<ul>
+    <li>-128 &#224; +127 s'il est sign&#233; <code>signed char</code> (positif ou
+n&#233;gatif)</li>
+    <li>de 0 &#224; 255 s'il est non sign&#233; <code>unsigned char</code> (uniquement positif).</li>
+</ul>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />La norme ANSI introduit un type permettant d'utiliser des
+alphabets de plus de 255 caract&#232;res&nbsp;: wchar_t; il est d&#233;fini dans le fichier
+<code>&lt;stddef.h&gt;</code> (en C), ou <code>&lt;cstddef.h&gt;</code> (en C++)</p></div>
+
+<h3>Le type entier&nbsp;: int</h3>
+
+<p>Ce type peut &#234;tre utilis&#233; avec des qualificatifs pour indiquer sa taille (<code>long</code> ou <code>short</code>), et le fait qu'il soit sign&#233; (<code>signed</code>) ou non (<code>unsigned</code>).</p>
+
+<p>Pour les entiers et les caract&#232;res, le qualificateur <code>signed</code> est appliqu&#233; par d&#233;faut.</p>
+
+<h3><a name="bool">Le type booléen: bool (Seulement en C++)</a></h3>
+
+<p>Un bool&eacute;en peut prendre les valeurs <code>true</code>
+ou  <code>false</code>. Il  est possible  de convertir  un  bool&eacute;en en
+entier et  vice-versa; dans ce cas, <code>true</code>  se convertit en
+<code>1</code>,  <code>false</code>  se  convertit en  <code>0</code>.
+Dans l'autre  sens, <code>0</code> est  converti en <code>false</code>
+et tout  entier non  nul est converti  en <code>true</code>. </p>
+<h3>Le type &#233;num&#233;ration&nbsp;: enum</h3>
+
+<p>C'est un type particulier&nbsp;&#224; valeurs enti&#232;res; &#224; chaque &#233;num&#233;ration est associ&#233;e un ensemble de constantes nomm&#233;es.:</p>
+
+<pre class="demo">
+<b>enum</b> jour_t {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+jour_t jour;
+...
+jour = lundi;
+</pre>
+
+<p>Par d&#233;faut, la valeur associ&#233;e au premier nom est 0, au second 1, etc. Dans l'exemple pr&#233;c&#233;dent, la valeur associ&#233;e &#224; lundi sera 0, &#224; mardi 1, etc. Il est possible de pr&#233;ciser la valeur associ&#233;e &#224; un ou plusieurs noms. Dans ce cas, les constantes qui suivent les constantes affect&#233;es sont incr&#233;ment&#233;es de 1:</p>
+
+<pre class="demo">
+<b>enum</b> mois_t={JAN=1, FEV, MAR, AVR, MAI, JUN, JUL, AOU, SEP, OCT, NOV, DEC};
+</pre>
+
+<p>JAN vaut 1, FEV 2, MAR 3, etc.</p>
+
+<h3>Les types r&#233;els</h3>
+
+<p>Ils sont cod&#233;s de fa&#231;on interne sous forme mantisse + exposant.</p>
+
+<ul>
+    <li><b>float</b>: c'est le type r&#233;el simple pr&#233;cision, cod&#233; sur 32 bits</li>
+    <li><b>double</b>: c'est le type r&#233;el en double pr&#233;cision, cod&#233; sur 64 bits.</li>
+    <li><b>long double</b>: c'est le type r&#233;el en pr&#233;cision &#233;tendue ou quadruple pr&#233;cision, cod&#233; sur 128 bits.</li>
+</ul>
+
+<h3><a name="void">Le type <em>void</em></a></h3>
+
+<p>Il  s'agit  d'un   "pseudo-type",  qui   veut  dire
+"rien". On peut l'employer comme type de pointeur;</p>
+
+<pre class="demo">void*</pre>
+
+<p>signifie  "pointeur vers n'importe  quoi". <code>void</code> peut aussi &ecirc;tre employ&eacute; comme
+type de  retour de fonction:</p>
+
+<pre class="demo">
+void  f()
+</pre>
+
+<p>  signifie "fonction qui ne  renvoie aucune valeur" (proc&eacute;dure en pascal).</p>
+
+<div class="attention"><p><img  alt="ATTENTION"   src="attention.gif" /> La d&eacute;claration  suivante:</p>
+
+<pre class="demo">
+fonction();
+</pre>
+
+<p>est illégale en C++, mais correspond en C à une fonction qui renvoie une valeur entière (la valeur par défaut).
+Pour ne  rien  renvoyer  il faut  sp&eacute;cifier:</p>
+
+<pre class="demo">
+void fonction();
+</pre></div>
+
+<h3>Nombre d'octets pris par un type donné</h3>
+
+<p>L'opérateur <code>sizeof</code> renvoie le nombre d'octets pris par une variable d'un type donné. Le C ne normalisant pas la taille de ses types de base (en particulier les entiers
+et les pointeurs), celle-ci dépend du compilateur et de la machine sur laquelle le code est exécuté. Il est donc important d'utiliser cet opérateur à chaque fois que l'on a besoin 
+de connaître la taille d'une variable.</p>
+
+<pre class="demo">
+cout &lt;&lt; "Taille d'un entier = " &lt;&lt; sizeof( int );
+</pre>
+
+<h3>Des types entiers dont on connait la taille</h3>
+
+<p>Il est possible, en utilisant l'en-tête standard stdint.h, d'avoir des types entiers de taille prédictible, quelque
+soit le système sur lequel on se trouve: en effet, cet en-tête propose entre autres les types <code>int8_t, int16_t, int32_t, int64_t</code>, ainsi que
+leurs versions non signées: <code>uint8_t, uint16_t, uint32_t, uint64_t</code>.</p>
+
+<pre class="demo">
+#include &lt;stdint.h&gt;
+...
+int8_t a;
+int16_t b;
+uint32_t c
+</pre>
+
+<h2 id="type-deriv">Types d&#233;riv&#233;s</h2>
+
+<p>En plus des types de base, il existe un nombre th&#233;oriquement infini de types pouvant &#234;tre construits &#224; partir des types de base&nbsp;:</p>
+
+<ul>
+    <li>Des tableaux d'objets d'un certain type&nbsp;;</li>
+    <li>Des fonctions renvoyant des objets d'un certain type&nbsp;;</li>
+    <li>Des pointeurs (C/C++) ou des références (C++) sur des objets d'un certain type (cf. ci-dessous);</li>
+    <li>Des structures contenant des objets de types divers&nbsp;;</li>
+    <li>Des unions qui peuvent contenir un objet parmi plusieurs de types divers.</li>
+</ul>
+
+<p><b>Ces constructions de types d&#233;riv&#233;s peuvent se faire en g&#233;n&#233;ral de mani&#232;re r&#233;cursive.</b></p>
+
+<h2 id="type-auto">Le type auto (C++11)</h2>
+
+<p>Le type auto est utilisé avec un initialiseur, il permet de dire au compilateur que le type de la variable que l'on est en train d'initialiser est le même que le type 
+de la variable située à droite du signe =&nbsp;:</p>
+
+<pre class="demo">
+int A;
+...
+int B = A;
+<strong>auto</strong> C = A;
+</pre>
+
+<p>Dans l'exemple ci-dessus, A,B et C sont tous les trois des entiers. Ce type est surtout intéressant lorsqu'on utilise des templates, a fortiori
+lorsqu'on utilise la bibliothèque standard: en effet, les déclarations de types sont dans ce cas assez fastidieuses.</p>
+
+<h2 id="tableau">Les tableaux</h2>
+
+<p>Ce chapitre décrit les tableaux, tels qu'ils sont utilisés en langage C. Nous verrons plus loin que le C++, s'il permet la définition de tableaux "à la C", offre plusieurs autres possibilités pour définir des tableaux.</p>
+
+<p>Un tableau est un ensemble d'&#233;l&#233;ments de m&#234;me type, chaque &#233;l&#233;ment du tableau &#233;tant rep&#233;r&#233; par son ou
+ses indices. Un tableau peut &#234;tre &#224; une dimension  (1 indice, identique &#224; un vecteur), &#224; 2 dimensions (2 indices, identique &#224; une matrice) ou &#224; n dimensions (n indices).</p>
+
+<h3>D&#233;claration d'un tableau</h3>
+
+<p>La d&#233;claration d'un tableau &#224; une dimension se fait en donnant le type de base des &#233;l&#233;ments du tableau suivi du nom du tableau puis entre crochets le nombre de ses &#233;l&#233;ments, qui doit &#234;tre une constante. Si <code>n</code> est le nombre d'&#233;l&#233;ments du tableau, les indices de ses &#233;l&#233;ments varient de <code><b>0</b></code> &#224; <code><b>n-1</b></code>.</p>
+
+<pre class="demo">
+<b>int tab[10]</b>;     /* Tableau de 10 entiers, les indices vont de 0 à 9 */
+tab[0] = 5;
+tab[5] = 2;
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Pour des raisons d'extensibilit&#233; et de lisibilit&#233;, il est recommand&#233; de d&#233;finir une constante pour indiquer la dimension d'un tableau en utilisant la directive <code><b>#define</b></code> du pr&#233;processeur:</p>
+
+<pre class="demo">
+<b>#define TAILLE 10</b>         /* Attention à la syntaxe: pas de ; */
+int tab[TAILLE];
+</pre></div>
+
+<h3>Initialisation du tableau</h3>
+
+<p>Comme pour une variable simple, un tableau peut &#234;tre initialis&#233; lors de sa d&#233;claration par des valeurs constantes &#233;num&#233;r&#233;es entre accolades et s&#233;par&#233;es par des virgules:</p>
+
+<pre class="demo">
+<b>int tab[5]</b> = {0,1,2,3,4};
+<b>float x[5]</b> = {1.3,2.4,9.3};   /* Les constantes sont affectées aux 3 premiers éléments, 
+                                 les 2 derniers sont initialisés à 0 */
+<b>int num[]</b> = {0,1,2};          /* On peut ne pas spécifier la dimension, 
+                                 qui est alors égale au nombre de constantes */
+</pre>
+
+<h3>Passage d'un tableau à une fonction</h3>                                                                               
+
+<p>Pour passer un tableau en paramètre d'une fonction, on doit passer obligatoirement <em>deux paramètres:</em></p>
+<ol>
+  <li>L'adresse de base du tableau</li>
+  <li>La longueur du tableau (nombre de cases)</li>
+</ol>
+
+<h4>Déclaration de paramètre de type tableau:</h4>
+
+<p>On peut procéder de deux manières équivalentes pour déclarer l'adresse de base du tableau:</p>
+<ul>
+  <li>Utiliser la notation <code>int tab[]</code>: il n'y a pas d'allocation mémoire à réaliser, donc la dimension du tableau n'est pas
+  spécifiée dans la déclaration.</li>
+  <li>Utiliser uniquement l'adresse de base du tableau, sous forme d'un pointeur: <code>int *tab</code></li>
+</ul>
+
+<pre class="demo">
+
+// Déclaration de la fonction: 1ère manière
+void fonction_1(int tab[],int taille) {
+...
+}
+
+// Déclaration de la fonction: 2nde manière
+void fonction_2(int* tab,int taille) {
+...
+}
+
+// Utilisation de ces fontions: pas de différence !
+int main() {
+   int t[TAILLE];
+   
+   fonction_1(t,TAILLE);
+   fonction_2(t,TAILLE);
+ }
+</pre>
+
+<h3>Utilisation de tableaux</h3>                                                                               
+
+<p>Lorsque l'on manipule des tableaux, on utilise fr&#233;quemment les boucles it&#233;ratives ( for ou while) et les op&#233;rateurs d'incr&#233;mentation:</p>
+
+<p><b>Exemple:</b>Initialisation d'un tableau avec une boucle for</p>
+
+<pre class="demo">
+#define TAILLE 100
+float y[TAILLE];
+int i;
+for (i=0;i&lt;TAILLE;++i)
+   y[i]=i*i;
+</pre>
+
+<p><b>Exemple:</b> Recherche du premier élément nul d'un tableau</p>
+
+<pre class="demo">
+int tab[TAILLE] ) {18, 15, 13, 10, 0, 67};
+int i = 0;
+while (i&lt;TAILLE &amp;&amp; tab[i]!=0)  // Attention à ne pas déborder !
+   ++i;
+cout &lt;&lt; i &lt;&lt; '\n';
+</pre>
+
+<h3>Tableaux (chaîne) de caractères</h3>
+
+<p>En langage C, une cha&#238;ne de caract&#232;res est stock&#233;e en m&#233;moire sous forme d'un tableau de caract&#232;res (voir constante cha&#238;ne de caract&#232;res).</p>
+
+<p>Par exemple, la chaîne littérale "bonjour" sera stockée ainsi:</p>
+
+<table class="chaine"><tr>
+<td>b</td>
+<td>o</td>
+<td>n</td>
+<td>j</td>
+<td>o</td>
+<td>u</td>
+<td>r</td>
+<td>\0</td></tr></table>
+
+<pre class="demo">
+<b>char ligne[80];</b>                                    /* Déclaration d'une chaine de 80 caractères */
+<b>char titre[]</b> = "Introduction";                     /* Initialisation d'une chaine de 13 caractères */
+<b>char salut[]</b> = {'b','o','n','j','o','u','r','\0'}; /* Initialisation lourde mais correcte */
+<b>char salut[]</b> = "bonjour";                          /* Pareil, mais plus élégant */
+<b>char pasplein[15]</b>="pas plein";                     /* La chaine est complétée par des \0 */
+</pre>
+
+<p>Stockage mémoire de la variable <code><b>pasplein</b></code>:</p>
+<table class="chaine"><tr>
+<td>p</td>
+<td>a</td>
+<td>s</td>
+<td>&nbsp;</td>
+<td>p</td>
+<td>l</td>
+<td>e</td>
+<td>i</td>
+<td>n</td>
+<td>\0</td>
+<td>\0</td>
+<td>\0</td>
+<td>\0</td></tr></table>
+
+<h3>Tableaux &#224; 2 dimensions&nbsp;:</h3>
+
+<p>En C, un tableau &#224; 2 dimensions est en fait un tableau &#224; une dimension dont chaque &#233;l&#233;ment est un tableau. 
+L'exemple suivant déclare un tableau de 10 tableaux de 20 entiers:</p>
+
+<pre class="demo">
+int tab[10][20];
+</pre>
+
+<p>Pour acc&#233;der &#224; un &#233;l&#233;ment du tableau&nbsp;: </p>
+
+<pre class="demo">
+<b>tab[i][j]</b> = 12;
+</pre>
+
+<h3>Initialisation du tableau à 2 dimensions:</h3>
+
+<pre class="demo">
+int tab[4][3] = {{1,2,3},
+                 {4,5,6},
+                 {7,8,9},
+                 {10,11,12}};
+</pre>
+
+<p>Un exemple d'utilisation d'un tableau à deux dimensions:</p>
+
+<pre class="demo">
+#define LIGNES 5
+#define COLONNES 10
+int mat[LIGNES][COLONNES];
+int i,j;
+for (i=0;i&lt;LIGNES;i++) {
+    for (j=0;j&lt;COLONNES;j++)
+        tab[i][j] = 0;
+}
+</pre>
+
+<h2 id="struct">Les structures</h2>
+
+<h3>Structure</h3>
+<p>La notion de structure permet de manipuler sous forme d'une entit&#233; unique un objet compos&#233; d'&#233;l&#233;ments, appel&#233;s membres ou champs, de types pouvant &#234;tre diff&#233;rents. Elle est très proche de la notion de classe, que nous étudierons longuement ci-dessous.</p>
+
+
+<h3>D&#233;claration d'une structure</h3>
+
+<p>Voici un exemple de déclaration d'une structure:</p>
+
+<pre class="demo">
+<b>struct</b> personne {
+   char nom[20];
+   char prenom[20];
+   int no_ss;
+}
+</pre>
+
+<h3>Initialisation d'une structure:</h3>
+
+<p>Voici un exemple d'initialisation d'une structure:</p>
+
+<pre class="demo">
+struct complexe {
+    double re;
+    double im;
+};
+struct complexe z = {1.,1.};
+</pre>
+
+<h3>Accès aux champs d'une structure:</h3>
+
+<p>L'acc&#232;s aux champs d'une structure se fait avec l'op&#233;rateur <code><b>.</b></code>. Par exemple, si l'on reprend la structure complexe z, on d&#233;signera le champ re par z.re. Les champs ainsi d&#233;sign&#233;s peuvent &#234;tre utilis&#233;s comme toute autre variable.</p>
+
+<h2 id="union">Les unions</h2>
+<p>Une union est un objet qui contient, selon les moments, l'un de ses membres qui sont de types divers&nbsp;; une union permet de stocker &#224; une m&#234;me adresse m&#233;moire des objets de types diff&#233;rents.</p>
+
+<pre class="demo">
+union etiq {
+    int x;
+    float y;
+    char c;
+};
+etiq u;
+</pre>
+
+<p>u aura une taille suffisante pour contenir un <code>float</code> (le plus grand des 3 types utilis&#233;s dans l'union). A un instant
+donn&#233; u contiendra soit un entier, soit un r&#233;el, soit un caract&#232;re.</p>
+
+<p><a href="#">top</a></p><hr />
+
+<h2 id="operateurs">Opérateurs et expressions</h2>
+
+<p>Les opérateurs vont nous permettre d'écrire des expressions, logiques ou arithmétiques, soit pour faire des calculs, soit 
+pour prendre des décisions. Tous les opérateurs renvoient une valeur, cela va nous permettre d'imbriquer les formules. Par exemple
+<code>A = 3</code> renvoie <code>A</code>, donc on pourra écrire <code>B = A = 3;</code></p>
+
+<h3>Opérateur d'affection</h3>
+<p><strong>=</strong></p><p> Copie d'un objet sur un autre (voir plus loin)</p>
+<pre class="demo">A = 3</pre>
+
+<h3>Opérateurs arithmétiques binaires</h3>
+<p><strong>+ - * / % </strong></p>
+<pre class="demo">A = B + C</pre>
+
+<h3>Opérateurs arithmétiques unaires</h3>
+<p><strong>+= -= *= /= %=</strong></p>
+<pre class="demo">A += 4 // est un raccourci de A = A + 4</pre>
+
+<h3>Opérateur d'incrémentation ou de décrémentation</h3>
+<p><strong>++ --</strong></p><p>Ils sont définis sur le type pointeur (voir ci-dessous) ou entier, ils servent à itérer dans une boucle. En C++, ils sont
+aussi définis sur les itérateurs</p>
+<p>La valeur retournée dépend de l'opérateur utilisé: si on utilise la post-itération, on renvoie la valeur de la variable, puis 
+on itère. Par contre si on utilise la pré-itération, on itère puis on envoie la valeur de la variable:</p>
+
+<pre class="demo">int i = 0;
+int A = i++; // A contient 0, i contient 1
+
+int i = 0;
+int A = ++i; // A et i contiennent 1</pre> 
+
+<h3>Opérateurs de comparaison</h3>
+<p><strong>== != < <= > >=</strong></p><p>Ils renvoient 0 ou 1 (en C), false ou true (en C++). Ils sont utilisés dans les boucles while,
+if, etc.</p>
+<pre class="demo">if ( A == 3 ) ...</pre>
+
+<h3>Opérateurs logiques</h3>
+<p><strong>! &amp;&amp; ||</strong></p><p>NON, ET, OU</p>
+<pre class="demo">if ( A==3 &amp;&amp; (B==4 || C==5) ) ...</pre> 
+
+<h3>Opérateurs agissant sur un nombre binaire</h3>
+
+<p><strong>&amp; | ^ &lt;&lt; &gt;&gt;</strong></p>
+<p>ET OU NON bits à bits, décalage à gauche, décalage à droite. Le C++, par l'intermédiaire
+de la stdlib, redéfinit les opérateurs &lt;&lt; et &gt;&gt; appliqués sur des flots de sortie ou d'entrée, afin de réaliser
+effectivement les opérations d'entrée-sortie.</p>
+<pre class="demo">int A=1;
+int B= A&lt;&lt;2; // A et B valent 2
+B = B&lt;&lt;2;    // B vaut 4</pre>
+
+<h3>Opérateur de séparation d'instruction</h3>
+
+<p><strong>,</strong></p><p>La virgule permet de séparer plusieurs instructions, la valeur retournée est la valeur retournée par la dernière
+instruction</p>
+
+<pre class="demo">A = 4, B = 5; // La valeur retournée par cette expression est 5</pre>
+
+<p><a href="#">top</a></p><hr />
+<h2 id="fonctions">Les fonctions</h2>
+
+<h3><a name="decl-def">D&eacute;claration et d&eacute;finition de fonctions </a></h3>
+
+<p>Une <em>fonction</em> comprend une ou deux parties distinctes:</p>
+
+<ul>
+  <li><em>La d&eacute;claration</em> (optionnelle): Le nom de la fonction, les  param&egrave;tres
+      dont elle a besoin, et ce qu'elle renverra.</li>
+  <li><em>La d&eacute;finition</em>: la d&eacute;claration (redite au besoin),
+      suivie de ce que fait la fonction (le code).</li>
+</ul>
+
+<h4><a name="decl">D&eacute;claration</a></h4>
+
+<p>Une <em>d&eacute;claration de fonction</em> comprend trois parties:</p>
+
+<ul>
+  <li>Le type de retour (&eacute;ventuellement <code>void</code> si elle ne
+      renvoie rien)</li>
+  <li>Le nom de la fonction</li>
+  <li>La liste des arguments avec leur type (voir toutefois ci-dessous)</li>
+</ul>
+
+<p>Il est possible,  mais pas indispensable de sp&eacute;cifier
+le nom des arguments:  ceux-ci sont consid&eacute;r&eacute;s par le compilateur comme
+des variables muettes, et sont ignor&eacute;s. Leur type, par contre, est une
+information  importante et ne  doit pas  &ecirc;tre omis...   sauf exception
+signal&eacute;e ci-dessous. Voici un exemple de d&eacute;claration:</p>
+
+<pre class="demo">
+int f1 (int,int,int);
+</pre>
+
+<h4><a name="def">D&eacute;finition</a></h4>
+
+<p>Une <em>d&eacute;finition de fonction</em> comprend deux parties:</p>
+
+<ul>
+  <li>La <em>d&eacute;claration</em> de la fonction,  <em>avec cette fois le nom des
+      param&egrave;tres</em></li>
+  <li>Le <em>corps de la fonction</em>, sous la forme d'un bloc</li>
+</ul>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+La d&eacute;claration
+de   fonction   est    optionnelle,   seule   est   indispensable   sa
+d&eacute;finition.</p><p><img   alt="attention"  src="attention.gif" />  Si  une
+fonction  est  d&eacute;clar&eacute;e   avant  d'&ecirc;tre  d&eacute;finie,  <em>d&eacute;claration  et
+d&eacute;finition   doivent  &ecirc;tre  identiques</em>   (m&ecirc;mes  nom,   types  de
+param&egrave;tres,   type de valeur    de   retour):   l'ensemble    de   ces   trois
+caract&eacute;ristiques  constituant la  <em>signature</em>  de la  fonction.
+</p></div>
+
+<h4 id="recursivite">Récursivité</h4>
+
+<p>Les fonctions du C comme du C++ sont récursives, c'est-à-dire qu'elles peuvent s'appeler elles-mêmes. Cette propriété
+permet d'écrire des algorithmes très concis et clairs à lire, mais attention toutefois: la consommation de mémoire
+peut être conséquente... et il ne faut bien sûr pas oublier la condition de sortie !</p>
+
+<pre class="demo">int factorielle(int n) {return n==1?1:n*factorielle(n-1);}</pre>
+
+<h2 id="lrvalue">Lvalues, Rvalues</h2>
+
+<p>Une <strong>lvalue</strong> est une expression qu'on peut mettre <strong>à gauche</strong> du signe =. Par exemple, un identifiant de variable est une
+lvalue. Une fonction qui renvoie une référence (voir plus loin) est une lvalue. Une lvalue est <em>aussi</em> une lvalue.</p>
+
+<pre class="demo">A = 2;  // A est une lvalue
+A[2] = 4;  // La notation A[], ou dans le cas d'un objet l'operator[], sont des lvalues
+</pre>
+
+<p>Une <strong>rvalue</strong> est une expression qu'on ne peut mettre <strong>qu'à droite</strong> du signe =. Une opération
+arithmétique, une constante littérale, sont des exemples de rvalues:</p>
+
+<pre class="demo">A + B
+3
+A + 1</pre>
+
+<p><img alt="ATTENTION"  src="attention.gif" /> Une rvalue est toujours un objet temporaire: les résultats des expressions ci-dessus
+sont "jetés" dès que générés. Pour les conserver, il faut les mettre dans une variable, c'est-à-dire dans une lvalue ! Autrement
+dit, soit je n'ai pas besoin du résultat de mon expression et je laisse la rvalue à son triste sort, soit j'ai besoin de ce résultat
+et je dois copier la rvalue dans une lvalue.</p>
+
+<h2><a name="ptr-ref-const">Pointeurs (*), r&eacute;f&eacute;rences (&amp;), descripteur const</a></h2>
+
+<div class="attention"><p><img alt="ATTENTION"  src="attention.gif" /><b>Note typographique</b>. On le verra dans la suite, il est ais&eacute; de confondre:</p>
+<ul>
+	<li>les deux significations du caract&egrave;re * dans: <code>int * x</code> et <code> y = *x </code></li>
+	<li>les deux significations du caract&egrave;re &amp; dans: <code> int &amp; </code> et <code> x = &amp; y </code></li>
+</ul>
+Pour faciliter les choses, on &eacute;crira:
+
+<ul>
+	<li><b><code> int*  x</code></b> ou <b><code> int&amp;  y </code></b> pour les d&eacute;clarations</li>
+	<li><b><code> *x </code></b> ou <b><code> &amp;y </code> </b>pour les op&eacute;rateurs.</li>
+</ul>
+
+<p>Notons que la norme du C++ permet d'ins&eacute;rer un espace entre le caract&egrave;re et le nom de la variable ou du
+ type, mais cette pr&eacute;sentation est plus claire pour le lecteur, et correspond bien &agrave; 
+ la r&eacute;alit&eacute; du compilateur: en effet, dans une d&eacute;claration <code> int * x </code> ou 
+ <code>int &amp; y </code>, il s'agit bel et bien d'utiliser les <i>types</i> <code>int*</code> ou <code>int&amp;</code>.</p></div>
+
+<h2><a name="ptr-ana"><img src="61.gif" alt="Pour les terriens"  width="20" />
+ Quelques analogies avec le monde dit "r&eacute;el"</a></h2>
+
+<p>Soit un objet de type... <code>homme</code>. Comment cet objet peut-il se manipuler, et quelle analogie peut-on faire avec la vie "r&eacute;elle" ?</p>
+<h2>Initialisation, op&eacute;rateur = : Un peu de Science Fiction</h2>
+<p>Contrairement &agrave; ce qu'on pourrait penser, ces op&eacute;rations, qui paraissent les plus simples (par analogie avec les maths), sont en fait très lourdes pour l'ordinateur...</p>
+
+<h3><a name="clonage">Initialisation = Cl&ocirc;nage</a></h3>
+
+<pre class="demo">
+homme jacques;
+<b>homme paul = jacques;</b>
+</pre>
+
+<p><code>paul</code> est obtenu par "cl&ocirc;nage" &agrave;
+partir de <code>jacques</code>. Les deux objets sont
+parfaitement identiques lorsque le code ci-dessus est ex&eacute;cut&eacute;,
+mais ensuite ils vivent chacun leur vie, et leur destin peut
+&ecirc;tre diff&eacute;rent dans la suite du programme.</p>  
+
+<div class="attention"><p><img alt="ATTENTION"  src="attention.gif" />L'initialisation comme l'affectation ne sont pas des
+op&eacute;rations simples a priori: elles se traduisent au minimum par une
+copie bit &agrave; bit, qui peut &ecirc;tre longue si les objets sont gros, et
+&eacute;ventuellement par des op&eacute;rations plus complexes comme l'allocation de
+ressources. On essaiera donc de les &eacute;viter dans la mesure du possible,
+tout au moins lorsqu'on a affaire &agrave; des objets &eacute;labor&eacute;s.</p></div>
+
+<h3><a name="ptr-egal">Op&eacute;rateur= : Je me prends pour un autre.</a></h3>
+
+<pre class="demo">
+homme pierre;
+...
+<b>pierre = paul;</b>
+</pre>
+
+<p>Ici, <code>pierre</code> a une vie avant sa rencontre avec 
+<code>paul</code>. L'op&eacute;rateur= va "jeter" toutes les donn&eacute;es qui
+concernent pierre  et les remplacer par celles de <code>paul</code>. Ensuite, chaque
+objet vit sa vie, comme pr&eacute;c&eacute;demment...</p> 
+
+<div class="attention"><p><img alt="ATTENTION"  src="attention.gif" />Ces op&eacute;rations permettent d'obtenir 
+deux objets <i>&eacute;gaux</i>, on l'a vu, mais pas <i>identiques</i>.</p></div>
+
+<h3><a name="ptr-surnom">R&eacute;f&eacute;rences = Surnoms</a></h3>
+
+<pre class="demo">
+homme pierre;
+<b>homme&amp; pierrot = pierre;</b>
+<b>homme&amp; tonton = pierre;</b>
+</pre>
+
+<p>La situation ci-contre est bien plus courante: tout simplement, <code>pierre</code> porte
+plusieurs surnoms. Les uns l'appelleront <code>pierrot</code>, les autres <code>tonton</code>. 
+Dans tous les cas,il s'agit de la m&ecirc;me personne (du m&ecirc;me objet). Tout ce qui arrivera &agrave;
+<code>pierre</code> arrivera aussi &agrave; <code>pierrot</code>, puisqu'il s'agit du m&ecirc;me individu. 
+De m&ecirc;me qu'une personne peut avoir autant de surnoms qu'on le souhaite, de m&ecirc;me un
+objet peut avoir un nombre illimit&eacute; de r&eacute;f&eacute;rences. Mais il n'y a jamais qu'un seul objet.</p> 
+
+<div class="attention"><p><img alt="ATTENTION"  src="attention.gif" />Cette fois, on a obtenu deux objets <i>identiques</i> (donc aussi &eacute;gaux).
+</p></div>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="ptr-ptr">Pointeurs = Attention, on vous montre du doigt</a></h3>
+
+<pre class="demo">
+homme pierre;
+<b>homme* ce_mec = pierre;</b>
+<b>homme* le_type_la_bas = pierre;</b>
+<b>homme* encore_un_bebe= new(homme);</b>
+</pre>
+
+<p><code>pierre</code> est montr&eacute; du doigt une fois, deux fois, ... autant de fois que vous le
+d&eacute;sirez: donc <code>homme</code> d&eacute;signe un objet a priori compliqu&eacute;, mais 
+<code>homme* </code> d&eacute;signe tout simplement le doigt qui pointe sur un homme. (en C++, 
+comme en C,on a autant de types de doigts diff&eacute;rents que d'objets point&eacute;s. Cela permet
+d'&eacute;viter de nombreuses erreurs de programme).</p>
+
+<div class="attention"><p><img alt="ATTENTION"  src="attention.gif" />Bien entendu, on peut avoir autant de pointeurs que
+l'on veut. Mais chaque pointeur est un nouvel objet. Les pointeurs sont d&eacute;licats &agrave;
+manier, simplement parce qu'il est possible de "casser" le lien entre pointeur et objet point&eacute;. 
+Cela peut amener deux situations ennuyeuses:</p> 
+<ul>
+  <li>Le pointeur est d&eacute;truit, mais pas l'objet point&eacute;. Si rien ne
+      pointe plus sur lui, on peut perdre sa trace dans la m&eacute;moire de
+      l'ordinateur... celui-ci a alors la migraine (fuites de
+      m&eacute;moire). </li>
+  <li>L'objet point&eacute; peut dispara&icirc;tre, alors que le pointeur continue
+      de pointer sur lui: Risque  important de plantages al&eacute;atoires.</li>
+</ul>
+</div>
+
+<p><a href="#">top</a></p><hr />
+
+<h2>Pierre va chez le coiffeur...</h2>
+
+<p>Soit la fonction <code>coupe</code> qui a 
+deux param&egrave;tres: le coiffeur et le client, le coiffeur coupant les
+cheveux au client.</p> 
+
+<h3><a name="ptr-prmval">Passage des param&egrave;tres par valeur</a></h3>
+
+<pre class="demo">
+void coupe(<b>homme coiffeur, homme client</b>);
+...
+homme pierre;
+homme jacques;
+coupe(jacques, pierre);
+</pre>
+
+<p><img alt="NOOON" src="nepasfaire.png" /><code>pierre</code> ainsi que <code>jacques</code> sont ici pass&eacute;s par valeur. Autrement
+dit, arriv&eacute;s au salon de coiffure, la machine cl&ocirc;ne <code>pierre</code> d'une part, 
+<code>jacques</code> d'autre part, et c'est le cl&ocirc;ne du coiffeur qui va couper les cheveux
+au cl&ocirc;ne de pierre. Apr&egrave;s quoi, les deux cl&ocirc;nes sont d&eacute;truits,
+et <code>pierre</code> repart avec les cheveux 	longs. L'histoire est stupide, certes, mais ce genre d'erreurs
+arrive fr&eacute;quemment (en C++, en tous cas).</p> 
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="ptr-prmref">Passage du client par r&eacute;f&eacute;rence</a></h3>
+<pre class="demo">
+void coupe(<b>homme coiffeur, homme&amp; client</b>);
+...
+homme pierre;
+homme jacques;
+coupe(jacques, pierre);
+</pre>
+
+<p><img alt="NOOON" src="nepasfaire.png" /><code>pierre</code> est pass&eacute; par r&eacute;f&eacute;rence &agrave; la fonction 
+<code>coupe</code>: <code>client</code> est tout simplement un surnom qu'on lui donne dans ce contexte. 
+<code>jacques</code> est toujours pass&eacute; par valeur, de sorte que dans cette histoire, c'est le cl&ocirc;ne 
+de <code>jacques</code> qui coupera les cheveux &agrave; son <code>client</code>, qui se trouve &ecirc;tre
+<code>pierre</code>. Pas de probl&egrave;me, le cl&ocirc;ne de <code>jacques</code> est par d&eacute;finition aussi bon 
+coiffeur que <code>jacques</code> lui-m&ecirc;me. Mais le cl&ocirc;nage n'est-il pas une op&eacute;ration un peu 
+compliqu&eacute;e, simplement pour une histoire de coupe de cheveux ? Un avantage &agrave; signaler: si
+<code>pierre</code> est m&eacute;content du travail du coiffeur, il pourra toujours casser la figure au cl&ocirc;ne de
+<code>jacques</code>, <code>jacques</code> lui-m&ecirc;me ne sera pas touch&eacute;... en termes plus techniques, 
+si la variable locale <code>coiffeur</code> est modifi&eacute;e par le programme, cela n'aura pas d'impact sur <code>jacques</code> 
+(pas d'effets de bords). </p>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="ptr-prmconstref">Passage du coiffeur par const r&eacute;f&eacute;rence</a></h3>
+
+
+<pre class="demo">
+void coupe(<b>const homme&amp; coiffeur, homme&amp; client</b>);
+...
+homme pierre;
+homme jacques;
+coupe(jacques, pierre);
+</pre>
+
+<p>dans le contexte de la fonction <code>coupe</code>, <code>pierre</code> s'appelle maintenant
+<code>client</code>, alors que <code>jacques</code> s'appelle <code>coiffeur</code>. 
+Plus besoin d'op&eacute;rations compliqu&eacute;es comme le cl&ocirc;nage, alors qu'un surnom fait si bien
+l'affaire. De plus, le descripteur <code>const</code> prot&egrave;ge le coiffeur contre les clients m&eacute;contents: 
+m&ecirc;me si <code>pierre</code> est m&eacute;content de sa coupe, il ne pourra pas casser la figure &agrave; son coiffeur
+(car l'&eacute;tat de celui-ci ne peut changer, &agrave; cause de <code>const</code>). D'un point-de-vue technique, 
+la variable locale <code>coiffeur</code> ne peut &ecirc;tre modifi&eacute;e, il ne peut donc l&agrave; non plus y avoir 
+d'effets de bords. Ainsi, la s&eacute;mantique (signification) de cet appel et celle de l'appel pr&eacute;c&eacute;dent 
+sont les m&ecirc;mes, simplement le code est ici plus optimis&eacute;. </p>
+
+<p><a href="#">top</a></p><hr />
+
+<h2>Un accouchement difficile</h2>
+
+<p>Voici l'histoire d'un accouchement &agrave; haut risque, suite &agrave; l'ex&eacute;cution de la fonction 
+<code>co&iuml;t</code>...</p>
+
+<h3><a name="ptr-retval">Retour d'un param&egrave;tre par valeur</a></h3>
+
+<pre class="demo">
+<b>humain</b> coit(homme&amp; h, femme&amp; f) {
+   ...
+   humain enfant = h + f;
+   ...
+   <b>return enfant;</b>
+};
+
+homme pierre;
+femme marie;
+humain loulou = coit(pierre,marie);
+</pre>
+
+<p>Une dr&ocirc;le de mani&egrave;re de faire un enfant: l'enfant nait dans le contexte de la fonction <code>coit</code>,
+mais &agrave; la fin de la fonction, on en fait un cl&ocirc;ne, on sort le cl&ocirc;ne et on massacre l'enfant. 
+Merci de ne pas pr&eacute;venir le comit&eacute; d'&eacute;thique... C'est long, compliqu&eacute; et immoral, mais
+&ccedil;a marche.</p>
+<p>Que s'est-il passé au juste ? Tout simplement que la fonction a renvoyé une valeur.. qui est une rvalue (la valeur
+renvoyée par cette fonction ne peut se trouver à gauche du signe =). Comme on l'a déjà dit 
+<a href="#lrvalue"><img src="avant.gif" alt="avant" /></a>, si on désire pérenniser cette valeur, la seule solution est de
+la <em>copier</em> dans une lvalue.</p> 
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="ptr-retref">Retour d'un param&egrave;tre par r&eacute;f&eacute;rence</a></h3>
+
+<pre class="demo">
+<b>humain&amp;</b> coit(homme&amp; h, femme&amp; f) {
+   ...
+   humain enfant = h + f;
+   ...
+   <b>return enfant;</b>
+};
+
+homme pierre;
+femme marie;
+humain&amp; loulou = coit(pierre,marie);
+</pre>
+
+<p>Voil&agrave; qui est encore pire: l'enfant, apr&egrave;s sa naissance, est retourn&eacute; sous le nom <code>loulou</code>... mais tout-de-suite apr&egrave;s il est d&eacute;truit, puisqu'il s'agit d'une variable
+locale &agrave; la fonction <code>coit</code>, qui n'existe donc que le temps que la fonction est ex&eacute;cut&eacute;e.</p>
+
+<div class="attention"><p><img alt="ATTENTION"  src="attention.gif" /> Attention, cela ne veut pas dire qu'on ne doit pas 
+renvoyer de r&eacute;f&eacute;rences en sortie d'une fonction. On ne doit pas renvoyer de r&eacute;f&eacute;rence sur un
+objet interne &agrave; la fonction, car cet objet cesse d'exister lorsque la fonction a fini son ex&eacute;cution. 
+Le pire, c'est que... &ccedil;a peut marcher: rien ne dit que le syst&egrave;me aura d&eacute;truit tout-de-suite l'objet. 
+Mais gare au plantage si vous changez de conditions (de compilateur, par exemple).</p></div>
+
+<h3><a name="ptr-retptr">Retour d'un param&egrave;tre par pointeur</a></h3>
+
+<pre class="demo">
+<b>humain*</b> coit(homme&amp; h, femme&amp; f) {
+   ...
+   humain* enfant = new humain(h,f);
+   ...
+   <b>return enfant;</b>
+};
+
+homme pierre;
+femme marie;
+humain* nouveau_ne = coit(pierre,marie);
+</pre>
+
+<p>Cette fois, &ccedil;a va mieux: l'enfant est cr&eacute;&eacute; par <code>new</code>, mais il est <i>quelque part
+ailleurs</i>, et <i>il n'a pas &eacute;t&eacute; baptis&eacute; (pas de nom)</i>. On ne sait que l'appeler <code>*enfant</code>.
+Seul le pointeur est interne &agrave; la fonction. On renvoie (par une recopie) le pointeur &agrave; l'ext&eacute;rieur,
+et on d&eacute;truit le pointeur d'origine (mais cela n'a aucune importance, l'enfant est pr&eacute;serv&eacute;). </p>
+
+<h3><a name="move">Utilisation du constructeur de déplacement (c++11)</a></h3>
+
+<p>Finalement, la meilleure solution pour renvoyer un objet créé dans une fonction est d'utiliser la sémantique de pointeurs tel que
+décrite ci-dessus. Or, cela est fort ennuyeux, en effet cela aboutit à un code fort peu lisible, alors que tout l'intérêt
+du C++, par rapport au C, est justement d'améliorer la lisibilité du code: la dernière norme, le C++11, répod à cette préoccupation
+grâce aux "Rvalue-references" et aux constructeurs de déplacement. Nous n'en dirons pas plus dans ce cours, sachez cependant
+que ces deux concepts permettent d'améliorer les performances des bibliothèques.</p>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="ptr-virt">Retour au monde virtuel...</a></h2>
+<h3><a name="ref">Le type r&eacute;f&eacute;rence</a></h3>
+
+<p>Soit le programme suivant:</p>
+
+<pre class="demo">
+int A=3;
+int&amp; a=A;
+A++;
+cout &lt;&lt; "valeur de A = " &lt;&lt; A &lt;&lt; "valeur de a = " &lt;&lt; a &lt;&lt; "\n";
+</pre>
+
+<p>Le  programme renvoie  4 pour A  comme pour  a. Que
+s'est-il  pass&eacute; ?   La  ligne <code>int  &amp;a=A</code> qui  signifie
+"r&eacute;f&eacute;rence", revient &agrave; d&eacute;clarer un <em>synonyme</em> &agrave; A (m&ecirc;me adresse
+m&eacute;moire, mais  nom diff&eacute;rent).  L'adresse en m&eacute;moire  sera donc <em>la
+m&ecirc;me</em> pour A et pour a.</p>
+
+<div class="attention"><p><img alt="NOOON" src="nepasfaire.png" />
+La d&eacute;claration suivante <em>dans un  programme ou une fonction</em> n'a  pas de sens:</p>
+
+<pre class="demo">
+<b>int &amp; a;</b>            // ERREUR DE COMPILATION !!!
+</pre>
+
+<p>En  effet, un  synonyme  est  un synonyme,  encore
+faut-il  pr&eacute;ciser  de  quoi   on  est  synonyme.   Par  contre,  cette
+d&eacute;claration <em>en  tant que  membre d'une classe</em>  a un  sens: on
+pr&eacute;cisera  de quoi  on est  synonyme  lors de  l'initialisation de  la
+classe.<a     href="#init-memb"><img    alt="apres"    src="apres.gif" /></a>).  
+De m&ecirc;me, une  telle d&eacute;claration  dans une  liste de
+param&egrave;tres  d'une   fonction  a  une   signification  <a  href="#prm-ref"><img
+alt="apres" src="apres.gif" /></a></p>
+</div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+On  <em>ne  peut  pas</em>
+changer  de "cible":  une  fois  qu'on a  dit  que <code>a</code>  est
+synonyme   de  <code>A</code>,   <code>a</code>   reste  synonyme   de
+<code>A</code>     durant    toute     sa     port&eacute;e.
+Dans le code suivant: </p>
+
+<pre class="demo">
+int A=3;
+int&amp; a=A;
+
+int B=5;
+<b>a=B;</b>
+</pre>
+
+<p>L'expression: <b><code>a=B</code></b>   changera  la   <em>valeur</em>  de
+<code>a</code>, donc aussi la valeur de <code>A</code>.</p>
+</div>
+
+<h3><a name="ptr">Le type pointeur</a></h3>
+
+<p>De m&ecirc;me que ci-dessus, Le programme suivant
+imprimera deux fois le chiffre 4:</p>
+
+<pre class="demo">
+int A=3;
+int* a;
+
+<b>a = &amp;A;</b>
+A++;
+cout &lt;&lt; "valeur de A = " &lt;&lt; A &lt;&lt; "valeur pointee par a = " &lt;&lt; *a &lt;&lt; "\n";
+</pre>
+
+<p><code><b>a</b></code>  est un
+<em>pointeur sur un entier</em>;  A l'inverse des r&eacute;f&eacute;rences, il est possible (<em>quoique dangereux</em>) de ne
+pas l'initialiser; d'autre part, <code><b>a</b></code> peut
+pointer sur <em>n'importe quelle variable de type int</em>, ainsi que le montre le code suivant:</p>
+
+<pre class="demo">
+int A=3;
+int B=6;
+int* a;
+
+<b>a= &amp;A;</b>
+cout &lt;&lt; "valeur de A = " &lt;&lt; A &lt;&lt; "valeur pointee par a = " &lt;&lt; *a &lt;&lt; "\n";
+<b>a= &amp;B;</b>
+cout &lt;&lt; "valeur de B = " &lt;&lt; B &lt;&lt; "valeur pointee par a = " &lt;&lt; *a &lt;&lt; "\n";
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Dans
+l'expression      <code><b>a= &amp;B</b></code>      le     signe
+<code><b>&amp;</b></code>  est  un  <em>op&eacute;rateur</em>.   Il  ne
+s'agit pas  d'une  d&eacute;claration  de  type  comme  dans  le
+paragraphe pr&eacute;c&eacute;dent:  le m&ecirc;me symbole  a donc deux significations
+diff&eacute;rentes. </p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Il est très dangereux de laisser un pointeur non initialisé: cela signifie que le pointeur contient n'importe quoi, donc qu'il pointe
+sur une zône mémoire arbitraire. Cela peut se traduire ultérieurement par des plantages difficiles à tracer. On doit donc <em>toujours</em>
+initialiser son pointeur, quitte à l'initialiser à la valeur <code>NULL</code>: il sera aisé de tester la valeur du pointeur pour savoir s'il est initialisé ou non:</p>
+
+<pre class="demo">
+int * p = NULL;
+...
+if ( p == NULL )
+{
+   ...
+}
+</pre>
+</div>
+
+<h4>Les pointeurs de type void *</h4>
+<p>Lorsqu'on déclare un pointeur, on doit déclarer le type de la variable pointée: <code>int * </code> et <code>float *</code> sont deux
+types de variables différents. Cependant, il est possible de déclarer une variable de type pointeur sans préciser le type de la variable pointée: il suffit de déclarer 
+une variable de type <code>void *</code>.</p>
+
+<div class="attention"><img alt="ATTENTION" src="attention.gif" />
+Les <code>void *</code> permettent d'échanger des adresses mémoire avec des fonctions système (voir plus loin les fonctions de type <code>malloc</code>), 
+cependant pour travailler avec, il faudra les convertir en de "vrais" pointeurs:
+
+<pre class="demo">
+void * p = ...;
+int * q  = (int *) p;
+</pre>
+</div>
+
+<h3>Pointeurs et tableaux</h3>
+
+<p>Lorsque l'on d&#233;clare un tableau, le nom du tableau est en fait un pointeur sur le premier &#233;l&#233;ment du tableau (&#233;l&#233;ment d'indice 0).
+On peut incr&#233;menter un pointeur, ce qui revient &#224; le faire pointer sur l'&#233;l&#233;ment suivant. Ainsi, <code><b>tab+1</b></code> pointe sur l'élément d'indice 1 de <code>tab</code>.</p>
+
+<p>De fa&#231;on plus g&#233;n&#233;rale, on peut ajouter un entier i &#224; un pointeur: <code><b>tab+i</b></code> pointe sur l'&#233;l&#233;ment d'indice i de tab. 
+Les écritures <code><b>tab[i]</b></code> et <code><b>*(tab+i)</b></code> sont équivalentes, elles renvoient le <em>contenu</em> de la cellule i du tableau. 
+De même, <code><b>&amp;tab[i]</b></code> et <code><b>tab+i</b></code> sont deux notations équivalentes, elles renvoient <em>l'adresse mémoire de l'élément i</em>.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Si l'adresse m&#233;moire que contient tab (pointeur sur un tableau 
+d'entiers) est 2886, l'adresse contenue dans tab+1 ne sera pas 2887&nbsp;: ce sera 2886+sizeof(int). Cette remarque concerne tous les pointeurs&nbsp;: pour pouvoir faire des
+op&#233;rations arithm&#233;tiques sur des pointeurs, 
+il faut que les pointeurs soient de m&#234;me type, c'est &#224; dire qu'ils pointent sur des objets de m&#234;me taille.</p></div>
+
+<p><strong>Quelques exemples:</strong></p>
+
+<pre class="demo">
+#define TAILLE 100
+int tab[TAILLE];
+int *p, *q, *r;
+p = &amp;tab[0];     /* p pointe sur le premier élément */
+q = p + (TAILLE-1);   /* q pointe sur le dernier élément */
+r = q - (TAILLE-1);   /* r pointe sur le premier élément */
+
+// Initialiser le tableau en utilisant les pointeurs
+for (int i=0, int* p=tab; i &lt; TAILLE; ++i)
+{
+    *p++ = 0;
+}
+
+// Copier le tableau tab dans tab1
+for (int i=0, int* p=tab, int* q=tab1; i &lt; TAILLE; ++i)
+{
+    *q++ = *p++;
+}
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Le type <code>void *</code> ne <em>peut pas </em> être utilisé pour définir un tableau. De manière générale, il n'est pas possible de faire
+des calculs d'adresse avec un <code>void *</code>: en effet, comme on ne sait pas sur quel type de donnée on pointe, on ne sait pas a fortiori la taille prise par chaque donnée
+individuelle. Donc tout calcul d'adresse est impossible.</p></div>
+
+<h2 id="structptr">Pointeurs sur une structure</h2>
+
+<p>L'acc&#232;s aux champs d'une structure par l'interm&#233;diaire
+d'un pointeur se fait avec l'op&#233;rateur <code><b>-&gt;</b></code>:</p>
+
+<pre class="demo">
+struct personne
+{
+   string nom;
+   string prenom;
+   int age;
+};
+
+personne *p;
+p -&gt; nom    = "Dupont";
+p -&gt; prenom = "Claude";
+p -&gt; age    = 20;
+</pre>
+
+<p>Dans l'exemple ci-dessus, on aurait aussi pu accéder au champ age par: <code><b>*(p.age)</b></code></p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />La taille d'une structure (donn&#233;e par l'op&#233;rateur sizeof) n'est pas forc&#233;ment &#233;gale &#224; la somme de la taille de ses champs.</p></div>
+
+<h3><a name="ref-pourquoi">Une r&eacute;f&eacute;rence, pour quoi faire ?</a></h3>
+
+<p>Les principales utilisations des r&eacute;f&eacute;rences sont les suivantes:</p>
+
+<ul>
+  <li>Le passage des param&egrave;tres aux fonctions</li>
+  <li>La d&eacute;claration de membres de classes</li>
+  <li>La valeur de retour renvoy&eacute;e par les fonctions</li>
+</ul>
+
+<p>Les deux premi&egrave;res utilisations sont utiles pour:</p>
+
+<ul>
+  <li>Economiser de la place en m&eacute;moire, si les objets &agrave; passer prennent beaucoup de m&eacute;moire.</li>
+  <li>Utiliser le polymorphisme <a href="heritage.html"><img  alt="apres" src="apres.gif" /></a> </li>
+</ul>
+
+<h4><a name="prm-ref">Passage des param&egrave;tres par r&eacute;f&eacute;rence</a></h4>
+
+<p>Le programme ci-dessous imprime 5:</p>
+
+<pre class="demo">
+void f(<b>int X</b>) {
+   X=0;
+};
+
+main() {
+   int A=5;
+   <b>f(A);</b>
+   cout &lt;&lt; A &lt;&lt; "\n";
+};
+</pre>
+
+<p>En effet, lorsque  la variable  <code>X</code> est
+pass&eacute;e &agrave;  la fonction <code>f</code>, sa  <em>valeur</em> est recopi&eacute;e
+dans  la variable  locale  <code>X</code>. C'est  la  copie locale  de
+<code>X</code> qui est mise &agrave; z&eacute;ro, elle sera d&eacute;truite d&egrave;s le retour de
+la fonction. Par contre, le programme ci-dessous imprime 0:</p>
+
+<pre class="demo">
+void f(<b>int&amp; X</b>) {
+   X=0;
+};
+
+main() {
+   int A=5;
+   <b>f(A);</b>
+   cout &lt;&lt; A &lt;&lt; "\n";
+};
+</pre>
+
+<p>En        effet,       la        d&eacute;claration
+<code><b>int&amp; X</b></code>  dans  le  prototype de  la  fonction
+<code>f</code>    indique    un    passage    des    param&egrave;tres    par
+r&eacute;f&eacute;rence. <code>X</code> est donc un <em>synonyme</em> de la variable
+pass&eacute;e,  et   non  plus  une   recopie.   En  cons&eacute;quence,   la  ligne
+<code><b>X=0</b></code>  dans <code>f</code>  remet  &agrave; 0  la
+variable  <code>A</code>. Passer  un param&egrave;tre  par  r&eacute;f&eacute;rence revient
+donc &agrave; passer un param&egrave;tre &agrave;  la fonction, tout en laissant &agrave; celle-ci
+la possibilit&eacute; de modifier la valeur de la variable ainsi pass&eacute;e, donc
+d'en faire aussi une<em> valeur de retour</em></p>
+
+<h4><a name="pourquoi-renv-ref">Pourquoi renvoyer des r&eacute;f&eacute;rences ?</a></h4>
+
+<p>Renvoyer une r&eacute;f&eacute;rence permet de renvoyer une "<code>lvalue</code>", 
+c'est-&agrave;-dire quelque chose qui peut se mettre &agrave; gauche d'un signe <code>=</code>.</p>
+
+<p>Regardons en effet le programme suivant:</p>
+
+<pre class="demo">
+int A,B;
+int&amp; renvAouB(bool s) {
+  return (s==true ?) A : B;
+};
+
+main() {
+  A = 10;
+  B = 20;
+  cout &lt;&lt; A &lt;&lt; B &lt;&lt;"\n";  // ecrit 10 20
+  <b>renvAouB(true) = 5;</b> 
+  cout &lt;&lt; A &lt;&lt; B &lt;&lt;"\n";  // ecrit 5 20
+};
+</pre>
+
+<p>La  fonction renv renvoie  une <em>r&eacute;f&eacute;rence</em>
+vers  la   variable  <code>A</code>.   Il  est   donc  l&eacute;gal  d'&eacute;crire
+<code><b>renv(true)=5</b></code>   m&ecirc;me   s'il   peut   para&icirc;tre
+surprenant de mettre &agrave; gauche  du signe &eacute;gal un appel de fonction.<br />
+Ce m&eacute;canisme  est utilis&eacute; par  les objets d&eacute;finis par  la biblioth&egrave;que
+standard  (<a   href="stdlib.html#"><img  alt="apres"  src="apres.gif" /></a>),
+en  particulier  <code><b>map</b></code>,
+<code><b>vector</b></code>  etc. Il  est  &eacute;galement courant,
+dans  beaucoup  de fonctions-membres  ou  d'op&eacute;rateurs surcharg&eacute;s,  de
+renvoyer une  r&eacute;f&eacute;rence, par exemple  une r&eacute;f&eacute;rence &agrave;  l'objet courant
+<code>*this</code><a      href="types.html#this"><img      alt="apres"
+src="apres.gif" /></a></p>
+
+<div class="attention"><p><a name="ref-boum"><img alt="ATTENTION" src="attention.gif" /></a>
+La  fonction  suivante a  de fortes chances  de planter &agrave;  l'ex&eacute;cution: en effet, elle  renvoie une
+r&eacute;f&eacute;rence vers une  variable <em>locale</em>, et lorsque l'instruction
+<code>return</code> est  ex&eacute;cut&eacute;e, cette variable  est d&eacute;truite...  le
+r&eacute;sultat est non pr&eacute;dictible,  et gcc envoie un warning à la compilation... 
+dont je vous conseille de tenir compte.</p>
+
+<pre class="demo">
+int A;
+int&amp; renv() {
+  <b>int A=99;</b>
+  return A;      // boum !!! plantage probable.
+};
+</pre></div>
+
+<p><a href="#">top</a></p><hr />
+
+<div class="autres"><p><big><img alt="Les autres ?" src="dechirure.gif"  width="25" />Autres langages objets</big></p>
+
+<table border="1">
+  <tr>
+    <th align="center"> Langage </th>
+    <th align="center"> Pointeur </th>
+    <th align="center"> R&eacute;f&eacute;rence </th>
+  </tr>
+  <tr><th> C++ </th><td><b>OUI</b></td><td><b>OUI</b></td></tr>
+  <tr><th> perl</th><td><b>OUI</b><sup>1</sup></td><td>NON</td></tr>
+  <tr><th>java</th><td>NON</td><td>NON</td></tr>
+  <tr><th>python<sup>2</sup></th><td>NON</td><td>NON</td></tr>
+  <tr><th>php5</th><td><b>OUI</b><sup>1</sup></td><td>NON</td></tr>
+</table>
+<ol>
+  <li>Une <em>r&eacute;f&eacute;rence</em> perl ou en php est en fait &eacute;quivalent &agrave; un <em>pointeur</em> C ou C++. Par contre, &eacute;tant donn&eacute; que perl int&egrave;gre un "ramasse-miette" (gestion de la m&eacute;moire), l'utilisation des r&eacute;f&eacute;rences en perl est assez diff&eacute;rente de celle des pointeurs en C/C++.</li>
+  <li>La situation en python est un peu particuli&egrave;re: en effet, dans ce langage, toutes les variables sont des pointeurs vers des z&ocirc;nes de m&eacute;moire. Il faut avoir cela pr&eacute;sent &agrave; l'esprit lorsqu'on r&eacute;alise des affectations.</li>
+</ol></div>
+
+<p><a href="#">top</a></p><hr />
+      
+<h3><a name="desc-const">Le descripteur const</a></h3>
+
+<h4><a name="const-ref">Utilisation avec des r&eacute;f&eacute;rences:</a></h4>
+
+<p>Pourquoi passer les param&egrave;tres par r&eacute;f&eacute;rence ? Pour deux raisons:</p>
+
+<ul>
+  <li>Le param&egrave;tre est utilis&eacute; <em>en entr&eacute;e</em>, mais aussi <em>en
+      sortie</em>... cf. ci-dessus.</li>
+  <li>Le param&egrave;tre est bien un param&egrave;tre d'entr&eacute;e pur, mais sa recopie
+      prendrait un temps processeur non n&eacute;gligeable: cela peut &ecirc;tre le
+      cas si l'on passe une variable de type <code>struct</code> ou
+      <code>class</code> avec un grand nombre de champs.</li> 
+</ul>
+
+<p>Dans  le second  cas, il y  a danger: en  effet, si
+l'un ou l'autre champ de l'objet pass&eacute; en param&egrave;tre est modifi&eacute;, on se
+retrouve  avec un  "effet de  bord" non  d&eacute;sir&eacute;, erreur  pas  simple &agrave;
+d&eacute;tecter...   dans ce  cas, le  <code>C++</code> offre  un  moyen bien
+pratique         d'&eacute;viter         cela:         le         descripteur
+<code><b>const</b></code>,  plac&eacute; devant  la  d&eacute;claration du
+param&egrave;tre,   assure   que  celui-ci   <em>ne   pourra  pas</em>   &ecirc;tre
+modifi&eacute; par la fonction. Ainsi, le programme suivant ne pourra pas &ecirc;tre compil&eacute;:</p>
+
+<pre class="demo">
+void f( const int&amp; X) {
+   <b>X=0;</b>          // Erreur, car X est constant
+};
+</pre>
+
+<h5><a name="ptr-prm">Passage des param&egrave;tres par pointeur</a></h5>
+
+<p>Les  possibilit&eacute;s   offertes  par  le  passage  de
+param&egrave;tres  par  r&eacute;f&eacute;rence  rendent  obsol&egrave;te l'&eacute;quivalent  en  C:  le
+passage   des  param&egrave;tres   par  pointeurs.   Voici   deux  programmes
+&eacute;quivalents, &agrave; vous de d&eacute;cider lequel est le plus lisible:</p>
+
+<p><b>En C:</b></p>
+
+<pre class="demo">
+void f(<b>int* X</b>) {
+   <b>*X=0;</b>
+};
+
+main() {
+   int A=5;
+   <b>f(&amp;A);</b>
+};
+</pre>
+
+<p><b>En C++:</b></p>
+
+<pre class="demo">
+void f(<b>int&amp; X</b>) {
+   <b>X=0;</b>
+};
+
+main() {
+   int A=5;
+   <b>f(A);</b>
+};
+</pre>
+
+
+<p> Le programme C++ est bien plus lisible, ne
+serait-ce  que parce  que  c'est lui  qui  minimise l'utilisation  des
+signes  barbares  tels   que  <code>&amp;</code>  ou  <code>*</code>.</p>
+
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" /> Il n'est  utile de passer les param&egrave;tres par
+pointeur que dans deux cas:</p>
+
+<ul>
+   <li>Pour passer un tableau, mais dans ce cas la notation [] est probablement plus lisible.</li>
+   <li>si le cas pointeur=NULL doit &ecirc;tre envisag&eacute;:
+
+
+<pre class="demo">
+void f( int* X) {
+   if (X == NULL) {
+      ...faire quelque chose
+   } else {
+      ...faire autre chose
+   };
+};
+</pre>
+
+Il n'est  pas possible  de g&eacute;rer  ce cas  avec des
+r&eacute;f&eacute;rences,   puisqu'une  r&eacute;f&eacute;rence   n'est   par  d&eacute;finition   "synonyme" de quelque chose.</li></ul></div>
+
+<div class="attention"> <p> <img  alt="ATTENTION" src="attention.gif" /> Une  fonction prenant  des param&egrave;tres
+par   <code>const   &amp;</code>    ne   <em>doit   jamais   renvoyer   ce
+param&egrave;tre</em>...  il y a risque important de crash. Exemple:</p>
+
+<pre class="demo">
+const int&amp; f(<b>const int&amp; x</b>) {
+  <b>return x;</b>
+};
+
+main() {
+  int A = 10;
+  int B = f(A);
+  int C = f(4);
+};
+</pre>   
+
+ <p>La  ligne <code>int&nbsp;B=f(A)</code> ne pose  pas de
+probl&egrave;me, par  contre que  se passe-t-il avec  la ligne <code>int&nbsp;C=f(4)</code> ?
+Le compilateur  cr&eacute;e une  variable temporaire  de type
+entier,  l'initialise  &agrave; 4,  appelle  la  fonction <code>f</code>  qui
+renverra une r&eacute;f&eacute;rence &agrave;  cette variable temporaire... et <em>supprime
+juste  apr&egrave;s la  variable temporaire</em>.   R&eacute;sultat, on  se retrouve
+avec une r&eacute;f&eacute;rence  qui pointe sur...  rien du  tout, risque important
+de plantages.  Voir ci-dessous (chapitre gestion de la m&eacute;moire)  d'autres exemples de gags 
+du m&ecirc;me genre <a href="mem.html"><img  alt="apres" src="apres.gif" /></a></p></div>
+
+<h4><a name="const-ptr">Utilisation de const avec des pointeurs</a></h4>
+
+<p>Le descripteur <code>const</code>  peut s'employer
+&eacute;galement   avec  des   pointeurs,  de   sorte  que   les  diff&eacute;rentes
+d&eacute;clarations ci-dessous sont  l&eacute;gales, et emp&ecirc;chent d'&eacute;crire certaines
+instructions... donc emp&ecirc;chent de faire certaines erreurs:</p>
+
+<pre class="demo">
+<b>const</b> int* a      = new(int);
+<b>*</b>a = 10;                        // Erreur car *a est constant
+int* <b>const</b> b      = new(int);
+b = <b>new</b>(int);                   // Erreur car b est constant
+<b>const</b> int* <b>const</b> c = new(int);
+<b>*</b>c = 10;                        // Erreur car *c est constant
+c  = <b>new</b>(int);                  // Erreur car c est constant
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+L'expression <code><b>const  int* a</b></code>  <em>ne garantit
+ pas</em> que <code><b>*a</b></code> ne changera jamais
+de valeur.   Il garantit <em>uniquement</em> qu'il  sera impossible de
+taper         quelque        chose        dans         le        style
+<code><b>*a=10</b></code>. Mais le code suivant montre qu'il
+est parfaitement  possible que <b><code>*a</code></b> change
+de valeur.   Il suffit pour  cela qu'un autre pointeur,  non constant,
+soit d&eacute;fini avec la m&ecirc;me adresse:</p>
+
+<pre class="demo">
+int A=10;
+const int* a = &amp;A;
+cout &lt;&lt; "*a = " &lt;&lt; *a &lt;&lt; "\n";
+A=100;
+cout &lt;&lt; "*a = " &lt;&lt; *a &lt;&lt; "\n";
+</pre></div>
+
+<p><a href="#">top</a></p><hr />
+
+<h2 id="malloc">Allocation dynamique de la mémoire en C</h2>
+<p>Un programme C ou C++ dispose en g&#233;n&#233;ral de 4 types de m&#233;moire&nbsp;:</p>
+
+<ul>
+    <li>une m&#233;moire statique, ou permanente, g&#233;r&#233;e par le compilateur (allocation statique) o&#249; les variables
+    restent pendant toute la dur&#233;e de l'ex&#233;cution du programme&nbsp;;</li>
+    <li>une m&#233;moire dynamique (la pile, stack en anglais), g&#233;r&#233;e elle aussi par le compilateur (allocation
+    dynamique), qui constitue la pile d'ex&#233;cution du programme, o&#249; les variables sont continuellement allou&#233;es
+    (empil&#233;es) ou d&#233;sallou&#233;es (d&#233;pil&#233;es) au rythme des activations de fonctions ou d'instructions
+    compos&#233;es&nbsp;;</li>
+    <li>quelques registres, dont l'allocation dynamique est faite par le compilateur &#224; la demande du programmeur qui souhaite
+    optimiser le temps d'acc&#232;s &#224; certaines variables&nbsp;;</li>
+    <li>un entrep&#244;t &#224; octets (le tas, heap en anglais), dont la gestion est &#224; la charge du programmeur (allocation
+    programm&#233;e), o&#249; il peut ranger des objets cr&#233;&#233;s au fur et &#224; mesure des besoins.</li>
+</ul>
+
+<p>L'allocation et la d&#233;sallocation de la m&#233;moire dans l'entrep&#244;t &#224; octets se font &#224; l'aide de fonctions de la biblioth&#232;que standard d&#233;finies dans <tt>&lt;stdlib.h&gt;</tt>.</p>
+
+<h3>Allocation dynamique</h3>
+
+<p>Lorsque l'on d&#233;clare un pointeur sur une variable, le compilateur alloue la m&#233;moire pour
+stocker le pointeur mais n'alloue pas de m&#233;moire pour la variable point&#233;e. Cette allocation est &#224; la charge du programmeur (on parle d'allocation programm&#233;e). L'oubli de ces allocations est &#224; l'origine de nombreuses erreurs d'ex&#233;cution qui
+donneront des messages d'erreur de type: </p>
+
+<pre class="demo">segmentation fault : core dump</pre>
+
+<p>Les fonctions d'allocation m&#233;moire sont principalement <code><b>malloc</b></code> (allocation simple) et <code><b>realloc</b></code> (modification de la dimension d'un espace m&#233;moire pr&#233;c&#233;demment allou&#233;). 
+La fonction de desallocation (lib&#233;ration de la m&#233;moire) est : <code><b>free</b></code></p>
+
+<h3>Prototype des fonctions (tels qu'ils sont d&#233;finis dans stdlib.h)</h3>
+
+<ul>
+    <li><code><b>void * malloc (size_t size);</b></code></li>
+    <li><code><b>void * realloc (void * ptr, size_t size);</b></code></li>
+    <li><code><b>void free (void * ptr);</b></code></li>
+</ul>
+
+<p>Le type <code>size_t</code> est d&#233;fini dans <code>stdlib.h</code>; il est &#233;quivalent, suivant les syst&#232;mes, &#224; <code>unsigned int</code> ou <code>unsigned long int</code>. 
+La fonction <code>malloc</code> alloue  <code>size</code> octets de m&#233;moire contigu&#235;; elle renvoie un pointeur g&#233;n&#233;rique sur la zone allou&#233;e ou NULL en cas d'&#233;chec.</p>
+<p>La fonction <code>realloc</code> modifie la taille du bloc m&#233;moire point&#233; par <code>ptr</code> pour l'amener &#224; une taille de
+<code>size</code> octets; elle conserve le contenu de la zone m&#233;moire commune &#224; l'ancien et au nouveau bloc; le contenu de la zone
+nouvellement allou&#233; n'est pas initialis&#233;. Si <code>ptr</code> est nul, l'appel &#224; <code>realloc</code> est &#233;quivalent &#224;
+un appel &#224; <code>malloc</code>. La fonction <code>realloc</code> renvoie un pointeur g&#233;n&#233;rique sur la nouvelle zone allou&#233;e.</p>
+
+<p>La fonction <code>free</code> lib&#232;re l'espace m&#233;moire allou&#233; par une des fonctions pr&#233;c&#233;dentes; <code>ptr</code> est le pointeur sur la zone m&#233;moire &#224; d&#233;sallouer.</p>
+
+<p>Voici un exemple d'utilisation de <code>malloc</code>, dans lequel on alloue dynamiquement un tableau de 1000 entiers:</p>
+
+<pre class="demo">
+size_t dimension = 1000;
+int* tab = (int *) malloc ( dimension * sizeof(int) );
+...
+free(tab);
+</pre>
+
+<h2><a name="class">Le type class</a></h2>
+
+<p>Le type class va nous permettre de cr&eacute;er diff&eacute;rents objets. C'est donc gr&acirc;ce &agrave; 
+ce type qu'il est possible de faire de la programmation objets en C++.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Attention,  une  d&eacute;claration  de  classe  est  une
+<em>d&eacute;claration de type</em>. Or,  un objet est <em>une variable</em>.
+Une  classe  va permettre  de  cr&eacute;er  (on dit aussi instancier)  des objets  d'un
+certain type.   En d'autres termes, une classe  est un <em>moule</em>,
+elle  sert   &agrave;  cr&eacute;er  des   objets, mais  elle  n'est  pas   un  objet
+elle-m&ecirc;me.</p></div>
+
+<h3><a name="priv-prot-pub">Sections priv&eacute;es, prot&eacute;g&eacute;es, publiques</a></h3>
+
+<p>Voici  la d&eacute;claration d'une  classe qui impl&eacute;mente
+des nombres complexes:</p>
+
+<pre class="demo">
+class complexe {
+<b>public:</b>
+   void init(float x, float y);
+   void copie(const complexe&amp; y);
+<b>private:</b>
+   float r;
+   float i;
+}   
+</pre>
+
+<p>Il s'agit  d'une d&eacute;claration  tr&egrave;s proche  du type
+<code>struct</code>    du   C.   Cependant,    par   rapport    &agrave;   la
+<code>struct</code> du C, plusieurs diff&eacute;rences fondamentales:</p>
+
+<ul>
+  <li>Certains membres sont des fonctions</li>
+  <li>On peut d&eacute;clarer des membres qui sont eux-m&ecirc;mes des types  <a
+      href="stdlib.html#localtype"><img  alt="apres" src="apres.gif" /></a>
+      (on parle alors de types locaux).</li>  
+  <li>Les membres sont d&eacute;clar&eacute;s dans diff&eacute;rentes sections avec des
+      notions de protection par rapport &agrave; l'ext&eacute;rieur</li>
+</ul>
+
+<p>On  retrouve  ainsi la  notion  de  protection
+(encapsulation)   des  variables   et  des   fonctions  propre   &agrave;  la
+programmation  structur&eacute;e,   mais  int&eacute;gr&eacute;e  au   syst&egrave;me  de  typage,
+puisqu'il  s'agit de  d&eacute;clarer un  nouveau  type de  donn&eacute;es.  Ce  qui
+correspond   &agrave;   l'impl&eacute;mentation    se   trouve   dans   la   section
+<code>private</code>,  alors que  ce qui  correspond &agrave;  l'interface se
+trouve  dans  la  section  <code>public</code>.  En  d'autres  termes,
+l'int&eacute;rieur  de l'objet  (son  squelette) se  trouve  dans la  section
+<code>private</code>,  alors que l'interface  avec le  monde ext&eacute;rieur
+(les boutons, voyants,  en un mot son comportement)  se trouve dans la
+section <code>public</code>.</p>
+
+<h4><a name="priv">Section private</a></h4>
+
+<p>Tout ce qui  est d&eacute;clar&eacute;  dans cette  section sera
+utilisable <em>uniquement</em> (ou  presque, il y a aussi  les amis <a
+href="#fct-amies"><img alt="apres"  src="apres.gif" /></a>) &agrave;
+partir d'une variable de m&ecirc;me classe; ainsi, dans l'exemple ci-dessus,
+le code:</p>
+
+<pre class="demo">
+complexe X;
+...
+<b>X.r=0;</b>
+<b>X.i=0;</b>
+</pre>
+
+<p><img alt="NOOON" src="nepasfaire.png" /> produira   une  erreur   &agrave;   la  compilation,   car
+<code>r</code> et <code>i</code> &eacute;tant des membres priv&eacute;s, ils ne sont
+pas   accessibles  &agrave;   partir  "de   l'ext&eacute;rieur".   Par   contre,  si
+<code>X</code> et  <code>Y</code> sont  deux complexes, le  code &eacute;crit
+<em>dans  les  fonctions-membres   de  la  classe  complexe</em>  peut
+atteindre les variables priv&eacute;es <em>de toutes les variables de type
+complexe</em>,   ainsi  qu'on  le   voit  dans   l'exemple  ci-dessous
+(fonctions <code>init</code> et <code>copie</code>):</p>
+
+<pre class="demo">
+class complexe {
+public:
+   void init(float x, float y) {r=x;   i=y;};
+   void copie(const complexe&amp; y)  {r=y.r; i=y.i;};
+<b>private:</b>
+   float r;
+   float i;
+}   
+</pre>
+
+<h4><a name="priv-nota">Notations</a></h4>
+
+<p>La  fonction  <code>init</code> acc&egrave;de  aux  membres
+priv&eacute;s  de la  variable  elle-m&ecirc;me.  Dans  ce  cas, il  suffit de  les
+appeler par  leur nom de  membre (il ne  peut y avoir  d'ambiguit&eacute;) et
+l'expression <code>r=x</code>  signifie "affecter la  partie r&eacute;elle de
+ce complexe &agrave; la valeur pass&eacute;e par param&egrave;tre".</p>
+
+<p>La  fonction <code>copie</code> acc&egrave;de  aux membres
+priv&eacute;s de  la variable, mais <code>aussi</code> aux  membres priv&eacute;s du
+complexe y. Dans ce cas, il  faut sp&eacute;cifier le nom de variable en plus
+du nom de champ, d'o&ugrave; l'expression <code>y.r</code></p>
+
+<h3><a name="pub">Section public</a></h3>
+
+<p>Tout ce  qui  est d&eacute;clar&eacute;  dans  cette section  sera
+utilisable  depuis l'ext&eacute;rieur de l'objet.  Ainsi,  dans l'exemple  pr&eacute;c&eacute;dent les
+fonctions   <code>init</code>  et   <code>copie</code>   peuvent  &ecirc;tre
+appel&eacute;es depuis le programme principal:</p>
+
+<pre class="demo">
+complexe X;
+...
+X.init(0,0);
+</pre>
+
+<h3><a name="prot">Section protected</a></h3>
+
+<p>Cette section sera  d&eacute;crite plus tard, lorsque nous
+aborderons l'h&eacute;ritage  <a  href="heritage.html"><img
+alt="apres" src="apres.gif" /></a>.</p>
+
+<h3><a name="fct-memb">Fonctions membres </a></h3>
+
+<p>Les membres  d'une  <code>class</code> peuvent  &ecirc;tre
+soit des types, soit des variables, soit des  fonctions. Dans ce
+dernier cas, on parle de fonctions membres, ou encore de m&eacute;thodes.</p>
+
+<h4><a name="def-fct-memb">D&eacute;finition des fonctions-membres</a></h4>
+
+<p>Dans  l'exemple  pr&eacute;c&eacute;dent,  nous avons  d&eacute;clar&eacute;  et
+d&eacute;fini les  deux fonctions-membres  &agrave; l'int&eacute;rieur de  l'objet lui-m&ecirc;me
+(voir   plus  loin   <a   href="surch.html#decl-def"><img  alt="apres"
+src="apres.gif" /></a> la  diff&eacute;rence  entre d&eacute;claration  et
+d&eacute;finition).  Cela offre deux avantages:</p>
+
+<ul>
+  <li>Code plus compact et plus lisible pour de petites fonctions</li>
+  <li>Rapidit&eacute; d'ex&eacute;cution plus importante, car la fonction est ainsi
+      d&eacute;clar&eacute;e implicitement <em>inline</em>, ce qui veut dire que le
+      compilateur mettra directement les instructions dans le code, en
+      &eacute;vitant ainsi la perte de temps d&ucirc;e aux appels de fonctions.</li>
+</ul>
+
+<p>Toutefois, cela est difficilement concevable pour des
+fonctions plus longues. Dans ce cas,  on ne met dans la d&eacute;claration de
+classe que la  d&eacute;claration de la fonction, sa  d&eacute;finition viendra plus
+tard...  oui,  mais alors il  faudra bien sp&eacute;cifier  l'appartenance de
+cette fonction &agrave;  une classe donn&eacute;e. Cela se  fait avec  l'op&eacute;rateur 
+de  port&eacute;e <code>::</code> (Voir ci-dessous les exemples).</p>
+
+<h3><a name="fct-amies">Fonctions et classes amies</a></h3>
+
+<p>Il  est possible de donner l'acc&egrave;s  aux membres
+priv&eacute;s et  prot&eacute;g&eacute;s de  la classe &agrave;  certaines fonctions  d&eacute;finies par
+ailleurs dans le programme, ou &agrave; <em>toutes</em> les fonctions membres
+d'une autre classe: il suffit de d&eacute;clarer ces fonctions ou ces classes
+dans la section <code>public</code> (il s'agit d'une  fonctionnalit&eacute; de l'interface)  en ajoutant
+devant la d&eacute;finition de  fonction le mot-cl&eacute; <code>friend</code>. Nous
+reparlerons des fonctions amies lors de la discussion sur la surcharge
+des    op&eacute;rateurs   <a    href="surch.html#ope-ami"><img   alt="apres"
+src="apres.gif" /></a></p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Une fonction-membre d'une classe a acc&egrave;s aux
+donn&eacute;es priv&eacute;es 
+<i>de tous les objets de sa classe</i>. Cela revient &agrave; dire que
+l'unit&eacute; de protection  
+n'est pas l'objet, mais <i>la classe</i>. Et la notion de fonction
+amie, et surtout de classe amie 
+permet encore d'&eacute;largir cette notion de protection au "groupe de
+classes".  On peut se poser la question suivante: n'y a-t-il pas
+contradiction entre l'encapsulation des  donn&eacute;es d'une part  et cette
+notion d'amies  d'autre part&nbsp;? 
+Bien  &eacute;videmment  si: &agrave;  manier  avec  pr&eacute;caution...  toutefois,  dans
+certains cas,  il est utile  de d&eacute;clarer des classes  amies: certaines
+"abstractions" ne  sont pas n&eacute;cessairement impl&eacute;ment&eacute;es  par une seule
+classe,  mais  par  deux  ou  plusieurs  classes.  Dans  ce  cas,  les
+diff&eacute;rentes  classes  participant &agrave;  cette  abstraction devront  avoir
+acc&egrave;s aux  m&ecirc;mes donn&eacute;es priv&eacute;es...   sans quoi nous  devrons enrichir
+l'interface   de   mani&egrave;re    exag&eacute;r&eacute;e,   au   risque   justement   de
+<em>casser</em> le processus d'encapsulation.</p></div>
+
+<h3><a name="acces-donn">Acc&egrave;s aux donn&eacute;es</a></h3>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+Dans  chaque section, on peut trouver  des types, des
+variables, ou des fonctions.  Cependant, m&ecirc;me si le langage 
+ne  l'impose  pas,  il  est   pr&eacute;f&eacute;rable  de  s'en  tenir  aux  usages
+suivants:</p>
+
+<ul>
+  <li>Les types (&eacute;num&eacute;rations notamment) peuvent &ecirc;tre d&eacute;finis aussi
+      bien dans la section  <code>public</code> que dans la section
+      <code>private</code>.</li> 
+  <li>Les   variables ne seront d&eacute;finies  <em>que</em>   dans   la  section
+      <code>private</code>: en effet, les variables jouent en quelque
+      sorte le r&ocirc;le de squelette de l'objet, elles d&eacute;finissent sa
+      <em>structure interne</em></li>
+  <li>Les fonctions peuvent &ecirc;tre d&eacute;finies aussi bien dans la section
+      <code>private</code> que dans la section <code>public</code>.
+      <ul>
+	<li>Dans la section <code>private</code>, on trouvera les
+	    fonctions qui participent au <em>fonctionnement
+	    interne</em> de l'objet.</li>
+	<li>Dans la section <code>public</code>, on trouvera les
+	    <em>fonctions d'interface</em>. En particulier, on
+	    trouvera des fonctions permettant de modifier les
+	    variables priv&eacute;es (<em>mutator</em>), ou encore des
+	    fonctions permettant de lire la valeur de ces variables
+	    (<em>accessor</em>). Le fait de passer par des fonctions
+	    pour ces op&eacute;rations, plut&ocirc;t que de d&eacute;clarer simplement la
+	    variable dans la section <code>public</code>, offre une
+	    tr&egrave;s grande souplesse, car les fonctions membres peuvent
+	    parfaitement faire autre chose, en interne, que de
+	    simplement &eacute;crire ou lire une variable.</li>
+      </ul></li>
+</ul></div>
+
+<p>Cela permettra  donc de  contr&ocirc;ler  tr&egrave;s pr&eacute;cis&eacute;ment
+l'acc&egrave;s aux donn&eacute;es. La contrepartie  &eacute;tant, bien s&ucirc;r, une plus grande
+lourdeur,  puisqu'il y  a  plus  de fonctions  &agrave;  &eacute;crire. Notre  objet
+<code>complexe</code> pourrait devenir:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   <b>void init(float x, float y)</b> {r=x;   i=y; _calc_module();};
+   <b>copie(const complexe&amp; y)</b>  {r=y.r; i=y.i; m=y.m;};
+   <b>float get_r()</b> { return r;};
+   <b>float get_i()</b> { return i;};
+   <b>void set_r(float x)</b> { r=x; _calc_module();};
+   <b>void set_i(float x)</b> { i=x; _calc_module();};
+   <b>float get_m()</b> {return m;};
+private:
+   float r;
+   float i;
+   float m;
+   void _calc_module();
+}
+
+void complexe::_calc_module() {
+    m = sqrt(r*r + i*i);
+}
+</pre>
+
+<p>Nous   venons   d'introduire  un   nouveau   champ:
+<code>m</code>,    qui   repr&eacute;sente    le    module.    La    fonction
+<code>_calc_module</code>    est   une   fonction    priv&eacute;e,   appel&eacute;e
+automatiquement d&egrave;s  que la partie  r&eacute;elle ou la partie  imaginaire du
+complexe  est  modifi&eacute;e. Ainsi,  les  fonctions <code>set_r</code>  et
+<code>set_i</code>    modifient   les    champs    <code>r</code>   et
+<code>i</code> de  notre objet,  mais elles font  <em>aussi</em> autre
+chose: elles lancent le calcul du module. Il ne serait pas possible
+d'impl&eacute;menter   ce   type   de   fonctionnement  en   utilisant   pour
+<code>r</code> et  <code>i</code> des champs publics. Le  prix &agrave; payer
+est   toutefois    l'existence   des   fonctions   <code>get_r</code>,
+<code>get_i</code>  et <code>get_m</code>,  qui sont  triviales. Etant
+d&eacute;clar&eacute;es  <code>inline</code>  dans  le  corps  de  l'objet,  elles
+ne  causeront 
+cependant  pas  de perte  de  performance.<br />  Par  ailleurs, il  est
+&eacute;vident que le champ  <code>m</code> ne <em>doit pas</em> &ecirc;tre public:
+en effet, si tel &eacute;tait le cas, le code suivant:</p>
+
+<img alt="NOOON" src="nepasfaire.png" />
+<pre class="demo">
+complexe X;
+X.init(5,5);
+<b>X.m=2;</b>
+</pre>
+
+<p>serait   autoris&eacute;    par   le compilateur, avec  un r&eacute;sultat  d&eacute;sastreux
+ (aucune coh&eacute;rence  dans les champs de l'objet). On peut  bien  s&ucirc;r  se demander  s'il  est utile  de
+programmer un objet  complexe de cette mani&egrave;re. Apr&egrave;s  tout, il serait
+aussi simple de  lancer le calcul  du module directement  dans la
+fonction <code>get_m</code>... bien s&ucirc;r, mais cette  mani&egrave;re de faire
+pr&eacute;sente certains avantages:</p>
+
+<ul>
+  <li>L'objet <code>complexe</code> ainsi d&eacute;fini est
+      coh&eacute;rent, puisqu'on est assur&eacute; que le module, maintenu par
+      l'objet lui-m&ecirc;me, sera toujours correct. Et la variable
+      <code>m</code> peut &ecirc;tre utilis&eacute;e par d'autres
+      fonctions membres, puisque l'on est s&ucirc;r qu'elle est en
+      permanence &agrave; jour.</li>
+  <li>Supposons un programme qui initialise de temps en temps des
+      complexes, mais qui passe son temps &agrave; utiliser le module des
+      complexes dans d'autres calculs: cet objet se r&eacute;v&egrave;lera tr&egrave;s
+      performant, puisque le calcul du module ne sera effectu&eacute; que lors
+      de l'initialisation. Cet argument, peut &ecirc;tre tr&egrave;s fort lorsqu'il
+      s'agit de calculs co&ucirc;teux en ressources.</li>
+</ul>
+
+<p>Mais peut-&ecirc;tre  qu'au cours  du  d&eacute;veloppement, nous
+allons justement  nous apercevoir que  le programme passe son  temps &agrave;
+initialiser  des complexes, et  n'utilise le  calcul du  module qu'une
+fois de temps  en temps.  Dans ce cas, l'argument  ci-dessus se renverse,
+et cette impl&eacute;mentation conduit &agrave;  un objet peu performant.  Qu'&agrave; cela
+ne tienne, nous allons r&eacute;&eacute;crire l'objet <em>complexe</em>:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   <b>void init(float x, float y)</b> {r=x;   i=y;};
+   <b>copie(const complexe&amp; y)</b>  {r=y.r; i=y.i;};
+   <b>float get_r()</b> { return r;};
+   <b>float get_i()</b> { return i;};
+   <b>void set_r(float x)</b> { r=x;};
+   <b>void set_i(float x)</b> { i=x;};
+   <b>float get_m()</b> {return sqrt(r*r+i*i);};
+private:
+   float r;
+   float i;
+}
+</pre>
+
+<p>Le nouveau  <code>complexe</code> est plus simple que
+le  pr&eacute;c&eacute;dent, il  calcule  le  module uniquement  lorsque  l'on en  a
+besoin:  il   n'est  donc  plus  n&eacute;cessaire  de   maintenir  le  champ
+<code>m</code>.<br /> Par contre,  il a un autre d&eacute;faut:  &agrave; chaque appel
+de <code>get_m()</code>, le module est recalcul&eacute;, ce qui peut s'av&eacute;rer co&ucirc;teux  si les  appels &agrave;  cette fonction  sont nombreux.   La version suivante de <code>complexe</code> r&eacute;soudra ce probl&egrave;me.  Le module est calcul&eacute;  <em>uniquement</em> en  cas de  besoin, c'est-&agrave;-dire  non pas lors     de    <em>chaque</em>    appel     &agrave;    <code>get_m()</code>, <em>uniquement</em>  lors  du  premier  appel  &agrave;  <code>get_m()</code> suivant une  modification du module.  Voici le code, qui  se complique un peu:</p>
+
+<pre class="demo">
+class complexe {
+public:
+  <b>void init(float x, float y)</b> {r=x; i=y; m=0; m_flg=false;};
+  <b>void copie(const complexe&amp; y )</b>  {r=y.r; i=y.i; m=y.m;};
+  <b>float get_r()</b> { return r;};
+  <b>float get_i()</b> { return i;};
+  <b>void set_r(float x)</b> { r=x; m_flg=false;};
+  <b>void set_i(float x)</b> { i=x; m_flg=false;};
+  <b>float get_m();</b>
+private:
+  float r;
+  float i;
+  <b>bool m_flg;</b>
+  float m;
+  void _calc_module() {m=sqrt(r*r+i*i);};
+};
+
+float complexe::get_m() {
+  if (!m_flg) {
+    _calc_module();
+    m_flg=true;
+  };
+  return m;
+};
+</pre>
+
+<p>Ce qui  est remarquable,  c'est que  dans  ces trois
+versions,  <em>seule l'impl&eacute;mentation  a chang&eacute;</em>.   Autrement dit,
+tout le code qui  <em>utilise</em> cet objet restera identique.  C'est
+tr&egrave;s important,  car ce code  est peut-&ecirc;tre gros, peut-&ecirc;tre  &eacute;crit par
+d'autres  personnes,  etc.  D'o&ugrave;  l'importance  de <em>bien  sp&eacute;cifier
+l'interface</em>,  et  de  ne  mettre  dans  l'interface  <em>que  des
+fonctions</em>:  une  fonction  triviale   un  jour  peut  se  r&eacute;v&eacute;ler
+compliqu&eacute;e le  lendemain, si son interface  est la m&ecirc;me  le passage de
+l'une &agrave;  l'autre sera indolore.  Passer  d'une op&eacute;ration d'affectation
+de membre  &agrave; un  appel de fonction  (ou r&eacute;ciproquement) est  une autre
+histoire...  Cet argument de maintenabilit&eacute; du code vaut largement que
+l'on  &eacute;crive  des  fonctions  triviales  comme  <code>get_r</code>  ou
+<code>get_i</code>...</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+ Il   ne   faut   pas   abuser   des   fonctions
+<code>get_xxx</code> et <code>set_xxx</code>: en effet, attention &agrave; ne
+donner ainsi l'acc&egrave;s <em>qu'&agrave; certains membres</em> priv&eacute;s. Sans cela,
+donner un  acc&egrave;s, m&ecirc;me  r&eacute;duit, &agrave; tous  les membres priv&eacute;s,  risque de
+vous  conduire &agrave;  nier la  notion d'encapsulation  des donn&eacute;es,  et de
+rendre probl&eacute;matique l'&eacute;volution de l'objet.</p></div>
+
+<h3><a name="construct">Constructeurs</a></h3>
+
+<p>Nous avons dit pr&eacute;c&eacute;demment que les types d&eacute;finis par
+l'utilisateur devaient se comporter  "presque" comme les types de base
+du langage. Cela  est loin d'&ecirc;tre vrai pour ce qui  est de notre objet
+<code>complexe</code>: par exemple, pour d&eacute;clarer une variable r&eacute;elle,
+nous  pouvons  &eacute;crire   <code>float  X=2;</code>  Comment  faire  pour
+d&eacute;clarer un objet complexe, tout  en l'initialisant &agrave; la valeur (2,0),
+par exemple ? Actuellement, nous devons &eacute;crire:</p>
+
+<pre class="demo">
+complexe X;
+X.init(2,0);
+</pre>
+
+<p>Ce n'est  pas g&eacute;nial... d'une part le  code est assez
+diff&eacute;rent de ce  qu'il est pour initialiser des  r&eacute;els ou des entiers,
+mais surtout que se passe-t-il  si nous oublions d'appeler la fonction
+init   ?  Cet   oubli   est  possible,   justement  parce   que
+l'initialisation   du  <code>complexe</code>   se   fait  de   mani&egrave;re
+diff&eacute;rente des  autres types.<br /> C'est pour r&eacute;soudre  ce probl&egrave;me que
+le  C++   propose  une  fonction  membre sp&eacute;ciale,  appel&eacute;e
+constructeur. Le constructeur poss&egrave;de deux sp&eacute;cificit&eacute;s:</p>
+
+<ul>
+  <li>Le nom est impos&eacute; (m&ecirc;me nom que le nom de la classe).</li>
+  <li>Il ne renvoie aucune valeur.</li>
+</ul>
+
+<pre class="demo">
+class complexe {
+public:
+  <b>complexe(float x, float y):r(x),i(y),m_flg(true) {_calc_module();};</b> 
+  void copie(const complexe&amp; y )  {r=y.r; i=y.i; m=y.m;};
+  float get_r() { return r;};
+  float get_i() { return i;};
+  void set_r(float x) { r=x; m_flg=false;};
+  void set_i(float x) { i=x; m_flg=false;};
+  float get_m() const;
+private:
+  float r;
+  float i;
+  bool m_flg;
+  float m;
+  void _calc_module() {m=sqrt(r*r+i*i);};
+};
+</pre>
+
+<p>Rien   n'a    chang&eacute;,   &agrave;    part    la   fonction
+<code>init</code>,       remplac&eacute;e      par       le      constructeur
+(<code>complexe</code>).  Mais cela  change tout:  en effet, on peut maintenant  
+&eacute;crire dans  le  programme  utilisateur de  la classe:</p>
+
+<pre class="demo">
+float A = 5;
+...
+<b>complexe X(2,0);</b>
+</pre>
+
+<p>On voit qu'on a une d&eacute;claration "presque" &eacute;quivalente
+&agrave;  ce  qu'on  a  avec   un  type  pr&eacute;d&eacute;fini.  La  diff&eacute;rence  provient
+<em>uniquement</em>  de ce que  nous avons  besoin de  deux param&egrave;tres
+pour initialiser un complexe, et non  pas un seul comme pour un entier
+ou un r&eacute;el. Mais nous verrons au paragraphe suivant qu'il y a moyen de
+faire encore mieux.</p>
+
+<h4><a name="construct-predef">Constructeur pr&eacute;d&eacute;fini</a></h4>
+
+<p>En  fait, il n'est pas indispensable  de d&eacute;finir un
+constructeur:  si l'on supprime  le constructeur  de la  d&eacute;finition de
+classe pr&eacute;c&eacute;dente, le programme  compilera toujours. Simplement, il ne
+sera  pas possible d'initialiser  explicitement l'objet.   En d'autres
+termes,  l'expression  <code>complexe   X;</code>  sera  valide,  mais
+l'expression   <code>complexe  X(0,0)</code>   sera  refus&eacute;e   par  le
+compilateur.  Le compilateur  appellera simplement le constructeur par
+d&eacute;faut  de l'objet... Attention toutefois, celui-ci n'initialisera pas les membres de l'objet.</p>
+
+ <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+ Le (ou les, cf. plus loin)
+constructeurs d&eacute;finis pas l'utilisateur ne s'ajoutent pas au
+constructeur par d&eacute;faut, ils le <em>remplacent</em>. Autrement dit,
+nous avons le choix entre:</p>
+
+<ul>
+  <li>Une classe <code>complexe</code> sans constructeur. Dans ce cas,
+      l'expression <code>complexe C;</code> sera accept&eacute;e, mais
+      l'expression <code>complexe&nbsp;C(0,0);</code> sera refus&eacute;e.</li>
+  <li>Une classe <code>complexe</code> avec constructeur, telle que
+      d&eacute;finie ci-dessus. Dans ce cas, l'expression <code>complexe&nbsp;C;</code> 
+      sera refus&eacute;e, mais l'expression <code>complexe&nbsp;C(0,0)</code> sera accept&eacute;e.</li>
+</ul>
+
+<p>Bien  s&ucirc;r, il  y a  moyen de  d&eacute;passer ces  limitations,  nous verrons comment  un   peu  plus  tard   <a href="surch.html#valdef-construc"><img alt="apres" src="apres.gif" /></a>.</p>
+</div>
+ <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+ Si vous d&eacute;finissez votre constructeur par d&eacute;faut, attention &agrave; bien initialiser <em>tous</em> les membres de votre objet: le constructeur par d&eacute;faut du syst&egrave;me est compl&egrave;tement d&eacute;sactiv&eacute;, vous devez tout initialiser explicitement.</p></div>
+ 
+<h4><a name="init-memb">Initialisation des membres</a></h4>
+
+<p>Le constructeur est le lieu id&eacute;al pour faire deux choses:</p>
+
+<ul>
+  <li>Initialiser les donn&eacute;es membres</li>
+  <li>Allouer des ressources (m&eacute;moire en particulier, mais aussi
+      &eacute;ventuellement ouverture d'une connexion r&eacute;seau, cr&eacute;ation d'un
+      fichier, etc).</li>
+</ul>
+
+<p>En  fait, ces  deux  actions  sont diff&eacute;rentes.   Il
+existe une  syntaxe particuli&egrave;re, permettant  de mettre en  valeur ces
+diff&eacute;rences: l'initialisation des membres peut se faire <em>avant</em>
+le bloc de d&eacute;finition de la fonction constructeur, mais <em>apr&egrave;s</em>
+le nom de la fonction, comme on le voit dans le code suivant:</p>
+
+<pre class="demo">
+class complexe {
+private:
+   float r;
+   float i;
+   ...
+public:
+   <b>complexe(float x, float y) : r(x), i(y), m(0), m_flg(false) { };</b> 
+   ...
+}
+</pre>
+
+<p>Cette mani&egrave;re de  proc&eacute;der est int&eacute;ressante, car elle
+s&eacute;pare  proprement les deux  fonctions du  constructeur: initalisation
+des membres  d'une part, ex&eacute;cution de  code (allocation
+de m&eacute;moire  ou autre ressource)  d'autre part. S'il n'y a rien d'autre &agrave; faire
+que des initialistations, le corps de la fonction peut &ecirc;tre vide: dans ce cas, on doit &eacute;crire
+des accolades vides <code>{}</code> &agrave; la suite de la liste d'initialisation. </p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Lorsqu'un membre est d&eacute;clar&eacute; en tant
+que r&eacute;f&eacute;rence, la <em>seule mani&egrave;re</em> de l'initialiser est de passer par la liste d'initialisation:</p>
+
+<pre class="demo">
+class objet {
+private:
+   <b>complexe&amp; X;</b>
+   ...
+public:
+   <b>object (const complexe&amp; C) : X(C) {};</b>
+};
+</pre></div>
+
+<h3><a name="destruct">Destructeur</a></h3>
+
+<p>Nous  avons vu qu'une fonction,  le constructeur, est
+appel&eacute;e  lors de  la  cr&eacute;ation de  la  variable.  De  m&ecirc;me, une  autre
+fonction, le <em>destructeur,</em> est appel&eacute;e lors de sa destruction.
+Le destructeur poss&egrave;de les sp&eacute;cificit&eacute;s suivantes:</p>
+
+<ul>
+  <li>Le nom est impos&eacute; (caract&egrave;re ~ suivi du nom de la classe)</li>
+  <li>Il ne renvoie rien.</li>
+  <li>Il ne prend pas de param&egrave;tre</li>
+</ul>
+
+<p>Un des  r&ocirc;les  du constructeur  est  de demander  au
+syst&egrave;me  certaines ressources: fichier, m&eacute;moire,  etc.   Il faut
+bien un jour rendre la ressource au syst&egrave;me, c'est pr&eacute;cis&eacute;ment le r&ocirc;le
+du destructeur: fermeture de fichier, lib&eacute;ration de m&eacute;moire,...</p>
+
+<h4><a name="compl-debug">Le type complexe en mode debug</a></h4>
+
+<p>A titre  d'exemple pour l'utilisation du constructeur
+et  du destructeur,  nous allons  adjoindre un  syst&egrave;me de  d&eacute;bogage &agrave;
+notre objet  <code>complexe</code>: le constructeur  &eacute;crira un message
+sur  l'erreur standard,  tandis  que le  destructeur  &eacute;crira un  autre
+message.   Ainsi, m&ecirc;me  dans le  code le  plus compliqu&eacute;,  nous aurons
+toujours  une  trace  de  la  cr&eacute;ation  ou de  la  destruction  de  la
+variable. Cela pourrait s'&eacute;crire de la mani&egrave;re suivante:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   <b>complexe(float x, float y);
+   ~complexe();</b>
+   ...
+private:
+   ...
+}
+
+<b>complexe::complexe(float x, float y):r(x),i(y),m_flg(false) {
+   cerr &lt;&lt; "Creation d'un objet de type complexe\n";
+}</b>
+
+<b>complexe::~complexe()</b> {
+   cerr &lt;&lt; "Destruction d'un objet de type complexe\n";
+}
+
+main() {
+   ...
+   if (...) {
+      <b>complexe A(0,0);</b>   // Appel du constructeur
+      ...
+   };                                     // Appel du destructeur
+</pre>
+
+<p>A  l'ex&eacute;cution, ce  programme enverra un  message sur
+l'erreur standard  d&egrave;s que l'instruction  <code>complex A(0,0);</code>
+sera  ex&eacute;cut&eacute;e  (c'est-&agrave;-dire &agrave;  l'entr&eacute;e  du  <code>if</code>), et  &agrave;
+nouveau lors de la destruction  de la m&ecirc;me variable, c'est-&agrave;-dire lors
+du passage sur l'accolade  fermante (<code><b>}</b></code>) (fin de la
+port&eacute;e de la variable).</p>
+
+<h3><a name="static">Le descripteur <code>static</code></a></h3>
+
+<p>Le  code ci-dessus envoie  un message lors  de chaque
+appel  du constructeur  et du  destructeur.  Cela  peut &ecirc;tre  une aide
+pr&eacute;cieuse  lors de  la  mise au  point  du programme,  mais il  serait
+souhaitable de pouvoir inhiber ce fonctionnement: lorsque
+le  programme sera  mis en  exploitation,  le mode  debug n'aura  plus
+aucune  raison d'&ecirc;tre.   M&ecirc;me en  p&eacute;riode de  d&eacute;boguage,  nous voulons
+avoir la possibilit&eacute; de passer  ponctuellement en mode d&eacute;bug, ou de le
+d&eacute;sactiver. Voici un premier essai:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   complexe(float x, float y): r(x),i(y),m_flg(false),<b>debflg(false)</b> {};
+   ~complexe();
+   <b>void set_debug() { debflg=true;};
+   void clr_debug() { debflg=false;};</b>
+   ...
+private:
+   ...
+   <b>bool debflg;</b>
+}
+
+complexe::complexe(float x, float y) {
+   ...
+   <b>if (debflg) {cerr &lt;&lt; "Creation d'un objet de type complexe\n";};</b>
+}
+
+~complexe::complexe() {
+   <b>if (debflg) {cerr &lt;&lt; "Destruction d'un objet de type complexe\n";};</b>
+}
+</pre>
+
+<p>Ce code nous pose deux probl&egrave;mes:</p>
+
+<ol>
+  <li>Le constructeur n'enverra jamais de message: en effet,
+      <code>debflg</code> est false par d&eacute;faut, et l'objet aura d&eacute;j&agrave; &eacute;t&eacute;
+      cr&eacute;&eacute;, donc le constructeur aura d&eacute;j&agrave; &eacute;t&eacute; appel&eacute; lorsque nous
+      serons en mesure d'appeler la fonction <code>set_debug</code>.</li>
+  <li>Il serait fastidieux... et pour tout dire sujet &agrave; bien des
+      erreurs, d'appeler <code>set_debug</code> ou
+      <code>clr_debug</code> pour chaque objet, de mani&egrave;re
+      individuelle. Nous avons besoin au contraire d'un membre et
+      d'une fonction-membre qui puisse contr&ocirc;ler le mode debug
+      simultan&eacute;ment pour <em>tous</em> les objets <code>complexe</code>.</li>
+</ol>
+
+<h4><a name="static-memb">Une donn&eacute;e membre statique</a></h4>
+
+<p>La d&eacute;claration suivante r&eacute;sout une partie de notre probl&egrave;me:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   complexe(float x, float y): r(x),i(y),m_flg(false) {};
+private:
+   ...
+   <b>static</b> bool debflg;
+}
+</pre>
+
+<p>Le   descripteur  <code>static</code>  signifie  que
+<code>debflg</code> est un membre <em>commun &agrave; tous les objets de type
+<code>complexe</code></em>:   alors  qu'un   membre   "ordinaire"  est
+sp&eacute;cifique &agrave; chaque <em>objet</em>, un membre statique sera sp&eacute;cifique
+&agrave; chaque  <em>classe d'objet</em>. Du point-de-vue  de l'allocation 
+m&eacute;moire, on peut consid&eacute;rer qu'il s'agit d'une r&eacute;f&eacute;rence &agrave; une z&ocirc;ne de
+m&eacute;moire allou&eacute;e ailleurs. Du coup:</p>
+
+<ul>
+  <li>la d&eacute;claration <code>static bool debflg</code> ne provoquera pas
+      de nouvelle allocation m&eacute;moire</li>
+  <li>il est interdit d'initialiser ce  membre comme on le ferait avec
+      un  membre  ordinaire.</li>
+</ul>
+
+<p>Cette  seconde  restriction est  compr&eacute;hensible;  en
+effet,  un initialisateur  pos&eacute;  au m&ecirc;me  endroit  que la  d&eacute;claration
+aurait  pour  cons&eacute;quence la  r&eacute;initialisation  du  membre statique  &agrave;
+chaque cr&eacute;ation de  variable de type complexe.  Ce  qui rendrait ledit
+membre compl&egrave;tement  inutile. Il  faudra donc avoir  quelque part
+dans le code une déclaration et initalisation de variable:</p>
+
+<pre class="demo">
+bool complexe::debflg=false;
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />La ligne de code ci-dessus correspond à une allocation 
+de mémoire, elle n'est pas concernée par les restrictions d'accès (section private de l'objet). Il s'agit d'une directive donnée au 
+compilateur pour allouer de la mémoire, pas d'une ligne de code exécutable.</p>
+<p><img alt="ATTENTION" src="attention.gif" />Les variables statiques ressemblent en effet à des
+variables globales, en ce sens que la mémoire est allouée dans la partie statique des données, c'est-à-dire dès que
+le programme démarre: leur durée de vie est égale à celle du programme. Par contre, elles sont protégées par
+les mêmes mécanismes qu'un membre ordinaire d'objet.</p></div>
+
+<h4><a name="static-fct-memb">Fonctions membres statiques</a></h4>
+
+<p>Le   code  ci-dessus   pr&eacute;sente   encore  un   gros
+inconv&eacute;nient:  il  est impossible  de  jouer avec  <code>debflg</code>
+avant    d'avoir    cr&eacute;&eacute;   au    moins    une    variable   de    type
+<code>complexe</code>. La solution  est d'utiliser, en  plus du  membre statique
+<code>debflg</code>,    deux   <em>fonctions-membres</em>   statiques;
+<code>set_debug</code>  et  <code>clr_debug</code>.  De m&ecirc;me  que  les
+membres  statiques  sont  <em>li&eacute;s  &agrave; une  classe  d'objets</em>,  les
+fonctions-membres statiques sont  <em>li&eacute;es &agrave; une classe d'objet</em>,
+pas &agrave; un objet.</p>
+
+<p>Le code devient alors:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   ...
+   <b>static</b> void set_debug() { debflg=1;};
+   <b>static</b> void clr_debug() { debflg=0;};
+private:
+   ...
+   static bool debflg;
+   ...
+};
+
+bool complexe::debflg=false;
+
+main () {
+   <b>complexe::set_debug();</b>        // passe en mode debug
+   ...
+   <b>complexe::clr_debug();</b>        // sort du mode debug
+</pre>
+
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Les membres statiques ou les fonctions-membres statiques sont des choses
+<em>tr&egrave;s diff&eacute;rentes</em> des membres ou fonctions-membres ordinaires:</p>
+
+<ul>
+  <li>Ils ob&eacute;issent aux r&egrave;gles de port&eacute;e des membres</li>
+  <li>Les fonctions-membres statiques ont le droit d'acc&eacute;der aux
+      membres priv&eacute;s de l'objet, par contre ils doivent pour cela 
+      utiliser le pointeur <code>*this</code> <a  href="#this"><img alt="apres" src="apres.gif" /></a></li>
+</ul>
+</div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Les fonctions membres statiques ressemblent beaucoup aux fonctions amies
+<a  href="#fct-amies"><img alt="avant" src="avant.gif" /></a>:</p>
+
+<ul>
+  <li>De m&ecirc;me qu'une fonction amie de la classe, elles ont acc&egrave;s &agrave;
+      l'ensemble des membres et des fonctions membres (private,
+      protected, public) de celle-ci.</li>
+  <li>Par contre, une fonction amie peut &ecirc;tre:
+      <ul>
+	<li>Soit une fonction "ordinaire"</li>
+	<li>Soit une fonction membre d'une autre classe</li>
+      </ul>
+      Une fonction membre statique d'une classe est... uniquement une
+      fonction membre de cette classe: c'est donc uniquement 
+      la port&eacute;e qui diff&eacute;rencie fonction membre statique et fonction
+      amie.</li>
+</ul></div>
+
+<h3><a name="const">Le descripteur const</a></h3>
+
+<p>Le descripteur  <code>const</code> est  un  des plus
+utilis&eacute;s parce que tr&egrave;s utile, mais  il est aussi un des plus d&eacute;licats
+&agrave;    utiliser.    Toute   variable    peut    &ecirc;tre   d&eacute;clar&eacute;e    comme
+<code>const</code>,  ce  qui  veut  dire  que cette  variable  est  en
+fait... une constante.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Puisqu'il sera  impossible, une fois la constante
+d&eacute;clar&eacute;e,  de  modifier  sa  valeur,  il  est indispensable  de l'initialiser.  
+ Donc l'expression <code>const&nbsp;int&nbsp;A;</code>  produira un
+message d'erreur,  alors que <code>const&nbsp;int&nbsp;A=5;</code> sera accept&eacute;
+par  le   compilateur.</p></div>
+
+<h4>const, pourquoi faire ?</h4>
+
+<p>Il est utile, par exemple lorsqu'on passe
+un objet  par r&eacute;f&eacute;rence  &agrave; une fonction,  d'exprimer le fait  que cet
+objet  est  constant,  c'est-&agrave;-dire   que  toute  op&eacute;ration  visant  &agrave;
+<em>modifier  explicitement </em>  l'objet doit  &ecirc;tre  interdite.
+<a  href="#desc-const"><img alt="avant" src="avant.gif" /></a></p>
+
+<h4>membres constants</h4>
+
+<p>Un objet  peut  avoir une  donn&eacute;e membre  constante.
+Soit  une   classe  appel&eacute;e  <code>tableau</code>.  Dans  son constructeur, cette classe  alloue de  la m&eacute;moire pour  un tableau d'entiers.  La  m&eacute;moire est rendue au syst&egrave;me dans le destructeur.  La taille du
+tableau est constante durant  toute la dur&eacute;e de vie de l'objet
+(une fois  que le tableau existe,  il n'est pas pr&eacute;vu  qu'on puisse lui
+changer sa taille).  Par contre, la taille du  tableau peut &ecirc;tre choisie
+lors de la construction de  l'objet. <br /> Afin de faire ressortir dans
+le code cette  sp&eacute;cificit&eacute;, et afin d'&ecirc;tre s&ucirc;r  qu'un bogue ne modifie
+pas  la taille  du tableau  inopin&eacute;ment, on  utilise une  donn&eacute;e membre
+constante.</p>
+
+<pre class="demo">
+class tableau {
+public:
+  tableau(int);
+  ~tableau() {free buffer; buffer = NULL;};
+private:
+  <b>const</b> size_t dimension;
+  int* buffer;
+};
+
+tableau::tableau(int s) : <b>taille(s)</b> {
+  buffer = (int *) malloc ( taille * sizeof(int) );
+};
+
+void main() {
+  tableau TAB(1000);
+};
+</pre>
+
+<h4>Objets constants</h4>
+
+<p>Il  est bien  s&ucirc;r possible d'utiliser  le descripteur
+<code>const</code> avec  des objets, pas seulement  avec des variables
+de types pr&eacute;d&eacute;finis.</p>
+
+<h5>Les fonctions membres constantes</h5>
+
+<p>Par  exemple,  si  nous  retournons  &agrave;  notre  objet
+complexe, on pourrait d&eacute;finir  le complexe constant i par: <code>const
+complexe i(0,i);</code>Oui, mais  nous avons un probl&egrave;me: le code
+suivant ne compilera jamais.<img alt="NOOON" src="nepasfaire.png" /></p>
+
+<pre class="demo">
+class complexe {
+public:
+   complexe(float, float);
+   float get_r() { return r;};
+   float get_i() { return i;};
+   ...
+private:
+   float r;
+   float i;
+   ...
+};
+main() {
+   const complexe i(0,1);
+   <b>float X = i.get_i();</b>
+}
+</pre>
+
+<p>En  effet,  <em>personne</em>  ne peut  garantir  au
+compilateur que  la fonction <code>get_i()</code> ne  va pas elle-m&ecirc;me
+modifier l'objet  i. Il est clair  que <em>certaines</em>  fonctions-membres doivent
+&ecirc;tre utilisables  sur des objets  constants (<code>get_r, get_i</code>
+par exemple),  parce qu'elles ne  vont <em>pas modifier</em>  cet objet
+(ce  sont  des <em>accessor</em>),  alors  que  d'autres fonctions  ne
+peuvent   pas   &ecirc;tre   utilis&eacute;es   dans  ce   contexte   (<code>set_r,
+set_i</code>),  car   elles  vont   modifier  l'objet  (ce   sont  des
+<em>mutator</em>).  Il suffit  d'ajouter le mot-cl&eacute; <code>const</code>
+<em>apr&egrave;s</em> la d&eacute;finition de  la fonction pour d&eacute;finir un accessor.
+Dans ce cas, toute tentative de modification de l'objet (qui serait une incoh&eacute;rence dans le code) sera d&eacute;tect&eacute;e par le compilateur.  Notre
+objet complexe s'&eacute;crit donc:</p>
+
+<pre class="demo">
+class complexe {
+private:
+   float r;
+   float i;
+   ...
+public:
+   complexe(float, float);
+   float get_r() <b>const</b> { return r;};
+   float get_i() <b>const</b> { return i;};
+   ...
+};
+main() {
+   const complexe i(0,1);
+   float X = i.get_i();
+}
+</pre>
+
+<h5>Le descripteur mutable</h5>
+
+<p>Essayons d'utiliser le descripteur <code>const</code>
+avec le complexe troisi&egrave;me version &eacute;crit plus haut. Il y a un probl&egrave;me
+avec la fonction <code>get_m()</code>. En effet, pour pouvoir utiliser
+cette  fonction avec  un  objet  constant, il  faut  lui attribuer  le
+descripteur  <code>const</code>...  Or,  le compilateur  refusera, car
+<code>get_r()</code> ne fait pas que  de renvoyer la valeur du module,
+il  lui arrive &eacute;galement  de le  <em>calculer</em>. Donc,  les membres
+<code>m</code>   et  <code>flg_m</code>   seront  modifi&eacute;s.    Que  se
+passe-t-il  ?    Cela  veut-il  dire  que   cette  impl&eacute;mentation  est
+incompatible avec  le fait  de d&eacute;clarer des  complexes constants  ? Ce
+serait une s&eacute;v&egrave;re limitation:  c'est l'impl&eacute;mentation la plus efficace ! Pour   s'en  sortir,  il   faut  tout  d'abord   remarquer  que
+<code>get_m</code>  ne va  pas  <em>r&eacute;ellement</em> modifier  l'objet.
+Cette fonction  modifie deux membres  priv&eacute;s, mais <em>uniquement</em>
+pour des raisons d'impl&eacute;mentation.  En fait, vis-&agrave;-vis de l'ext&eacute;rieur,
+rien  n'a   chang&eacute;:  on  parle  de   <em>constante  logique</em>,  par
+opposition aux  <em>constantes physiques</em>.  Les champs  qui ont le
+droit  de varier  tout en  laissant l'objet  constant  du point-de-vue
+logique sont  affubl&eacute;s du descripteur  <code>mutate</code>. Dans notre
+cas,      il     s'agit      des     champs      <code>m</code>     et
+<code>m_flg</code>. L'objet devient alors:</p>
+
+<pre class="demo">
+class complexe {
+public:
+  ...
+  float get_r() const { return r;};
+  float get_i() const { return i;};
+  float get_m() const;
+private:
+  ...
+  <b>mutable</b> bool m_flg;
+  <b>mutable</b> float m;
+  void _calc_module() const {m=sqrt(r*r+i*i);};
+};
+
+float complexe::get_m() const {
+  if (!m_flg) {
+    _calc_module();
+    m_flg=true;
+  };
+  return m;
+};
+</pre>
+
+<h3><a name="this">Le pointeur *this</a></h3>
+
+<p>Supposons que  l'on veuille  modifier &agrave;  la  fois la
+valeur de  la partie r&eacute;elle  et la valeur  de la partie  imaginaire de
+notre nombre complexe. Nous pouvons &eacute;crire le code suivant:</p>
+
+<pre class="demo">
+complexe C(0,0);
+C.set_r(2);
+C.set_i(3);
+</pre>
+
+<p>Or, les fonctions <code>set_r</code> et <code>set_i</code> agissent sur le complexe C. Il est utile de se
+d&eacute;brouiller pour qu'elles renvoient le complexe qu'elles viennent de modifier, plut&ocirc;t que rien du tout. Cela permet par exemple d'&eacute;crire le code suivant:</p>
+
+<pre class="demo">
+C.set_r(2).set_i(3);
+</pre>
+
+<p>Cette expression ne peut avoir un sens que si  la  valeur
+renvoy&eacute;e par <code>set_r(2)</code>  est une <em>r&eacute;f&eacute;rence</em> vers le
+m&ecirc;me  objet que  <code>C</code>: dans  ce  cas <code>C.set_r(2)</code> ex&eacute;cute la fonction  <code>set_r(2)</code>, renvoie <code>C</code>, de sorte   que <code>C.set_r(2).set_r(3)</code>   est   &eacute;quivalent   &agrave; <code>C.set_r(3)</code><br /> Le  C++ offre un  outil pour arriver  &agrave; ce
+r&eacute;sultat: il s'agit du pointeur <code>*this</code>. Ce pointeur est une    variable   priv&eacute;e   pr&eacute;d&eacute;finie   qui   pointe
+<em>toujours</em> sur l'objet dans  lequel on se trouve.  Pour arriver
+au r&eacute;sultat ci-dessus, il  suffira donc de renvoyer <code>*this</code>
+comme valeur  de retour.  D'o&ugrave;  la d&eacute;finition suivante des fonctions
+<code>set_xxx</code>:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   <b>complexe&amp;</b> set_r(float x) { r=x; return *this;};
+   <b>complexe&amp;</b> set_i(float y) { r=y; return *this;};
+private:
+   ...
+</pre>
+
+<p>Le pointeur <code>*this</code> est tr&egrave;s utilis&eacute; pour les op&eacute;rateurs, et prendra tout son sens avec eux <a  href="surch.html"><img alt="apres"
+src="apres.gif" /></a>. Voil&agrave; au passage une nouvelle  utilisation de la r&eacute;f&eacute;rence en tant que
+valeur de retour d'une fonction <a  href="#ptr-retref"><img alt="avant" src="avant.gif" /></a>.</p>
+
+<h4>Utilisation de this pour nommer les variables</h4>
+
+<p>Dans les exemples pr&eacute;c&eacute;dents, on s'est toujours arrang&eacute; pour donner un nom diff&eacute;rent &agrave; la varaible membre d'un objet et au param&ecirc;tre du constructeur. En effet, il faut &eacute;viter d'utiliser des constructions dans le genre <code>x(x)</code> ou <code>x=x</code>. <code>this</code> permet d'&eacute;viter de se creuser trop la t&ecirc;te:</p>
+
+<pre class="demo">
+class complexe {
+public:
+   complexe(float r, float i): this->r(r),this->i(i),...{};
+private:
+   float x,y;
+}
+</pre>
+
+<p><a href="#">top</a></p><hr />
+
+<h4><img alt="Les autres ?" src="dechirure.gif"  width="20" />
+Autres langages objets...</h4>
+
+<table class="tableau">
+  <tr>
+    <th align="center"> Langage </th>
+    <th align="center"> class </th>
+    <th align="center"> private, public, protected </th>
+    <th align="center"> Fonctions membres </th>
+    <th align="center"> Constructeurs </th>
+    <th align="center"> Destructeurs </th>
+    <th align="center"> Fonctions amies </th>
+    <th align="center"> Fonctions membres statiques </th>
+    <th align="center"> Donn&eacute;es membres statiques </th>
+    <th align="center"> Donn&eacute;es ou fonctions membres const </th>
+    <th align="center"> Pointeur this </th>
+  </tr>
+  <tr>
+    <td><b>C++</b> </td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>perl</b></td>
+    <td>NON</td><td>NON</td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td>NON</td>
+    <td>NON</td><td><b>OUI</b></td>
+    <td>NON</td><td>NON(1)</td>
+  </tr>
+  <tr>
+    <td><b>java</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td>NON</td><td>NON</td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td>NON</td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>python</b></td>
+    <td><b>OUI</b></td><td>NON</td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td>NON</td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td>NON</td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>php5</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td><b>OUI</b></td><td>NON</td>
+    <td><b>OUI</b></td><td><b>OUI</b></td>
+    <td>(seulement données)</td><td><b>OUI</b></td>
+  </tr>
+</table>
+<ol>
+  <li>Le tableau associatif <code>%self</code> dans lequel on met g&eacute;n&eacute;ralement les donn&eacute;es des objets en perl, joue toutefois le m&ecirc;me r&ocirc;le que <code>this</code>.</li>
+</ol>
+
+<p><a href="#">top</a></p><hr />
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+<a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a>
+</address>
+</div>
+</body> </html>
+

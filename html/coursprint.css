@@ -1,0 +1,104 @@
+body {
+    background-color: white;
+    font-family: times;
+    font-size: 10pt;
+}
+
+@page {
+    size: 21.0cm 29.7cm;
+    margin: 1cm;
+}
+
+hr { 
+    text-align: left; 
+    width: 10%; 
+}
+
+h1 {
+    text-align: center;
+    font-size: 300%; 
+    clear: both;
+}
+
+h2 { font-size: 200%; }
+h3 { font-size: 150%; }
+h4 { font-size: 110%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; font-style:italic; font-weight: lighter; }
+
+
+p,ul,dl,table { 
+    margin-left: .5cm; 
+    margin-right: .5cm; 
+    text-align: justify;
+    widows: 4;
+    orphans: 4;
+}
+
+div.attention {
+    margin-left: 2cm; 
+    margin-right: 2cm; 
+    text-align: justify;
+    border-left: 3pt solid red; 
+    padding-left: 1pt;
+}
+
+div.regle {
+    margin-left: 2cm; 
+    margin-right: 2cm; 
+    text-align: justify;
+    border-left: double blue; 
+    padding-left: 1pt;
+}
+
+div.autres {
+    margin-left: 2cm; 
+    margin-right: 2cm; 
+    text-align: justify;
+    border-left: 2pt DOTTED BLACK;
+    padding-left: 1pt;
+}
+
+div.table {
+    text-align: center;
+}
+
+em.red { 
+    color: red;
+}
+
+pre.demo {  
+    background-color: #DDDDDD; 
+    margin-left: 2cm; 
+    margin-right: 2cm;
+    font-family: courier;
+    widows: 4;
+    orphans: 4;
+}
+code {
+    font-family: courier;
+    font-weight: bolder;
+}
+
+img { 
+    border: 0px;
+}
+
+img.noprint {
+    display: none;
+}
+
+/* Le menu */
+
+#menu,#bouton_menu {
+    display: none;
+    visibility:hidden;
+}
+
+div#contenu {
+    background-color: white;
+    margin:2.8em auto;
+    padding: 0.7em;
+    width:90%;
+}
+

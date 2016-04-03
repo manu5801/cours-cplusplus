@@ -1,0 +1,694 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>H&eacute;ritage</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+ <dd id="smenu1">
+ <ul>
+	<li><a onclick="javascript=cacher_menu()" href="heritage.html#abstraites">Classes abstraites...</a></li> 
+    <li><a onclick="javascript=cacher_menu()" href="heritage.html#concretes">...Classes concr&ecirc;tes</a> 
+	<ul>
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#prot">Acc&egrave;s aux donn&eacute;es: la section protected</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#const">Constructeurs...</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#copie">Le constructeur de copie</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#autres-const">Autres constructeurs</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#dest">...et destructeurs</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#poly">Le polymorphisme</a></li>
+	</ul></li>
+    <li><a onclick="javascript=cacher_menu()" href="heritage.html#abc">Classes de bases abstraites</a>
+    <ul>
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-const">Constructeurs virtuels...</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-dest">...et destructeurs virtuels</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-fct-const-dest">Appel de fonctions virtuelles depuis le constructeur ou le destructeur</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="heritage.html#affect">L'op&eacute;rateur d'affectation dans une classe de base</a></li> 
+	</ul></li>
+    <li><a onclick="javascript=cacher_menu()" href="heritage.html#mult">L'h&eacute;ritage multiple</a>
+    <ul>
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#mult">Impl&eacute;mentation du "pattern" observateur en utilisant l'h&eacute;ritage multiple</a></li>
+    </ul></li>
+	</ul>
+    </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#heritage" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+<h1 id="heritage">H&eacute;ritage</h1>
+
+<p>Jusqu'&agrave; pr&eacute;sent, nous  avons vu comment d&eacute;finir des
+classes, qui permettront de cr&eacute;er des objets dans notre programme. Or,
+pour  l'instant,  nous  ne  pouvons  exprimer que certaines relations entre  nos  objets: 
+les relations d'association, d'agr&eacute;gation et de composition, qui s'expriment 
+par le fait  qu'une donn&eacute;e membre d'un objet peut
+&ecirc;tre elle aussi un objet. L'h&eacute;ritage est l'outil qui va nous permettre
+d'exprimer entre nos classes une  relation de type "est une sorte de".
+Cet outil  est tr&egrave;s puissant, car  gr&acirc;ce &agrave; lui  nous pourrons d&eacute;clarer
+des classes d'objets tr&egrave;s g&eacute;n&eacute;raux, puis progressivement "sp&eacute;cialiser"
+ces classes  d'objets. Cette sp&eacute;cialisation est  aussi une "extension"
+de la classe  de base: si l'on reste dans les  g&eacute;n&eacute;ralit&eacute;s, on n'a pas
+grand-chose  &agrave;  dire.  Plus  les  choses  se  pr&eacute;cisent, plus  on doit d&eacute;tailler.
+ Donc  &agrave; chaque &eacute;tape du  processus, on rajoutera  du code.  Le
+fait de partir  d'une classe de base g&eacute;n&eacute;rale  permet  d'exprimer directement dans le code des concepts abstraits</p>
+
+<h2 id="abstraites">Classes abstraites...</h2>
+
+<p>Reprenons  l'exemple des machines &agrave;  caf&eacute; abord&eacute; lors
+de l'introduction  &agrave; la programmation  objet pour les gens  normaux <a
+href="progobj.html#cafeteria"><img     alt="avant"     src="avant.gif" /></a>.
+Posons-nous la question suivante: "qu'est-ce qu'un cafeti&egrave;re ?" On peut aussi poser la question autrement: "Quels sont les <em>points communs</em> &agrave; toutes les cafeti&egrave;res ?".</p>
+
+<p>Une petite r&eacute;flexion montre qu'une cafeti&egrave;re est une machine qui est capable de:</p>
+
+<ul>
+   <li>faire du caf&eacute;</li>
+   <li>Produire un syst&egrave;me de voyants permettant &agrave; l'utilisateur de lire son &eacute;tat.</li>
+   <li>Prendre un gobelet, une cuiller, un peu d'eau chaude, &agrave; partir de trois r&eacute;servoirs distincts.</li>
+</ul>
+
+<p> Nous devrons donc avoir deux fonctions: <code>faire_le_cafe</code> d'une part, <code>lire_etat</code> d'autre part. Mais quel code mettrons-nous dans ces fonctions, puisque &agrave; ce stade nous n'avons aucune id&eacute;e de la mani&egrave;re dont le caf&eacute; serait fait ? La r&eacute;ponse est simple: nous ne mettrons... rien ! Par contre, nous pouvons d'ores et d&eacute;j&agrave; impl&eacute;menter les m&eacute;canismes concernant les r&eacute;servoirs cit&eacute;s ci-dessus. D'o&ugrave; la mod&eacute;lisation UML suivante:</p> 
+
+<p class="uml"><img alt="cafetiere en UML" src="heritage/cafetiere.png" /></p>
+
+<p>et le code suivant:</p>
+
+<pre class="demo">
+class Cafetiere {
+   public:
+      <strong>virtual void faire_le_cafe() = 0;
+      virtual int lire_etat() = 0;</strong>
+      void encaisser_monnaie();
+  
+   <strong>protected:</strong>
+      void verser_eau();
+      void sucre();
+      void donner_gobelet();
+      void donner_cuiller();
+      
+   private:
+      ReservoirEau eau;
+      ReservoirSucre sucre;
+      ReservoirGobelets gobelets;
+      ReservoirCuillers cuillers;
+}
+</pre>
+
+<p>La syntaxe <code>virtual faire_le_cafe() = 0</code> permet de d&eacute;finir une <strong>fonction virtuelle pure</strong>: on se contente ici de dire au compilateur que les objets <code>Cafetiere</code> seront dot&eacute;s de cette fonction, mais nous lui dirons ult&eacute;rieurement ce que ces fonctions devront faire concr&egrave;tement. Le diagramme UML met ces fonctions <em>en italique</em>.</p>
+<p>Le fait que la classe <code>Cafetiere</code> contienne dans sa d&eacute;finition <strong>au moins une fonction virtuelle pure</strong> entraine que cette classe est <em>abstraite</em>. D'o&ugrave; le nom de la classe en italiques dans le diagramme UML.</p>
+
+<h2 id="concretes">...Classes concr&egrave;tes </h2>
+
+<p>Notre cafeti&egrave;re peut se d&eacute;cliner en plusieurs mod&egrave;les:</p>
+
+<ul>
+   <li>Un mod&egrave;le &agrave; caf&eacute; soluble.</li>
+   <li>Un mod&egrave;le &agrave; caf&eacute; en poudre.</li>
+</ul>
+
+<p>Nous savons comment faire le caf&eacute; pour du caf&eacute; soluble ou pour du caf&eacute; en poudre. Nous pouvons donc <em>red&eacute;finir</em> nos fonctions virtuelles, comme on le voit sur le diagramme et le code ci-dessous:</p>
+
+<p class="uml"><img alt="cafetiere soluble en poudre en UML" src="heritage/cafetiere2.png" /></p>
+
+<p>et le code suivant:</p>
+
+<pre class="demo">
+class <strong>CafetiereSoluble: public Cafetiere</strong> {
+
+public:
+  <strong>virtual int faire_le_cafe();
+  virtual int lire_etat();</strong>
+
+protected:
+  void verser_cafe();
+  
+private:
+  ReservoirCafeSoluble cafe;
+}
+
+class <strong>CafetierePoudre: public Cafetiere</strong> {
+
+public:
+  <strong>virtual int faire_le_cafe();
+  virtual int lire_etat();</strong>
+
+protected:
+  void verser_cafe_dans_filtre();
+  
+private:
+  ReservoirCafePoudre cafe;
+}
+</pre>
+
+<p>On a ainsi d&eacute;fini une <strong>relation d'h&eacute;ritage</strong> entre nos objets. On dit que <code>CafetierePoudre</code> <em>h&eacute;rite</em> de <code>Cafetiere</code>, ou encore que <code>Cafetiere</code> est une <em>super-classe</em> de <code>CafetierePoudre</code></p>
+
+<p>On  dit que la  classe <code>CafetiereSoluble</code> est
+<em>d&eacute;riv&eacute;e</em>            de            <code>Cafetiere</code>,
+<code>Cafetiere</code>  &eacute;tant une <em>classe  de  base</em>   par  rapport  &agrave;  <code>CafetiereSoluble</code>. et <code>CafetierePoudre</code>. <code>CafetiereSoluble</code> et <code>CafetierePoudre</code> sont en  quelque  sorte  des "sous-types"  de
+<code>Cafetiere</code>,  de sorte que les variables     de    type
+<code>CafetiereSoluble</code>  sont <em>aussi</em>  des  variables de  type
+<code>Cafetiere</code>.   Les <code>CafetiereSoluble</code>  et <code>CafetierePoudre</code> sont donc des <em>sortes de</em>  Cafetiere, ils constituent une <em>extension</em> de <code>Cafetiere</code></p>
+
+<h3 id="prot">Acc&egrave;s aux donn&eacute;es: la section protected</h3>
+
+<p>Puisque <code>CafetiereSoluble</code> et <code>CafetierePoudre</code> &eacute;tendent le type <code>Cafetiere</code>, ils encapsulent des objets tels que <code>eau</code>, qui repr&eacute;sente le r&eacute;servoir d'eau, etc. Mais parce que ces objets sont d&eacute;clar&eacute;s dans la section <code>private</code> de <code>Cafetiere</code>, <code>CafetiereSoluble</code> ni <code>CafetierePoudre</code> n'auront acc&egrave;s &agrave; ces variables.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+ On  peut &ecirc;tre  surpris,  &agrave;  premi&egrave;re vue,  que  les classes  d&eacute;riv&eacute;es n'aient pas  acc&egrave;s &agrave; la section <code>private</code>  de leurs classes de bases...  et pourtant, c'est la moindre des choses:</p>
+
+<ul>
+  <li>Cela serait trop simple de "casser" le m&eacute;canisme d'encapsulation
+      simplement en faisant une classe qui d&eacute;rive d'une autre... les
+      sections  <code>private</code> n'auraient  d&egrave;s lors  plus aucune
+      raison d'&ecirc;tre.</li>
+  <li>Le plus souvent, <em>l'utilisateur d'une biblioth&egrave;que d'objets</em> 
+      va d&eacute;river de nouveaux objets d'un objet de la
+      biblioth&egrave;que. Or, il serait tr&egrave;s imprudent pour celui-ci
+      d'utiliser des donn&eacute;es de la section <code>private</code>: en
+      effet, celles-ci peuvent changer du jour au lendemain; seul
+      l'interface est "garanti" par le concepteur de la biblioth&egrave;que.</li>
+</ul>
+</div>
+
+<p>L'id&eacute;al   pour  une  classe  d&eacute;riv&eacute;e   est  donc  de
+n'utiliser que  les fonctions-membres publiques de la  classe de base,
+au  m&ecirc;me  titre  que  n'importe  quelle  autre  fonction.   Cependant,
+certaines  fonctionnalit&eacute;s  ou  certaines  donn&eacute;es n'ont  pas  &agrave;  &ecirc;tre utilis&eacute;es par tout le monde,  mais seulement par les classes d&eacute;riv&eacute;es: ainsi  dans notre  cafeti&egrave;re, tous  les mod&egrave;les  de  cafeti&egrave;re doivent avoir acc&egrave;s  au r&eacute;servoir d'eau, mais les  <em>utilisateurs</em> de la
+machine &agrave;  caf&eacute; n'ont pas  de raison, eux,  d'y avoir acc&egrave;s.   D'o&ugrave; la n&eacute;cessit&eacute; de cr&eacute;er  une nouvelle section: <code>protected</code>; tout ce qui sera d&eacute;clar&eacute; dans cette section sera utilisable par les classes d&eacute;riv&eacute;es,  <em>et  uniquement   par  elles</em>.   Ainsi,  dans  notre exemple, on  mettra dans <code>protected</code>  des fonctions d'acc&egrave;s aux &eacute;l&eacute;ments    constitutifs    de     la    machine     &agrave;    caf&eacute; (<code>verser_eau()</code>). On   consid&egrave;re   qu'une   bonne
+conception doit respecter les r&egrave;gles suivantes:</p>
+
+<div class="regle"><img alt="REGLE  D'OR"  src="diam.gif" />
+<ul>
+  <li>Dans la section <code>private</code>, se trouvent les donn&eacute;es
+      encapsul&eacute;es par l'objet, ainsi que quelques fonctions membres correspondant au conctionnement interne de l'objet.</li>
+  <li>Dans la section <code>protected</code>, ne se trouvent
+      <b>que</b> des fonctions-membres. </li>
+  <li>Dans la fonction <code>public</code>, ne se trouvent
+      <b>que</b> des fonctions-membres</li>
+</ul>
+</div>
+
+<p>Ainsi, il   est <em>toujours</em> possible de d&eacute;river une classe &agrave; partir d'une autre. La classe  d&eacute;riv&eacute;e aura toujours  acc&egrave;s aux fonctions publiques  de sa classe de base.  Mais  il est souhaitable  de   <em>pr&eacute;voir</em>  la   d&eacute;rivation,  en   d&eacute;finissant une  section <code>protected</code> "r&eacute;serv&eacute;e" aux classes d&eacute;riv&eacute;es.</p>
+
+
+<h3 id="const">Constructeurs...</h3>
+
+<p>En reprenant les classes d&eacute;finies ci-dessus, que se passe-t-il lorsqu'on &eacute;crit:</p>
+
+<pre class="demo">
+CafetiereSoluble ma_cafetiere;
+</pre>
+
+<p>Il se passe les choses suivantes:</p>
+
+<ol>
+  <li>Allocation de m&eacute;moire.<br />
+  Autant d'octets que n&eacute;cessaire compte-tenu des champs de <code>CafetiereSoluble</code>
+  <em>et</em> de a (ou ses) classes de base.</li>
+  <li>Appel du <em>constructeur par d&eacute;faut</em> de <code>Cafetiere</code></li>
+  <li>Appel du <em>constructeur par d&eacute;faut</em> de <code>CafetiereSoluble</code></li>
+</ol>
+
+<p>Autrement dit, tant qu'on travaille avec les constructeurs par d&eacute;faut, tout se passe bien: le syst&egrave;me se charge d'appeler les constructeur par d&eacute;faut des classes de base, dans le bon ordre.</p> 
+
+<h3 id="copie"> Constructeur de copie: </h3>
+
+<p>Le constructeur de copie doit être écrit de la manière suivante:</p>
+
+<pre class="demo">
+class CafetiereSoluble: public Cafetiere {
+public:
+   <b>CafetiereSoluble(const CafetiereSoluble&amp; m) : Cafetiere(m),cafe(m.cafe) {...};</b>
+}
+</pre>
+
+<p>en effet, il faut dire  <em>explicitement</em> au compilateur quel constructeur il dit appeler pour la classe de base. Cela
+peut   se  faire   dans   la   liste d'initialisation de <code>CafetiereSoluble</code>:</p>
+
+<p>L'expression <code>Cafetiere(m)</code> est correcte puisque  <code>m</code>   &eacute;tant   une CafetiereSoluble, <code>m</code> est <em>aussi</em> une <code>Cafetiere</code>.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Si on utilise les contructeurs de copie par d&eacute;faut (c'est le cas, sauf lorsque l'on ne peut faire autrement), tout se passe correctement.</p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+En fait, cela fonctionne <em>parce que </em> le param&egrave;tre <code>m</code> est pass&eacute; par r&eacute;f&eacute;rence au constructeur de copie <a href="#virt-dest"><img alt="apres" src="apres.gif" /></a>. </p></div>
+
+<h3 id="autres-const">Autres constructeurs</h3>
+
+<p>rien n'emp&ecirc;che de d&eacute;finir sur <code>Cafetiere</code> un constructeur &agrave; qui on passe des param&egrave;tres, par exemple les quantit&eacute;s initiales d'eau, de sucre, ainsi que le nombre de gobelets et de cuillers:</p>
+
+<pre class="demo">
+class Cafetiere {
+public:
+   <b>Cafetiere(float e, int g, int c,float s) : eau(e), gobelets(g),<br /> cuillers(c), sucre(s) {};</b>
+...
+}
+</pre>
+
+<p>De m&ecirc;me, rien n'emp&ecirc;che de d&eacute;finir un constructeur pour <code>CafetiereSoluble</code>, &agrave; qui on donnera <em>en plus</em> la quantit&eacute; de caf&eacute; soluble &agrave; incorporer dans le r&eacute;servoir adhoc. L&agrave; encore, le syst&egrave;me ne <em>peut pas savoir</em> quel constructeur de la classe de base doit &ecirc;tre appel&eacute;: c'est donc <em>de la responsabilit&eacute; du constructeur de la classe d&eacute;riv&eacute;e d'appeler le constructeur de sa classe de base</em>, en utilisant la liste d'initialisation:</p>
+
+<pre class="demo">
+class CafetiereSoluble: public Cafetiere {
+public:
+   <b>CafetiereSoluble(float e, int g, int c,float s, float f) : 
+   Cafetiere(e,g,c,s), cafe(f) {};</b>
+...
+}
+class CafetierePoudre: public Cafetiere {
+public:
+   <b>CafetierePoudre(float e, int g, int c,float s, float f) : 
+   Cafetiere(e,g,c,s), cafe(f) {};</b>
+...
+}</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+On ne peut pas initialiser directement les membres de la classe de base dans la classe d&eacute;riv&eacute;e: le code suivant:</p>
+<pre class="demo"> 
+CafetierePoudre(float e, int g, int c, float s, float f) : 
+eau(e),gobelets(g),cuillers(c),sucre(s),
+cafe(f){};
+</pre> 
+<p>ne compilera pas, car <code>eau</code>, <code>gobelets</code>, <code>cuillers</code>, <code>sucre</code> sont des membres de la classe <code>Cafetiere</code>, <em>
+pas </em> de <code>CafetierePoudre</code>. Il faut obligatoirement passer par un constructeur de <code>Cafetiere</code>.</p></div>
+
+.<h3 id="dest">...et destructeurs</h3>
+
+<p>Lorsqu'un objet de type <code>CafetiereSoluble</code> est d&eacute;truit, il
+se passe la s&eacute;quence suivante:</p>
+
+<ol>
+  <li>Le destructeur de <code>CafetiereSoluble</code> est appel&eacute;</li>
+  <li>Le destructeur de <code>Cafetiere</code> est appel&eacute;</li>
+  <li>La m&eacute;moire est rendue au syst&egrave;me</li>
+</ol>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+  Si   on  utilise  avec  des   pointeurs  ou  des
+r&eacute;f&eacute;rences, on peut avoir quelques surprises, qui n&eacute;cessitent l'utilisation de destructeurs virtuels. <a href="#virt-dest"><img alt="apres" src="apres.gif" /></a>
+</p></div>
+
+<h3 id="poly">Le polymorphisme</h3>
+
+<p>Observons le code ci-dessous, dans lequel on g&egrave;re
+trois machines &agrave; caf&eacute;, de deux types diff&eacute;rents, par l'interm&eacute;diaire d'un tableau de pointeurs:</p>
+
+<pre class="demo">
+Cafetiere* machines[3];
+machines[0] = new CafetiereSoluble(1.5,500,500,2,0.5);
+machines[1] = new CafetiereSoluble(1.5,500,500,2,0.5);
+machines[2] = new CafetierePoudre(1.5,500,500,2,0.9);
+
+for (int i=0; i&lt;3; ++i) {
+    if (machines[i]-&gt;lire_etat() == 1) {
+       machines[i]-&gt;faire_le_cafe();
+       machines[i]-&gt;encaisser_monnaie();
+    };
+};
+</pre>
+
+<p>Le code ci-dessus d&eacute;clare un tableau de trois objets de type pointeur sur <code>Cafetiere</code>, puis remplit le tableau avec deux machines &agrave; caf&eacute; soluble et une en poudre. Souvenez-vous que les fonctions <code>lire_etat</code> et <code>faire_le_cafe</code> ont &eacute;t&eacute; d&eacute;lar&eacute;es avec le mot-cl&eacute; <code><b>virtual</b></code>: ce mot signifie que le compilateur ne cherche pas &agrave; savoir exactement quelle fonction <code>lire_etat</code> sera appel&eacute;e, ni quelle fonction <code>faire_le_cafe()</code> sera appel&eacute;e, puisque l'allocation m&eacute;moire se fait de manière dynamique: il retient donc simplement qu'il devra appeler la version de la fonction <code>faire_le_cafe</code> <em>qui va bien</em>, en fonction du type d'objet qui sera appel&eacute; &agrave; l'ex&eacute;cution du programme. Le mot <em>polymorphisme</em> d&eacute;crit la propri&eacute;t&eacute; de ces deux fonctions d'adopter "plusieurs formes", suivant le contexte du programme. On parle aussi d'&eacute;dition de liens dynamique. Remarquons qu'une fois  de plus,  on  retrouve une
+mani&egrave;re  de  penser  parfaitement  naturelle:  si je  vous  passe  une
+casserole (classe de base) en vous demandant de la laver (fonction qui
+op&egrave;re sur le  type g&eacute;n&eacute;rique casserole), je vous  passe en r&eacute;alit&eacute; une casserole bien particuli&egrave;re, et pas  toujours la m&ecirc;me (hier c'&eacute;tait le vieux chaudron &agrave; confiture qui  me vient de ma grand-m&egrave;re, aujourd'hui c'est une  casserole en  aluminium, dans les  deux cas il  s'agit d'un type de casserole particulier). Dans les deux cas vous allez la laver... mais suivant le type de casserole, vous vous y prendrez diff&eacute;remment. Par contre, la fonction <code><b>encaisser_monnaie</b></code> fait l'objet d'une &eacute;dition de liens statiques (il n'y a pas le mot <code>virtual</code> devant, donc il n'y a pas  ici de polymorphisme).</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> 
+Lorsque vous red&eacute;finissez une fonction virtuelle, <b>la nouvelle
+d&eacute;finition doit avoir soit le m&ecirc;me type de retour</b> que la fonction
+originale, soit <b>un type dérivé</b> (on parle dans ce cas de "types de retour covariants"). Sinon, le compilateur refusera votre code. Bien entendu, elles devront avoir &eacute;galement les m&ecirc;mes signatures, sinon il 
+s'agit de deux fonctions diff&eacute;rentes, et le m&eacute;canisme d'&eacute;dition de liens dynamiques ne s'applique pas.</p></div>
+
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Pourquoi les fonctions ne sont-elles pas automatiquement virtuelles ? C'est le cas dans d'autres langages orient&eacute;s objets, java par exemple. Le probl&egrave;me avec les fonctions virtuelles, c'est qu'elles sont moins performantes que les fonctions classiques. C'est normal: le m&eacute;canisme d'&eacute;dition de liens dynamiques est tr&egrave;s puissant, mais il a un co&ucirc;t. Donc, il est recommand&eacute; de ne les utiliser <em>que lorsque c'est n&eacute;cessaire</em>, et pas lorsque la performance est r&eacute;dhibitoire.</p></div>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+Si vous surchargez une fonction virtuelle, la fonction surcharg&eacute;e ne sera pas virtuelle 
+automatiquement: il vous faut le sp&eacute;cifier explicitement.
+</p></div>
+
+
+<h2 id="abc">Classes de bases abstraites</h2>
+
+<p>Le code suivant ne sera jamais compil&eacute;:</p>
+
+<pre class="demo">
+  Cafetiere C1;
+</pre>
+
+<p>En effet, la  pr&eacute;sence des fonctions virtuelles pures <code>faire_le_cafe</code>   et   <code>lire_etat</code>  emp&ecirc;che   le
+compilateur de g&eacute;n&eacute;rer un objet de type Cafetiere. En d'autres termes, <em>on ne  peut  pas</em>  dire  au  compilateur  "donne-moi  de  la  m&eacute;moire  et initialise cette  cafeti&egrave;re".  Il veut  savoir <em>pr&eacute;cis&eacute;ment</em> de quoi il s'agit.  La classe <code>Cafetiere</code> est une <em>classe de base abstraite</em>,  (c'est-&agrave;-dire une classe  qui a <em>au  moins une </em> fonction virtuelle pure). En tant que telle, on peut la passer en param&egrave;tres  <em>(par  r&eacute;f&eacute;rence ou par pointeur),mais <b>pas</b> par valeur</em> &agrave;  une  fonction,  mais on ne  peut  pas d&eacute;clarer d'objet de cette classe.</p>
+
+<p>Ainsi, le code suivant ne pose aucun probl&egrave;me:</p>
+
+<pre class="demo">
+  Cafetiere* C1;
+</pre>
+
+<p>En effet, il est toujours possible de d&eacute;clarer un pointeur sur une
+classe abstraite. Le type <em>r&eacute;el</em> de la classe est pr&eacute;cis&eacute; lorsque le pointeur sera initialis&eacute;, le plus souvent en utilisant l'op&eacute;rateur <code>new</code>.<a href="mem.html#new"><img alt="apres" src="apres.gif" /></a>.</p>
+
+<p>Le code suivant est utilisable &eacute;galement:</p>
+
+<pre class="demo">
+   void une_fonction(Cafetiere&amp; c) {...};
+   
+   CafetiereSoluble cs(1.5,500,500,2,0.5);
+   CafetierePoudre cp(1.5,500,500,2,0.9);
+   
+   une_fonction(cs);
+   une_fonction(cp);
+</pre>
+
+<p>Parce qu'on passe la variable par <em>r&eacute;f&eacute;rence</em> et pas par valeur, il est possible d'utiliser le polymorphisme, de m&ecirc;me qu'avec des pointeurs.</p>
+
+<h3 id="virt-const">Constructeurs virtuels...</h3>
+
+<p><em>&ccedil;a n'existe  pas</em>: le principe d'une fonction
+virtuelle   est  que   la  fonction   <em>r&eacute;ellement</em>   appel&eacute;e  &agrave;
+l'ex&eacute;cution  est   la  fonction  correspondant  au   type  de  l'objet
+existant. Encore faut-il  que l'objet soit existant, ce  qui n'est pas
+le cas lors de l'appel d'un constructeur.</p>
+
+<h3 id="virt-dest">...et destructeurs virtuels</h3>
+
+<p>l&agrave;, &ccedil;a existe: et c'est m&ecirc;me fort utile. En effet, le code suivant
+risque d'entra&icirc;ner des r&eacute;sultats catastrophiques:</p>
+
+<pre class="demo">
+for (int i=0; i&lt;10; i++) {
+    delete machines[i];
+</pre>
+
+<p>Le probl&egrave;me ici  est que <em>seul</em> le destructeur
+de la  classe de  base a &eacute;t&eacute;  appel&eacute;. Si  le destructeur de  la classe
+<code>modele_poudre</code> devait  faire quelque chose  de particulier
+(rendre        la         m&eacute;moire        allou&eacute;e        pour        le
+<code>reservoir_cafe_en_poudre</code>,  par exemple),  c'est  rat&eacute;. Le
+destructeur n'a  pas &eacute;t&eacute;  appel&eacute;, et il  y a  un r&eacute;servoir &agrave;  caf&eacute; qui
+tra&icirc;ne au  fond de la m&eacute;moire...   Il est donc  toujours pr&eacute;f&eacute;rable de
+d&eacute;clarer   pour  la   classe  <code>Cafetiere</code>   un  destructeur
+virtuel... quitte &agrave; ce que celui-ci ne fasse rien:</p>
+
+<pre class="demo">
+class Cafetiere {
+  virtual ~Cafetiere() {};
+};
+</pre>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+On pourrait
+bien   s&ucirc;r  consid&eacute;rer   que  tous   les  destructeurs   doivent  &ecirc;tre
+virtuels. Malheureusement,  d&eacute;clarer une fonction  virtuelle prend des
+ressources... c'est  d'ailleurs pour cela que toutes  les fonctions ne
+sont  pas  virtuelles.   G&eacute;n&eacute;ralement,   on  peut  consid&eacute;rer  que  la
+d&eacute;claration de  la <em>premi&egrave;re</em> fonction virtuelle  prend pas mal
+de  ressources,  les fonctions  suivantes  nettement  moins.  D'o&ugrave;  la
+recommandation  suivante: <em>toute  classe abstraite,  ainsi  que les
+classes qui  en d&eacute;rivent,  doivent avoir un  destructeur virtuel.</em>
+Une  classe non  abstraite  ayant  peu ou  pas de  classes d&eacute;riv&eacute;es  le
+destructeur   virtuel  a  moins   de  chances   d'&ecirc;tre  indispensable
+</p></div>
+
+<h3 id="affect">L'op&eacute;rateur d'affectation dans une classe de base</h3>
+
+<p>Si         l'op&eacute;rateur         d'affectation
+(<code>operator=()</code>)  d'une  classe  d&eacute;riv&eacute;e  doit  &ecirc;tre  d&eacute;fini
+(c'est-&agrave;-dire si  l'op&eacute;rateur d'affectation fourni  par le compilateur
+n'est  pas  suffisant),  celui-ci  <em>doit</em>  appeler  l'op&eacute;rateur
+d'affectation  de sa  classe de  base: sinon,  <em>tous les  champs ne
+seront pas copi&eacute;s  !!!</em>. Par contre, s'il n'est  pas n&eacute;cessaire de
+d&eacute;finir  un  op&eacute;rateur   d'affectation  particulier  pour  une  classe
+d&eacute;riv&eacute;e, le compilateur se chargera correctement d'appeler l'op&eacute;rateur
+d'affectation de la classe de base.</p>
+
+<pre class="demo">
+class CafetiereSoluble: public Cafetiere {
+public:
+    CafetiereSoluble&amp; operator=(const CafetiereSoluble&amp; c) {
+       Cafetiere::operator=(c);  // copie de la partie commune
+       cafe = c.cafe;            // copie du reservoir de caf&eacute;
+       return *this;
+    };
+}
+</pre>
+
+<h4 id="prot-affect">Prot&eacute;ger l'op&eacute;rateur d'affectation d'une
+classe de base abstraite</h4>
+
+<p>L'op&eacute;rateur d'affectation d'une classe de base
+abstraite  doit  normalement &ecirc;tre  d&eacute;clar&eacute; <em>dans  une section
+<code>protected</code></em>,  quitte &agrave;  d&eacute;clarer  un <code>operator=</code>
+<em>uniquement   dans    ce   but</em>.    En    effet,   par   d&eacute;faut
+l'<code>operator=</code> est  public. Mais pour  une classe abstraite,
+cela risque  de conduire &agrave;  des catastrophes:<img alt="NOOON" src="nepasfaire.png" /></p>
+
+<pre class="demo">
+void f(Cafetiere&amp;c1, const Cafetiere&amp;c2) {
+   ...
+   c1 = c2;
+   ...
+};
+
+main() {
+  CafetiereSoluble S;
+  CafetierePoudre P;
+  f (S,P);
+}
+</pre>
+
+<p>Cela aboutit &agrave; &eacute;crire une &eacute;galit&eacute; entre une machine &agrave;
+caf&eacute; en grains et une  machine &agrave; capuccino (caf&eacute; soluble+chocolat). Il
+est  clair  que  cela  ne  peut pas  fonctionner...   et  pourtant  le
+compilateur a b&ecirc;tement accept&eacute;. D'o&ugrave; le code suivant:</p>
+
+<pre class="demo">
+class Cafetiere {
+protected:
+    Cafetiere&amp; operator=(const Cafetiere&amp;c);
+}
+</pre>
+
+<p >L'op&eacute;rateur  =   &eacute;tant  d&eacute;clar&eacute;  dans  la  section
+protected,  il peut  &ecirc;tre utilis&eacute;  par les  classes  d&eacute;riv&eacute;es, <em>mais il est inaccessible pour le reste du monde</em>. De sorte que
+la fonction suivante ne sera pas compilée:</p>
+
+<pre class="demo">
+void f(Cafetiere&amp;c1, const Cafetiere&amp;c2) {
+   c1 = c2;     // ERREUR ! operator= est prive !
+};
+</pre>
+
+<h3 id="clonage-polymorphique">Le clônage polymorphique</h3>
+
+<p>Dans certains cas, on veut bénéficier d'une opération de copie d'un objet dans l'autre, en s'arrangeant pour que l'objet
+de destination prenne le type de l'objet copié. Il s'agit d'un clônage polymorphique, il ne s'obtient pas avec l'operateur=, mais
+avec une fonction Clone, définie dans <em>chaque classe</em> de la hiérarchie de la manière suivante:</p>
+
+<pre class="demo">
+class Cafetiere {
+   ...
+   <b>virtual Cafetiere* Clone() = 0;</b>
+}
+
+class CafetiereSoluble {
+   ...
+   <b>virtual CafetiereSoluble* Clone()
+   {
+        return new CafetiereSoluble(*this);
+   }</b>
+};
+
+void f(const Cafetiere&amp;c2) {
+   Cafetiere* c1 = c2.Clone();
+   ...
+};
+
+main() {
+  modele_grain G;
+  f (G);
+}
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+La fonction Clone doit être redéfinie dans <b>toutes les classes dérivées</b> de la classe de base. A chaque fois, la définition sera la même, mais 
+on doit la réécrire. Si on oublie une redéfinition, le compilateur ne s'apercevra de rien, mais on risque d'avoir un comportement erratique lors de l'exécution du programme.
+</p></div>
+
+<p><a href="#">top</a></p><hr /> 
+
+<h2 id="mult">L'h&eacute;ritage multiple</h2>
+
+<p>Il est possible, bien que d'une utilisation d&eacute;licate, de d&eacute;clarer qu'une classe d&eacute;rive de plusieurs superclasses. L'utilisation la plus int&eacute;ressante de l'h&eacute;ritage multiple est la d&eacute;finition d'interfaces:</p>
+
+
+<h3 class="obs">Impl&eacute;mentation du "pattern" observateur en utilisant l'h&eacute;ritage multiple</h3>
+
+<p>Imaginons la situation suivante, extr&ecirc;mement courante:</p>
+
+<ul>
+  <li>Un objet de type <code>traitement</code> appelle la fonction-membre <code>run()</code>, qui dure plusieurs minutes.</li>
+  <li>Cet objet fait partie d'une cha&icirc;ne d'h&eacute;ritage, c'est-&agrave;-dire qu'il h&eacute;rite d'un autre objet, ainsi qu'il a paru judicieux au concepteur de la cha&icirc;ne de traitement de concevoir la chose.</li>
+  <li>Cet objet est utilis&eacute; tant&ocirc;t dans un contexte graphique, en gr&acirc;ce &agrave; tel ou tel "framework" graphique, ou encore dans un contexte "console": on souhaite que, quelque soit le contexte, il soit possible d'afficher r&eacute;guli&egrave;rement l'&eacute;tat d'avancement de la t&acirc;che, et ce sans introduire de d&eacute;pendances entre l'objet <code>traitement</code> et un framework particulier.</li>
+</ul>
+
+<p>Le pattern observateur permet de r&eacute;pondre &agrave; ce cahier des charges:</p>
+
+<p class="UML"><img alt="diagramme UML" src="heritage/observateur.png" /></p>
+<pre class="demo">
+<b>class Observateur</b> {
+    public:
+    virtual void update(float r) = 0;
+};
+<b>class Diffuseur</b> {
+   public:
+   void notifier(float r) {
+        for(int i=0;i&lt;abonnes.length();i++) {
+            abonnes[i]-&gt;update(r);
+        };
+   };
+   void abonne(Observateur * o) {
+       if (o!=NULL)
+          abonnes.push_back(o);
+   };
+   private:
+      vector&lt;Observateur*&gt;abonnes;
+};
+
+<b>class Traitement: public BaseTraitement, public Diffuseur</b> {
+   public:
+      void run() {
+          while(...) {
+               ...
+               notifier(x);
+          };
+      };
+}
+
+<b>class ProgressionBar: public ProgressionBarWidget, public Observateur</b> {
+    public:
+        virtual void update(float r) {
+           ...
+        };
+};
+</pre>
+
+<p>Une fois n'est pas coutune, vous pouvez <a href="heritage/pattern_observateur.tgz">t&eacute;l&eacute;charger ici</a> un petit programme que vous devriez pouvoir compiler. On voit que:</p>
+
+<ul>
+   <li>La classe <code>Diffuseur</code> comprend une fonction <code>abonne</code>, qui permettra &agrave; des objets d&eacute;rivant de la classe <code>Observateur</code> de s'abonner, afin d'&ecirc;tre notif&eacute;s d'un &eacute;v&eacute;nement quelconque.</li>
+   <li>La classe <code>Traitement</code> d&eacute;rive de la classe <code>Diffuseur</code>, elle pourra donc appeler la fonction <code>notifier</code>. Celle-ci appelle <code>update</code> sur tous ses abonn&eacute;s. Comme seuls des objets d&eacute;rivant de <code>Observateur</code> peuvent s'abonner, elle est s&ucirc;re de trouver cette fonction impl&eacute;ment&eacute;e.</li>
+   <li>La classe <code>Observateur</code> ne comprend qu'une seule fonction virtuelle pure (<code>void update(float)</code>), <em>c'est donc une classe interface</em>.</li>
+   <li>La classe <code>ProgressionBar</code> d&eacute;rive de <code>Observateur</code>, elle devra donc imp&eacute;menter la fonction <code>update</code>, ce qui lui permettra d'&ecirc;tre notifi&eacute;e en temps utile.</li>
+   <li><code>ProgressionBar</code> et <code>Traitement</code> d&eacute;rivent par ailleurs d'autres classes, suivant la mani&egrave;re dont l'application a &eacute;t&eacute; con&ccedil;ue: elles utilisent donc l'h&eacute;ritage multiple.</li>
+</ul>
+
+
+<h4><img alt="Les autres ?" src="dechirure.gif"  width="25" />
+Autres langages objets...</h4>
+
+<table class="tableau">
+  <tr>
+    <th> Langage </th>
+    <th> H&eacute;ritage </th>
+    <th> mot-cl&eacute; virtual </th>
+    <th> Classe abstraite </th>
+    <th> H&eacute;ritage multiple </th>
+  </tr>
+  <tr>
+    <td><b>C++</b> </td>
+    <td><b>OUI</b></td><td><b>OUI</b></td><td><b>OUI</b></td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>perl</b></td>
+    <td><b>OUI<sup>(1)</sup></b></td><td>NON<sup>(3)</sup></td><td><b>Possible <sup>(6)</sup></b></td><td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>java</b></td>
+    <td><b>OUI<sup>(2)</sup></b></td><td>NON<sup>(3)</sup></td><td><b>OUI <sup>(4)</sup></b></td><td>NON<sup>(5)</sup></td>
+  </tr>
+  <tr>
+    <td><b>python</b></td>
+    <td><b>OUI</b></td><td>NON<sup>(3)</sup></td><td><b>Possible <sup>(6)</sup></b></td><td>NON<sup>(5)</sup></td>
+  </tr>
+  <tr>
+    <td><b>php5</b></td>
+    <td><b>OUI</b></td><td>NON<sup>(3)</sup></td><td><b>OUI <sup>(4)</sup></b></td><td>NON<sup>(5)</sup></td>
+  </tr>
+</table>
+
+<ol>
+  <li>Utilisation du tableau <code>@ISA</code> (Est une sorte de)</li>
+  <li>Mot-cl&eacute; <code>extends</code> (&eacute;tendre les fonctionnalit&eacute;s de)</li>
+  <li>Toutes les fonctions sont des fonctions virtuelles</li>
+  <li>On d&eacute;finit une classe abstraite et on sp&eacute;cifie les fonctions qui doivent
+  &ecirc;tre red&eacute;finies, par le mot-cl&eacute; <code>abstract</code></li>
+  <li>Mais les mots-cl&eacute;s <code>interface</code> et
+      <code>implementation</code> en java, <code>implements</code> en php correspondent aux m&ecirc;mes
+      fonctionnalit&eacute;s que l'h&eacute;ritage multiple.</li>
+  <li>Pour d&eacute;finir une classe abstraite en perl ou en python, il
+  suffit de s'arranger pour que certaines fonctions (les
+  "fonctions membres virtuelles pures") g&eacute;n&egrave;rent une exception.</li>
+</ol>
+
+
+
+<p><a href="#">top</a></p><hr /> 
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+    <a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+</div></body> </html>

@@ -1,0 +1,192 @@
+body {
+	background-color: black;
+	font-family: Helvetica,Arial, sans-serif; 
+    margin:0;
+    padding:0;
+}
+
+hr { 
+	text-align: left; 
+	width: 10%; 
+}
+
+h1 {
+    text-align: center;
+    font-size: 300%; 
+    clear: both;
+}
+
+h2 { font-size: 200%; }
+h3 { font-size: 150%; }
+h4 { font-size: 110%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; font-style:italic; font-weight: lighter; }
+
+hr.nofloat {
+    visibility: hidden;
+    clear: both
+}
+
+p,ul,dl,table { margin-left: 2em; margin-right: 2em; text-align: justify;}
+div.attention {margin-left: 6em; margin-right: 6em; text-align: justify;
+                          border-left: 6pt solid red; padding-left: 1pt;}
+div.regle {margin-left: 6em; margin-right: 6em; text-align: justify;
+                  border-left: double blue; padding-left: 1pt;}
+div.autres {margin-left: 6em; margin-right: 6em; text-align: justify;
+                          border-left: 2pt DOTTED BLACK; padding-left: 1pt;}
+div.table {text-align: center;}
+em.red { color: red;}
+pre.demo {  background-color: #DDDDDD; margin-left: 6em; margin-right: 6em;}
+img { border: 0px;}
+
+/* Le menu */
+
+.menu {
+    margin: 0;
+    background-color: inherit;
+    padding: 0.4em 1em;
+    height: 2em;
+}
+
+/* Les boutons textuels */
+
+.menu dl,.menu dt,.menu dd,.menu ul,.menu li {
+    margin: 0 0.3em;
+    padding: 0;
+    list-style-type: none;
+}
+
+.menu dl {
+    float: left;
+    width: 5.5em;
+}
+
+.menu dt {
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    background: white;
+    border: 1px solid gray;
+    margin: 1px;
+}
+
+.menu dd {
+    display: none;
+    width: 15em;
+    height: auto;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+.menu li {
+    font-size: 1.1em;
+    font-weight: bolder;
+    text-align: right;  
+    background: white;
+    height: 1em;
+}
+.menu li li {
+    font-weight: lighter;
+    height: 1em;
+}
+.menu li a,.menu dt a {
+    color: #000;
+    text-decoration: none;
+    display: block;
+    /*height: 100%;*/
+    border: none;
+    padding: 0.2em;
+}
+.menu li a:hover, .menu li a:focus, .menu dt a:hover, .menu dt a:focus {
+    background: black;
+    color: white;
+}
+.menu li a:active, .menu dt a:active {
+    background: red;
+}
+
+/* Les boutons graphiques (logos) */
+
+.menu dl.img {
+    width: 30px;
+}
+.menu dl.img dt {
+    margin: 0;
+    padding: 0;
+    border:none;
+    background: inherit;
+}
+
+.menu img {
+    height: 25px;
+    width: 25px;
+}
+
+
+.menu dl.img dt a,.menu dl.img dt a:hover,.menu dl.img dt a:focus {
+    display: block;
+    border: none;
+    background: inherit;
+}
+
+/* Les boutons a droite ne servent a rien sous IE */
+
+#bouton_menu, .pas_ie {
+    visibility: hidden;
+};
+
+div#contenu {
+    background-color: white;
+    margin:5.6em auto 2.8em auto;
+    padding: 0.7em;
+    width:90%;
+}
+
+.mdemo {
+    height: auto;
+    display: block;
+    float: left;
+    font-weight: bold;
+    background: white;
+    color: black;
+    text-decoration: none;
+    border: 1px solid gray;
+    margin: 1px;
+    padding: 0.4em 1em;
+}
+
+span.mdemo {
+    width: 5.5em;
+    height: auto;
+    display: block;
+    vertical-align: middle;
+    text-align: center;
+    float: left;
+    text-align: center;
+    background: #E4E4E4;
+    border: none;
+    padding: 0.5em;
+    margin: 0;
+}
+
+.mdemo a {
+    font-weight: bold;
+    background: white;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid gray;
+    padding: 0.2em
+}
+
+.tableau, .tableau td, .tableau th {
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-spacing: 1px;
+    text-align: center;
+}
+.tableau caption {
+    font-style: italic;
+    margin-bottom: 0.5em;
+    caption-side: top;
+}

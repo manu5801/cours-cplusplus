@@ -1,0 +1,788 @@
+<!DOCTYPE ht manière de procéder: tout le traitement d'erreur se fera au niveau de la fonction input_et_divis
+:</p> xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>Les exceptions</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+ <dd id="smenu1">
+    <ul>
+	 <li><a onclick="javascript=cacher_menu()" href="excep.html#erreur">Que faire en cas d'erreur ?</a></li> 
+     <li><a onclick="javascript=cacher_menu()" href="excep.html#poste">Une analogie avec la vie courante</a></li> 
+     <li><a onclick="javascript=cacher_menu()" href="excep.html#excep">Le syst&egrave;me d'exceptions</a> 
+     <ul>
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#hier">Les hi&eacute;rarchies d'objets exceptions</a></li> 
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#decl">La d&eacute;claration de fonction</a></li> 
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#gene">La g&eacute;n&eacute;ration d'exception</a></li> 
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#capt">La capture des exceptions</a></li> 
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#noncapt">Exceptions non captur&eacute;es</a></li> 
+	 </ul></li>
+     <li><a onclick="javascript=cacher_menu()" href="excep.html#excepet">Exceptions et ...</a> 
+     <ul>
+	   <li><a onclick="javascript=cacher_menu()" href="excep.html#const">...constructeurs</a></li>			
+	   <li><a onclick="javascript=cacher_menu()" href="excep.html#dest">...destructeurs</a></li>
+	 </ul></li>
+	</ul>
+ </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#exceptions" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+<h1><a name="surch-fonc-op">Exceptions</a></h1>
+
+
+<h2><a name="erreur">Que faire en cas d'erreur ?</a></h2>
+
+<p>Que  le  programme doit-il faire  lorsqu'il d&eacute;couvre une  condition d'erreur lors  de son ex&eacute;cution: par exemple une division  par 0, ou encore l'ouverture d'un fichier inexistant  (ou qui ne  peut pas &ecirc;tre  lu pour un  probl&egrave;me de  permissions).  Le probl&egrave;me est g&eacute;n&eacute;ralement  le suivant: l'erreur se produit dans une biblioth&egrave;que; un objet doit ouvrir un fichier dont on lui a pass&eacute; le nom en  param&egrave;tres.  L'objet voit bien qu'il y a une erreur (il n'a pas trouv&eacute;  le fichier), mais comment doit-il r&eacute;agir
+? En fait, il ne <em>le sait pas</em>...  parce que ce n'est pas &agrave; lui
+de  r&eacute;agir.  C'est au  programme utilisateur  de l'objet:  suivant les
+cas,  la r&eacute;action  de celui-ci  sera  soit l'arr&ecirc;t  du programme  avec
+impression d'un message, soit tentative de reprise apr&egrave;s avoir demand&eacute;
+&agrave; l'utilisateur un nouveau nom de fichier, soit g&eacute;n&eacute;ration automatique
+d'un  nouveau nom  de  fichier, ...   L'objet  doit donc  se borner  &agrave;
+pr&eacute;venir le programme  appelant qu'il y a eu une erreur.  Il y a trois
+moyens:</p>
+
+<ul>
+  <li>Retourner un code d'erreur comme valeur de retour de la fonction.</li>
+  <li>Mettre un code d'erreur dans une valeur globale (<code>errno</code> en C)</li>
+  <li>G&eacute;n&eacute;rer une exception.</li>
+</ul>
+
+<p>Les  deux   premiers  moyens   pr&eacute;sentent  certains
+inconv&eacute;nients: tout  d'abord, si la fonction,  dans son fonctionnement
+normal,  doit  d&eacute;j&agrave; renvoyer  une  valeur,  comment  renvoyer le  code
+d'erreur  ? Par  une  valeur  ill&eacute;gale peut-&ecirc;tre,  mais  ce n'est  pas
+toujours possible... ainsi une fonction qui doit renvoyer un entier ne
+peut renvoyer une valeur ill&eacute;gale.   D'autre part, une bonne partie du
+code utilisateur risque d'&ecirc;tre  consacr&eacute;e au traitement des erreurs...
+&agrave; condition que  le programmeur ait assez de  courage ou de conscience
+professionnelle.   On  estime  que  dans  certains cas  le  code  peut
+<em>doubler</em>  simplement  &agrave;  cause  du traitement  d'erreurs.   De
+mani&egrave;re plus fondamentale,  on aura une totale imbrication  du code de
+traitement   d'erreurs  et   du  code   de  l'application,   d'o&ugrave;  une
+ mauvaise lisibilit&eacute; du  code.  Le  C++ offre  un syst&egrave;me
+d'exceptions qui am&eacute;liore consid&eacute;rablement la situation.</p>
+
+<p><a href="#"></a></p><hr />
+<h2><a name="poste"><img src="61.gif" alt="Pour les terriens"  width="20" />Une analogie avec la vie courante</a></h2>
+
+<p>Afin de bien comprendre le syst&egrave;me des exceptions, imaginons l'administration des
+postes d'un pays quelconque. L'organisation  est la suivante:</p>
+
+<ol>
+   <li>Service National des Postes</li>
+   <li>Service R&eacute;gional des Postes</li>
+   <li>Bureau de Postes de quartier</li>
+   <li>Facteur</li>
+</ol>
+
+<p>Il faut comprendre cette analogie de la mani&egrave;re suivante:</p>
+
+<ol>
+   <li>Le Service National des Postes correspond au programme principal</li>
+   <li>Le Service R&eacute;gional correspond &agrave; une fonction appel&eacute;e par le programme principal.</li>
+   <li>Le Bureau de postes de quartier correspond &agrave; une fonction appel&eacute;e 
+   par la fonction pr&eacute;c&eacute;dente.</li>
+   <li>Le facteur est une m&eacute;thode appartenant &agrave; un objet utilis&eacute; par
+   la fonction pr&eacute;c&eacute;dente.</li>
+</ol>
+
+<p>Imaginons donc le facteur, en train de distribuer le courrier.  La plupart du temps, tout se passe correctement
+ et la mission du facteur est men&eacute;e &agrave; bien. Mais quelques probl&egrave;mes peuvent  survenir; 
+ par exemple, une lettre adress&eacute;e &agrave; M. Dupond est not&eacute;e 105 rue des Mimosas, alors que les dupond
+ habitent au 15 rue des Mimosas: le facteur connait le quartier, il mettra l'enveloppe dans la bo&icirc;te aux lettres des
+ Dupond, m&ecirc;me si l'adresse est mauvaise. Il s'agit d'un cas d'erreur qui a pu &ecirc;tre corrig&eacute; par le facteur - par
+ l'objet. Rien ni personne ne sera au courant qu'il y a eu un probl&egrave;me avec cette enveloppe. 
+Autre probl&egrave;me possible: une lettre est adress&eacute;e &agrave; M. Durand, or il n'y a pas de M. Durand 
+dans le quartier. Cette fois, le facteur mettra la lettre dans une bo&icirc;te appel&eacute;e "Adresses inconnues", 
+et il continuera sa tourn&eacute;e. <br />
+Voil&agrave; que le facteur tombe sur une lettre qui comporte la bonne adresse, mais il s'agit d'une rue 
+situ&eacute;e dans un autre quartier: le facteur mettra la lettre dans une nouvelle bo&icirc;te, appel&eacute;e 
+"autres quartiers". <br />A la fin de sa tourn&eacute;e, le facteur regarde l'&eacute;tat de ses deux bo&icirc;tes: si 
+elles sont vides, il rentre chez lui tout simplement. La m&eacute;thode "facteur" a fait son travail sans histoire.
+ Si au moins l'une des deux est pleine, le facteur, avant de rentrer chez lui, va d&eacute;poser &agrave; un endroit 
+ r&eacute;serv&eacute; &agrave; cet usage, au bureau de postes, le ou les cartons contenant les lettres en cause: il 
+ "lance une exception"; celle-ci sera trait&eacute;e soit au niveau du bureau de poste du quartier, soit  au niveau 
+ sup&eacute;rieur; <i>mais en aucun cas le facteur ne prend de d&eacute;cision &agrave; propos de cette lettre</i>:
+ ce n'est tout simplement pas son travail.<br />Le bureau de poste de quartier, voyant qu'il y a une "exception", va 
+ alors la traiter: si l'adresse situ&eacute;e sur la lettre "autres secteurs" correspond &agrave; un secteur 
+ g&eacute;r&eacute; par ce bureau de poste, il suffira de la donner &agrave; un autre facteur pour que le probl&egrave;me
+ soit r&eacute;solu. L'erreur a &eacute;t&eacute; corrig&eacute;e au niveau Bureau de Poste, et personne &agrave; un 
+ plus haut niveau n'en saura rien. Sinon, le bureau de poste la renvoie &agrave; l'&eacute;chelon sup&eacute;rieur 
+ (r&eacute;gional) qui se chargera du probl&egrave;me, &agrave; moins qu'il ne le renvoie &agrave; nouveau &agrave; un
+ &eacute;chelon sup&eacute;rieur... </p>
+ 
+<p>C'est un syst&egrave;me analogue qui est employ&eacute; par le C++ pour traiter les exceptions:</p>
+
+<ul>
+   <li>Si une fonction peut traiter l'exception, elle la traite.</li>
+   <li>Si une fonction ne peut pas la traiter, elle renvoie un objet; celui-ci sera intercept&eacute; &agrave; un niveau d'appel
+   sup&eacute;rieur: &agrave; ce niveau de d&eacute;cider
+   s'il sait traiter l'exception ou s'il la renvoie lui aussi &agrave; un niveau sup&eacute;rieur</li>
+</ul>
+
+<p>Il est possible de renvoyer ainsi n'importe quel objet, et de mettre donc dans cet objet n'importe quelle information:
+ un code d'erreur, par exemple, avec une cha&icirc;ne de caract&egrave;res explicative, mais aussi des donn&eacute;es 
+ (d'autres objets, par exemple) permettant aux niveaux sup&eacute;rieurs de traiter effectivement l'exception.</p>
+
+<p><a href="#"></a></p><hr />
+
+<h2><a name="excep">Le syst&egrave;me d'exceptions</a></h2>
+
+<p>Voici une implémentation de l'opérateur =/ permettant de diviser un complexe par un flottant quelconque:</p>
+
+<pre class="demo">
+complexe& complexe::operator/=(float x) {
+
+  r /= x;
+  i /= i;
+  return *this;
+}</pre>
+
+<p>Il  n'y a ici <em>aucun  traitement d'erreur.</em> Si on passe 0 à cette fonction, comment saurons-nous que quelque chose d'anormal s'est passé ?
+La réponse est que nous ne le saurons pas.</p>
+
+<p>Voici une première manière d'introduire un traitement d'erreur:</p>
+<pre class="demo">
+complexe& complexe::operator/=(float x) {
+  if ( x == 0 ) <b>throw</b> ( "division par zéro" );  
+  r /= x;
+  i /= i;
+  return *this;
+}</pre>
+
+<p>La fonction se contente de "lancer" un <code>const char*</code>. Celui-ci sera "rattrapé" par une fonction située plus en amont dans la pile d'appels, 
+par exemple la fonction main, dont voici une première implémentation:<p>
+
+<pre class="demo">int main() {
+   complexe c(5,6);
+   <b>try</b>
+   {
+   	float x;
+   	cout &lt;&lt "Entrez un dividende: ";
+	cin &gt;&gt; x;
+	c /= x;
+   }
+   <b>catch</b> ( const char * c )
+   {
+    	cout &lt&lt; c &lt;&lt; "\n";
+   }
+   return 0;
+}</pre>
+	
+<p>La fonction <code>main</code> a "attrapé" l'objet envoyé (ici un <code>const char *</code> et l'a simplement affiché. La version suivante va plus loin: elle
+demande à l'utilisateur de rentrer une valeur jusqu'à ce que celle-ci soit différente de 0.</p>
+
+<pre class="demo">int main() {
+   complexe c(5,6);
+   <b>do</b>
+   {
+      try
+      {
+         float x;
+         cout &lt;&lt "Entrez un dividende: ";
+         cin &gt;&gt; x;
+         c /= x;
+         <b>break</b>;
+      }
+      catch ( const char * msg )
+      {
+         cout &lt&lt; msg &lt;&lt; " Recommencez\n";
+      }
+   } <b>while (true)</b>;
+   return 0;
+}</pre>
+
+<p>On voit donc ici que si le traitement de l'erreur (dans la fonction main) a changé, la génération de l'erreur, elle, est la même. Le code suivant montre
+un troisième manière de procéder: tout le traitement d'erreur se fait ici au niveau de la fonction input_et_divise:</p>
+
+<pre class="demo">
+void input_et_divise(complexe& c) {
+   <b>do</b>
+   {
+      try
+      {
+         float x;
+         cout &lt;&lt "Entrez un dividende: ";
+         cin &gt;&gt; x;
+         c /= x;
+         <b>break</b>;
+      }
+      catch ( const char * msg )
+      {
+         cout &lt&lt; msg &lt;&lt; " Recommencez\n";
+      }
+   } <b>while (true)</b>;
+}
+
+int main() {
+   complexe c(5,6);
+   input_et_divise(c);
+   cout &lt;&lt; "Partie reelle    : " &lt;&lt; c.get_r() &lt;&lt; "\n";
+   cout &lt;&lt; "Partie imaginaire: " &lt;&lt; c.get_i() &lt;&lt; "\n";
+}
+</pre>
+
+<h3><a name="hier">Les hi&eacute;rarchies d'objets exceptions</a></h3>
+
+<p>Plutôt que d'envoyer directement des chaines de caractère, il est presque aussi simple, et beaucoup plus riche, d'encapsuler ces messages dans des objets.
+On peut bien sûr définir ses propres exceptions, mais il est bien plus simple d'utiliser les exceptions déjà définies dans la bibliothèque standard du C++.</p>
+
+<p class="uml">
+<img alt="La hiérarchie d'exceptions standards" src="hierarchie-exception.png" />
+</p>
+<table class="tableau">
+<tr><th>Nom</th><th>Dérive de</th><th>Constructeur</th><th>Signification</th></tr>
+<tr><td><strong>exception</strong></td><td>&nbsp;</td><td><tt>exception()</tt></td><td>Toutes les exceptions dérivent de cette classe</td></tr>
+<tr><td><strong>bad_alloc</strong></td><td><em>exception</em></td><td><tt>bad_alloc()</tt></td><td>Problème d'allocation mémoire, peut être lancée par l'opérateur <tt>new</tt></td></tr>
+<tr><td><strong>ios_base::failure</strong></td><td><em>exception</em></td><td><tt>failure(const string&amp;)</tt></td><td>Problème d'entrées-sorties, peut être lancée par les fonctions d'entrées-sorties</td></tr>
+<tr><td><strong>runtime_error</strong></td><td><em>exception</em></td><td><tt>runtime_error(const string&amp;)</tt></td><td>problems outside the scope of a program; 
+they cannot be easily predicted and can generally only be caught as the program executes.</td></tr>
+<tr><td><strong>range_error</strong></td><td><em>runtime_error</em></td><td><tt>range_error(const string&amp;)</tt></td><td>range error in internal calculation</td></tr>
+<tr><td><strong>overflow_error</strong></td><td><em>runtime_error</em></td><td><tt>overflow_error(const string&amp;)</tt></td><td>arithmetic overflow</td></tr>
+<tr><td><strong>underflow_error</strong></td><td><em>runtime_error</em></td><td><tt>underflow_error(const string&amp;)</tt></td><td>arithmetic underflow</td></tr>
+<tr><td><strong>logic_error</strong></td><td><em>exception</em></td><td><tt>logic_error(const string&amp;)</tt></td><td>Logic errors represent problems in the internal logic of a program.
+In theory, these are preventable, and even detectable before the program runs</td></tr>
+<tr><td><strong>domain_error</strong></td><td><em>logic_error</em></td><td><tt>domain_error(const string&amp;)</tt></td><td>Erreur de domaine (au sens mathématique du terme). Exemple: division par 0</td></tr>
+<tr><td><strong>invalid_argument</strong></td><td><em>logic_error</em></td><td><tt>invalid_argument(const string&amp;)</tt></td><td>Mauvais argument passé à une fonction</td></tr>
+<tr><td><strong>length_error</strong></td><td><em>logic_error</em></td><td><tt>length_error(const string&amp;)</tt></td><td>Vous avez voulu créer un objet trop gros pourle système (par exemple une chaîne plus longue que std::string::max_size()</td></tr>
+<tr><td><strong>out_of_range</strong></td><td><em>logic_error</em></td><td><tt>out_of_range(const string&amp;)</tt></td><td> Par exemple: "index inférieur à 0" pour un tableau</td></tr>
+</table>
+
+<p>Il est très simple d'utiliser ces exceptions dans votre programme. L'opérateur précédent peut être réécrit de la manière suivante:</p>
+
+<pre class="demo">
+complexe& complexe::operator/=(float x) {
+  if ( x == 0 ) {
+     domain_error e ("division par zero" );
+     throw (e);
+  }
+  r /= x;
+  i /= i;
+  return *this;
+}</pre>
+
+<p>ou encore, de manière plus concise:</p>
+
+<pre class="demo">
+complexe& complexe::operator/=(float x) {
+  if ( x == 0 ) {
+     <b>throw domain_error( "division par zero" )</b>;
+  }
+  r /= x;
+  i /= i;
+  return *this;
+}</pre>
+
+<p>Le traitement d'erreur première manière s'écrira cette fois:</p>
+
+<pre class="demo">int main() {
+   complexe c(5,6);
+   <b>try</b>
+   {
+   	float x;
+   	cout &lt;&lt "Entrez un dividende: ";
+	cin &gt;&gt; x;
+	c /= x;
+   }
+   <b>catch</b> ( exception &e )
+   {
+    	cout &lt&lt; e.what() &lt;&lt; "\n";
+   }
+   return 0;
+}</pre>
+
+<p>Le traitement d'erreur troisième manière s'écrira, lui:</p>
+
+<pre class="demo">
+void input_et_divise(complexe& c) {
+   <b>do</b>
+   {
+      try
+      {
+         float x;
+         cout &lt;&lt "Entrez un dividende: ";
+         cin &gt;&gt; x;
+         c /= x;
+         <b>break</b>;
+      }
+      catch ( const domain_error&amp; e )
+      {
+         cout &lt&lt; e.what() &lt;&lt; " Recommencez\n";
+      }
+   } <b>while (true)</b>;
+}
+
+int main() {
+   complexe c(5,6);
+   try
+   {
+      input_et_divise(c);
+      cout &lt;&lt; "Partie reelle    : " &lt;&lt; c.get_r() &lt;&lt; "\n";
+      cout &lt;&lt; "Partie imaginaire: " &lt;&lt; c.get_i() &lt;&lt; "\n";
+   }
+   catch ( const exception&amp; e )
+   {
+      cout &lt&lt; e.what() &lt;&lt; "\n";
+   }
+}
+</pre>
+
+
+<p>Pour ajouter le nom du fichier et le numéro de la ligne, c'est un peu plus compliqué, parce que la macro <tt>__LINE__</tt> qui renvoie le numéro de ligne 
+renvoie un entier, alors que nous avons besoin d'une string. On peut toutefois s'ensortir avec deux macros:</p>
+
+<pre class="demo">
+#include &lt;stdexcept&gt;
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+...
+throw(runtime_error((string)"ERREUR - division par 0 - Fichier " + __FILE__ + ":" + TOSTRING(__LINE__)));
+</pre>
+
+<p>Dans l'exemple précédent, le premier cast: <tt>(string)</tt> force une conversion vers string, indispensable pour que l'opérateur+
+puisse être employé. La conversion se fera automatiquemeent pour les deux membres suivants (<tt>__FILE__</tt> et <tt>":"</tt>), alors
+qu'on a besoin du préprocesseur pour forcer la dernière conversion vers une chaine de caractères</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>Nous allons  tout d'abord  d&eacute;finir  quelques objets,
+sous forme de classe ou  de structure, g&eacute;n&eacute;ralement tr&egrave;s simples, mais
+li&eacute;s entre eux par une relation d'h&eacute;ritage. En particulier, tous
+d&eacute;riveront de la hi&eacute;rarchie d'exceptions standards, qui est
+partiellement d&eacute;crite ci-dessous:</p>
+
+<h4>Les exceptions standards</h4>
+
+<p>Plusieurs objets <code>exception</code> sont d&eacute;finis dans la biblioth&egrave;que 
+standard (en-t&ecirc;te <code>&lt;stdexcept&gt;</code>), en pratique on utilise 
+l'objet de plus haut niveau, <code>exception</code>: <em>Toute nouvelle exception d&eacute;finie
+dans votre code devra d&eacute;river de cet objet</em>. Elle devra fournir une fonction virtuelle
+appel&eacute;e <code>what()</code>, qui renvoie une chaine de caract&egrave;res 
+d&eacute;crivant l'exception. Il est possible d'ajouter un constructeur recevant 
+un argument de type <code>char *</code> pour fixer la valeur de la chaine renvoy&eacute;e par
+<code>what</code>. Bien s&ucirc;r, toute autre extension (par exemple un champ de type <code>int</code>
+pour indiquer un code d'erreur num&eacute;rique) sera &eacute;galement possible.</p>
+
+<h4>Exceptions complexes</h4>
+
+<pre class="demo">
+class CE : public exception {
+public:
+   const char* what() throw() const {return "Complexe exception";};
+};
+
+class CE_F: public CE {
+public:
+   CE_F(char* filename) : _name(filename) {};
+   const char* what() throw() const {
+      string pb = "Complexe exception = File pb, filename = " + _name;
+      return pb;
+   };
+protected:
+   string _name;
+};   
+
+class CE_O: public CE_F {     
+ public:
+  CE_O(char* filename, int e) : CE_F(filename), _err(e) {};
+  int geterror() const { return _err;};
+ private:
+  int _err;
+};
+
+class CE_R: public CE_F {};
+</pre>
+
+<p>La classe  <code>CE</code>  d&eacute;finit les  "exceptions
+complexes" de mani&egrave;re g&eacute;n&eacute;rale, c'est-&agrave;-dire que toutes les exceptions
+g&eacute;n&eacute;r&eacute;es par  la classe <code>complexe</code> seront de  ce type. Ces
+exceptions peuvent &ecirc;tre de plusieurs sortes: un 
+probl&egrave;me  de fichier, avec  notre classe  <code>fcomplexe</code>, mais
+aussi  un probl&egrave;me num&eacute;rique  (division par  z&eacute;ro).  Les  probl&egrave;mes de
+fichiers donneront  lieu &agrave; une exception de  type <code>CE_F</code>. A
+nouveau, plusieurs probl&egrave;mes  peuvent se pr&eacute;senter: fichier impossible
+&agrave; ouvrir parce que inexistant (<code>CE_O</code>), ou fichier ayant un
+mauvais format (<code>CE_F</code>). La classe <code>CE_O</code> est un
+peu  plus compliqu&eacute;e  que  les  autres, car  elle  contiendra le  code
+d'erreur.</p>
+
+<h3><a name="decl">La d&eacute;claration de fonction</a></h3>
+
+<p>Bien que ce ne soit pas obligatoire, il est fortement
+conseill&eacute; de montrer lors de la d&eacute;claration qu'une fonction donn&eacute;e est
+susceptible  de g&eacute;n&eacute;rer  une exception.  Par exemple, nous aurons la 
+d&eacute;claration suivante:</p>
+
+<pre class="demo">
+class complexe: public  {
+public:
+  complexe(const char* ) throw(CE);
+  char* get_fn() const throw() {return fn;};
+  ...
+private:
+  char * fn;
+  ...
+}
+</pre>
+
+<p><code>throw(CE)</code>  dans   la   d&eacute;claration  du
+constructeur signifie  que celui-ci est susceptible
+de  g&eacute;n&eacute;rer  une  exception   de  type  <code>CE</code>.  La  fonction
+<code>get_fn</code>, elle, ne peut g&eacute;n&eacute;rer aucune exception.  Cela est
+indiqu&eacute; par <code>throw()</code>.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Il n'est
+pas obligatoire de mettre la sp&eacute;cification <code>throw</code> dans les
+d&eacute;clarations de  fonction. Si la spécification throw ne figure pas, cela n'importe quel type d'exception peut être généré. 
+Le seul moyen d'en savoir plus pour l'utilisateur de la fonction est lors de lire son code source.</p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Le compilateur v&eacute;rifiera la
+coh&eacute;rence  entre  d&eacute;claration et  d&eacute;finition  de  fonction. Ainsi,  la
+d&eacute;finition du constructeur de <code>fcomplexe</code>, sera la suivante:</p>
+
+<pre class="demo">
+<b>complexe::complexe(const char* fn) throw(CE) </b>{
+...
+}
+</pre>
+</div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Si vous avez sp&eacute;cifi&eacute; une ou plusieurs exceptions dans la d&eacute;claration
+de fonction, 
+et que c'est en fait <i>une autre</i> exception qui est g&eacute;n&eacute;r&eacute;e, dans
+ce cas une fonction particuli&egrave;re, appel&eacute;e <code>unexpected</code>, est
+appel&eacute;e. G&eacute;n&eacute;ralement, la cons&eacute;quence de cette fonction est l'arr&ecirc;t du
+programme.</p></div>
+
+<h3><a name="gene">La g&eacute;n&eacute;ration d'exception</a></h3>
+
+<p>L'exception  est  g&eacute;n&eacute;r&eacute;e,   dans  le  corps  de  la
+fonction,  par  la   fonction  <code>throw</code>.   Le  param&egrave;tre  de
+<code>throw</code>   <em>est   un   objet   d'un   type   d&eacute;fini   par
+l'utilisateur</em>. Voici le code de notre constructeur:</p>
+
+<pre class="demo">
+complexe::complexe(const char* fn) throw(CE) {
+  ifstream input(fn);
+  if (! input) {
+    CE_O e(fn,input.rdstate());
+    throw(e);
+  };
+  input &gt;&gt; e;
+  CE_R e;
+  if (! input) {
+    throw(e);
+  };
+  input &gt;&gt; i;
+  if (! input) {
+    throw(e); 
+  };
+};
+</pre>
+
+<h3><a name="capt">La capture des exceptions</a></h3>
+
+<p>Notre constructeur va  donc g&eacute;n&eacute;rer des exceptions le
+cas   &eacute;ch&eacute;ant,  encore   faut-il   que  la   fonction  appelante   les
+"capture". Voici un  exemple de fonction appelante, qui  va demander &agrave;
+l'utilisateur un nom de fichier, jusqu'&agrave; ce que ce fichier puisse &ecirc;tre
+ouvert:</p>
+
+<pre class="demo">
+complexe* create_compl() {
+  complexe* fc;
+  for (;;) {
+    String fn;
+    cout &lt;&lt; "entrer un nom de fichier ";
+    cin &gt;&gt; fn;
+    try {
+      fc = new fcomplexe(fn);
+      break;
+    }
+    catch (const CE_O &amp; e) {
+      cerr &lt;&lt; "Erreur d'ouverture de fichier - etat " &lt;&lt; e.geterror() &lt;&lt; "\n";
+      cerr &lt;&lt; "Entrez un autre nom\n";
+      continue;
+    }
+  };
+  return fc;
+};
+
+void main() {
+  complexe::set_debug();
+  fcomplexe* D = create_compl();
+} 
+</pre>
+
+<p>Tout    se   passe   dans    une   boucle   infinie
+(<code>for(;;)</code>), qui permettra la reprise en cas
+d'erreur  d'ouverture  de   fichier.   L'appel  du  constructeur  (via
+l'op&eacute;rateur   <code>new</code>)   est    &agrave;   l'int&eacute;rieur   d'un   bloc
+<code>try</code>.   Ce  bloc est  suivi  (<em>attention</em>, le  bloc
+<code>try</code> se termine par un <code><b>}</b></code>, <em>pas</em> par un
+<code><b>};</b></code>)         d'un        ou         plusieurs        blocs
+<code>catch</code>.  <code>catch</code> prend  un  param&egrave;tre (de  m&ecirc;me
+qu'une fonction), le type de  ce param&egrave;tre est le type d'exception que
+l'on  cherche  &agrave;  capturer  (ici <code>CE_O</code>).  L'exception  est
+trait&eacute;e dans le bloc <code>catch</code>.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> En
+fait, plusieurs programmes de capture d'exceptions auraient pu &ecirc;tre
+&eacute;crits, suivant la finesse avec laquelle on veut traiter les
+exceptions:</p>
+<ul>
+  <li>On pourrait se contenter de capturer les exceptions de type
+      <code>CE</code></li>
+  <li>Dans un traitement plus grossier, on peut capturer les exceptions
+      de type <code>run_time</code></li>
+  <li>Dans un traitement encore plus grossier, on peut se contenter de
+       capturer les exceptions de type <code>exception</code>.</li>
+</ul>
+</div>
+
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+Il est donc important de passer l'objet exception par <code><b>const&nbsp;exception&nbsp;&amp;</b></code>,
+afin de s'assurer que le bon objet sera au final utilis&eacute; (notamment la bonne version
+de la fonction <code>what()</code>).</p></div>
+<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
+Si la syntaxe ne le rend pas obligatoire, il est
+important de bien d&eacute;finir les exceptions de mani&egrave;re hi&eacute;rarchique, et
+de pr&eacute;f&eacute;rence comme des classes d&eacute;riv&eacute;es de la classe
+<code>exception</code>. Cela permet en effet le traitement
+hi&eacute;rarchis&eacute; des exceptions, ainsi qu'on vient de le voir.
+</p></div>
+
+<h3><a name="noncapt">Exceptions non captur&eacute;es</a></h3>
+
+<p>Et    que   se   passe-t-il    si   une   exception
+<code>CE_R</code> est g&eacute;n&eacute;r&eacute;e ?  Elle ne sera pas trait&eacute;e: &agrave; la place,
+elle sera transmise &agrave; nouveau &agrave; la fonction appelante.  Dans l'exemple
+ci-dessus,  puisque   <code>main</code>  ne  pr&eacute;voit   aucune  capture
+d'exception, l'exception se terminera  par un arr&ecirc;t du programme. Mais
+il est possible  d'envisager un traitement des exceptions
+restant  &agrave; capturer  par  la fonction  <code>main</code>;  le code  de
+celle-ci devient alors:</p>
+
+<pre class="demo">
+void main() {
+  complexe::set_debug();
+  try {
+    complexe* D = create_compl();
+    cout &lt;&lt; *D &lt;&lt; "\n";
+  }
+  catch (const CE_F &amp;) {
+    cout &lt;&lt; e.what();
+  }
+  catch (...) {
+    cout &lt;&lt; "Autre exception\n";
+  };
+} 
+</pre>
+
+<p>Le premier  bloc  <code>catch</code> correspond  aux
+erreurs de format de fichier, qui peuvent effectivement &ecirc;tre renvoy&eacute;es
+par <code>fcomplexe</code>.  Le second  correspond &agrave; toutes les autres
+exceptions.</p>
+
+<h4><a name="renvoi">Renvoyer les exceptions</a></h4>
+
+<p>Un bloc <code>catch</code> peut se
+terminer par le renvoi d'une exception. Cela permet par exemple de
+d&eacute;finir dans une fonction quelques traitements sp&eacute;cialis&eacute;s et de
+renvoyer le traitement des exceptions restantes au code appelant. A
+cet effet, on peut appeler la fonction <b><code>throw()</code></b> qui
+renvoie l'exception en cours de traitement.</p>
+
+<h3><a name="stdexcept">Utiliser les exceptions prédéfinies</a></h3>
+
+<p>La bibliothèque définit un ensemble d'exceptions standard que l'on peut utiliser dans son programme
+sans définir d'exceptions spécifiques. Ces exceptions correspondent aux cas les plus fréquemment rencontrés.</p>
+
+
+<h3><a name="callstack">Afficher la pile d'appels lors d'une exception</a></h3>
+<p>Contrairement à java, python ou perl, Il n'est pas évident d'afficher la pile d'appels lorsqu'une exception est générée: le C++ est un langage complé, 
+et les symboles sont en général absents de l'exécutable. La manière la plus évidente de procéder est d'utiliser le programme à travers un débogueur (<tt>gdb</tt> par exemple);
+il est possible d'afficher la pile d'appels sans passer par le débogueur. Cependant, cela nécessite de faire appel à des primitives système, qui dépendent du compilateur:
+ce code ne sera par définition pas portable.</p>
+<p>Le programme suivant, que vous pouvez télécharger et utiliser dans vos propres applications, 
+vous offre une solution à ce problème, utilisable exclusivement avec <tt>gcc</tt> sous unix. On a défini une nouvelle exception, qui dérive de <tt>runtime_error</tt>,
+et qui formatte la pile d'appels dans son constructeur, de sorte que la pile d'appels est automatiquement affichée lors de l'exécution de la méthode <tt>what()</tt>. Cet objet repose 
+sur les fonctions suivantes, de la bibliothèque de gnu:</p>
+<ul>
+  <li><tt>backtrace</tt></li>
+  <li><tt>backtrace_symbols</tt></li>
+  <li><tt>abi::__cxa_demangle</tt></li>
+</ul>
+
+<p>Le programme peut être téléchargé ici:</p>
+<ul>
+  <li><a href="rtstack/rtstack.hpp"><tt>rtstack.hpp</tt></a> <a href="rtstack/rtstack.cpp"><tt>rtstack.cpp</tt></a> L'objet à réutiliser</li>
+  <li><a href="rtstack/rtstack-main.cpp"><tt>rtstack-main.cpp</tt></a> Un petit programme de démo</li>
+</ul>
+<p><a href="#"></a></p><hr />
+
+<h2><a name="except">Exceptions et ...</a></h2>
+
+<h3><a name="const">...constructeurs</a></h3>
+
+<p>Le  syst&egrave;me des  exceptions  est  <em>le syst&egrave;me  de
+traitement d'erreurs</em>  &agrave; employer pour  des constructeurs d'objet,
+<em>&agrave;  l'exclusion  de tout  autre</em>:   on pourrait  par
+exemple  imaginer une  variable <code>err</code>  qui  indiquerait que
+l'objet est construit,  certes, mais dans un &eacute;tat  "bizarre", donc pas
+vraiment utilisable.   C'est ce qu'on appelle  les "objets zombies"...
+cela peut conduire &agrave;  des comportements inattendus (variables internes
+non initialis&eacute;es, par exemple),  &agrave; moins que l'objet soit suffisamment
+bien &eacute;crit pour que toutes  les fonctions-membres testent la valeur de
+<code>err</code>  afin   de  s'assurer   que  l'objet  n'est   pas  un
+zombie... mais dans  ce cas, que de code inutile !  A l'inverse, si le
+constructeur est interrompu par une exception, <em>l'objet ne sera pas
+construit</em>...  Or, un vrai mort  vaut mieux qu'un faux zombie, qui
+ira  pr&eacute;tendre le  contraire ?   Si une  exception a  lieu  dans le
+constructeur d'une  classe d&eacute;riv&eacute;e,  comme c'est le  cas avec  le type
+<code>fcomplexe</code>,    le    processus    de   construction    est
+interrompu... mais  le constructeur  de la classe  de base a  d&eacute;j&agrave; &eacute;t&eacute;
+appel&eacute;. Avant que la main soit rendue au bloc <code>catch</code> de la
+fonction appelante,  le destructeur  de la classe  de base  sera alors
+autmatiquement appel&eacute;, de sorte qu'on  ne risque pas d'avoir de "fuite
+de m&eacute;moire".</p>
+
+<h3><a name="dest">...destructeurs</a></h3>
+
+<p>Le   syst&egrave;me  des  exceptions  est   le  syst&egrave;me  de
+traitement d'erreurs <em>&agrave; ne pas employer</em> avec les destructeurs:
+en effet, un  destructeur peut &ecirc;tre appel&eacute; lors  du d&eacute;roulement normal
+du programme;  mais il  peut aussi &ecirc;tre  appel&eacute; lors de  la g&eacute;n&eacute;ration
+<em>d'une  autre  exception</em>.   Dans  ce cas,  le  programme  sera
+imm&eacute;diatement arr&ecirc;t&eacute;.<br /> Evidemment, rien  n'emp&ecirc;che un destructeur
+d'appeler des  fonctions qui, elles,  sont suceptibles de  g&eacute;n&eacute;rer une
+exception.  Mais dans  ce cas,  ces  appels de  fonction doivent  &ecirc;tre
+encadr&eacute;s  par   des  blocs  <code>try...catch</code>,   et  <em>aucune
+exception ne  doit s'&eacute;chapper</em>  du destructeur. Cela  signifie que
+les  destructeurs, s'ils  ont  une erreur  &agrave;  faire remonter,  devront
+trouver un autre  syst&egrave;me. Par exemple &eacute;crire sur  une fen&ecirc;tre ou dans
+un fichier de log.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+  Cette dissym&eacute;trie  peut  para&icirc;tre surprenante  &agrave;
+premi&egrave;re vue...  mais  en fait, en informatique comme  dans la vie, il
+est bien plus  simple de d&eacute;truire que de  construire: on  peut avoir  du mal  &agrave; construire  une maison,  rien  ne devrait
+pouvoir vous emp&ecirc;cher de la d&eacute;truire...  De m&ecirc;me, le constructeur peut
+rencontrer  un grand  nombre  de probl&egrave;mes  (ressources impossibles  &agrave;
+trouver, par exemple), mais  normalement le destructeur ne <em>devrait
+pas</em> g&eacute;n&eacute;rer d'erreur...  ou alors, c'est grave, car cela signifie
+que le syst&egrave;me refuse de r&eacute;cup&eacute;rer une ressource. </p></div>
+
+<p><a href="#"></a></p><hr />
+
+<div class="autres langages"><img alt="DECHIRURE" src="dechirure.gif" />
+<table class="tableau">
+  <tr>
+    <th> Langage </th>
+    <th> Exceptions </th>
+  </tr>
+  <tr>
+    <td><b>C++</b> </td>
+    <td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>perl</b></td>
+    <td>NON</td>
+  </tr>
+  <tr>
+    <td><b>java</b></td>
+    <td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>python</b></td>
+    <td><b>OUI</b></td>
+  </tr>
+  <tr>
+    <td><b>php5</b></td>
+    <td><b>OUI</b></td>
+  </tr>
+</table>
+</div>
+<p><a href="#"></a></p><hr />
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+    <a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+
+</div></body> </html>

@@ -1,0 +1,2074 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>La biblioth&egrave;que standard</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+ <dd id="smenu1" style="height:20em;overflow: scroll;">
+	<ul>
+		<li><a href="stdlib.html#compl">Compl&eacute;ments sur le langage</a> 
+		<ul>
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#namespace">Les espaces de noms</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#localtype">Les types locaux</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#typename">L'instruction <code>typename</code></a></li> 
+		</ul></li>
+	    <li><a onclick="javascript=cacher_menu()" href="stdlib.html#conteneurs">Les conteneurs</a> 
+		<ul>
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#contobjptr">Conteneurs	d'objets ou conteneurs de pointeurs ?</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#contseqass">Conteneurs s&eacute;quentiels et conteneurs associatifs (ordonn&eacute;s)</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#constd">Les conteneurs de la biblioth&egrave;que standard</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#typecont">Types d&eacute;finis sur les conteneurs</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#fctopcont">Quelques fonctions-membres ou op&eacute;rateurs</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="stdlib.html#string">string: les cha&icirc;nes de caract&egrave;res</a></li>
+		</ul></li>
+	    <li><a onclick="javascript=cacher_menu()" href="stdlib.html#iterateurs">Les it&eacute;rateurs</a>
+	<ul>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#it-val">It&eacute;rateurs valides et invalides</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#it-cat">Les diff&eacute;rentes cat&eacute;gories d'it&eacute;rateurs</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#it-int">Sp&eacute;cifier un intervalle &agrave; l'aide de deux it&eacute;rateurs</a></li>
+	</ul></li>
+        <li><a onclick="javascript=cacher_menu()" href="stdlib.html#kikoi">Qui fait quoi ?</a></li> 
+        <li><a onclick="javascript=cacher_menu()" href="stdlib.html#algo">Algorithmes</a></li>
+         <li>
+         <ul><li><a onclick="javascript=cacher_menu()" href="stdlib.html#tri">Trier un conteneur</a></li>
+         <li><a onclick="javascript=cacher_menu()" href="stdlib.html#listes">Manipuler des listes</a></li>
+    </ul></li>
+	<li><a onclick="javascript=cacher_menu()" href="stdlib.html#stream">Les entr&eacute;es-sorties</a>
+	<ul>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#io-stream">Les objets de type ostream ou istream</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#io-bin">Lecture-&eacute;criture en binaire</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#io-get">Fonctions get, put, getline</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#stream-fmt">Entr&eacute;es-sorties formatt&eacute;es:  &lt;&lt; et &gt;&gt;</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#ctrl-fmt">Le contr&ocirc;le du format</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#io-sts">Ecrire... ou lire l'&eacute;tat du flot</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#sortie-surch">Surcharger l'op&eacute;rateur &lt;&lt;</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#entree-surch">Surcharger l'op&eacute;rateur &gt;&gt;</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#ite-stream">Les it&eacute;rateurs de flots</a></li>
+	   <li><a onclick="javascript=cacher_menu()" href="stdlib.html#io-conten">Remplir un conteneur &agrave; partir d'un fichier</a></li>
+	</ul></li>
+	</ul>
+ </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#stdlib" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+<h1>La biblioth&egrave;que standard </h1>
+
+<p>La biblioth&egrave;que standard  est livr&eacute;e avec
+le  compilateur,  &agrave; condition  que  celui-ci  soit  assez r&eacute;cent  pour
+respecter la  norme ANSI de 1997  du C++: il est donc important 
+d'utiliser toujours <em>la version la plus r&eacute;cente possible</em> de son compilateur. 
+La biblioth&egrave;que comprend une multitude
+d'objets et de fonctions  fort utiles, dont nous pr&eacute;sentons bri&egrave;vement
+ici <em>les plus importants</em>.</p>
+
+<h2><a name="compl">Compl&eacute;ments sur le langage</a></h2>
+
+<p>Certaines  particularit&eacute;s  du  langage  n'ont  pas
+encore &eacute;t&eacute;  abord&eacute;es: elles peuvent  en effet &ecirc;tre ignor&eacute;es,  dans une
+premi&egrave;re  approche  du  C++.  Cependant,  il  est  n&eacute;cessaire  de  les
+conna&icirc;tre,  ne serait-ce que  pour comprendre  la documentation  ou le
+code de la biblioth&egrave;que standard.</p>
+
+<h3><a name="namespace">Les espaces de noms</a></h3>
+
+<p>Un probl&egrave;me se pose  d&egrave;s lors que l'on travaille avec
+des biblioth&egrave;ques venant de plusieurs sources diff&eacute;rentes: les noms de
+classes, de fonctions, de types, etc.  employ&eacute;s par les uns et par les
+autres peuvent parfaitement entrer en conflit;   Une mani&egrave;re classique
+de r&eacute;soudre le probl&egrave;me est  d'inciter les d&eacute;veloppeurs &agrave; utiliser des
+noms ayant peu de chances  d'entrer en conflit, par exemple en mettant
+devant chaque  nom un pr&eacute;fixe particulier.  Ainsi,  si la biblioth&egrave;que
+<code>GenialeBibliotheque</code> utilise  le type <code>string</code>,
+elle  l'appellera  <code>GenialeBibliotheque_string  </code>.   Si  la
+biblioth&egrave;que  <code>SublimeBibliotheque</code> d&eacute;finit  elle  aussi un
+type           <code>string</code>,          elle          l'appellera
+<code>SublimeBiblitoheque_string</code>.   Cependant, le C++  offre un
+m&eacute;canisme bien plus astucieux;</p>
+
+<h4><a name="namedecl">La d&eacute;claration <code>namespace</code></a></h4>
+
+<p>Chacune des deux biblioth&egrave;ques  encapsule toutes ses d&eacute;clarations dans
+un bloc appel&eacute; <code>namespace</code>, comme on le voit ci-dessous:</p>
+
+<pre class="demo">
+namespace GenialeBibliotheque {
+   class string {
+      ...
+   }
+}
+</pre>
+
+<p>pour la premi&egrave;re biblioth&egrave;que et:</p>
+
+<pre class="demo">
+namespace SublimeBibliotheque {
+   class string {
+      ...
+   }
+}
+</pre>
+
+<p>pour  la seconde.</p>
+
+<h4><a name="namealia">Les aliases d'espaces de noms</a></h4>
+
+<p>On  conseille de  donner  des  noms  longs pour  les
+espaces de noms: plus le long sera long plus le risque de conflit sera
+faible. Par  contre, plus  le long sera  long plus la  souffrance sera
+aig&ucirc;e   pour  l'utilisateur.   Mais,   heureusement,  nous   avons  la
+possibilit&eacute; de d&eacute;finir des aliases d'espaces de noms comme suit:</p>
+
+<pre class="demo">
+namespace GB = GenialeBibliotheque;
+namespace SB = SublimeBibliotheque;
+</pre>
+
+<h4><a name="nameutil">L'utilisation des espaces de noms</a></h4>
+
+<p>A  partir de l&agrave;, comment le  code utilisateur va-t-il
+pr&eacute;venir  le  compilateur qu'il  veut  utiliser  l'un  ou l'autre  des
+espaces de noms ?  Trois solutions:</p>
+
+<ul>
+  <li>L'op&eacute;rateur de port&eacute;e</li>
+  <li>Les d&eacute;clarations <code>using</code></li>
+  <li>La directive <code>using</code></li>
+</ul>
+
+<p>
+L'op&eacute;rateur de port&eacute;e permet de sp&eacute;cifier la totalit&eacute; du nom, comme
+indiqu&eacute; ci-dessous:</p>
+
+<pre class="demo">
+GB::string S;
+</pre>
+
+<p>La notation est lourde, conduisant &agrave; un code peu lisible.</p>
+
+<p  >Les     <i>d&eacute;clarations</i>    <code>using</code>    sont
+int&eacute;ressantes, elles  permettent de d&eacute;clarer, objet par  objet, le nom
+de l'espace de nom correspondant. L'op&eacute;rateur de port&eacute;e figure dans la
+d&eacute;claration, mais ensuite il est sous-entendu. Par exemple:</p>
+
+<pre class="demo">
+using GB::string;
+string S;
+</pre>
+
+<p>On   a  autant   de  contr&ocirc;le  qu'avec   la  m&eacute;thode
+pr&eacute;c&eacute;dente, mais sans la lourdeur de la notation.</p>
+
+<p>La <i>directive</i>  <code>using</code> est plus radicale:
+elle  dit au  compilateur  que tous  les  objets de  l'espace de  noms
+consid&eacute;r&eacute; doivent &ecirc;tre accessibles:</p>
+
+<pre class="demo">
+using namespace GB;
+string S;
+</pre>
+
+<p>Sympathique,  car   la  notation  est  all&eacute;g&eacute;e  mais
+attention: si un nouveau symbole appara&icirc;t lors de la prochaine version
+de  la   biblioth&egrave;que  SublimeBibliotheque,  par   exemple  la  classe
+<code>class1</code>, un nouveau conflit  peut &ecirc;tre g&eacute;n&eacute;r&eacute; dans le code
+utilisateur...  il est toujours  tr&egrave;s d&eacute;sagr&eacute;able d'avoir de nouvelles
+erreurs de compilation parce qu'on a chang&eacute; de version de biblioth&egrave;que.
+La solution la meilleure semble  donc bien &ecirc;tre celle des d&eacute;clarations
+<code>using</code>.</p>
+
+<h4><a name="namestd">L'espace de noms de la biblioth&egrave;que standard</a></h4>
+
+<p> Tous  les  symboles d&eacute;finis  par la  biblioth&egrave;que
+standard se  trouvent dans l'espace de  noms <code>std</code>. D'autre
+part, les en-t&eacute;tes  de la biblioth&egrave;que standard ne  comprennent pas le
+traditionnel <code>.h</code>.  D'o&ugrave; les quelques  lignes suivantes que
+l'on trouve en t&ecirc;te des programmes:</p>
+
+<pre class="demo">
+#include &lt;iostream&gt;
+using namespace std;
+</pre>
+
+<div class="attention"><p><img          alt="ATTENTION"
+src="attention.gif" />Certains  compilateurs  n&eacute;cessitent  l'utilisation
+d'une option de compilation  pour utiliser la biblioth&egrave;que standard. A
+v&eacute;rifier dans votre documentation.</p></div>
+
+<h3><a name="typedef">Les instructions <code>typedef</code> et <code>auto</code></a></h3>
+
+<p>L'instruction <code>typedef</code> (issue
+du <code>C</code>) ne d&eacute;finit pas, contrairement &agrave; ce que son nom
+pourrait laisser croire, un nouveau type. Elle ne fait que donner un
+autre nom (synonyme) <i> &agrave; un type existant</i>. Il est recommand&eacute; de
+s'en servir, car l'utilisation syst&eacute;matique des mod&egrave;les dans la
+biblioth&egrave;que standard rend le code difficilement compr&eacute;hensible si on
+ne l'utilise pas.</p>
+<p>Une autre manière de rendre le code lisible est l'utilisation du spécificateur de type <code>auto</code>.</p>
+
+<h3><a name="localtype">Les types locaux</a></h3>
+
+<p        >Nous          avons         vu          <a
+href="types.html#priv-prot-pub"><img    alt="avant"    src="avant.gif" /></a>
+ qu'il est possible  de d&eacute;finir des types &agrave; l'int&eacute;rieur
+d'une classe: on parle alors de <em>types locaux</em>. La biblioth&egrave;que
+standard fait largement appel &agrave; la notion de types locaux, par exemple
+pour d&eacute;finir des &eacute;num&eacute;rations:</p>
+
+<pre class="demo">
+class semaine {
+public:
+   enum jour {lundi,mardi,mercredi,jeudi,
+              vendredi,samedi,dimanche};
+   jour j;
+...
+}
+
+...
+if (j == semaine::lundi) {
+   ...
+}
+</pre>
+
+<p>Remarquez  la notation <code>semaine::lundi</code>,
+utilisant  l'op&eacute;rateur  de  port&eacute;e <code>::</code><br />
+Les  it&eacute;rateurs  <a href="#iterateurs"><img  alt="apres"  src="apres.gif" /></a>
+d&eacute;crits ci-dessous, apparaissent eux aussi comme des types locaux dans
+les prototypes de  la biblioth&egrave;que standard. D'o&ugrave; la  syntaxe que nous
+verrons ci-dessous:</p>
+
+<pre class="demo">
+typedef vector &lt;int&gt;::iterator i_int;
+</pre>
+
+<h3><a name="typename">L'instruction <code>typename</code></a></h3>
+
+<p>Dans  certains  cas,  lors  de  la  d&eacute;finition  de
+mod&egrave;les, il n'est pas simple  pour le compilateur de d&eacute;terminer si une
+d&eacute;claration est une d&eacute;claration de type ou de variable: en fait, cette
+d&eacute;termination n'est  possible que  lors de l'instantiation  du mod&egrave;le.
+Or, suivant  qu'il s'agit d'un  type ou d'une  variable, l'utilisation
+ult&eacute;rieure de la chose sera bien diff&eacute;rente. On doit donc pouvoir dire
+au compilateur que tel objet est  soit une variable, soit un type.  La
+r&egrave;gle est la suivante:</p>
+
+<ul>
+  <li>Soit rien n'est sp&eacute;cifi&eacute;, dans ce cas il s'agit d'une variable</li>
+  <li>Si on veut forcer une d&eacute;finition de type, on emploie <code>typename</code></li> 
+</ul>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="conteneurs">Les conteneurs</a></h2>
+
+<p >Les   conteneurs  sont   des   objets  qui   <em>en
+contiennent</em> d'autres: ce terme  g&eacute;n&eacute;ral inclue un grand nombre de
+structures de donn&eacute;es: les tableaux, les listes, les queues, ...  mais
+aussi les  tableaux associatifs.  Comme  on pouvait s'y  attendre, les
+conteneurs   sont   impl&eacute;ment&eacute;s    gr&acirc;ce   aux   <em>mod&egrave;les</em>   <a
+href="modeles.html"><img  alt="avant" src="avant.gif" /></a>:
+on  devra donc sp&eacute;cifier  "ce que"  le conteneur  contient lors  de la
+d&eacute;claration de la variable. Par rapport &agrave; un tableau classique "&agrave; la C", un conteneur offre un certain
+nombre d'avantages:</p>
+
+<ul>
+  <li>Allocation dynamique et automatique de m&eacute;moire</li>
+  <li>Possibilit&eacute; d'ins&eacute;rer ou supprimer les &eacute;l&eacute;ments, pour certains
+      types de conteneurs</li>
+  <li>Utilisation d'algorithmes pr&eacute;d&eacute;finis sur ces conteneurs</li>
+</ul>
+
+<div class="attention"><p><img  alt="ATTENTION"  src="attention.gif" />  <em>Ne  pas utiliser</em> de  tableaux "&agrave; la  C" en C++:  il est bien plus commode et aussi performant (&agrave; condition de prendre quelques pr&eacute;cautions) d'utiliser &agrave; la place un conteneur de type <code>vector</code> </p></div>
+
+<p>La  surcharge des op&eacute;rateurs  permettra d'&eacute;crire du
+code lisible (op&eacute;rateur <code>[]</code>  pour l'acc&egrave;s aux donn&eacute;es dans
+un  vecteur  ou op&eacute;rateur  <code>++</code>  pour  les it&eacute;rateurs,  par
+exemple).   Suivant les op&eacute;rations  que l'on  doit r&eacute;aliser,  on devra
+utiliser tel  ou tel  type de conteneur,  afin d'obtenir  la meilleure
+performance.   D'ailleurs,  certaines   op&eacute;rations   ne seront  pas
+impl&eacute;ment&eacute;es sur <em>tous</em> les conteneurs, non pas parce que ce ne
+serait   pas   possible,  mais   parce   que   ce  serait inefficace.</p>
+
+<h3><a name="contobjptr">Conteneurs d'objets ou conteneurs de pointeurs ?</a></h3>
+
+<p>Un conteneur  doit-il contenir des <em>objets</em> ou
+des  <em>pointeurs  vers  des  objets</em>  ?  Le  probl&egrave;me  avec  les
+conteneurs  est qu'on  est amen&eacute;,  lorsqu'on remplit  le  conteneur, &agrave;
+<em>copier</em> les  objets. Ceux-ci doivent donc avoir un constructeur de copie et un opérateur=. Si le  conteneur contient beaucoup d'objets, si  les objets
+eux-m&ecirc;mes  sont   gros,  cela peut conduire &agrave; une utilisation excessive de la m&eacute;moire.  
+Dans  ce cas, il peut &ecirc;tre int&eacute;ressant d'utiliser un conteneur de pointeurs. Cependant, une solution
+plus élégante, disponible en C++11, consiste à définir pour vos objets un constructeur de déplacement et un opérateur= de déplacement:
+ceux-ci seront utilisés et permettront alors de générer des "copies" bien plus efficaces. Attention tout de même, l'existence 
+de ces fonction entraine quelques conséquences sur l'écriture des objets eux-mếmes <em>(non abordées dans ce cours)</em>.</p>
+
+<div class="attention"><p><img  alt="ATTENTION"   src="attention.gif" />  On  a   d&eacute;j&agrave;  &eacute;voqu&eacute;  <a
+href="mem.html#alloc-dynam"><img      alt="avant"      src="avant.gif" /></a> les probl&egrave;mes pos&eacute;s  par les pointeurs: les conteneurs
+de  pointeurs  n'y  &eacute;chappent   pas,  bien  entendu.  En  particulier,
+attention, si l'objet est  d&eacute;truit le pointeur correspondant doit &ecirc;tre
+retir&eacute; du conteneur, faute de quoi il pendouillera.
+</p></div>
+
+<p>Une  possibilit&eacute;   offerte  par  les  conteneurs  de
+pointeurs: mettre un m&ecirc;me objet "dans" plusieurs conteneurs. Attention
+toutefois &agrave;  ce qui  pr&eacute;c&egrave;de: lors de  la destruction de  l'objet, il
+faudra  supprimer   <em>plusieurs  pointeurs</em>  dans  <em>plusieurs
+conteneurs</em> diff&eacute;rents.  Une  solution peut &ecirc;tre alors d'utiliser des
+objets  qui  comptent  leurs  r&eacute;f&eacute;rences</p>
+
+<div class="attention"><p><img        alt="ATTENTION"        src="attention.gif" />        L'objet <code>auto_ptr</code>  <a  href="mem.html#auto_ptr"><img  alt="avant" src="avant.gif" /></a> <em>n'est  pas</em> une bonne solution
+dans  ce cas:  lors de  la copie  d'un  <code>auto_ptr</code>, l'objet
+source est en effet d&eacute;truit.</p>
+</div>
+
+<h4>Conteneurs h&eacute;t&eacute;rog&egrave;nes ou homog&egrave;nes ?</h4>
+
+<p >Reprenons  l'exemple  des   <code>shape</code>  <a
+href="progobj.html#class-obj"><img    alt="avant"    src="avant.gif" /></a>: un conteneur h&eacute;t&eacute;rog&egrave;ne pourrait contenir des
+<code>shape*</code>;  cela  permettrait de  mettre  dans  le  conteneur
+n'importe  quelle forme;  le probl&egrave;me  est  au  moment  de r&eacute;cup&eacute;rer  l'objet:
+qu'est-ce  que j'ai  bien pu  mettre l&agrave;  dedans ?   Les  conteneurs de
+classes de bases sont les seuls conteneurs
+h&eacute;t&eacute;rog&egrave;nes vraiment utiles: gr&acirc;ce &agrave; l'utilisation des relations d'h&eacute;ritage et des
+ fonctions virtuelles, vous n'aurez pas &agrave;  vous poser  cette question.</p> 
+
+<div class="regle">
+<p><img alt="REGLE D'OR" src="diam.gif" /> La r&egrave;gle d'or:</p>
+<ul> 
+  <li>Utilisez  les <em>conteneurs  de   valeurs</em>,  sauf  si  vous
+      ne  pouvez  faire autrement.</li>
+  <li>Dans ce cas, utilisez les <em>conteneurs de pointeurs.</em></li>
+  <li>Utilisez  les <em>conteneurs  homog&egrave;nes</em> autant  que possible.</li>
+  <li>En  cas   de  besoin,  les  conteneurs   h&eacute;t&eacute;rog&egrave;nes  sont
+      utilisables &eacute;galement. Ils seront impl&eacute;ment&eacute;s sous la forme de conteneurs
+      de pointeurs vers une classe de base.</li>
+  <li>En aucun cas, vous ne pourrez utiliser de <em>conteneurs de r&eacute;f&eacute;rences.</em></li>
+</ul>
+</div>
+
+<h3><a name="contseqass">Conteneurs s&eacute;quentiels et conteneurs associatifs (ordonn&eacute;s).</a></h3>
+
+<p>Les conteneurs de la biblioth&egrave;que standard se regroupent en deux familles principales:</p>
+
+<ul>
+   <li>Conteneurs s&eacute;quentiels</li>
+   <li>Conteneurs ordonn&eacute;s, ou encore conteneurs associatifs</li>
+</ul>
+
+<p>Les conteneurs s&eacute;quentiels permettent au programmeur de contr&ocirc;ler l'ordre dans lequel 
+les &eacute;l&eacute;ments sont ins&eacute;r&eacute;s.</p>
+<p>Les conteneurs ordonn&eacute;s d&eacute;terminent eux-m&ecirc;mes l'ordre dans lequel les &eacute;l&eacute;ments sont 
+rang&eacute;s: ils seront mis dans un ordre permettant de les rechercher tr&egrave;s rapidement. Un acc&egrave;s par cl&eacute; permet d'ailleurs 
+cette recherche: il s'agit donc de conteneurs associatifs, qui fonctionnement de la m&ecirc;me mani&egrave;re qu'un
+tableau associatif en perl, ou un dictionnaire en python.</p>
+
+<div class="attention"><p><img  alt="ATTENTION"  src="attention.gif" />  Certains  conteneurs,  en
+particulier  <code>map</code> et  <code>multimap</code>,  utilisent la
+<code>struct</code>   mod&egrave;le  <code>pair</code>,  qui   comprend  deux
+champs: <code>first</code> et <code>second</code>, ainsi qu'on peut le
+voir ci-dessous:</p>
+
+<pre class="demo">
+typedef pair&lt;int,int&gt; p_i_i;
+p_i_i p;
+p.first=67;
+p.second=54;
+</pre>
+</div>
+
+
+<h3><a name="constd">Les conteneurs de la biblioth&egrave;que standard</a></h3>
+
+
+<p>Les conteneurs  disponibles  dans la  biblioth&egrave;que
+standard sont pr&eacute;sent&eacute;s rapidement ci-dessous:</p>
+
+<h4>Conteneurs s&eacute;quentiels g&eacute;n&eacute;ralistes:</h4>
+<dl>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/vector">vector</a></code></dt>
+  <dd>Tableau &agrave; une dimension</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/List">list</a></code></dt>
+  <dd>Liste doublement cha&icirc;n&eacute;e</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/deque">deque</a></code></dt>
+  <dd>Ressemble &agrave; un vecteur, sauf que l'insertion et la suppression en t&ecirc;te de liste 
+  sont plus performantes.</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/queue">queue</a></code></dt> 
+  <dd>File d'attente (premier entr&eacute;, premier sorti). <em>Une queue est un adaptateur de conteneur, qui  repose (par d&eacute;
+  faut) sur un conteneur de type deque.</em></dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/stack">stack</a></code></dt>
+  <dd>Pile (dernier entr&eacute;, premier sorti). <em>C'est un adaptateur de conteneur.</em></dd>
+</dl>
+
+<h4>Conteneurs ordonn&eacute;s g&eacute;n&eacute;ralistes:</h4>
+
+<dl>
+  <dt><code><a
+      href="http://www.cplusplus.com/reference/stl/map">map</a></code>, <code><a href="http://www.cplusplus.com/reference/stl/multimap">multimap</a></code></dt> 
+  <dd>Tableau associatif, dans le cas de multimap plusieurs &eacute;l&eacute;ments peuvent avoir la m&ecirc;me cl&eacute; </dd>
+  <dt><code><a
+      href="http://www.cplusplus.com/reference/stl/set">set</a></code>, <code><a href="http://www.cplusplus.com/reference/stl/multiset">multiset</a></code></dt> 
+  <dd>Ensemble (set), dans le cas de multiset on peut avoir plusieurs fois le
+      m&ecirc;me &eacute;l&eacute;ment.</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/priority_queue">priority_queue</a></code> </dt>
+  <dd>File d'attente. On acc&egrave;de uniquement &agrave; l'objet situ&eacute; en haut de la queue. De plus, le conteneur garantit que l'objet
+  situï¿œ en haut est le "plus grand". <em>Il s'agit d'un adaptateur de conteneur, qui repose sur
+  un vecteur.</em></dd>
+</dl>
+
+<h4>Conteneurs sp&eacute;cialis&eacute;s:</h4>
+
+<dl>
+  <dt><code><a href="http://www.cplusplus.com/reference/string">string, wstring</a></code></dt>
+  <dd>Cha&icirc;nes de caract&egrave;res</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/stl/bitset">bitset</a></code></dt>
+  <dd>Tableau de bool&eacute;ens.</dd>
+</dl>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Les type <code>bitset</code>, <code>multimap</code>, <code>multiset</code>, <code>priority_queue</code>
+ne seront pas abord&eacute;s plus avant dans ce cours.</p></div>
+
+<h3><a name="typecont">Types d&eacute;finis sur les conteneurs</a></h3>
+
+<p>Les  conteneurs d&eacute;finissent  des  <em>types</em> en  tant que  membres
+publics dont les plus importants sont &eacute;crits ci-dessous. On supposera dans ce qui suit qu'on travaille 
+avec l'un de ces deux objets:</p>
+
+<ul>
+  <li><code>seq&lt;objet&gt;</code> (un conteneur s&eacute;quentiel)</li>
+  <li><code>ord&lt;cle,valeur&gt;</code> ou <code>ord&lt;cle&gt;</code> 
+  (un conteneur ordonn&eacute; param&eacute;tr&eacute; 
+  par un type de cl&eacute; et &eacute;ventuellement de valeur).</li>
+</ul>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+M&ecirc;me si cela peut paraitre lourd &agrave; premi&egrave;re vue, il est important d'utiliser ces types,
+pour g&eacute;n&eacute;rer du code portable: peut-&ecirc;tre que sur votre syst&egrave;me le type
+<code>size_type</code> est &eacute;quivalent &agrave; <code>unsigned int</code>. Mais sur un autre syst&egrave;me,
+<code>size_type</code> risque d'&ecirc;tre en fait &eacute;quivalent &agrave; <code>unsigned long</code>. D'o&ugrave;
+de gros soucis de portabilit&eacute;.</p></div>
+
+<dl>
+  <dt><code><b>value_type</b></code></dt>
+  <dd>Type d'&eacute;l&eacute;ment: <code>seq&lt;objet&gt;::value_type</code> n'est autre que <code>objet</code></dd>
+  <dt><code><b>reference</b></code></dt>
+  <dd><code><b>value_type&amp;</b></code> (ici <code><b>objet &amp;</b></code>)</dd>
+  <dt><code><b>const_reference</b></code></dt>
+  <dd><code><b>const value_type &amp; </b></code> (ici <code><b>const objet &amp; </b></code>)</dd>
+  <dt><code><b>size_type</b></code></dt>
+  <dd>Num&eacute;ros d'indices, nombre d'&eacute;l&eacute;ments, etc.</dd>
+  <dt><code><b>iterator</b></code></dt>
+  <dd><code><b>value_type*</b></code>, (ici <code><b>objet *</b></code>)
+      permet de balayer le conteneur <a
+href="#iterateurs"><img  alt="apres"  src="apres.gif" /></a></dd>
+  <dt><code><b>const_iterator</b></code></dt>
+  <dd>M&eacute;me chose, mais garantit que les objets r&eacute;cup&eacute;r&eacute;s ne seront pas
+      modifi&eacute;s.</dd>
+  <dt><code><b>reverse_iterator</b></code></dt>
+  <dd>Pour balayer le conteneur &agrave; l'envers</dd>
+  <dt><code><b>const_reverse_iterator</b></code></dt>
+  <dd>no comment</dd>
+  <dt><code><b>difference_type</b></code></dt>
+  <dd>Diff&eacute;rence entre deux it&eacute;rateurs</dd>
+</dl>
+
+<h4>Cas des conteneurs associatifs</h4>
+
+<p>Les conteneurs associatifs d&eacute;finissent &eacute;galement les types suivants:</p>
+
+<dl>
+  <dt><code><b>Key</b></code> ou <code><b>key_type</b></code></dt>
+  <dd>Cl&eacute; d'acc&egrave;s aux &eacute;l&eacute;ments. (Ici, <code>cle</code>)</dd>
+  <dt><code><b>T</b></code> ou <code><b>data_type</b></code></dt>
+  <dd>Type d'&eacute;l&eacute;ments stock&eacute;s. (Ici, <code>valeur</code>)</dd>
+  <dt><code><b>pair&lt;key,T&gt;</b></code></dt>
+  <dd>Les objets stock&eacute;s dans un <code>map</code> (donc <code>value_type</code>).
+  On acc&egrave;de &agrave; la cl&eacute; par le champ <code>first</code>, à la valeur par le champ <code>second</code>.
+  A noter que les paires sont rang&eacute;es par ordre croissant du champ <code>key</code>. Il est possible de 
+  d&eacute;finir ce qu'est cet ordre (cf. la documentation de l'objet <a href="http://www.sgi.com/tech/stl/map">
+  <code>map</code></a>).</dd>
+</dl>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="fctopcont">Quelques fonctions membres ou op&eacute;rateurs d&eacute;finis sur les conteneurs</a></h3>
+
+<p>Ce paragraphe expose quelques fonctions-membres (les plus utiles) d&eacute;finies sur les conteneurs 
+les plus souvent utilis&eacute;s: autant dire qu'il ne pr&eacute;tend en aucune 
+fa&ccedil;on &agrave; l'exhaustivit&eacute;. Ne sont en effet consid&eacute;r&eacute;s ici que les conteneurs
+suivants: <code>vector, list, deque, queue, stack, map, set</code>.</p>
+
+<ul>
+  <li><b>It&eacute;rateurs</b>
+      <dl>
+	<dt><code><b>iterator begin()</b></code>, <code><b>const_iterator begin()</b></code> <em class="red">(tous)</em></dt>
+	<dd>Retourne un it&eacute;rateur qui pointe sur le premier &eacute;l&eacute;ment. 
+	Permet donc de d&eacute;marrer une boucle pour faire
+	d&eacute;filer tous les &eacute;l&eacute;ments du conteneur.</dd>
+	<dt><code><b>iterator end()</b></code>,<code><b>const_iterator begin()</b></code> <em class="red">(tous)</em></dt>
+	<dd>Retourne un it&eacute;rateur qui pointe <em>apr&egrave;s</em> le dernier &eacute;l&eacute;ment. Permet
+	donc de donner une condition de fin &agrave; la boucle. Cet objet est aussi utilis&eacute; par de nombreuses fonctions
+	(algorithmes <a href="#algo"><img  alt="apres"  src="apres.gif" /></a>), par exemple <code>find</code> pour signifier
+	que l'objet recherch&eacute; n'a pas &eacute;t&eacute; trouv&eacute;.
+<pre class="demo">
+typedef conteneur&lt;int&gt;::const_iterator citr;
+for (citr i=V1.begin(); i!=V1.end(); ++i) {
+   cout &lt;&lt; *i &lt;&lt; endl;
+}
+</pre>
+<em>ou, plus lisible, en c++11:</em>
+<pre class="demo">
+for ( auto i=V1.begin(); i!=V1.end(); ++i) {
+   cout &lt;&lt; *i &lt;&lt; endl;
+}</pre>
+<em>encore plus lisible, toujours en c++11:</em>
+<pre class="demo">
+for ( auto x : V1 ) {
+   cout &lt;&lt; x &lt;&lt; endl;
+}</pre>
+</dd>
+</dl>
+</li>
+  <li><b>Acc&egrave;s aux &eacute;l&eacute;ments</b>
+      <dl>
+	<dt><code><b>reference top() const</b></code>, <code><b>const_reference top() const</b></code> <em class="red">(stack)</em></dt>
+	<dd>Renvoie l'&eacute;l&eacute;ment situ&eacute; en haut de la pile. Temps d'ex&eacute;cution constant.
+	La pile ne doit pas &ecirc;tre vide.</dd>
+	<dt><code><b>reference front() const</b></code>, <code><b>const_reference front() const</b></code> <em class="red">(vector,list,deque)</em></dt>
+	<dd>Renvoie le premier &eacute;l&eacute;ment</dd>
+	<dt><code><b>reference back() const</b></code>,<code><b>const_reference back() const</b></code> <em class="red">(vector,list,deque)</em></dt>
+	<dd>Renvoie le dernier &eacute;l&eacute;ment
+<pre class="demo">
+vector&lt;int&gt; V1;
+...
+int f = V1.front();
+int b = V1.back();
+
+cout &lt;&lt; "Premier entier " &lt;&lt; f  &lt;&lt; endl;
+cout &lt;&lt; "Dernier entier " &lt;&lt; b  &lt;&lt; endl;
+</pre></dd>
+
+	<dt><code><b>reference operator[](size_type n)</b></code>, <code><b>const_reference operator[](size_type n)</b></code> <em class="red">(vector,string,deque )</em></dt>
+	<dd>Permet d'acc&eacute;der &agrave; un &eacute;l&eacute;ment indic&eacute;. Attention, il n'y
+	a pas de contr&ocirc;le de d&eacute;bordement. Le premier &eacute;l&eacute;ment a l'indice 0.
+<pre class="demo">
+string s = "hello";
+cout &lt;&lt; s[0]; // renvoie h
+</pre></dd>
+	<dt><code><b>data_type &amp; operator[](const key_type&amp; k)</b></code> <em class="red">(map)</em></dt>
+	<dd>Permet d'acc&eacute;der &agrave; un &eacute;l&eacute;ment &agrave; partir de sa cl&eacute;. Si l'&eacute;l&eacute;ment
+	n'existe pas, un nouvel enregistrement est cr&eacute;&eacute; et ins&eacute;r&eacute; dans le conteneur. En
+	cons&eacute;quence, il n'existe pas de version <code>const</code> de cet op&eacute;rateur.
+
+<pre class="demo">
+map&lt;string,string&gt; couleurs;
+...
+couleurs["foreground_color"]="rouge";
+couleurs["background_color"]="blanc";
+</pre></dd>
+
+	<dt><code><b>iterator find(const key_type &amp; k)</b></code>, 
+	<code><b>const_iterator find(const key_type &amp; k)</b></code> <em class="red">(map,set)</em></dt>
+	<dd>Renvoie un it&eacute;rateur pointant sur l'&eacute;l&eacute;ment de cl&eacute; <code>k</code>.
+	S'il n'y a pas d'&eacute;l&eacute;ment de cl&eacute; k, renvoie <code>end()</code>
+<pre class="demo">
+map&lt;string,string&gt; couleurs;
+...
+map&lt;string,string&gt;::iterator i = couleurs.find("foreground_color");
+if (i==couleurs.end()) {
+   cout &lt;&lt; "Pas trouv&eacute;" &lt;&lt; endl;
+} else {
+   cout  &lt;&lt; "cl&eacute;=" &lt;&lt; i-&gt;first &lt;&lt; "valeur=" &lt;&lt; i-&gt;second &lt;&lt; endl;
+</pre>
+<em>ou, plus lisible, en c++11:</em>
+<pre class="demo">
+map&lt;string,string&gt; couleurs;
+...
+auto i = couleurs.find("foreground_color");
+if (i==couleurs.end()) {
+   cout &lt;&lt; "Pas trouv&eacute;" &lt;&lt; endl;
+} else {
+   cout  &lt;&lt; "cl&eacute;=" &lt;&lt; i-&gt;first &lt;&lt; "valeur=" &lt;&lt; i-&gt;second &lt;&lt; endl;
+</pre>
+</dd>
+</dl>
+</li>	
+  <li><b>Op&eacute;rations d'insertion et de suppression d'&eacute;l&eacute;ments.</b>
+      <dl>
+	<dt><code><b>void push(const value_type &amp; x)</b></code><em class="red">(stack,queue)</em></dt>
+	<dd>Ins&egrave;re <code>x</code> en haut de la pile ou &agrave; la fin de la queue. Temps d'ex&eacute;cution constant.</dd>
+	<dt><code><b>void pop()</b></code><em class="red">(stack,queue)</em></dt>
+	<dd>Supprime l'&eacute;l&eacute;ment situ&eacute; en haut de la pile ou en t&ecirc;te de la queue. Temps d'ex&eacute;cution constant.
+	La pile ou la queue ne doit pas &ecirc;tre vide.</dd>
+	<dt><code><b>void push_front(const value_type &amp; x)</b></code>  
+	<em class="red">(deque,list)</em></dt>
+	<dd>Ins&egrave;re <code>x</code> au d&eacute;but.</dd>
+	<dt><code><b>void pop_front()</b></code> 
+	<em class="red">(deque,list)</em></dt>
+	<dd>Supprime <code>x</code> du d&eacute;but. Ces fonctions ont un comportement ind&eacute;fini si le conteneur est vide:
+	utiliser la fonction <code>empty()</code> auparavant.</dd>
+	<dt><code><b>void push_back(const value_type &amp; x)</b></code>  
+	<em class="red">(string, deque,list,vector)</em></dt>
+	<dd>Ins&egrave;re <code>x</code> &agrave; la fin.</dd>
+	<dt><code><b> void pop_back()</b></code> 
+	<em class="red">(string, deque,list,vector)</em></dt>
+	<dd>Supprime <code>x</code> &agrave; la fin. Ces fonctions ont un comportement ind&eacute;fini si le conteneur
+	est vide: utiliser la fonction <code>empty()</code> auparavant.</dd>
+	<dt><code><b>iterator insert(iterator p,const value_type &amp; x)</b></code> <em class="red">(vector,list,deque)</em></dt>
+	<dd>Ins&egrave;re <code>x</code> avant <code>p</code> et retourne un it&eacute;rateur pointant sur 
+	<code>x</code>.</dd>
+	<dt><code><b>void insert(iterator p, In first, In last)</b></code>  <em class="red">(vector,list,deque)</em></dt>
+	<dd>Ins&egrave;re les &eacute;l&eacute;ments de l'intervalle semi-ferm&eacute; <code>[first,last[</code> imm&eacute;diatement
+	avant <code>p</code>. Le code suivant ins&egrave;re tout le vecteur <code>V1</code>, moins les trois premiers &eacute;l&eacute;ments,
+	au d&eacute;but de la liste <code>L1</code>. Cette insertion est performante, puisque le conteneur de destination est une liste.
+	Par ailleurs, on remarquera que la nature des conteneurs source et destination n'a aucune importance.
+<pre class="demo">
+vector&lt;int&gt; V1;
+list&lt;int&gt; L1;
+...
+vector&lt;int&gt;::iterator i=V1.begin()+3;
+L1.insert(L1.begin(),i, V1.end());
+</pre>
+<em>ou, plus lisible, en c++11:</em>
+<pre class="demo">
+vector&lt;int&gt; V1;
+list&lt;int&gt; L1;
+...
+auto i=V1.begin()+3;
+L1.insert(L1.begin(),i, V1.end());
+</pre>
+</dd>
+	
+	<dt><code><b>iterator erase(iterator p)</b></code> <em class="red">(vector,deque,list)</em><br />
+	<code><b>void erase(iterator p)</b></code> <em class="red">(map,set)</em></dt>
+	<dd>Supprime l'&eacute;l&eacute;ment sur lequel pointe <code>p</code>. La performance d&eacute;pend du type
+	de conteneur. Pour un conteneur s&eacute;quentiel, renvoie un itï¿œrateur pointant sur le successeur 
+	imm&eacute;diat de l'&eacute;l&eacute;ment d&eacute;truit, &eacute;ventuellement <code>end()</code>.</dd>
+	<dt><code><b>iterator erase(iterator first, iterator last)</b></code> <em class="red">(vector,deque,list)</em><br />	
+	<code><b>void erase(iterator first, iterator last)</b></code> <em class="red">(map,set)</em></dt>
+	<dd>Supprime tous les &eacute;l&eacute;ments de l'intervalle semi-ouvert <code>[first,last[</code>.
+	La performance d&eacute;pend du type de conteneur. Pour un conteneur s&eacute;quentiel, renvoie un 
+	it&eacute;rateur pointant sur le successeur imm&eacute;diat du dernier &eacute;l&eacute;ment d&eacute;truit, &eacute;ventuellement <code>end()</code>.</dd>
+	<dt><code><b>void remove(const value_type &amp; valeur)</b></code> <em class="red">(list)</em></dt>
+	<dd>Supprime de la liste tous les &eacute;l&eacute;ments &eacute;gaux &agrave; <code>valeur</code></dd>
+	<dt><code><b>void unique()</b></code> <em class="red">(list)</em></dt>
+	<dd>Supprime de la liste tous les &eacute;l&eacute;ments con&eacute;cutifs &eacute;gaux 
+	de la liste, sauf un.</dd>
+	<dt><code><b>void clear()</b></code>  <em class="red">(tous sauf stack)</em></dt>
+	<dd>Efface tous les &eacute;l&eacute;ments.</dd>
+      </dl></li>
+<li><b>Op&eacute;rations affectant l'ordre des &eacute;l&eacute;ments <em class="red">(uniquement list)</em></b>
+      <dl>
+	<dt><code><b>void reverse()</b></code></dt>
+	<dd>Retourne l'ordre des &eacute;l&eacute;ments dans la liste.</dd>
+	<dt><code><b>void sort()</b></code> </dt>
+	<dd>Trie les &eacute;l&eacute;ments de la liste en utilisant <code>operator&lt;</code></dd>
+     </dl>
+</li><li><b>Op&eacute;rations diverses</b>
+      <dl>
+	<dt><code><b>size_type size() const</b></code> <em class="red">(tous)</em></dt>
+	<dd>renvoie le nombre d'&eacute;l&eacute;ments dans le conteneur.</dd>
+	<dt><code><b>bool empty() const</b></code> <em class="red">(tous)</em></dt>
+	<dd>renvoie <code>true</code> si le conteneur est vide.</dd>
+     </dl>
+</li></ul>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="string">string: les cha&icirc;nes de caract&egrave;res</a></h3>
+
+<p>Ce conteneur permet de  d&eacute;finir  un type cha&icirc;ne  de caract&egrave;res et de le manipuler
+simplement et efficacement. Voici quelques-unes des fonctions-membres associ&eacute;es:</p>
+
+<dl>
+   <dt><em>Construction de cha&icirc;nes</em></dt>
+   <dd>On peut utiliser un constructeur par d&eacute;faut, un constructeur permettant d'initialiser le 
+   <code>string</code> &agrave; partir d'un <code>char *</code>, ainsi que beaucoup d'autres constructeurs.</dd>
+   
+   <dt><em>Concat&eacute;nation de cha&icirc;nes</em></dt>
+   <dd>Surcharge de l'op&eacute;rateur <code><b>+</b></code>
+   
+<pre class="demo">
+string A="hello";
+string B="world";
+string C = A + "   " + B;   // C contient hello world
+...
+</pre></dd>
+   
+   <dt><em>Tester l'&eacute;galit&eacute; entre deux cha&icirc;nes.</em></dt>
+   <dd>Comme d'habitude, les op&eacute;teurs <code><b>==</b></code>, <code><b>!=</b></code>,
+   <code><b>&lt;</b></code>, <code><b>&gt;</b></code> etc. sont l&agrave; pour cela.</dd>
+   <dt><em>Conna&icirc;tre la longueur d'une cha&icirc;ne.</em></dt>
+   <dd>Par la fonction-membre <code><b>length()</b></code>.</dd>
+   <dt><em>Trouver un caract&egrave;re ou une sous-cha&icirc;ne dans une cha&icirc;ne</em></dt>
+   <dd>La fonction-membre <code><b>find</b></code> renvoie un nombre de type <code><b>string::size_type</b></code>. Si le caract&egrave;re
+   n'existe pas, elle renvoie le membre constant <code><b>string::npos</b></code>. Comme pour les autres conteneurs,
+   le premier &eacute;l&eacute;ment a pour indice 0.
+
+<pre class="demo">
+...
+string::size_type p1 = C.find('o');	  // renvoie 4
+string::size_type p2 = C.find('o',p1+1);  // renvoie 9
+string::size_type p3 = C.find('z');       // renvoie npos
+if (p3 == string::npos) {
+   cout &lt;&lt; "Pas de lettre z " &lt;&lt; endl;
+...
+</pre>
+<em>ou, plus lisible, en c++11:</em>
+<pre class="demo">
+...
+auto p1 = C.find('o');	  // renvoie 4
+auto p2 = C.find('o',p1+1);  // renvoie 9
+auto p3 = C.find('z');       // renvoie npos
+if (p3 == string::npos) {
+   cout &lt;&lt; "Pas de lettre z " &lt;&lt; endl;
+...
+</pre>
+
+</dd>
+
+   <dt><em>Touver  un caract&egrave;re diff&eacute;rent d'un caract&egrave;re donn&eacute;:</em></dt>
+   <dd>La fonction-membre <code><b>find_first_not_of</b></code> est faite pour cela:
+
+<pre class="demo">
+...
+string::size_type c1 = C.find(' ');	             // renvoie 5
+string::size_type m2 = C.find_first_not_of(' ',c1);  // renvoie 8
+...
+</pre>
+<em>ou, plus lisible, en c++11:</em>
+<pre class="demo">
+...
+auto c1 = C.find(' ');	             // renvoie 5
+auto c2 = C.find_first_not_of(' ',c1);  // renvoie 8
+...
+</pre>
+</dd>
+
+   <dt><em>D&eacute;finir une sous-cha&icirc;ne</em></dt>
+   <dd>Fonction-membre <code><b>substr</b></code>. Ses deux param&egrave;tres sont: la position &agrave; partir
+   de laquelle d&eacute;marrer la sous-cha&icirc;ne, et la longueur de celle-ci.
+   
+<pre class="demo">
+...
+string milieu = C.substr(p1,p2-p1+1); // renvoie o   wo 
+...
+</pre></dd>
+
+   <dt><em>Effacer une sous-cha&icirc;ne</em></dt>
+   <dd>Fonction-membre <code><b>erase</b></code>. Ses deux param&egrave;tres sont: la position &agrave; partir
+   de laquelle d&eacute;marrer la sous-cha&icirc;ne, et la longueur de celle-ci. Renvoie la cha&icirc;ne
+   apr&egrave;s la suppression r&eacute;alis&eacute;e:
+   
+<pre class="demo">
+...
+C.erase(p1,p2-p1+1);   // C vaut maintenant hellrld
+string milieu = C.substr(p1,p2-p1+1); // renvoie o   wo 
+...
+</pre></dd>
+
+  <dt><em>Ins&eacute;rer une sous-cha&icirc;ne</em></dt>
+  <dd>Fonction-membre <code><b>insert</b></code>. Ses deux param&egrave;tres sont: la position &agrave; partir
+   de laquelle d&eacute;marrer l'insertion, et la cha&icirc;ne &agrave; ins&eacute;rer.
+
+<pre class="demo">
+...
+C.insert(1,milieu);    // C vaut maintenant ho   woellrld 
+...
+</pre></dd>
+   
+  <dt><em>Ajouter des caract&egrave;res en fin de cha&icirc;ne</em></dt>
+  <dd>La fonction-membre <code><b>push_back</b></code> est utilisable dans ce but.</dd>
+  
+  <dt><em>Travailler avec des <code>char *</code></em></dt>
+  <dd>De nombreuses fonctions C utilisent non pas l'objet <code><b>string</b></code>, mais le type 
+  <code><b>char *</b></code>. La fonction <code><b>c_str()</b></code> permet de passer d'une <code>string</code>
+  vers un <code>char *</code>, alors que le constructeur de cha&icirc;ne permet de passer d'un <code>char *</code>
+  vers une <code>string</code>, ainsi qu'on l'a vu au dï¿œbut de ce chapitre.
+  
+<pre class="demo">
+...
+char * c = C.c_str();
+...
+</pre></dd>
+</dl>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="iterateurs">Les it&eacute;rateurs</a></h2>
+
+<p>Un it&eacute;rateur est un objet associ&eacute; &agrave; un conteneur, qui
+va  permettre de  balayer l'ensemble  des objets  se trouvant  dans le
+conteneur, et ceci  sans avoir aucune id&eacute;e de  la structure de donn&eacute;es
+sous-jacente;  des   boucles  <code>for</code>  ou  <code>while</code>
+permettront  de  balayer le  conteneur,  <em>exactement</em> comme  on
+balaierait un tableau classique en C:</p>
+
+<pre class="demo">
+typedef vector&lt;int&gt; v_int;
+typedef vector&lt;int&gt;::iterator v_int_it;
+
+v_int V;
+V.push_back(1);
+V.push_back(2);
+V.push_back(3);
+...
+V.push_back(10);
+
+<b>for (v_int_it i=V.begin();i!=V.end();++i) {
+  cout &lt;&lt; *i &lt;&lt; endl;</b>
+};
+  ...
+</pre>
+<em>ou, plus lisible, en c++11:</em>
+<pre class="demo">
+vector&lt;int&gt; V;
+V.push_back(1);
+V.push_back(2);
+V.push_back(3);
+...
+V.push_back(10);
+
+<b>for (auto i=V.begin();i!=V.end();++i) {
+  cout &lt;&lt; *i &lt;&lt; endl;</b>
+};
+  ...
+</pre>
+
+<em>ou, encore plus lisible, toujours en c++11 (utilisation de la liste d'initialisation et de la boucle for par intervalles):</em>
+<pre class="demo">
+vector&lt;int&gt; V{1,2,3,4,5,6,7,8,9,10};
+<b>for (auto x : V) {
+  cout &lt;&lt; x &lt;&lt; endl;</b>
+};
+  ...
+</pre>
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />La 
+ligne  <code>cout &lt;&lt;  *i &lt;&lt;  endl  </code> ne
+signifie   pas   que  <code>i</code>   est   un  v&eacute;ritable   pointeur:
+<code>i</code> est un <em>objet</em> qui impl&eacute;mente une <em>abstraction</em>  de la notion de pointeur:
+l'op&eacute;rateur <code>*</code> est ici surcharg&eacute;.</p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+<code>V1.begin()</code> et <code>V1.end()</code>
+sont tous deux des  it&eacute;rateurs, mais alors que <code>V1.begin()</code>
+pointe    sur    le    <em>premier</em>    &eacute;l&eacute;ment    du    conteneur,
+<code>V1.end()</code> pointe <em>apr&egrave;s</em>  le dernier &eacute;l&eacute;ment. De la
+sorte, pour balayer l'ensemble du conteneur, il faut:</p>
+
+<ul>
+  <li>Initialiser l'it&eacute;rateur sur <code>V1.begin()</code></li>
+  <li>Incr&eacute;menter (<code>++</code>) l'it&eacute;rateur &agrave; chaque it&eacute;ration, de pr&eacute;f&eacute;rence
+  &agrave; l'aide de la version pr&eacute;fix&eacute;e <a  href="surch.html#ope-incr"><img alt="avant" src="avant.gif" /></a></li>
+  <li>Sortir de la boucle d&egrave;s que l'it&eacute;rateur est &eacute;gal &agrave; <code>V1.end()</code></li>
+</ul>
+</div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+La troisième version de la boucle for est particulièrement intéressante, car l'itérateur est masqué, de sorte
+qu'on peut utiliser une sémantique de valeurs, toujours plus sûre et plus claire qu'une sémantique pointeurs.</p></div>
+
+<h3><a name="it-val">It&eacute;rateurs valides et invalides</a></h3>
+
+<p>Un it&eacute;rateur qui pointe sur un &eacute;l&eacute;ment est dit <em>valide</em>. Dans
+ce cas, <code>*i</code> renvoie un &eacute;l&eacute;ment du conteneur. Un it&eacute;rateur
+peut &ecirc;tre valide &agrave; un certain moment de l'ex&eacute;cution du programme, puis &ecirc;tre invalide
+un peu plus tard. Un it&eacute;rateur peut &ecirc;tre <em>invalide</em> pour les raisons suivantes:</p>
+
+<ul>
+  <li>Il n'a pas &eacute;t&eacute; initialis&eacute;</li>
+  <li>Le conteneur a &eacute;t&eacute; redimensionn&eacute; (par des insertions ou des
+      suppressions, par exemple).</li>
+  <li>Le conteneur a &eacute;t&eacute; d&eacute;truit</li>
+  <li>L'it&eacute;rateur pointe sur la fin de la s&eacute;quence
+      (<code>V1.end()</code> dans l'exemple ci-dessus).</li>
+</ul>
+
+<p>Les conteneurs se diff&eacute;rencient par la mani&egrave;re dont les it&eacute;rateurs 
+deviennent invalides: par exemple, le code suivant a toutes les chances d'invalider <code>i</code>:</p>
+
+<pre class="demo">
+vector &lt;int&gt; V1;
+i=V1.begin() + 4;      // pointe sur le 5 &egrave; &eacute;l&eacute;ment.
+<b>V1.insert(i,100000,0); // ins&egrave;re plein de cases juste avant <code>i</code>
+cout &lt;&lt; *i &lt;&lt;endl;     // plantage car i est devenu invalide</b>
+</pre>
+
+<p>En effet, lors de l'insertion de 100000 entiers, il y a fort &agrave; parier que le vecteur s'est trouv&eacute;
+une autre z&ocirc;ne de m&eacute;moire, de sorte que l'it&eacute;rateur s'est mis &agrave; pendouiller
+b&ecirc;tement. Par contre, le code suivant ne pr&eacute;sentera pas de probl&egrave;me:</p>
+
+<pre class="demo">
+<b>typedef list &lt;int&gt; l_int;</b>
+typedef list &lt;int&gt;::iterator l_int_it;
+
+l_int L1;
+L1.push_back(1);
+L1.push_back(2);
+L1.push_back(3);
+...
+L1.push_back(10);
+
+l_int_v1 i = L1.begin();
+i++;i++;i++;i++;       // pointe sur le 5 &egrave; &eacute;l&eacute;ment.
+<b>L1.insert(i,100000,0); // ins&egrave;re plein de cases juste avant <code>i</code>
+cout &lt;&lt; *i &lt;&lt;endl;     // Pas de plantage</b>
+</pre>
+
+<p>En effet, l'objet de type <code>list</code> s'arrange pour que <code>i</code> reste toujours valide dans ce cas.</p>
+
+<h3><a name="it-cat">Les diff&eacute;rentes cat&eacute;gories d'it&eacute;rateurs</a></h3>
+
+<p>Les it&eacute;rateurs peuvent  &ecirc;tre class&eacute;s  en plusieurs
+cat&eacute;gories; suivant les  cat&eacute;gories auxquelles ils appartiennent, nous
+avons  plus ou  moins d'op&eacute;rations  &agrave; notre  disposition;</p>
+
+
+<h4>Int&eacute;rateurs In (Input)</h4>
+
+<p>On ne peut effectuer que 4 op&eacute;rations:</p>
+
+<ol>
+   <li><em>&eacute;galit&eacute;</em> <code><b>j = i </b></code></li>
+   <li><em>Incr&eacute;mentation</em> <code><b>++i</b></code> ou <code><b>i++</b></code></li>
+   <li><em>D&eacute;r&eacute;f&eacute;rencement, en lecture seule</em> <code><b>A = *i </b></code></li>
+   <li><em>Test d'&eacute;galit&eacute;</em> <code><b>i == j </b></code></li>
+</ol>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Il est impossible de faire
+<code><b>*i = A </b></code> avec cet it&eacute;rateur.</p></div>
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Il est impossible de d&eacute;r&eacute;f&eacute;rencer
+plus d'une fois le m&ecirc;me &eacute;l&eacute;ment. Ainsi, le code <code><b>A = *i; B = *i</b></code> ne marche pas.</p></div>
+
+<p>On doit penser &agrave; cet it&eacute;rateur comme &agrave; un objet permettant de lire un fichier.</p>
+
+<h4>Int&eacute;rateurs Out (Output)</h4>
+
+<p>On ne peut effectuer que 3 op&eacute;rations:</p>
+
+<ol>
+   <li><em>&eacute;galit&eacute;</em> <code><b>j = i </b></code></li>
+   <li><em>Incr&eacute;mentation</em> <code><b>++i</b></code> ou <code><b>i++</b></code></li>
+   <li><em>D&eacute;r&eacute;f&eacute;rencement, en &eacute;criture seule</em> <code><b>*i = A </b></code></li>
+</ol>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Il est impossible de faire
+<code><b>A = *i</b></code> avec cet it&eacute;rateur.</p></div>
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Il est impossible de d&eacute;r&eacute;f&eacute;rencer
+plus d'une fois le m&ecirc;me &eacute;l&eacute;ment. Ainsi, le code <code><b>*i = A; *i = B</b></code> ne marche pas.</p></div>
+
+<p>On doit penser &agrave; cet it&eacute;rateur comme &agrave; un objet permettant d'&eacute;crire un fichier.</p>
+
+<h4>Int&eacute;rateurs For (Forward)</h4>
+
+<p>Permet de balayer une s&eacute;quence du d&eacute;but &agrave; la fin, mais sans retour en arri&egrave;re 
+possible. Les op&eacute;rations support&eacute;es par les it&eacute;rateurs In <em>et</em> Out sont 
+&eacute;galement disponibles avec cet it&eacute;rateur. On peut &eacute;galement d&eacute;r&eacute;f&eacute;rencer
+l'it&eacute;rateur autant de fois qu'on veut. </p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Partout o&ugrave; un it&eacute;rateur <code>In</code> 
+ou <code>Out</code> est requis, vous pourrez fournir un it&eacute;rateur <code>For</code>.</p></div>
+  
+<h4>Int&eacute;rateurs Bi (Bidirectionnels)</h4>
+
+<p>Tout ce qui est permis par l'it&eacute;rateur <code>For</code>, avec en plus:</p>
+
+<ol>
+   <li><em>D&eacute;cr&eacute;mentation</em> <code><b>--i</b></code> ou <code><b>i--</b></code></li>
+</ol>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Partout o&ugrave; un it&eacute;rateur <code>In</code> 
+ou <code>In</code>, <code>Out</code> ou <code>For</code> est requis, vous pourrez fournir un it&eacute;rateur <code>Bi</code>.</p></div>
+
+<h4>Int&eacute;rateurs Ran (Random)</h4>
+
+<p>Tout ce qui est permis par l'it&eacute;rateur <code>Bi</code>, avec en plus:</p>
+
+<ol>
+   <li><em>Op&eacute;rateur d'indexation</em> <code><b>i[3]</b></code></li>
+   <li><em>Ajout ou suppression d'entiers</em> <code><b>j=i+3; j=i-4; i +=2;</b></code></li>
+   <li><em>Op&eacute;rateur <b>-</b>: la diff&eacute;rence entre deux it&eacute;rateurs random est un entier</em> <code><b>if (j-i==4)...</b></code></li>
+</ol>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Partout o&ugrave; un it&eacute;rateur <code>In</code> 
+ou <code>In</code>, <code>Out</code>, <code>For</code> ou <code>Bi</code> est requis, 
+vous pourrez fournir un it&eacute;rateur <code>Bi</code>.</p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Un it&eacute;rateur random offre les m&ecirc;mes possibilit&eacute;s qu'un pointeur conventionnel.
+
+</p></div>
+
+<h4>Les it&eacute;rateurs <code>const</code></h4>
+
+<p>La fonction suivante ne pourra pas &ecirc;tre compil&eacute;e:</p>
+
+<pre class="demo">
+typedef list&lt;int&gt; li;
+typedef list&lt;int&gt;::iterator ili;
+
+void  print_list(const li &amp; L) {
+  for(ili i=L.begin();i!=L.end();i++) {
+    <b>cout &lt;&lt; *i &lt;&lt;  endl;</b>
+  };
+};
+</pre>
+
+<p>En   effet,  le  type   <code>ili</code>  ne  peut
+s'appliquer  sur  un  objet  constant,  puisqu'il  est  susceptible  de
+modifier   cet   objet.   Il    faut   dans   ce   cas   d&eacute;clarer   un
+<code>const_iterator</code>, d'o&ugrave; le code ci-dessous:</p>
+
+<pre class="demo">
+typedef list&lt;int&gt; li;
+<b>typedef list&lt;int&gt;::const_iterator cili;</b>
+
+void  print_list(const li &amp; L) {
+  for(cili i=L.begin();i!=L.end();i++) {
+    <b>cout &lt;&lt; *i &lt;&lt;  endl;</b>
+  };
+};
+</pre>
+
+<em>Là encore, le C++11 permet au programmeur de ne plus se creuser la tête:</em>
+<pre class="demo">
+typedef list&lt;int&gt; li;
+void  print_list(const li &amp; L) {
+  for(<b>auto</b> i=L.begin();i!=L.end();i++) {
+    <b>cout &lt;&lt; *i &lt;&lt;  endl;</b>
+  };
+};
+</pre>
+
+<h4>Les it&eacute;rateurs <code>reverse</code></h4>
+
+<p>Ils  permettent de  balayer  la  s&eacute;quence en  sens
+inverse. </p>
+<em>Un exemple simple en c++11</em>
+<pre class="demo">
+typedef list&lt;int&gt; li;
+void  print_list(const li &amp; L) {
+  for(<b>auto</b> i=L.<b>rbegin</b>();i!=L.<b>rend</b>();i++) {
+    <b>cout &lt;&lt; *i &lt;&lt;  endl;</b>
+  };
+};
+</pre>
+
+<p><strong>Leur description complète sort toutefois du cadre de ce cours.</strong></p>
+
+<h3><a name="it-int">Sp&eacute;cifier un intervalle &agrave; l'aide de deux it&eacute;rateurs.</a></h3>
+
+<p>Un grand nombre de fonctions membres, ou d'algorithmes, demandent deux it&eacute;rateurs en entr&eacute;e,
+afin de sp&eacute;cifier un intervalle: <em>Dans tous les cas</em>, cet intervalle est semi-ouvert:</p>
+
+<ul>
+  <li>Ferm&eacute; sur la borne inf&eacute;rieure</li>
+  <li>Ouvert sur la borne sup&eacute;rieure</li>
+</ul>
+
+<p>En effet, utiliser des intervalles de ce type pr&eacute;sente plusieurs int&eacute;r&ecirc;ts:</p>
+
+<ul>
+  <li>La borne sup&eacute;rieure de l'intervalle &eacute;tant en-dehors de celui-ci, on peut utiliser
+  la fonction <code>end()</code>, pr&eacute;sente dans tous les conteneurs, pour signifier qu'on va jusqu'au
+  bout de celui-ci. M&ecirc;me si le dernier &eacute;l&eacute;ment change au cours du temps,
+  (lorsqu'on ajoute un &eacute;l&eacute;ment en bout de conteneur, par exemple) <code>end()</code> ne changera pas</li>
+  <li>Dans le cas d'it&eacute;rateurs "Random", la diff&eacute;rence entre borne sup&eacute;rieure et 
+  borne inf&eacute;rieure renverra toujours le nombre d'&eacute;l&eacute;ments se trouvant entre les deux bornes: pas
+  besoin de se creuser la t&ecirc;te pour r&eacute;soudre des probl&egrave;mes tordus d'intervalles...</li>
+</ul>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Lorsque vous sp&eacute;cifiez un intervalle par <code>[first,last[</code> <code>first</code> et <code>last</code>
+doivent &ecirc;tre deux it&eacute;rateurs valides <em>du m&ecirc;me conteneur</em>. Le type de conteneur n'a par contre
+aucune importance. </p></div>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a name="kikoi">Qui fait quoi ? </a></h3>
+
+<p >Les  tableaux  ci-dessous   ne sont qu'un r&eacute;sum&eacute; des paragraphes ci-dessus.
+En particulier, on a insit&eacute; ici sur les diff&eacute;rences de performances entre les diff&eacute;rents
+conteneurs, suivant les fonctions membres.</p>
+
+<ul>
+  <li><code><b>o</b></code> Fonction-membre pr&eacute;sente</li>
+  <li><code><b>const</b></code> Fonction-membre pr&eacute;sente,
+      performance constante (quelque soit le nombre d'&eacute;l&eacute;ments dans le
+      conteneur)</li>
+  <li><code><b>O(n)</b></code> Fonction-membre pr&eacute;sente,
+      dur&eacute;e proportionnelle au nombre d'&eacute;l&eacute;ments</li>
+  <li><code><b>O(log(n))</b></code> Fonction-membre
+      pr&eacute;sente, dur&eacute;e proportionnelle au logarithme du nombre d'&eacute;l&eacute;ments</li>
+  <li><code><b>+</b></code> surco&ucirc;t &agrave; pr&eacute;voir de temps en
+      temps (lors de demandes automatiques d'allocation m&eacute;moire, par exemple)</li>
+</ul>
+
+<table class="tableau">
+  <caption> <em>Fonctions membres "non mutantes"</em></caption>
+  <tr>
+    <th> Conteneurs </th><th> It&eacute;rateurs </th><th colspan="5"> Fonctions
+	membres </th>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><code>(r)begin()</code>,<br />
+	<code>(r)end()</code></td>
+    <td><code>front()</code>,<br /><code>back()</code></td>
+    <td><code>[]</code></td>
+    <td><code>find()</code></td>
+    <td><code>size()</code></td>
+  </tr>
+  <tr>
+    <td> <code><b>vector</b></code> </td>
+    <td><b>Ran</b></td>
+    <td><b>o</b></td>
+    <td><b>o</b></td>
+    <td><b>const</b></td>
+    <td>&nbsp;</td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>list</b></code> </td>
+    <td><b>Bi</b></td>
+    <td><b>o</b></td>
+    <td><b>o</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>deque</b></code> </td>
+    <td><b>Ran</b></td>
+    <td><b>o</b></td>
+    <td><b>o</b></td>
+    <td><b>const</b></td>
+    <td>&nbsp;</td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>queue</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>priority_queue</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>stack</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>map</b></code> </td>
+    <td><b>Bi</b></td>
+    <td><b>o</b></td>
+    <td>&nbsp;</td>
+    <td><b>O(log(n))</b></td>
+    <td><b>O(log(n))</b></td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>set</b></code> </td>
+    <td><b>Bi</b></td>
+    <td><b>o</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>O(log(n))</b></td>
+    <td><b>o</b></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table class="tableau">
+<caption> <em>Fonctions membres "mutantes"</em></caption>  
+  <tr>
+    <th> Conteneurs </th><th colspan="7"> Fonctions membres </th>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><code>push_back</code>,<br /><code>pop_back</code></td>
+    <td><code>push_front</code>,<br /><code>pop_front</code></td>
+    <td><code>pop</code></td>
+    <td><code>push</code></td>
+    <td><code>top</code></td>
+    <td><code>insert()<br />
+	erase()</code></td>
+    <td><code>clear()</code></td>
+  </tr>
+  <tr>
+    <td> <code><b>vector</b></code> </td>
+    <td><b>const+</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>O(n)+</b></td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>list</b></code> </td>
+    <td><b>const</b></td>
+    <td><b>const</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>const</b></td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>deque</b></code> </td>
+    <td><b>const</b></td>
+    <td><b>const</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>O(n)</b></td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td><code><b>queue</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>const</b></td>
+    <td><b>const+</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td><code><b>priority_queue</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>O(log(n))</b></td>
+    <td><b>O(log(n))</b></td>
+    <td><b>o</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td> <code><b>stack</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>const</b></td>
+    <td><b>const+</b></td>
+    <td><b>o</b></td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td> <code><b>map</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>O(log(n))+</b></td>
+    <td><b>o</b></td>
+  </tr>
+  <tr>
+    <td> <code><b>set</b></code> </td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td><b>O(log(n))+</b></td>
+    <td><b>o</b></td>
+  </tr>
+</table>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="algo">Algorithmes</a></h2>
+
+<p>La  biblioth&egrave;que  standard fournit  &eacute;galement  des
+algorithmes  (fonctions)  qui  permettent  de r&eacute;aliser  toutes  sortes
+d'op&eacute;rations  sur  les  &eacute;l&eacute;ments  d'un  conteneur.   Il  sera  souvent
+n&eacute;cessaire  de passer  un  objet fonction  en  param&egrave;tre; par  exemple
+l'algorithme   <code><b>find_if</b></code>  qui   recherche   dans  un
+conteneur  les  &eacute;l&eacute;ments qui  r&eacute;pondent  &agrave;  une  condition donn&eacute;e:  la
+condition sera pass&eacute;e  sous forme d'un objet fonction  &agrave; un param&egrave;tre,
+qui renverra  soit <code>true</code>, soit  <code>false</code> (un tel
+objet  est   appel&eacute;  un  <em>pr&eacute;dicat</em>).    <br />  Les  principales
+fonctionnalit&eacute;s sont les suivantes:</p>
+
+<ul>
+  <li>Appeler une fonction pour chaque objet d'un conteneur (<code>for_each</code>, &eacute;quivalente
+  &agrave; la fonction pr&eacute;d&eacute;finie <code>map</code> du perl).</li>
+  <li>Trouver un &eacute;l&eacute;ment, une paire d'&eacute;l&eacute;ments</li>
+  <li>Trouver la premi&egrave;re occurrence, ou la derni&egrave;re occurrence d'une
+      valeur dans une s&eacute;quence.</li>
+  <li>Compter les occurrences d'une valeur dans une s&eacute;quence</li>
+  <li>copie, remplace, copie si telle condition est r&eacute;alis&eacute;e,...</li>
+  <li>retire un &eacute;l&eacute;ment, retire tous les &eacute;l&eacute;ments correspondant &agrave; une
+      condition particuli&egrave;re,...</li>
+  <li>Trie, effectue une recherche binaire (sur une s&eacute;quence tri&eacute;e)</li>
+  <li>recherche le minimum ou le maximum</li>
+  <li>etc.</li>
+</ul>
+
+<h3>Un exemple d'utilisation d'algorithmes</h3>
+
+<p>L'extrait de code ci-dessous montre une mani&egrave;re amusante d'imprimer tous les &eacute;l&eacute;ments 
+d'un conteneur (quelque soit le conteneur, d'ailleurs):</p>
+
+<pre class="demo">
+class sortie {
+    public: 
+    sortie (const string &amp; s): msg(s){;};
+    void operator()(int i) {
+	cout &lt;&lt; msg &lt;&lt; i &lt;&lt; "\n";
+    };
+    private:
+    string msg;
+};
+
+...
+
+vector&lt;int&gt; V1;
+...
+
+sortie s("coucou ");
+for_each(V1.begin(), V1.end(),s);
+</pre>
+
+<p>La classe <code>sortie</code> permet de d&eacute;finir un objet-fonction, c'est-&agrave;-dire un objet
+comportant <code>operator()</code>. Le constructeur de cet objet initialise un membre priv&eacute;. Par la suite,
+on cr&eacute;e un objet de type <code>sortie</code>, et on appelle la fonction <code>for_each</code> en lui passant
+deux it&eacute;rateurs (pour d&eacute;finir un intervalle) ainsi que l'objet-fonction pr&eacute;c&eacute;demment
+cr&eacute;&eacute;. Pour plus de d&eacute;tails, aller voir la documentation de 
+<code><a href="http://www.sgi.com/tech/stl/for_each.html">for_each</a></code>.</p>
+
+<p><a href="#">top</a></p><hr />
+
+<h3 id="tri">Trier un conteneur</h3>
+
+<p>Seuls les conteneurs suivants peuvent &ecirc;tre tri&eacute;s:</p>
+
+<ul>
+   <li><code>vector</code></li>
+   <li><code>deque</code></li>
+   <li><code>list</code></li>
+</ul>
+
+<h4>Trier un <code>vector</code> ou un <code>deque</code></h4>
+
+<p>Les vecteurs et les deque &eacute;tant munis d'un it&eacute;rateur &agrave; acc&egrave;s direct, ils peuvent &ecirc;tre tri&eacute;s en ordre croissant en utilisant l'algorithme <code>sort</code>, ainsi qu'on le voit ci-dessous:</p>
+
+<pre class="demo">
+vector&lt;int&gt; v1;
+<b>sort(v1.begin(),v1.end());</b>          // trie le vecteur entier
+<b>sort(v1.begin(),v1.begin()+10);</b>     // trie les 10 premiers &eacute;l&eacute;ments
+</pre>
+
+<p>Les objets du conteneur seront physiquement chang&eacute;s de place, ce qui n'est pas g&ecirc;nant pour des entiers, mais peut devenir p&eacute;nalisant dans le cas d'objets.</p>
+
+<h4>Trier une <code>list</code></h4>
+
+<p>L'algorithme <code>sort</code> n'est pas utilisable avec les listes, car il n'existe pas d'it&eacute;rateur &agrave; acc&egrave;s direct  pour ce type de conteneurs. Par contre, la structure chain&eacute;e d'une liste permet d'envisager des tris bien plus performants que dans le cas des vecteurs. On utilise donc la fonction-membre <code>sort</code>:</p>
+
+<pre class="demo">
+list&lt;int&gt; l1;
+<b>l1.sort();</b>  // trie la liste en entier
+</pre>
+
+<p>Par contre, il n'est pas possible de trier partiellement une liste </p>
+
+<h4>Contr&ocirc;ler l'ordre du tri</h4>
+
+<p>Les exemples ci-dessus trient les conteneurs dans l'ordre croissant de leurs &eacute;l&eacute;ments. Encore faut-il que cet ordre soit d&eacute;fini, ce qui n'est a priori pas &eacute;vident lorsqu'il s'agit d'objets. On peut d&eacute;finir l'ordre de deux mani&egrave;res:</p>
+
+<ul>
+   <li>Par la surcharge de l'op&eacute;rateur &lt; (utilisation par d&eacute;faut de <code>sort</code>)</li>
+   <li>Par la d&eacute;finiton d'une fonction de comparaison, et le passage de cette fonction &agrave; la fonction de tri:</li>
+</ul>
+
+<pre class="demo">
+bool Comparaison(const objet&amp; o1, const objet&amp; o2) {
+   if (o1 est inf&eacute;rieur &agrave; o2)
+      return true;
+   else
+      return false;
+}
+list&lt;int&gt; l1;
+<b>l1.sort(Comparaison);</b>
+
+vector&lt;int&gt; v1;
+<b>sort(v1.begin(),v1.end(),Comparaison);</b>
+</pre>
+   
+<h3 id="listes">Manipuler des listes</h3>
+
+<p>Il est ais&eacute; de manipuler des &eacute;l&eacute;ments de liste: on trouve ainsi de fonctions-membres permettant de:</p>
+
+<ul>
+  <li>Supprimer un ou plusieurs objets (<code>remove</code>, <code>remove_if</code>)</li>
+  <li>Faire une liste &agrave; partir de deux listes, tout en respectant l'ordre des &eacute;l&eacute;mets (<code>merge</code>)</li>
+  <li>Vider une liste de tous ses &eacute;l&eacute;ments (ou seulement de quelques-uns) pour les mettre dans une autre: <code>splice</code></li>
+</ul>
+
+<p>Ci-dessous un exemple d'utilisation de <code>splice:</code></p>
+
+<pre class = "demo" >
+list&lt;int&gt;l1, l2,l3;
+...
+<b>l1.splice(l1.end(),l2); // (1)
+l3.splice(l3.end(),l2.begin()); // (2)</b>
+
+</pre>
+
+<p>Dans l'exemple (1), on a "vid&eacute;" <code>l2</code> en mettant tous ses &eacute;l&eacute;ments &agrave; la fin de <code>l1</code>. Dans l'exemple (2), on a simplement mis le premier &eacute;l&eacute;ment de l2 &agrave; la fin de l3.</p>
+
+<h2><a name="stream">Les entr&eacute;es-sorties</a></h2>
+
+<p>Les entr&eacute;es-sorties  se font  &agrave;  travers plusieurs
+objets  "flots"  dont la  hi&eacute;rarchie  se  trouve partiellement  r&eacute;sum&eacute;e
+ci-dessous:</p>
+
+<pre><em>
+ios
+   istream
+       ifstream
+       istringstream
+       iostream -------
+   ostream             |
+       ofstream        iostream
+       ostringstream   |    fstream
+       iostream -------     stringstream
+</em></pre>
+
+<h3><a name="io-stream">Les objets de type ostream ou istream</a></h3>
+
+<p>Pour ouvrir  un fichier,  il suffit  d'instancier un
+objet de  type <code>ostream</code>  (ouverture en &eacute;criture),  de type
+<code>istream</code>  (ouverture  en   lecture),  ou  encore  de  type
+<code>iostream</code>    (ouverture   en    lecture-&eacute;criture)</p>   
+
+<p>Pour fermer le fichier  ouvert, le plus simple est de
+d&eacute;truire l'objet,  par exemple  d'attendre la fin  du bloc  afin qu'il
+soit  automatiquement d&eacute;truit  (il n'est  alors pas  n&eacute;cessaire  de se
+pr&eacute;occuper de la fermeture du fichier), ou dans le cas d'un objet cr&eacute;&eacute;
+avec     l'op&eacute;rateur     <code>new</code>    d'appeler     l'op&eacute;rateur
+<code>delete</code>.:</p>
+
+<pre class="demo">
+{                            // debut de bloc
+   ofstream F1("toto");      // ouvre un fichier en sortie et l'appelle toto
+   ...
+}                           // fin de bloc = fermeture du fichier
+</pre>
+
+<h3><a name="io-bin">Lecture-&eacute;criture en binaire</a></h3>
+
+<p>Pour   &eacute;crire  ou  lire  des   donn&eacute;es  en  binaire,
+c'est-&egrave;-dire simplement &eacute;crire (lire)  une image d'un bloc de m&eacute;moire,
+il  suffit  d'utiliser  les  fonctions-membres  <code>write</code>  ou
+<code>read</code>.</p>
+
+<pre class="demo">
+char bfr[50000];
+int size;
+...
+{
+   ofstream OUT("toto-bin",ios::binary);  // ouvre un fichier en &eacute;criture
+   OUT.write(bfr,size);                   // recopie le buffer
+}                                         // ferme le fichier
+...
+{
+   ifstream IN("toto-bin",ios::binary);  // ouvre un fichier en &eacute;criture
+   IN.read(bfr,size);                    // recopie le buffer
+}                                        // ferme le fichier
+</pre>
+
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Attention aux d&eacute;bordements de buffers en
+utilisant ces fonctions !!! Rien ne garantit que
+size n'est pas sup&eacute;rieur &agrave; 50000 dans l'exemple ci-dessus. 
+</p></div>
+
+<h3><a name="io-get">Fonctions get, put, getline</a></h3>
+
+<p>La fonction <code>out.put(c)</code> o&ugrave;
+<code>c</code> est un <code>char</code>, permet d'envoyer ce caract&egrave;re sur la
+sortie. Elle est strictement &eacute;quivalente &agrave; <code>out &lt;&lt; c</code>.</p>
+
+<p>La fonction <code>in.get(c)</code> o&ugrave; <code>c</code>
+est un <code>char</code> est plus int&eacute;ressante, dans la mesure o&ugrave;,
+contrairement &agrave; l'op&eacute;rateur <code>&gt;&gt;</code>, elle ne fait
+<i>aucune</i> interpr&eacute;tation du caract&egrave;re lu. Elle permet par exemple
+de lire les espaces ou les '\n', qui sont interpr&eacute;t&eacute;s par
+<code>&gt;&gt;</code>.</p>
+ 
+<p>La fonction-membre <code>getline</code> est bien
+pratique pour lire un 
+fichier ligne par ligne. Son prototype est le suivant:</p>
+
+<pre class="demo">
+getline(char* buffer, int taille, char delimiteur='\n')
+</pre>
+
+<p> Le
+d&eacute;limiteur par d&eacute;faut est le caract&egrave;re de fin de ligne, tandis que la
+possibilit&eacute; de fixer une taille permet de s'assurer que le buffer ne
+d&eacute;borde pas. Juste apr&egrave;s un appel <code>getline</code>, la
+fonction-membre <code>gcount()</code> permet de savoir quelle est la
+longueur de la chaine de caract&egrave;res effectivement lue.</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Il existe aussi une fonction <code>getline</code>
+(qui <em>n'est pas</em> une fontion membre) permettant de lire une ligne
+dans un objet de type <code>string</code>. On pourrait penser que
+cette fonction est bien sympathique, puisqu'il n'y a plus &agrave; se
+pr&eacute;occuper des d&eacute;bordements de tampons... mais attention, elle va
+environ <i>quatre fois plus lentement</i> que la fonction-membre
+<code>getline</code>... A utiliser avec parcimonie, donc.
+</p></div>
+
+<h3><a name="stream-fmt">Entr&eacute;es-sorties formatt&eacute;es:  &lt;&lt; et &gt;&gt;</a></h3>
+
+<p> Les op&eacute;rateurs  <code>&lt;&lt;</code> et
+<code>&gt;&gt;</code>  sont  surcharg&eacute;s  de  sorte  qu'ils  permettent
+respectivement l'entr&eacute;e ou la sortie:</p>
+
+<pre class="demo">
+string A = "voici une chaine";
+int B = 56;
+objet O;                     // Objet dont le type a &eacute;t&eacute; d&eacute;fini plus haut
+...
+
+ofstream F1("toto");         // ouvre un fichier en sortie et l'appelle toto
+F1 &lt;&lt; A &lt;&lt; " " &lt;&lt; B &lt;&lt; "\n"; // Ecrit A, puis B
+F1 &lt;&lt; O &lt;&lt; "\n";             // Ecrit O
+</pre>
+
+<p> En  particulier,  tous les  types  de  base  du langage  peuvent  &ecirc;tre
+utilis&eacute;s avec ces op&eacute;rateurs.  Mais par ailleurs, lorsque vous &eacute;crivez
+la d&eacute;finition de la  classe <code>objet</code>, vous pouvez surcharger
+cet  op&eacute;rateur, afin de  vous permettre par  la suite
+d'&eacute;crire: <code>F1  &lt;&lt; O &lt;&lt;  "\n";</code> Nous verrons  plus tard
+comment &eacute;crire un tel op&eacute;rateur.</p>
+
+<h3><a name="ctrl-fmt">Le contr&ocirc;le du format</a></h3>
+<p>Nous avons plusieurs outils &agrave; notre disposition pour contr&ocirc;ler le format d'&eacute;criture ou de lecture:</p>
+
+<ul>
+  <li> Les manipulateurs</li>
+  <li> Les fonctions membres</li>
+  <li> Les bits de contr&ocirc;le</li>
+</ul>
+
+<h4>Les manipulateurs</h4>
+
+<p>Les manipulateurs  s'interposent  entre les  donn&eacute;es
+imprim&eacute;es pour  agir sur  le fonctionnement du  flots. Particuli&egrave;rement
+bien int&eacute;gr&eacute;s  au syst&eacute;me d'entr&eacute;es-sorties, ils sont  d'un usage tr&egrave;s
+pratique.</p>
+
+<h4>Les fonctions membres</h4>
+
+<p>Un flots  &eacute;tant tout  simplement un  objet, plusieurs
+fonctions membres sont d&eacute;finies afin de  fixer la valeur de tel ou tel
+param&egrave;tre. Il existe  aussi des fonctions membres pour  lire la valeur
+fix&eacute;e  actuellement.  Cela  permet,  par exemple,  de  sauvegarder  un
+param&egrave;tre avant  de le modifier,  pour ensuite lui redonner  sa valeur
+initiale.</p>
+
+<h4>Les bits de contr&ocirc;le</h4>
+
+<p>Plus classique:  certains param&egrave;tres sont accessibles
+via   le   positionnement  de   bits   de   contr&ocirc;le.  Les   fonctions
+<code>setf</code>  et  <code>unsetf</code>  permettent  respectivement
+d'activer et d&eacute;sactiver  les bits de contr&ocirc;le, tout  en renvoyant leur
+ancienne valeur pour sauvegarde &eacute;ventuelle.</p>
+
+<h4>Pr&eacute;cision, largeur de champ, caract&egrave;re de remplissage</h4>
+
+<table class="tableau">
+  <tr>
+    <th>Fonctions membres</th>
+    <th>R&eacute;sultats</th>
+  </tr>
+  <tr>
+  <td>
+  <pre class="demo">
+float x = 4.56782765;
+int savprec=cout.precision();
+cout.precision(3);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(7);
+cout &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(7);
+cout.fill('#');
+cout &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+   </pre>
+   </td>
+   <td>
+<pre class="demo">
+
+
+
+
+
+x =4.57cm
+
+
+
+
+x = ###4.57cm
+</pre>
+   </td>
+   </tr>
+   <tr>
+   <th> Manipulateurs </th>
+   <th>R&eacute;sultats</th>
+   </tr>
+   <tr>
+   <td>
+<pre class="demo">
+float x = 4.56782765;
+cout &lt;&lt; setprecision(3) &lt;&lt; &quot;x = &quot; 
+     &lt;&lt; setw(7) &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+cout &lt;&lt; setprecision(3) &lt;&lt; setfill('#') 
+     &lt;&lt; &quot;x = &quot; &lt;&lt; setw(7) &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+</pre>
+   </td>
+   <td>
+<pre class="demo">
+
+
+x =    4.57cm
+
+x = ###4.57cm
+</pre></td></tr></table>
+
+	
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+La  fonction  <code>width</code>  ainsi  que  le
+manipulateur  <code>setw</code> ne  pr&eacute;cisent la  largeur d'impression
+<em>que</em> pour la  prochaine op&eacute;ration de sortie. Il  n'en est pas de
+m&ecirc;me  pour  la plupart  des  autres  fonctions  ou manipulateurs,dont l'effet est permanent.
+</p></div>
+
+<h4>Alignement &agrave; gauche ou &agrave; droite</h4>
+
+<table class="tableau">
+  <tr>
+    <th>champs de bits</th>
+    <th>R&eacute;sultats</th>
+  </tr>
+  <tr><td>
+<pre class="demo">
+float x = -4.56782765;
+cout.precision(3);
+cout.fill('-');
+cout.setf(ios::left,ios::adjustfield);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(7);
+cout &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+
+cout.setf(ios::right,ios::adjustfield);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(7);
+cout &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+</pre></td>
+<td>
+<pre class="demo">
+
+
+
+
+
+
+x = -4.57  cm
+
+
+
+
+x =   -4.57cm
+</pre></td>
+</tr></table>
+
+<h4>Notation scientifique, fixe</h4>
+
+<table class="tableau">
+<tr>
+<th>champs de bits</th>
+<th>R&eacute;sultats</th>
+</tr>
+<tr><td>
+<pre class="demo">
+float x = 4567.82765;
+cout.precision(3);
+cout.setf(ios::fixed,ios::floatfield);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(10);
+cout &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+
+cout.setf(ios::scientific,ios::floatfield);
+cout.precision(3);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(10);
+cout &lt;&lt; x &lt;&lt; &quot;cm\n&quot;;
+</pre></td>
+<td>
+<pre class="demo">
+
+
+
+
+
+x =   4567.828cm
+
+
+
+
+
+x =  4.568e+03cm
+</pre></td>
+</tr></table>
+
+<h4>Afficher en hexad&eacute;cimal ou en octal</h4>
+
+<table class="tableau">
+<tr>
+<th>champs de bits</th>
+<th>R&eacute;sultats</th>
+</tr>
+<tr><td>
+<pre class="demo">
+int i =987654;
+cout.setf(ios::showbase);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(10);
+cout &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+
+cout.setf(ios::oct,ios::basefield);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(10);
+cout &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+
+cout.setf(ios::hex,ios::basefield);
+cout.setf(ios::showbase);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(10);
+cout &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+
+cout.setf(ios::uppercase);
+cout &lt;&lt; &quot;x = &quot;;
+cout.width(10);
+cout &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+</pre></td>
+<td>
+<pre class="demo">
+
+
+
+
+x =     987654..
+
+
+
+
+x =   03611006..
+
+
+
+
+
+x =    0xf1206..
+
+
+
+
+x =    0XF1206..
+</pre></td>
+</tr>
+<tr>
+   <th>Manipulateurs</th>
+   <th>R&eacute;sultats</th>
+</tr>
+<tr><td>
+<pre class="demo">
+cout.unsetf(ios::showbase);
+cout &lt;&lt; &quot;x = &quot;&lt;&lt; dec &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+
+cout &lt;&lt; &quot;x = &quot;&lt;&lt; oct &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+
+cout &lt;&lt; &quot;x = &quot;&lt;&lt; hex &lt;&lt; i &lt;&lt; &quot;..\n&quot;;
+</pre></td>
+<td>
+<pre class="demo">
+
+x = 987654..
+
+x = 3611006..
+
+x = f1206..
+</pre></td></tr></table>
+
+
+<h4>Jouer avec les tampons</h4>
+
+<table class="tableau">
+  <tr>
+    <th>champs de bits</th>
+  </tr>
+  <tr>
+    <td><pre class="demo">
+int i =987654;
+cout.setf(ios::unitbuf);
+cout &lt;&lt; &quot;x = &quot; &lt;&lt; i;
+    </pre></td></tr>
+    <tr><th>Manipulateurs</th></tr>
+    <tr><td><pre class="demo">
+cout &lt;&lt; &quot;x = &quot;&lt;&lt; i &lt;&lt; flush;
+    </pre></td></tr></table>
+    
+<p><code>unitbuf</code> assure que toute op&eacute;ration de
+sortie sera envoy&eacute;e imm&eacute;diatement (le tampon n'est pas utilis&eacute;); cela
+peut &ecirc;tre important par exemple lorsqu'on &eacute;crit dans un pipe, pour
+assurer une bonne syncrhonisation. Le manipulateur <code>flush</code>
+vide le tampon imm&eacute;datement.</p>
+
+<h3><a name="io-sts">Ecrire... ou lire l'&eacute;tat du flot</a></h3>
+
+<p>L'op&eacute;rateur <code>()</code> est surcharg&eacute; de sorte
+que l'on puisse &eacute;crire:</p>
+
+<pre class="demo">
+OUT &lt;&lt; ...;
+if (OUT) {
+    ...    // Pas de pb
+    ..
+};
+</pre>
+
+<p>De m&ecirc;me, l'op&eacute;rateur <code>!</code> est surcharg&eacute; de
+sorte que l'on puisse &eacute;crire:</p>
+
+<pre class="demo">
+OUT &lt;&lt; ...;
+if (!OUT) {
+    ...    // BIG PB
+    ..
+};
+</pre>
+
+<p>Par ailleurs, plusieurs fonctions-membres permettent
+de tester plus pr&eacute;cis&eacute;ment l'&eacute;tat du fichier. Parmi elles, la plus
+utile est <code>eof()</code> permettant de d&eacute;tecter la fin de fichier.</p>
+
+<h3><a name="sortie-surch">Surcharger l'op&eacute;rateur &lt;&lt;</a></h3>
+
+<p>L'op&eacute;rateur <code><b>&lt;&lt;</b></code> peut &ecirc;tre
+surcharg&eacute; lorsqu'on &eacute;crit une classe, ainsi qu'on le voit ci-dessous
+avec notre classe complexe;<a   href="surch.html#ope-plus"><img   alt="avant"
+src="avant.gif" /></a> Le mieux est de d&eacute;finir une fonction amie,
+en utilisant un prototype analogue au prototype ci-dessous:</p>
+
+<pre class="demo">
+class complexe {
+...
+  friend ostream &amp; operator&lt;&lt;(ostream&amp; os, const complexe&amp; c) {
+    os &lt;&lt; &quot;Partie reelle = &quot; &lt;&lt; c.r &lt;&lt; &quot; Partie imaginaire = &quot; &lt;&lt; c.i;
+    os &lt;&lt; endl;
+  }
+}
+
+...
+
+complexe A;
+cout &lt;&lt; A &lt;&lt; "\n";
+</pre>
+
+<p>La derni&egrave;re op&eacute;ration de sortie &eacute;crit:</p>
+
+<pre class="demo">
+Partie reelle = 0 Partie imaginaire = 0
+</pre>
+
+<h3><a name="entree-surch">Surcharger l'op&eacute;rateur &gt;&gt;</a></h3>
+
+<p>L'op&eacute;rateur <code><b>&gt;&gt;</b></code> peut lui
+aussi &ecirc;tre surcharg&eacute;. Attention, il est bon de s'assurer que les
+donn&eacute;es fournies par l'utilisateur correspondent bien &agrave; ce que l'on
+attend, et dans le cas contraire il faut agir sur l'&eacute;tat du flot, afin
+que le programme principal sache que quelque chose d'anormal est arriv&eacute;.<br />
+Le programme ci-dessous montre l'op&eacute;rateur <code>&gt;&gt;</code>
+ainsi que le programme principal qui va avec; on voit qu'on utilise
+l'op&eacute;rateur <code>!</code> sur le flot <code>cin</code> afin de
+d&eacute;tecter les erreurs, et de boucler le cas &eacute;ch&eacute;ant. Tout cela ne peut
+fonctionner que parceque <code><b>&gt;&gt;</b></code> positionne
+correctement les bits d'&eacute;tat lorsqu'il rencontre un probl&egrave;me.</p>
+
+<pre class="demo">
+class complexe {
+...
+  friend istream&amp; operator&gt;&gt;(istream&amp; is, complexe&amp; c) {
+    char sep;
+    float r,i;
+    is.clear();                           // remise a 0 du status
+    is &gt;&gt; r &gt;&gt; sep;
+    if (sep == ',') {
+      is &gt;&gt; i;
+      c.r = r;
+      c.i = i;
+    } else {
+      string dump;
+      getline(is,dump);                   // pour jeter la fin de ligne
+      is.clear(ios::badbit|is.rdstate()); // pb en lecture
+    };
+    return is;
+  }
+};
+
+main() {
+  complexe C1;
+  do {
+    cout &lt;&lt;&quot;Entrer reel,imag:&quot;;
+  } while(!(cin &gt;&gt; C1));
+  cout&lt;&lt; &quot;Voici le complexe = &quot; &lt;&lt; C1 &lt;&lt; endl;
+};
+</pre>
+
+
+<h3><a name="ite-stream">Les it&eacute;rateurs de flots</a></h3>
+
+<p>Une autre mani&egrave;re  d'utiliser les flots est de faire
+"comme si"  il s'agissait d'un conteneur, et  d'utiliser un it&eacute;rateur,
+ainsi qu'on peut le voir ci-dessous pour l'entr&eacute;e:</p>
+
+<pre class="demo">
+<b>istream_iterator&lt;int&gt; input (cin);
+istream_iterator&lt;int&gt; end_of_input;</b>
+while(input != end_of_input) {
+    int i = *input;
+    ...
+    ++input;
+}
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+La premi&egrave;re ligne associe un it&eacute;rateur de flot &agrave; un flot existant
+(ici <code>cin</code>). La seconde ligne construit un it&eacute;rateur de flot sans l'associer
+&agrave; quoique ce soit: il s'agit par convention d'un signal de fin de fichier.</p></div>
+
+<p>Et pour la sortie:</p>
+
+<pre class="demo">
+ostream_iterator&lt;int&gt; output(cout);
+while(...) {
+    *output = ...;
+    ++output;
+}
+</pre>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+La ligne <code>*output = ... </code> utilisera en fait l'op&eacute;rateur <code>&lt;&lt;</code>
+de l'objet situ&eacute; &agrave; droite du signe <code>=</code>.</p></div>
+
+<h3><a name="io-conten">Remplir un conteneur &agrave; partir d'un fichier</a></h3>
+
+<p>Le code ci-dessous utilise la fonction <code>back_insert_iterator</code> afin de g&eacute;n&eacute;rer
+&agrave; partir d'un conteneur, un type particulier d'it&eacute;rateurs: un it&eacute;rateur d'insertion. Celui-ci
+sert &agrave; ins&eacute;rer les objets dans le conteneur par la fin. Associ&eacute; aux it&eacute;rateurs de flots,
+on remplit le conteneur avec une ligne de code... mais surtout, le fait qu'on lit depuis un fichier est totalement masqu&eacute;:
+changez les it&eacute;rateurs <code>i</code> et <code>i_end</code> par des it&eacute;rateurs d&eacute;finissant
+un intervalle, par exemple, le code sera exactement le m&ecirc;me. El&eacute;gant, n'est-il pas ?</p>
+
+<pre class="demo">
+vector&lt;int&gt; V1;
+
+ifstream data("file.data");
+istream_iterator&lt;int&gt; i(data);
+istream_iterator&lt;int&gt; i_end;
+back_insert_iterator&lt;vector&lt;int&gt; &gt; bii1 = back_inserter(V1);
+
+<b>copy(i,i_end, bii1);</b>
+</pre>
+
+<hr />
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+    <a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+</div></body> </html>
+ 

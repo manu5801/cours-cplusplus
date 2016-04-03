@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>Mod&egrave;les</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+    <dd id="smenu1">
+    <ul>
+      <li><a onclick="javascript=cacher_menu()" href="modeles.html#class-param">Classes param&eacute;tr&eacute;es</a>
+        <ul>
+          <li><a onclick="javascript=cacher_menu()" href="modeles.html#def-class-param">D&eacute;finition</a></li>
+          <li><a onclick="javascript=cacher_menu()" href="modeles.html#instant">Instantiation</a></li>
+          <li><a onclick="javascript=cacher_menu()" href="modeles.html#param-util">Param&egrave;tres utilisables</a></li>
+        </ul>
+      </li>
+      <li><a onclick="javascript=cacher_menu()" href="modeles.html#modele-fct">Mod&egrave;les de fonctions</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="modeles.html#modele-spe">Sp&eacute;cialisation</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="modeles.html#conseils">Quelques conseils</a></li>
+    </ul>
+    </dd>
+</dl>
+<dl>
+ <dt><a href="exos.html#modeles" title="Les exercices de ce chapitre">Exercices</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+<h1 id="titre_page"><a name="modeles">Les mod&egrave;les </a></h1>
+
+<p>Nous sommes maintenant capables d'exprimer plusieurs types de
+relations entre objets:</p>
+
+<ul>
+  <li>Associations, agr&eacute;gation, composition:</li>
+  <li>Est une sorte de</li>
+</ul>
+
+<p>Nous allons voir dans ce chapitre comment exprimer
+la relation: <em>Est une liste de</em>, ou <em>Est
+un tableau de</em>,
+etc.; nous avons d&eacute;fini au d&eacute;but du cours une
+classe appel&eacute;e
+<code>complexe</code>, qui comprend essentiellement deux
+membres
+priv&eacute;s, <code>r</code> et <code>i</code>.
+Or, ces deux nombres &eacute;taient
+d&eacute;finis comme des <code>float</code>, ce qui
+peut para&icirc;tre un peu
+restrictif... Ne faudrait-il pas plut&ocirc;t d&eacute;finir
+les parties r&eacute;elle et
+imaginaire des complexes comme des double, pour avoir une meilleure
+pr&eacute;cision lors des calculs num&eacute;riques ? Nous ne
+voulons pas avoir &agrave; choisir, en
+tous cas <em>pas au moment d'&eacute;crire l'objet
+<code>complexe</code></em>: les algorithmes
+utilis&eacute;s seront les m&ecirc;mes, quelque soit le type
+des champs utilis&eacute;s pour la
+partie r&eacute;elle et pour la partie imaginaire. D'o&ugrave;
+la notion de
+<em>mod&egrave;les</em>.</p>
+
+<p>Les mod&egrave;les sont tr&egrave;s
+utilis&eacute;s pour cr&eacute;er des objets de type
+conteneurs:
+ce sont des objets qui vont en "contenir" d'autres. Nous en reparlerons
+dans le chapitre sur la biblioth&egrave;que
+standard <a href="stdlib.html"><img alt="apres" src="apres.gif" class="noprint" /></a></p>
+
+<h2 id="modele-fct">Les modèles de fonctions</h2>
+
+<p>La fonction <code>min</code> ci-dessous renvoie simplement le plus petit de deux nombres... ou de deux objets:</p>
+<pre class="demo"><b>template &lt;typename T&gt; const min(T const&amp; a,T const&amp; b)
+{
+   return a &gt; b ? b : a;
+}
+</b></pre>
+
+<p>La fonction peut être utilisée avec n'importe quel objet (ou presque):</p>
+
+<pre class="demo"><b>int i=4,j=6;
+int m = min(i,j);
+
+float x=3.14, y=5.65;
+float z= min(x,y);
+
+string s1="houlala", s2="aieaieaie";
+string s = min(s1, s2);
+
+complexe c1=0, c2=1;
+complexe c = min(c1,c2);   // NON !!! Ne passe pas à la compilation !
+</b></pre>
+
+<p>Dans le code ci-dessus, quatre versions de la même fonction ont été compilées. On dit qu'elles ont été "instantiées". Le compilateur
+a choisi la fonction à instantier à partir du type des arguments. Cependant, la quatrième a abouti à une erreur de compilation, 
+car l'opérateur &lt; n'est pas défini pour la classe <code>complexe</code>.</p>
+<p> Le code suivant aboutit lui aussi à une erreur de compilation:</p>
+
+<pre class="demo">int i=4;
+float y=3.14;
+<b>cout &lt;&lt; min(i,y) &lt;&lt; endl;</b>
+</pre>
+
+<p>En effet, le compilateur n'a aucun moyen de savoir quelle fonction template doit être utilisée, il se retrouve devant une ambiguïté. Le programmeur doit dans ce cas soit forcer 
+une conversion, soit imposer le type d'instantiation. Cela s'écrit de la manière suivante:</p>
+
+<pre class="demo">int i=4;
+float y=3.14;
+<b>cout &lt;&lt; min&lt;float&gt;(i,y) &lt;&lt; endl;</b>
+</pre>
+
+
+<h2><a name="class-param">Classes
+param&eacute;tr&eacute;es</a></h2>
+
+<h3><a name="def-class-param">D&eacute;finition
+d'une classe param&eacute;tr&eacute;e</a></h3>
+
+<p>Voici la nouvelle d&eacute;finition de la classe <code>complexe</code>,
+en
+utilisant des mod&egrave;les:</p>
+
+<pre class="demo"><b>template&lt;typename NUM=float&gt;</b> class complexe {<br />public:<br /> complexe(<b>NUM</b> x=0, <b>NUM</b> y=0);<br /> complexe(const <b>complexe&lt;NUM&gt;</b> &amp; );<br /> ~complexe();<br /> operator <b>NUM</b>();<br /> <b>complexe&lt;NUM&gt;</b> &amp; operator=(const <b>complexe&lt;NUM&gt;</b> &amp;);<br /> <b>complexe&lt;NUM&gt;</b> &amp; operator+= (const <b>complexe&lt;NUM&gt;</b> &amp;);<br /> <b>NUM</b> get_r() const { return r;};<br /> <b>NUM</b> get_i() const { return i;};<br /> void set_r(<b>NUM</b> x) { r=x; m_flg=false;};<br /> void set_i(<b>NUM</b> x) { i=x; m_flg=false;};<br /> <b>NUM</b> get_m() const;<br /> static void set_debug() { debflg=true;};<br /> static void clr_debug() { debflg=false;};<br /><br />private:<br /> <b>NUM</b> r;<br /> <b>NUM</b> i;<br /> mutable bool m_flg;<br /> mutable <b>NUM</b> m;<br /> static bool debflg;<br /> void _calc_module() const {m=sqrt(r*r+i*i);};<br />};<br /></pre>
+
+<p>Le nom de classe est pr&eacute;c&eacute;d&eacute;
+par le mot-cl&eacute;
+<code>template&lt;typename NUM&gt;</code> (que l'on
+traduit
+par <em>mod&egrave;le</em>,ou <em>patron</em>),
+ce qui
+signifie qu'un certain <em>type</em> sera
+utilis&eacute; lors de
+l'instantiation de cette classe. D'autre part, d&egrave;s que le
+nom
+complexe est utilis&eacute; pour d&eacute;signer la classe qui
+est en train d'&ecirc;tre
+d&eacute;finie, on <em>doit</em> citer le
+param&egrave;tre, d'o&ugrave; la notation un peu
+lourde <code>complexe&lt;NUM&gt;</code> partout
+dans la d&eacute;finition des
+param&egrave;tres.</p>
+
+<div class="attention">
+<p><img alt="ATTENTION" src="attention.gif" />
+L'expression <code>typename NUM</code>, peut aussi s'écrire <code>class NUM</code>. Dans ce contexte, <code>class</code> signifie en fait 
+"n'importe quel type"; La notation <code>typename</code>, plus récente, est donc bien meilleure et doit être utilisée dans les nouveaux codes.</p>
+</div>
+
+<div class="attention">
+<p><img alt="ATTENTION" src="attention.gif" />Le type est <code>complexe&lt;T&gt;</code>, on fera référence à ce type complet lorsqu'on
+annoncera par exemple un type de retour de fonction. Par contre, le constructeur a pour nom <code>complexe</code>, 
+le destructeur <code>~complexe</code>.</p></div>
+
+<div class="attention">
+<p><img alt="ATTENTION" src="attention.gif" />Définir une fonction <em>en-dehors de la port&eacute;e de la d&eacute;claration de classe</em> 
+revient à définir un modèle de fonction:</p>
+<pre class="demo"><b>template &lt;typename NUM&gt; complexe&lt;NUM&gt;</b>::~complexe()<br /></pre>
+
+<p>Ce qui signifie:</p>
+
+<ul>
+
+  <li>la fonction est un modèle paramétré par <code>NUM</code></li>
+  <li>Le nom de la classe est <code><b>complexe&lt;NUM&gt;</b></code></li>
+  <li>Le nom de la fonction est <code>~complexe</code> (le destructeur, en l'occurrence)</li>
+</ul>
+</div>
+
+<h3><a name="def-prm">Param&egrave;tres par d&eacute;faut</a></h3>
+
+<p>Dans le code ci-dessus, on remarque la structure
+<code><b>typename NUM=float</b></code>, qui revient &agrave; donner &agrave; <code>NUM</code>
+une valeur par d&eacute;faut (<code>float</code> en l'occurrence).</p>
+
+<h3><a name="instant">Instantiation</a></h3>
+
+<p>Le programme principal ressemblera &agrave; ce qui suit:</p>
+
+<pre class="demo">typedef complexe&lt;&gt; complexe_float;
+typedef complexe&lt;double&gt; complexe_double;
+
+main() {
+ complexe_float F;
+ complexe_double D;
+}
+</pre>
+
+<p>Le <code>typedef</code> ne fait <em>rien d'autre</em> que de d&eacute;clarer un <em>synonyme</em>. Autrement
+dit, il ne cr&eacute;e pas un nouveau type. Il n'est pas indispensable, mais simplement <em>tr&egrave;s souhaitable</em> pour la
+lisibilit&eacute; du code: en effet, la syntaxe <code>complexe&lt;float&gt;</code> se r&eacute;v&egrave;le difficilement lisible.</p>
+
+<p>Dans le cas des flottants, il suffit de d&eacute;clarer <code>complexe&lt;&gt;</code>, le symbole <code>&lt;&gt;</code>
+&eacute;tant l&agrave; pour rappeler qu'il s'agit bien d'un mod&egrave;le.</p>
+
+<h3><a name="param-util">Param&egrave;tres utilisables</a></h3>
+
+<p>On peut mettre plusieurs param&egrave;tres dans les mod&egrave;les. Ces param&egrave;tres peuvent &ecirc;tre de deux sortes:</p>
+
+<ul>
+  <li>Le mot-cl&eacute; <code>typename</code> suivi d'un nom de type existant.</li>
+  <li><code>int</code> suivi d'un nombre, pour exprimer par exemple une dimension.</li>
+</ul>
+
+<h4>Exemple: La classe tableau</h4>
+
+<p>La classe <code>tableau</code> <a href="types.html#const"><img alt="avant" src="avant.gif" class="noprint" /></a> d&eacute;finie ci-dessus
+peut &ecirc;tre r&eacute;&eacute;crite en utilisant un
+mod&egrave;le:</p>
+
+<pre class="demo">template&lt;size_t TAILLE&gt; class tableau {<br /> char buffer[TAILLE];<br /> void copie(const tableau&lt;TAILLE&gt; &amp;);<br />public:<br /> tableau(){};<br /> tableau(const tableau &amp;);<br /> tableau&lt;TAILLE&gt; &amp; operator=(const tableau&lt;TAILLE&gt; &amp;);<br /> ~tableau() {delete buffer;};<br />};<br /><br />template&lt;size_t TAILLE&gt; tableau&lt;TAILLE&gt;::tableau(const tableau &amp; b ) {<br /> copie(b);<br /> cout &lt;&lt; "copie effectuee par const de copie\n";<br />};<br /><br />template&lt;size_t TAILLE&gt; void tableau&lt;TAILLE&gt;::copie(const<br />tableau&lt;TAILLE&gt; &amp; b) { <br /> memcpy(buffer,b.buffer,TAILLE);<br />};<br /></pre>
+
+<p>Cette impl&eacute;mentation est int&eacute;ressante,
+parce qu'on n'a plus besoin d'utiliser l'op&eacute;rateur <code>new</code>
+dans le constructeur. Du coup, on n'a plus besoin non plus du "trio infernal" <a href="surch.html#affect-trio"><img alt="avant" src="avant.gif" class="noprint" /></a> 
+Par contre, on ne peut plus choisir la taille du tableau lors de l'ex&eacute;cution du code, celle-ci doit &ecirc;tre fix&eacute;e &agrave; 
+la compilation.</p>
+
+<h2><a name="modele-spe">Sp&eacute;cialisation</a></h2>
+
+<p>Il n'est pas toujours possible de s'en tenir &agrave;
+l'&eacute;criture du code g&eacute;n&eacute;ral, tel que le
+mod&egrave;le l'impl&eacute;mente: ne
+serait-ce que pour des raisons de performance, il est parfois
+n&eacute;cessaire de r&eacute;&eacute;crire le code pour
+certains types particuliers. Par exemple, une pile d'objets peut &ecirc;tre
+impl&eacute;ment&eacute; sous forme de mod&egrave;le mais on con&ccedil;oit qu'une pile
+de bool&eacute;ens peut être écrite différemment, en utilisant le fait que des bool&eacute;ens ne tiennent pas sur un ou plusieurs octets,
+mais sur un <code>bit</code>. On écrira cette spécialisation de la manière suivante:</p>
+
+<pre class="demo"><b>template&lt;&gt; class pile&lt;bool&gt;</b> {
+}
+</pre>
+
+<div class="important">Le nom de type correspondant à la spécialisation se trouve <em>après</em> le nom du template.</div>
+
+<h3>Spécialisation partielle</h3>
+
+<p>On peut aussi spécialiser partiellement les modèles. Par exemple, la classe générale:</p>
+
+<pre class="demo">template&lt;typename T1, typename T2&gt; class Machin {
+...
+}</pre>
+
+<p>peut être spécialisée de plusieurs manières:</p>
+
+<pre class="demo">// Les deux paramètres ont le même type
+<b>template&lt;typename T&gt; class Machin&lt;T,T&gt;</b> {
+...
+}
+
+// Le second type est double
+<b>template&lt;typename T1&gt; class Machin&lt;T1,double&gt;</b> {
+...
+}
+
+// On travaille avec des pointeurs
+<b>template&lt;typename T1, typename T2&gt; class Machin&lt;T1 *, T2 *&gt;</b> {
+...
+}</pre>
+
+<h2><a name="conseils">Quelques conseils...</a></h2>
+
+<p>Les mod&egrave;les permettent de d&eacute;finir des
+objets de
+mani&egrave;re extr&ecirc;mement
+g&eacute;n&eacute;rale, en ce sens ils constituent un outil
+tr&egrave;s
+puissant. Mais, chaque m&eacute;daille ayant son revers, ils sont
+d'une
+utilisation assez d&eacute;licate. Il semble d'ailleurs que, encore
+actuellement, tous les compilateurs n'impl&eacute;mentent pas les
+mod&egrave;les de
+mani&egrave;re compl&egrave;tement identique, ce qui n'est pas
+pour faciliter les
+choses...</p>
+
+<p>Il est important de conna&icirc;tre la syntaxe des
+mod&egrave;les, car elle est employ&eacute;e en permanence dans
+la biblioth&egrave;que
+standard: cela est tout-&agrave;-fait compr&eacute;hensible,
+dans la mesure o&ugrave; une
+bonne partie de la biblioth&egrave;que standard est
+constitu&eacute;e de
+"conteneurs" et d'algorithmes associ&eacute;es,
+c'est-&agrave;-dire d'objets
+encapsulant des structures de donn&eacute;es: seuls les
+mod&egrave;les permettent de
+les d&eacute;crire de mani&egrave;re
+g&eacute;n&eacute;rale </p>
+
+<p>Quelques conseils, pour ne pas se noyer dans les
+mod&egrave;les:</p>
+
+<ul>
+
+  <li><em>toujours</em> utiliser des <code>typedef</code>,
+afin de n'entrer qu'une seule fois le mod&egrave;le
+lui-m&ecirc;me avec toute sa complexit&eacute;.</li>
+
+  <li>Lors de <em>l'&eacute;criture</em> de
+nouveaux mod&egrave;les, il convient de d&eacute;marrer d'abord
+avec des types ordinaires (<code>int</code>, par exemple)
+ou des constantes litt&eacute;rales. Mettez au point votre code, <em>alors
+seulement</em> remplacez vos types et vos constantes par des
+param&egrave;tres, afin de gagner en
+g&eacute;n&eacute;ralit&eacute;. Cette approche progressive
+permettra d'isoler les probl&egrave;mes li&eacute;s
+&agrave; l'utilisation des mod&egrave;les, et les
+probl&egrave;mes plus classiques li&eacute;s &agrave; tout
+programme en cours d'&eacute;criture.</li>
+
+</ul>
+
+<hr />
+<div class="autres langages"><img alt="DECHIRURE" src="dechirure.gif" />
+<table class="tableau">
+    <tr>
+      <th> Langage </th>
+      <th> Mod&egrave;les </th>
+    </tr>
+    <tr>
+      <td><b>C++</b> </td>
+      <td><b>OUI</b></td>
+    </tr>
+    <tr>
+      <td><b>perl</b></td>
+      <td>NON</td>
+    </tr>
+    <tr>
+      <td><b>java</b></td>
+      <td>NON</td>
+    </tr>
+    <tr>
+      <td><b>python</b></td>
+      <td>NON</td>
+    </tr>
+    <tr>
+      <td><b>php5</b></td>
+      <td>NON</td>
+    </tr>
+</table>
+</div>
+
+<hr />
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+    <a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+</div>
+</body>
+</html>
+

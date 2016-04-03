@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+  <title>Exercices</title>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+    <dd id="smenu1">
+    <ul>
+      <li><a onclick="javascript=cacher_menu()" href="#pointeurs">Pointeurs et r&eacute;f&eacute;rences</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#class">Le type class</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#surcharge">surcharge des fonctions et op&eacute;rateurs"</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#heritage">H&eacute;ritage</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#modeles">Mod&egrave;les</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#exceptions">Exceptions</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#memoire">Gestion de la m&eacute;moire</a></li>
+      <li><a onclick="javascript=cacher_menu()" href="#stdlib">La biblioth&egrave;que standard.</a></li>
+   </ul>
+   </dd>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+<h1>Exercices du cours C++</h1>
+
+<h2><a id="pointeurs">Pointeurs et r&eacute;f&eacute;rences</a></h2>
+<ol>
+  <li> <b>corrig&eacute; <a href="exos/p1.cpp">code</a>, <a href="exos/p1.html">html</a></b><br /> Programme <code>p1.cpp</code>:
+      <ul>
+	<li>On d&eacute;clare un tableau d'entiers <code>A</code> de dimension
+	    10</li>
+	<li>Deux sous-programmes, <code>remplitA</code> et
+	    <code>impA</code>, permettent de remplir et imprimer le
+	    tableau.</li>
+	<li>D&eacute;clarer une r&eacute;f&eacute;rence vers l'&eacute;l&eacute;ment 5 du tableau et
+	    incr&eacute;menter sa valeur</li>
+	<li>D&eacute;clarer un pointeur vers l'&eacute;l&eacute;ment 7, incr&eacute;menter le
+	    pointeur et la valeur point&eacute;e</li>
+      </ul></li>
+  <li><b>corrig&eacute; <a href="exos/p2.cpp">code</a>, <a href="exos/p2.html">html</a></b><br />  Programme <code>p2.cpp</code>:
+      <ul>
+	<li>D&eacute;clarer un entier</li>
+	<li>D&eacute;clarer une r&eacute;f&eacute;rence vers cet entier</li>
+	<li>D&eacute;clarer un pointeur vers cet entier</li>
+	<li>Dans les deux cas, imprimer la variable, l'adresse de la
+	    variable, la valeur point&eacute;e.</li>
+      </ul></li>
+  <li><b>corrig&eacute; <a href="exos/p3.cpp">code</a>, <a href="exos/p3.html">html</a></b><br />  En reprenant <code>p1.cpp</code>, d&eacute;clarer des pointeurs sur A[5], en
+      utilisant ou non les attributs <code>const</code>.
+      <ul>
+	<li>V&eacute;rifier que certaines instructions ne seront pas
+	    compil&eacute;es</li>
+	<li>V&eacute;rifier que, malgr&eacute; tout, <code>*a</code> peut changer de
+	    valeur...</li>
+      </ul></li>
+  <li><b>corrig&eacute; <a href="exos/alea.cpp">code</a>, <a href="exos/alea.html">html</a></b><br /> Programme
+      <code>alea.cpp</code>:  Soit  un tableau  de  dimension 
+      200. Ecrire une fonction qui renvoie de mani&egrave;re al&eacute;atoire chaque
+      cellule du tableau, sous forme de lvalue</li>
+  <li><b>corrig&eacute; <a href="exos/alea1.cpp">code</a>, <a href="exos/alea1.html">html</a></b><br /> Programme
+      <code>alea1.cpp</code>:  Même exercice que ci-dessus, mais la taille du tableau est passée en argument du programme.
+      Cela afin d'utiliser quelques fonctions de passage de paramètres de la ligne de commande.</li>
+</ol>
+
+<h2><a id="class">Le type class</a></h2>
+
+<ol>
+  <li><b>corrig&eacute; <a href="exos/stack.cpp">code</a>, <a href="exos/stack.html">html</a></b><br /> Programme
+      <code>stack.cpp:</code>Ecrire  une classe pile d'entiers 
+      ayant les caract&eacute;ristiques suivantes:
+      <ul>
+	<li>Repose sur un tableau de dimension n, n &eacute;tant pass&eacute; au
+	    constructeur (allocation dynamique)</li>
+	<li>Permet d'empiler et d&eacute;piler les donn&eacute;es</li>
+	<li>Une fonction <code>length()</code> permet de savoir
+	    combien de donn&eacute;es sont empil&eacute;es</li>
+      </ul></li>
+  <li><b>corrig&eacute; <a href="exos/stack1.C">code</a>, <a href="exos/stack1.html">html</a></b><br /> Modifier le programme
+      pr&eacute;c&eacute;dent afin de visualiser les appels de 
+      constructeurs et de destructeurs: v&eacute;rifier les r&egrave;gles de port&eacute;e
+      des variables.</li>
+</ol>
+<hr />
+
+<h2><a id="surcharge">Surcharge des fonctions et op&eacute;rateurs</a></h2>
+
+<ol>
+   <li><b>corrig&eacute; <a href="exos/tableau.C">code</a>, <a href="exos/tableau.html">html</a></b><br /> Programme tableau.C: d&eacute;finir
+   une classe <code>tableau</code> 
+   ayant les caract&eacute;ristiques suivantes:
+   <ul>
+      <li>Repose sur un tableau de dimension n, n &eacute;tant pass&eacute; au
+      constructeur (allocation dynamique)</li>
+      <li>Impl&eacute;menter les op&eacute;rateurs +=,-=,+,-</li>
+      <li>On acc&egrave;de aux donn&eacute;es &agrave; l'aide de l'op&eacute;rateur
+      <code>[]</code>. En cas de d&eacute;bordement, cet op&eacute;rateur
+      imprime un message et ne fera rien de dangereux.</li>
+   </ul></li>
+    <li><b>corrig&eacute; <a href="exos/tableau1-homo.cpp">code</a>, <a href="exos/tableau1-homo.html">html</a><br /></b>Reprendre le programme pr&eacute;c&eacute;dent et introduire une fonction-membre <code>homothetie</code>, qui applique une fonction d'homothétie sur tout le tableau (on utilisera un objet-fonction).</li>
+   <li><b>corrig&eacute; <a href="exos/tableau1-ecret.C">code</a>, <a href="exos/tableau1-ecret.html">html</a> </b><br /> même chose que ci-dessus, mais cette fois on prendra une fonction qui écrète le tableau.</li>
+   <li>Expliquer pourquoi le code suivant:<code>truc &amp; operator=(const
+   truc &amp;t) { *this=t; return *this};</code> aboutit &agrave; un plantage.</li>
+</ol>
+<hr />
+
+<h2><a id="heritage">H&eacute;ritage</a></h2>
+
+<ol>
+  <li><b>corrig&eacute; <a href="exos/tableau1-general.hpp">code .hpp</a> <a href="exos/tableau1-general.cpp">code .cpp</a> <a href="exos/tableau1-main.cpp">code main</a>, <a href="exos/tableau1-general.hpp.html">html .hpp</a> <a href="exos/tableau1-general.cpp.html">html .cpp</a> <a href="exos/tableau1-main.cpp.html">html main</a></b><br />
+      R&eacute;&eacute;crire la fonction transform ci-dessus (tableau), en passant en 
+      param&egrave;tres une classe de base fonction-objet, afin de gagner en souplesse.</li>
+    <li><b>corrig&eacute; <a href="exos/tableau8-general.C">code</a>, <a href="exos/tableau8-general.html">html</a></b><br />
+    Utiliser l'héritage privé pour déclarer de manière simple et claire que certaines classes ne doivent pas être copiées.</li>
+</ol>
+
+<hr />
+
+<h2><a id="modeles">Mod&egrave;les</a></h2>
+
+<ol>
+  <li><b>corrig&eacute; <a href="exos/tableau4-general.C">code</a>, <a href="exos/tableau4-general.html">html</a>.</b><br />
+  R&eacute;&eacute;crire le tableau (et les fonctions-objets associ&eacute;s) en rempla&ccedil;ant le type de base du tableau (<code>int</code>) par un
+  mod&egrave;le.</li>
+  <li><b>corrig&eacute; <a href="exos/tableau5-general.C">code</a>, <a href="exos/tableau5-general.html">html</a></b><br />
+  R&eacute;&eacute;crire &agrave; nouveau le tableau en rempla&ccedil;ant la dimension par un param&egrave;tre de mod&egrave;le</li>
+  <li><b>corrig&eacute; <a href="exos/tableau6-general.C">code</a>, <a href="exos/tableau6-general.html">html</a></b><br />
+  Ajouter des fonctions permettant de convertir des tableaux de divers types (mais de m&ecirc;me taille).</li>
+</ol>
+
+<hr />
+
+<h2><a id="exceptions">Exceptions</a></h2>
+
+<ol>
+  <li>R&eacute;&eacute;crire le tableau
+      en impl&eacute;mentant un m&eacute;canisme d'exception lorsqu'on essaie
+      d'acc&eacute;der &agrave; une cellule du tableau en-dehors des limites, lorsqu'on alloue la mémoire, lorsqu'on ajoute des tableaux de tailles différentes.<br />
+      <b>corrig&eacute; <a href="exos/tableau7.hpp">code (.hpp)</a> <a href="exos/tableau7-main.cpp">code (main)</a>, <a href="exos/tableau7.hpp.html">(html hpp)</a> <a href="exos/tableau7-main.cpp.html">(html main)</a></b> 
+    </li>
+  <li>Même chose, mais au lieu de définir vos propres exceptions, contentez-vous d'utiliser les exceptions de la bibliothèque.<br />
+  <b>corrig&eacute; <a href="exos/tableau7-std.hpp">code (.hpp)</a> <a href="exos/tableau7-main-std.cpp">code (main)</a>, <a href="exos/tableau7-std.hpp.html">(html hpp)</a> <a href="exos/tableau7-main-std.cpp.html">(html main)</a></b>
+  </li>
+</ol>
+
+<hr />
+
+<h2><a id="memoire">Gestion de la m&eacute;moire</a></h2>
+
+<ol><li> <b>corrig&eacute;: <a href="exos/auto_ptr.cpp">code</a>,  <a href="exos/auto_ptr.html">html</a></b> 
+      <ul>
+	<li>Ecrire un objet qui contient deux pointeurs sur des tableaux (le tableau est l'objet de l'exercice ci-dessus), faites en sorte que le seond constructeur génère une exception, mettez tout ça dans une boucle et observez la fuite de mémoire. Remplacez les pointeurs par des auto_ptr pour boucher la fuite.</li>
+      </ul></li>
+     <li><b>corrig&eacute;: <a href="exos/cpt_ptr.cpp">code</a>,  <a href="exos/cpt_ptr.html">html</a></b> <br />
+     Ecrire un objet (en fait deux classes amies) qui implémente un pointeur avec comptage de référence.</li>
+</ol>
+<hr />
+
+<h2><a id="stdlib">biblioth&egrave;que standard</a></h2>
+
+<ol>
+<li> <b>corrig&eacute;: <a href="exos/p12.C">code</a>,  <a href="exos/p12.C.html">html</a></b> <br />
+    Ecrire un code qui lise un texte sur l'entr&eacute;e standard, qui
+    compte les occurrences de chaque mot, et qui imprime sur la
+    sortie standard chaque mot, en ordre alphab&eacute;tique, suivi du
+    nombre d'occurences de ce mot. On ne gardera que les mots contenant uniquement des lettres, en supprimant 
+    les mots contenant des chiffres ou des caract&egrave;res sp&eacute;ciaux, et on affichera uniqueùent les mots apparaissant
+    plus de 5 fois</li>
+</ol>
+<hr />
+<address>
+	<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+	<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+	<a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a>
+</address>
+</div>
+</body> </html>

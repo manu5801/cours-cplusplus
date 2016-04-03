@@ -1,0 +1,223 @@
+body {
+	background-color: black;
+	font-family: Helvetica,Arial, sans-serif; 
+    font-size: 14px;
+    margin:0;
+    padding:0;
+}
+
+hr { 
+	text-align: left; 
+	width: 10%; 
+}
+
+h1 {
+    text-align: center;
+    font-size: 300%; 
+    clear: both;
+}
+
+h2 { font-size: 200%; }
+h3 { font-size: 150%; }
+h4 { font-size: 110%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; font-style:italic; font-weight: lighter; }
+
+:target { background-color: lightgrey; }
+
+hr.nofloat {
+    visibility: hidden;
+    clear: both
+}
+
+/* Les paragraphes particuliers */
+p,ul,dl,table { margin-left: 2em; margin-right: 2em; text-align: justify;}
+p { text-indent: 3%; }
+div.attention {margin-left: 6em; margin-right: 6em; text-align: justify;
+                          border-left: 6pt solid red; padding-left: 1pt;}
+div.regle {margin-left: 6em; margin-right: 6em; text-align: justify;
+                  border-left: double blue; padding-left: 1pt;}
+div.autres {margin-left: 6em; margin-right: 6em; text-align: justify;
+                          border-left: 2pt DOTTED BLACK; padding-left: 1pt;}
+div.table {text-align: center;}
+em.red { color: red;}
+pre.demo {  background-color: #DDDDDD; margin-left: 6em; margin-right: 6em;}
+img { border: 0px;}
+
+/* Les tableaux pour visualiser les chaines de caractères */
+
+table.chaine {
+    border-collapse: collapse;
+    font-family: fixed;
+    font-weight: bold;
+    margin: .5em auto;
+}
+table.chaine td {
+    text-align: center;
+    border: 1px solid black;
+    width: 1.1em;
+    height: 1.5ex;
+}
+
+/* Le menu */
+
+/*#menu {
+    height: 2em;
+}*/
+
+div.menu {
+    position:fixed;
+    top:0;
+    right:0;
+    margin: 0;
+    background-color: #E4E4E4;
+    padding: 0.4em 1em;
+    height: 2em;
+    display: inline;
+}
+
+/* Les boutons textuels */
+
+.menu dl,.menu dt,.menu dd,.menu ul,.menu li {
+    margin: 0 0.3em;
+    padding: 0;
+    list-style-type: none;
+}
+
+.menu dl {
+    float: left;
+    width: 5.5em;
+}
+
+.menu dt {
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    font-style:normal;
+    background: white;
+    border: 1px solid gray;
+    margin: 1px;
+}
+
+.menu dd {
+    display: none;
+    width: 15em;
+    height: auto;
+    background-color: white;
+    border: 1px solid gray;
+}
+
+.menu li {
+    font-size: 0.9em;
+    font-weight: bolder;
+    text-align: right;  
+    background: white;
+    height: 100%;
+}
+.menu li li {
+    font-weight: lighter;
+    height: 100%;
+}
+.menu li a,.menu dt a {
+    color: #000;
+    text-decoration: none;
+    display: block;
+    /*height: 100%;*/
+    border: none;
+    padding: 0.2em;
+}
+.menu li a:hover, .menu li a:focus, .menu dt a:hover, .menu dt a:focus {
+    background: black;
+    color: white;
+}
+.menu li a:active, .menu dt a:active {
+    background: red;
+}
+
+/* Les boutons graphiques (logos) */
+
+.menu dl.img {
+    width: auto;
+}
+.menu dl.img dt {
+    margin: 0;
+    padding: 0;
+    border:none;
+    background: inherit;
+}
+
+
+.menu dl.img dt a,.menu dl.img dt a:hover,.menu dl.img dt a:focus {
+    display: block;
+    border: none;
+    background: inherit;
+}
+
+
+.menu dl.fleche, .menu dl.fleche dt, .menu dl.fleche dt a {
+    width: 25px;
+    height: 25px;
+    margin-right: 2px;
+    padding: 0;
+    border:none;
+}
+
+div#contenu {
+    background-color: white;
+    margin:5.6em auto 2.8em auto;
+    padding: 0.7em;
+    width:90%;
+}
+
+.mdemo {
+    height: auto;
+    display: block;
+    float: left;
+    font-weight: bold;
+    background: white;
+    color: black;
+    text-decoration: none;
+    border: 1px solid gray;
+    margin: 1em;
+    padding: 1.4em 1em;
+}
+
+dt.mdemo {
+    width: 5.5em;
+    height: auto;
+    display: block;
+	float: none;
+    vertical-align: middle;
+    text-align: center;
+    background: #E4E4E4;
+    border: none;
+    padding: 1em;
+    margin: ;
+}
+
+.mdemo a {
+    font-weight: bold;
+    background: white;
+    color: black;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid gray;
+    padding: 0.2em
+}
+
+.tableau, .tableau td, .tableau th {
+    border-collapse: collapse;
+    border: 1px solid black;
+    border-spacing: 1px;
+    text-align: center;
+}
+.tableau caption {
+    font-style: italic;
+    margin-bottom: 0.5em;
+    caption-side: top;
+}
+
+p.uml {
+    text-align: center;
+}
+

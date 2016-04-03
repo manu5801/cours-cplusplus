@@ -1,0 +1,943 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<head>
+  <title>La programmation objets</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Language" content="fr" />
+    <style type="text/css" media="screen">
+        @import url("cours.css");
+    </style>
+    <!-- [if lte IE 6]>
+        <style type="text/css" media="screen">
+            @import url("cours_ie.css");
+        </style>
+    <![endif]-->
+  <style type="text/css" media="print">
+         @import url(coursprint.css);
+  </style>
+</head>
+
+<body>
+<script type="text/javascript" src="cours.js"></script>
+
+<div id="menu" class="menu">
+<dl class="img">
+ <dt><a href="http://www.cnrs.fr" title="C.N.R.S."><img alt="logo CNRS" src="cnrs.png" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.inra.fr" title="I.N.R.A."><img alt="logo INRA" src="inra.png" /></a></dt>
+</dl>
+<!--<dl class="img">
+ <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
+</dl>
+<dl class="img">
+ <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
+</dl>-->
+<dl>  
+ <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
+ <dd id="smenu1" style="height:20em;overflow: scroll;">
+    <ul>
+    	<li><a onclick="javascript=cacher_menu()" href="progobj.html#probl">Poser un probl&egrave;me</a></li> 
+        <li><a onclick="javascript=cacher_menu()" href="progobj.html#prog">La programmation objets expliqu&eacute;e aux programmeurs</a> 
+        <ul>
+	       <li><a onclick="javascript=cacher_menu()" href="progobj.html#proc">L'approche proc&eacute;durale</a>
+	       <ul>
+	    	   <li><a onclick="javascript=cacher_menu()" href="progobj.html#fonct">Qu'est-ce qu'une fonction ?</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#loca-glo">Variables locales ou globales</a></li> 
+           </ul></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#modul">Approche modulaire:</a> 
+           <ul>
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#interf">Interface publique...</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#impl">...Impl&eacute;mentation cach&eacute;e</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#encaps">Encapsulation des donn&eacute;es</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#proto">Prototypage</a></li>
+	       </ul></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#obj">Approche objets:</a> 
+           <ul>
+	    	   <li><a onclick="javascript=cacher_menu()" href="progobj.html#obj-typ">Des objets int&eacute;gr&eacute;s au syst&egrave;me de typage</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#class-obj">Classer les objets</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#piles">D&eacute;finir des piles de n'importe quoi</a></li> 
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#heritcor">Faire du neuf avec du vieux</a> </li>
+               <li><a onclick="javascript=cacher_menu()" href="progobj.html#biblio">Des biblioth&egrave;ques d'objets</a></li> 
+	       </ul></li>
+       </ul></li>
+       <li><a onclick="javascript=cacher_menu()" href="progobj.html#normaux">La programmation objets expliqu&eacute;e aux gens normaux</a> 
+	       <ul>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafeteria">Une caf&eacute;t&eacute;ria informatis&eacute;e</a></li> 
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafproc">Le caf&eacute; en programmation proc&eacute;durale</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafobj">Le caf&eacute; en programmation objet</a> 
+           <ul>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafmodele">Mod&eacute;liser une cafeti&egrave;re</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafecekoi">qu'est-ce qu'une cafeti&egrave;re&nbsp;?</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafesortes">Une cafeti&egrave;re est une cafeti&egrave;re, mais il y en a plusieurs sortes</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#boutons">boutons marche-arr&ecirc;t ou autres r&eacute;glages</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#voyants">Voyants</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#cafemain">Programme principal</a></li>
+           <li><a onclick="javascript=cacher_menu()" href="progobj.html#robusta">Des programmes plus robustes</a></li>
+        </ul></li>
+	 </ul></li>
+     <li><a href="progobj.html#obj-classes">Classes et objets</a>
+     <ul>
+		<li><a onclick="javascript=cacher_menu()" href="progobj.html#obj-etat">L'&eacute;tat d'un objet</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="progobj.html#obj-comp">Le comportement d'un objet</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="progobj.html#obj-id">L'identit&eacute; d'un objet</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="progobj.html#obj-met">Des objets "m&eacute;tiers"</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="progobj.html#obj-rel">Relations entre objets</a></li>
+	    </ul></li>
+	</ul>
+    </dd>
+</dl>
+<dl>
+  <dt><a href="http://www.cplusplus.com">cplusplus</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://c.developpez.com/faq/cpp/">FAQ C++</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.stroustrup.com/C++11FAQ.html">C++11</a></dt>
+</dl>
+<dl>
+  <dt><a href="http://www.boost.org/">BOOST</a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" onclick="javascript=cacher_menu()"><img alt="cacher le menu" title="cacher le menu" src="fleche-droite.png" /></a></dt>
+</dl>
+<dl class="fleche">
+  <dt><a class="pas_ie" href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a></dt>
+</dl>
+</div>
+
+<div id="bouton_menu" class="menu">
+<a onclick="javascript=cacher_menu()"><img alt="afficher le menu" title="afficher le menu" src="fleche-gauche.png" /></a>
+<a href="#"><img alt="haut de la page" title="haut de la page" src="fleche-haut.png" /></a>
+</div>
+
+<div id="contenu">
+<h1>La programmation objet</h1>
+
+<h2><a name="probl">Poser un probl&egrave;me</a></h2>
+
+<p>Avant de se pr&eacute;cipiter sur son clavier pour
+&eacute;crire un programme, il convient de r&eacute;fl&eacute;chir afin
+de poser correctement le probl&egrave;me... Or, la
+mani&egrave;re m&ecirc;me
+dont le probl&egrave;me sera pos&eacute; influe sur l'&eacute;criture
+du programme. D'o&ugrave; la
+notion de "paradigme de programmation". Or, s'il est possible
+d'impl&eacute;menter tous les paradigmes en utilisant n'importe quel
+langage, cela sera plus ou moins facile selon le langage
+utilis&eacute;. Ainsi, il est possible de
+programmer en objet en utilisant le C... mais le C++, con&ccedil;u dans
+cet
+objectif, <strong>supporte</strong> la  programmation  objet, par  sa
+syntaxe d'une  part, par les contr&ocirc;les  apport&eacute;s tant au  moment de la
+compilation que lors de l'ex&eacute;cution d'autre part.</p>
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="prog">La programmation objets expliqu&eacute;e aux
+programmeurs</a></h2>
+
+<p>Si  vous &ecirc;tes programmeur, mais  habitu&eacute; aux langages
+de       programmation       "proc&eacute;duraux"       (<code>pascal</code>,
+<code>fortran</code>,  <code>C</code>,  <code>perl</code>,  etc.),  ce
+chapitre est pour  vous: il essaie d'expliquer comment  on peut passer
+de  la programmation  proc&eacute;durale  &agrave; la  programmation  objet, via  la
+programmation structur&eacute;e.</p>
+
+<p><img src="61.gif" alt="Pour les terriens" width="20" />
+Mais si vous &ecirc;tes d&eacute;butant en programmation, vous
+&ecirc;tes encore des "gens normaux", dans ce cas vous pouvez passer
+directement au chapitre suivant.<a href="#normaux"><img alt="apres" src="apres.gif" style="border: 0px solid ; width: 9px; height: 11px;" /></a>
+</p>
+<h2><a name="proc">L'approche proc&eacute;durale</a></h2>
+
+<p>  Elle met l'accent  sur l'action repr&eacute;sent&eacute;e  par le
+programme:  on  doit "faire  quelque  chose",  mais  cette chose  sera
+ex&eacute;cut&eacute;e  par &eacute;tapes  successives.  Chaque  &eacute;tape elle-m&ecirc;me  peut &ecirc;tre
+d&eacute;coup&eacute;e. On  arrive ainsi  &agrave; des d&eacute;coupages  de plus en  plus fins,
+jusqu'&agrave; obtenir des fonctions &eacute;l&eacute;mentaires.  Certaines de ces
+fonctions  peuvent  figurer  dans  des biblioth&egrave;ques,  cela
+permettra de les r&eacute;utiliser plus tard pour d'autres projets.</p>
+
+<h3><a name="fonct">Qu'est-ce qu'une fonction&nbsp;? </a></h3>
+
+<p>Une fonction est un sous-programme caract&eacute;ris&eacute; par:</p>
+
+<ul>
+  <li>Son nom
+  </li><li>Des donn&eacute;es en entr&eacute;e (les param&egrave;tres)
+  </li><li>Une valeur de retour
+  </li><li>Une action sur le syst&egrave;me, repr&eacute;sent&eacute;e par un algorithme
+</li></ul>
+
+<h3><a name="loca-glo">Variables locales ou globales</a></h3>
+
+<p>Les  variables  peuvent  &ecirc;tre  locales,  mais  aussi
+globales:  si <code>X</code>  est une  variable globale,  une fonction
+<code>f1</code> peut  modifier la  valeur de <code>X</code>,  mais une
+autre fonction  <code>f2</code> peut &eacute;galement  modifier cette valeur.
+Un  programme  bien structur&eacute;  aura  le  moins  possible de  variables
+globales... mais celles-ci ne pourront pas &ecirc;tre totalement &eacute;vit&eacute;es.</p>
+<p><a href="#">top</a></p><hr /> 
+
+<h2><a name="modul">L'approche modulaire</a></h2>
+
+<p>Supposons que dans  notre programme,  deux fonctions
+<code>f1</code>, <code>f2</code>  et <code>f3 </code>acc&egrave;dent toutes deux aux  variables
+globales  <code>A</code>  et  <code>B</code>,  mais  <em>ce  sont  les
+seules.</em>   Dans  ces   conditions,  peut-on   vraiment   dire  que
+<code>A</code> et  <code>B</code> sont des  variables globales&nbsp;?<br />
+Il est tentant  de regrouper ces fonctions et  ces variables: c'est la
+notion  de  module.   Nous   pouvons  regrouper  les  trois  fonctions
+<code>f1</code>,  <code>f2</code> et  <code>f3</code> d'une  part, les
+deux variables <code>A</code> et  <code>B</code> d'autre part, dans un
+module qui est constitu&eacute; de deux parties:</p>
+
+<ul>
+  <li>Une <em>interface</em> qui sp&eacute;cifie exactement les fonctions
+      qui seront visibles depuis l'ext&eacute;rieur.
+  </li><li>Une  <em>impl&eacute;mentation</em> qui  contient  des variables  d'une
+      part, du code d'autre part. 
+</li></ul>
+
+<h3><a name="interf">Interface publique...</a></h3>
+
+<p>Le module  comporte une  interface,  c'est-&agrave;-dire un
+ensemble  de fonctions  (et &eacute;ventuellement  de variables),  qui seules
+seront vues  par l'utilisateur du module.  Un  soin particulier
+doit &ecirc;tre apport&eacute; &agrave; l'&eacute;criture de l'interface, puisque la modification
+de  celui-ci  pourra avoir  des  cons&eacute;quences  sur  le  code
+utilisateur du module. La seule modification de type d'une variable de
+fonction, par exemple, peut entra&icirc;ner une impossibilit&eacute; de compilation
+de l'application.</p>
+
+<h3><a name="impl">...Impl&eacute;mentation cach&eacute;e</a></h3>
+
+<p>Les algorithmes constituant  le corps  des fonctions
+seront  cach&eacute;s, en  ce  sens qu'ils  ne  seront pas  visibles par  les
+utilisateurs  du  module.  En  cons&eacute;quence,  il est  possible  de  les
+modifier, par exemple pour am&eacute;liorer leur performance ou pour corriger
+une erreur, sans que cela ait d'impact sur le reste du programme...  &agrave;
+condition toutefois que l'interface  reste inchang&eacute;e (ou tout au moins
+qu'il   y  ait   compatibilit&eacute;   entre  l'ancienne   et  la   nouvelle
+interface). Il est m&ecirc;me possible de modifier le d&eacute;coupage en fonctions
+du module, en  ajoutant ou en supprimant des  fonctions: tant qu'on ne
+touche pas  aux fonctions d&eacute;clar&eacute;es dans l'interface,  pas de probl&egrave;me
+par rapport &agrave; l'ext&eacute;rieur.</p>
+
+<h3><a name="encaps">Encapsulation des donn&eacute;es</a></h3>
+
+<p>Les variables  <code>A</code> et
+<code>B</code> &eacute;tant  cach&eacute;es, on peut modifier leur type
+tout en limitant l'impact  sur l'ensemble du programme.  D'autre part,
+gr&acirc;ce &agrave; l'encapsulation, et en supposant que la fonction <code>f4</code> n'est
+pas int&eacute;gr&eacute;e  &agrave; ce module, on  est s&ucirc;r d'&eacute;viter le  bogue suivant (pas
+toujours tr&egrave;s simple &agrave; d&eacute;tecter):
+
+</p>
+<pre class="demo">
+void f4 (){
+   int A1;
+   A=0; /* ERREUR, on voulait &eacute;crire A1=0 */
+}</pre>
+
+<p>Si <code>A</code> avait &eacute;t&eacute; une variable globale, la ligne
+<code>A=0</code>, qui est une erreur du point-de-vue du programmeur,
+n'aurait pas &eacute;t&eacute; signal&eacute;e par le compilateur,
+puisque <code>A</code>
+est   accessible.    Si   <code>A</code>  est   "cach&eacute;e"
+(encapsul&eacute;e dans  un module), le compilateur d&eacute;tectera  une erreur: il sera alors ais&eacute; de la corriger.</p>
+
+<h3><a name="proto">Prototypage</a></h3>
+
+<p>Le  m&eacute;canisme d'encapsulation des  donn&eacute;es, lorsqu'il
+est  support&eacute; par le  langage de  programmation, permet  de travailler
+ais&eacute;ment en  &eacute;quipe sur  un m&ecirc;me projet:  chaque programmeur  &eacute;crit un
+module diff&eacute;rent: il faut que tout le monde soit d'accord
+sur l'interface de chaque module, mais le codage
+lui-m&ecirc;me peut se faire par chacun de mani&egrave;re ind&eacute;pendante. <br /> Il est
+&eacute;galement possible de  travailler par prototypes: lors de  la phase de
+prototypage, l'interface  est &eacute;crit mais  le code est  incomplet. Cela
+permet  toutefois  d'utiliser  l'interface  du  module  dans  d'autres
+parties de l'application, et ainsi de tester la coh&eacute;rence du mod&egrave;le.</p>
+<p><a href="#">top</a></p><hr /> 
+
+<h2><a name="obj">L'approche objets</a></h2>
+
+<p>Il est possible  de d&eacute;passer l'approche modulaire. Supposons que  l'on veuille,  dans un  programme,  d&eacute;finir une
+structure de pile de caract&egrave;res.  On pourra &eacute;crire un module, avec les
+deux fonctions interfaces suivantes:</p>
+
+<pre class="demo">
+char pop();
+void push (char);
+</pre>
+
+<p>On peut dire  qu'un tel module est un  "arch&eacute;o-objet".  Mais nous aimerions   
+r&eacute;pondre aux trois questions suivantes:</p>
+
+<ol>
+  <li>Comment faire si nous avons besoin de plusieurs piles dans notre
+      programme&nbsp;?
+  </li><li>Comment classer nos objets par "familles d'objets"&nbsp;?
+  </li><li>Comment faire si nous avons besoin de piles d'entiers&nbsp;?
+</li></ol>
+
+<h3><a name="obj-typ">Des objets int&eacute;gr&eacute;s au syst&egrave;me de typage</a></h3>
+
+<h4>Donner un num&eacute;ro d'identification aux piles:</h4>
+
+<p>On ajoute   un   param&egrave;tre   aux   fonctions
+<code>pop</code>   et   <code>push</code>   d&eacute;finies   ci-dessus,   en
+l'occurence un  num&eacute;ro d'identification.  D&egrave;s lors,  
+on peut g&eacute;rer autant  de piles que l'on veut. Les fonctions
+interfaces deviennent:</p>
+
+<pre class="demo">char pop(int Id);<br />void push(int Id, char c);</pre>
+
+<h4>La solution du C++</h4>
+
+<p>Le C++ apporte  une solution beaucoup plus puissante:
+il permet au programmeur de d&eacute;finir  un <em>"un type de donn&eacute;es qui se
+comporte</em> [presque] <em>de la  m&ecirc;me mani&egrave;re qu'un type pr&eacute;d&eacute;fini".
+<a href="types.html#class"><img alt="apres" src="apres.gif" /></a></em>  Le module  devient
+alors tout  simplement une  d&eacute;claration de type, on peut d&eacute;clarer des variables de ce type; 
+Les fonctions sont "attach&eacute;es" &agrave; ces variables, de sorte qu'on &eacute;crira dans le code 
+des lignes du style:</p>
+
+<pre class="demo">
+class stack {
+   char pop();
+   void push(char c);
+}
+
+stack A;
+stack B;
+stack C;
+
+A.pop();
+C.push(B.pop());
+</pre>
+
+<h4>Op&eacute;rations sur les objets</h4>
+
+<p>La phrase "type de donn&eacute;es qui se comporte presque de
+la  m&ecirc;me   mani&egrave;re  qu'un  type  pr&eacute;d&eacute;fini"   entra&icirc;ne  de  nombreuses
+cons&eacute;quences. Par exemple, on pourra d&eacute;clarer un tableau d'objets
+de type pile de la mani&egrave;re suivante:</p>
+
+<pre class="demo">stack[10] Stacks;<br /></pre>
+
+<p>Une variable pourra &ecirc;tre initialis&eacute;e:</p>
+
+<pre class="demo">stack S1=10;<br /></pre>
+
+<p>On pourra recopier une variable dans une autre gr&acirc;ce &agrave; l'op&eacute;rateur
+d'affectation:</p>
+
+<pre class="demo">stack A;<br />stack B;<br />...<br />B=A;<br /></pre>
+
+<p>On pourra faire un transtypage (cast) d'un type dans un autre:</p>
+
+<pre class="demo">stack A;<br />int B;<br />...<br />B = (int) A;<br /></pre>
+
+<p>On  pourra   m&ecirc;me  additionner   deux   piles  avec
+l'op&eacute;rateur <code>+</code>, les  comparer avec <code>&gt;</code>, etc.
+Le  probl&egrave;me   est  bien  s&ucirc;r:  quelle  signification   donner  &agrave;  ces
+op&eacute;rations&nbsp;?  Si  l'initialisation ne pose pas  trop de probl&egrave;me,
+si l'affectation  semble &eacute;galement &eacute;vidente,  que signifie additionner
+ou  comparer deux piles&nbsp;?   Ces op&eacute;rateurs  &eacute;tant d&eacute;finis  par la
+personne qui  d&eacute;finit l'objet,  c'est &eacute;galement &agrave;  elle de  d&eacute;finir la
+signification pr&eacute;cise des op&eacute;rateurs  du langage pour cet objet. C'est
+ce qu'on  appelle la <em>surcharge  des op&eacute;rateurs</em>. Il  n'est pas
+obligatoire   de  surcharger  les   op&eacute;rateurs:  si,   dans  l'exemple
+pr&eacute;c&eacute;dent, l'op&eacute;rateur <code>+</code> n'est pas surcharg&eacute;, l'op&eacute;ration
+<code>A&nbsp;+&nbsp;B</code> renverra tout  simplement une erreur &agrave; la
+compilation.</p>
+
+<p><a href="#">top</a></p><hr /> 
+
+<h3><a name="class-obj">Classer les objets</a></h3>
+
+<p>Nous  avons maintenant &agrave; notre  disposition autant de
+types de  variables  que nous voulons.   Nous allons
+avoir rapidement besoin de d&eacute;finir une classification.</p>
+
+<h4>Un exemple tir&eacute; de la vie quotidienne</h4>
+
+<p>En effet, si nous prenons une comparaison avec la vie
+quotidienne,  nous   pouvons  dire  que  nous   avons  &agrave;  notre
+disposition:  un couteau  de cuisine,  une Twingo,  un  tourne-vis, un
+couteau  &agrave; beurre,  une 205,  un couteau  &agrave; pain...   et un  raton
+laveur.  On sent bien que nous aimerions &eacute;crire que nous
+avons  des  outils  et  des  voitures;  en  l'occurrence  un
+tourne-vis  et plusieurs  sortes de  couteaux constituent  les outils,
+alors que la 205 et la Twingo sont des voitures.</p>
+
+<h4>Un objet de type "shape"</h4>
+
+<p>Suposons que nous voulions d&eacute;finir une s&eacute;rie d'objets
+permettant  de dessiner  des formes  &agrave; l'&eacute;cran  ("circle", "triangle",
+"square"). Nous pouvons proc&eacute;der de plusieurs mani&egrave;res:</p>
+
+<h5>La m&eacute;thode "tout &agrave; plat"</h5>
+
+<p>C'est celle  correspondant aux  couteaux  de cuisine
+ci-dessus:  il suffit  de  d&eacute;finir trois  objets  diff&eacute;rents, un  pour
+chaque forme d&eacute;sir&eacute;e. On aura alors des d&eacute;clarations du style:</p>
+
+<pre class="demo">class circle;<br />class triangle;<br />class square;<br /></pre>
+
+<p>Si mettre tout sur  le m&ecirc;me plan est stupide dans la  vie quotidienne, ce  n'est pas  plus malin
+dans  un  programme  informatique...   mais en  outre,  cette  m&eacute;thode
+conduira &agrave;  r&eacute;&eacute;crire sans arr&ecirc;t la  m&ecirc;me chose... justement  ce que le
+C++ voudrait &eacute;viter.</p>
+
+<h5>La m&eacute;thode &eacute;tiquette</h5>
+
+<p>D&eacute;j&agrave; un peu mieux... elle consiste &agrave; consid&eacute;rer qu'un
+cercle, un  triangle, un carr&eacute; sont  des formes: nous  cr&eacute;ons donc une
+classe appel&eacute;e <code>shape</code>, d&eacute;finie de la mani&egrave;re suivante:</p>
+
+<pre class="demo">
+enum kind {circle, triangle, square};
+class shape {
+   point center;
+   color col;
+   kind k;
+public:
+   point where() {return center};
+   void draw();
+};</pre>
+
+<p>Du point-de-vue de la conception, cela revient &agrave; dire
+qu'un  cercle est une  forme ayant  l'&eacute;tiquette "circle"...   pas mal,
+mais pas fameux, car cela revient aussi &agrave; dire qu'il n'y a pas plus de
+diff&eacute;rence entre un cercle rouge  et un cercle noir qu'entre un cercle
+et un  carr&eacute;... m&ecirc;me sans  &ecirc;tre un as  en g&eacute;om&eacute;trie, on sent  bien que
+cela ne correspond pas &agrave; la r&eacute;alit&eacute;...<br /> Du point-de-vue de
+l'&eacute;criture du  code, la fonction <code>draw</code> va  tester le champ
+<code>kind</code>,  et  suivant  les   cas  dessinera  un  cercle,  un
+triangle,    un    carr&eacute;...    cela    pr&eacute;sente    quelques    s&eacute;rieux
+inconv&eacute;nients:</p>
+
+<ul>
+  <li>Plus le nombre de formes sera grand, plus la fonction draw sera
+      longue.
+  </li><li>Si je rajoute une nouvelle forme (ellipse, par exemple), je vais
+      devoir modifier la fonction draw... avec tous les risques
+      d'ajout d'erreurs.&nbsp;<br />
+
+</li></ul>
+
+<p>Au fond,  pour reprendre l'exemple concret pr&eacute;c&eacute;dent,
+tout se passe comme si les ing&eacute;nieurs de Renault, lorsqu'ils ont con&ccedil;u
+la  Safrane, avaient  r&eacute;ouvert  le  dossier de  la  Twingo et  avaient
+modifi&eacute; des dessins de celle-ci, en ajoutant des erreurs. R&eacute;sultat: le
+jour de la sortie de la Safrane, les Twingo qui sortent de l'usine ont
+trois roues...</p>
+
+<p>En fait, ce qui manque ici, c'est de distinguer entre
+propri&eacute;t&eacute;s g&eacute;n&eacute;riques,  communes &agrave; tous  les objets de type  shape, et
+propri&eacute;t&eacute;s sp&eacute;cifiques &agrave; certaines formes.</p>
+
+<h5>La m&eacute;thode par l'h&eacute;ritage</h5>
+
+<p>L'h&eacute;ritage <a href="heritage.html"><img alt="apres" src="apres.gif" style="border: 0px solid ; width: 9px; height: 11px;" /></a> est pr&eacute;cis&eacute;ment  l'outil qui  va nous
+permettre  d'impl&eacute;menter  cette   distinction:  cela  passera  par  la
+d&eacute;finition de 4 classes.  Une classe "abstraite" comportant toutes les
+propri&eacute;t&eacute;s  g&eacute;n&eacute;riques,  et trois  classes  comportant les  propri&eacute;t&eacute;s
+sp&eacute;cifiques de chaque  forme particuli&egrave;re. Voici le code  de la classe
+de base:</p>
+
+<pre class="demo">
+class shape {
+   point center;
+   color col;
+public:
+   point where() {
+      return center;
+   };
+   virtual void draw()=0;
+}</pre>
+
+<h6>La classe de base</h6>
+
+<p>La d&eacute;claration de fonction  <a href="heritage.html#fct-virt"><img alt="apres" src="apres.gif" /></a> 
+<code>draw</code> signifie qu'une forme  doit pouvoir &ecirc;tre dessin&eacute;e, mais  on ne sait pas
+encore, &agrave; ce stade, comment  elle sera dessin&eacute;e. Une cons&eacute;quence de la
+pr&eacute;sence de cette  fonction est qu'il est impossible  d'&eacute;crire dans un
+code quelque chose comme:</p>
+
+<pre class="demo">shape forme1;<br /></pre>
+
+<p>Le    compilateur   refusera   cela,    parce   que
+<code>shape</code> est  une classe abstraite,  c'est-&agrave;-dire une classe
+qui  contient au moins  une fonction  virtuelle. Il  ne sait  pas quoi
+faire de cette  fonction.  En fait, cela est  assez compr&eacute;hensible: si
+je vous dis, "dessine-moi une forme"...  et si vous &ecirc;tes un ordinateur
+(donc  compl&egrave;tement d&eacute;pourvu  d'imagination) vous  ne saurez  pas quoi
+dessiner comme forme.  De m&ecirc;me, si je dis "cette  variable est de type
+forme", c'est  &agrave; peu pr&egrave;s  comme si je  disais "cette variable  est un
+machin". Pas tr&egrave;s pr&eacute;cis... Par  contre, rien ne m'emp&ecirc;che de passer &agrave;
+une fonction une variable de type <code>shape</code>:</p>
+
+<pre class="demo">void arriere_plan (shape s);
+</pre>
+
+<p>Je ne  peux pas dire "Bien, aujourd'hui je  vais cr&eacute;er un machin", mais  n'importe qui a le droit de demander son machin &agrave; un ami...</p>
+
+<h6>Les classes d&eacute;riv&eacute;es</h6>
+
+<p>Un cercle, un triangle, un carr&eacute; sont des formes ayant chacune leur
+particularit&eacute;. Nous &eacute;crirons cela de la mani&egrave;re suivante:</p>
+
+<pre class="demo">
+class circle: public shape {
+   int radius;
+   public:
+   void draw();
+};
+
+class triangle: public shape {
+   ...;
+   public:
+      void draw();            // dessine-moi un triangle
+      coord getheight(1);     // renvoie la hauteur principale  du triangle
+};
+
+class square: public shape {
+   int cote;<br />public:
+   void draw();
+};
+
+</pre>
+
+<p>Ainsi,  nos trois  classes  d&eacute;riv&eacute;es "h&eacute;ritent"  des
+caract&eacute;ristiques g&eacute;n&eacute;riques de leur  classe de base, mais ajoutent des
+caract&eacute;ristiques particuli&egrave;res  propres &agrave; chacune.  Du point-de-vue de
+la mod&eacute;lisation, nous avons bien  trois objets, qui sont un cercle, un
+triangle, un  carr&eacute;... mais ces  trois objets sont  <em>aussi</em> une
+forme.  On a  donc r&eacute;ussi &agrave; introduire un  fort degr&eacute; d'abstraction de
+donn&eacute;es... tout  en gardant, &agrave;  l'int&eacute;rieur des fonctions, du  code C,
+donc "proche de la machine". <br />
+Du point-de-vue de l'impl&eacute;mentation,  cela nous conduit &agrave; &eacute;crire trois
+versions  diff&eacute;rentes de  la fonction  <code>draw</code>. Lorsque je devrai rajouter  une nouvelle forme, je n'aurai pas &agrave; revenir sur  les formes d&eacute;j&agrave;  d&eacute;finies, il y  a donc moins  de risques d'erreurs.</p>
+
+<h3><a name="piles">D&eacute;finir des piles de n'importe quoi</a></h3>
+
+<p>Revenons &agrave;  notre  histoire de  pile de  caract&egrave;res:
+justement, c'est  d'une pile  d'entiers dont j'ai  besoin. Et  dans un
+autre programme,  j'aurai besoin d'une  pile d'autre chose...   Ce cas
+peut-il  se   traiter,  lui  aussi,   par  la  m&eacute;thode   d'h&eacute;ritage &nbsp;?
+Certainement pas:  d'un point-de-vue conceptuel,  on ne peut  pas dire
+qu'une pile d'entiers et une pile de r&eacute;els soient des cas particuliers
+d'un objet  plus g&eacute;n&eacute;ral, comme  a pu le  faire avec les  cercles, les
+triangles ou  les carr&eacute;s... par contre,  on peut dire  qu'une pile est
+toujours une pile,  et que si on peut empiler des  caract&egrave;res il n'y a
+aucune raison  pour qu'on  ne puisse pas  empiler autre chose  que des
+caract&egrave;res, en r&eacute;utilisant les m&ecirc;mes algorithmes.  De m&ecirc;me dans la
+plupart  des langages,  on peut  d&eacute;clarer des  tableaux  d'entiers, de
+r&eacute;els,  de  structures... Le  C++
+permettra  d'impl&eacute;menter ce concept par  des types  param&eacute;tr&eacute;s (encore appel&eacute;s
+des <i>mod&egrave;les</i>. On  pourra par
+exemple   d&eacute;finir    des   piles   de   formes    en   d&eacute;clarant:   <a href="modeles.html"><img alt="apres" src="apres.gif" /></a></p>
+
+<pre class="demo">stack&lt;shape&gt; pile-de-formes;<br /></pre>
+
+<h3><a name="heritcor">H&eacute;ritage correct: faire du neuf avec du vieux</a></h3>
+
+<p>Une cons&eacute;quence de ce qui pr&eacute;c&egrave;de est que nous allons
+&ecirc;tre capables de "faire du neuf avec du vieux": puisque je sais passer
+&agrave; une fonction une variable de type <code>shape</code>, je peux d&egrave;s la
+premi&egrave;re version du  programme &eacute;crire par exemple une  fonction qui me
+tapisse mon &eacute;cran  avec toujours la m&ecirc;me forme. Lors  de l'appel de la
+fonction, je devrai bien s&ucirc;r pr&eacute;ciser si je veux dessiner des cercles,
+des carr&eacute;s  ou des triangles... mais  surtout, si dans dix  ans ils me
+prend  la fantaisie  de vouloir  dessiner  des ballons  de rugby  (des
+ellipses),   il    me   suffira   de    cr&eacute;er  un   objet    de   type
+<code>ellipse</code>,  et de  recompiler  <em>le vieux  programme</em>
+qui, lui,  restera inchang&eacute;. Le  m&eacute;canisme d'h&eacute;ritage et  de fonctions
+virtuelles  me  garantit  que   cela  fonctionnera.  D'o&ugrave;  une  &eacute;norme
+souplesse  pour  faire  &eacute;voluer  les  programmes. <br />
+</p>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Cela fonctionnera  <em>uniquement</em> &agrave; 
+condition que  les  relations  d'h&eacute;ritages  soient  "proprement"  d&eacute;finies.   En
+particulier,  lorsqu'une  classe  h&eacute;rite  d'une autre,  les  fonctions
+virtuelles  de  la  classe  d&eacute;riv&eacute;e  doivent  <em>faire au  moins
+autant de choses</em> que celles  de la classe de base,  et elles ne <em>doivent
+pas  avoir des  exigences sup&eacute;rieures  </em>. En  d'autres  termes, la
+classe d&eacute;riv&eacute;e doit &ecirc;tre <em>une  extension</em> de sa classe de base,
+<em>pas une restriction</em>.</p></div>
+
+<p><a href="#">top</a></p><hr /> 
+
+<h2><a name="biblio">Des biblioth&egrave;ques d'objets</a></h2>
+
+<p>Il  est   possible  d'&eacute;crire   des  biblioth&egrave;ques
+d'objets,  qui  utiliseront  soit  la g&eacute;n&eacute;ricit&eacute;  soit  les  relations
+d'h&eacute;ritages.   Ces   biblioth&egrave;ques    seront   utilisables   par   les
+programmeurs,  qui  pourront   &eacute;ventuellement  continuer  &agrave;  cr&eacute;er  de
+nouveaux  objets qui h&eacute;riteront  des objets  de la  biblioth&egrave;que. Nous verrons ici la <code>stdlib</code></p>
+
+<p><a href="#">top</a></p><hr /> 
+
+<h2><a name="normaux">La programmation objets expliqu&eacute;e aux gens normaux</a></h2>
+
+<p>Ce chapitre  s'adresse aux gens "normaux",  c'est-&agrave;-dire aux personnes
+n'ayant   pas   d'exp&eacute;rience   de   programmation,  quelque  soit  le  langage utilis&eacute;.  Les  programmeurs
+chevronn&eacute;s, eux, feraient mieux  de lire le chapitre pr&eacute;c&eacute;dent 
+<a href="#prog"><img alt="avant" src="avant.gif" /></a></p>
+
+<h3><a name="cafeteria">Une caf&eacute;t&eacute;ria informatis&eacute;e</a></h3>
+
+<p>Imaginons que nous devons mod&eacute;liser une caf&eacute;t&eacute;ria  automatique, comme  on en
+trouve souvent sur les aires  de repos des autoroutes, constitu&eacute;e d'un
+certain nombre de cafeti&egrave;res en libre-service.</p>
+
+<p>Pour corser la chose, il y a trois types
+diff&eacute;rents de cafeti&egrave;res:
+</p><ul>
+  <li>Les machines &agrave; caf&eacute; utilisant du caf&eacute; en grain
+  </li><li>Les machines &agrave; caf&eacute; utilisant du caf&eacute; moulu
+  </li><li>Les machines &agrave; caf&eacute; utilisant du caf&eacute; soluble
+</li></ul>
+
+<p><a href="#">top</a></p><hr /> 
+
+<h3><a name="cafproc">Le caf&eacute; en programmation proc&eacute;durale</a></h3>
+
+<p>En  programmation   proc&eacute;durale,   on  s'int&eacute;ressera
+essentiellement  &agrave;   ce  que   la  machine  doit   <em>faire</em>;  en
+l'occurrence, on r&eacute;fl&eacute;chira &agrave; la mani&egrave;re de pr&eacute;parer le caf&eacute; lorsqu'un
+utilisateur l'aura  demand&eacute;. Les <em>objets</em>  de l'application (en
+l'occurrence  les  sp&eacute;cifications  des  diff&eacute;rentes machines  &agrave;  caf&eacute;)
+n'occuperont pas une place centrale dans notre r&eacute;flexion.</p>
+
+<p>Ainsi, dans notre exemple, on &eacute;crira trois
+algorithmes diff&eacute;rents, correspondant aux trois mani&egrave;res de faire le
+caf&eacute; suivant le type de machine. Cela pourra par exemple se traduire
+par une fonction du type:</p>
+
+<pre class="demo">int faire_le_cafe (int cafid, int caftyp, int cafforce);<br /></pre>
+
+<p>o&ugrave; <code>cafid</code>  est  un "identificateur  de
+cafeti&egrave;re" (il  faut bien  donner une adresse  ou un nom  diff&eacute;rents &agrave;
+chaque cafeti&egrave;re  pour pouvoir les  diff&eacute;rentier), <code>caftyp</code>
+est   le    type   correspondant   de   la    cafeti&egrave;re,   alors   que
+<code>cafforce</code> est un nombre (de  1 pour du jus de chaussette &agrave;
+10  pour  du caf&eacute;  italien)  donnant  une id&eacute;e  de  la  force du  caf&eacute;
+d&eacute;sir&eacute;. La fonction <code>faire_le_cafe</code> cache sous un interface
+commun plusieurs algorithmes diff&eacute;rents  (au moins un pour chaque type
+de  cafeti&egrave;re);  il  peut  &ecirc;tre astucieux  d'ailleurs  d'&eacute;crire  trois
+fonctions  diff&eacute;rents, d'o&ugrave;  la  structure suivante  pour la  fonction
+<code>faire_le_cafe</code>:</p>
+
+<pre class="demo">int faire_le_cafe(int cafid, int caftyp, int cafforce) {<br />    int rvl=0;<br />    switch (caftyp) {<br />       case CAFE_EN_GRAIN:<br />            rvl = faire_le_cafe_en_grain(cafid,cafforce);<br />            break;<br />       case CAFE_MOULU:<br />            rvl = faire_le_cafe_moulu(cafid,cafforce);<br />            break;<br />       case CAFE_SOLUBLE:<br />            rvl = faire_le_cafe_soluble(cafid,cafforce);<br />            break;<br />       default:<br />            rvl = 9;  /* Erreur, type inconnu */<br />    }<br />    return rvl;<br />}<br /></pre>
+
+<p> Il faut conna&icirc;tre pour chaque machine quel est son
+type, cela peut faire l'objet d'un tableau <code>caf_types</code>:</p>
+
+<pre class="demo">int caf_types[15];<br /></pre>
+
+<p>
+Pour conna&icirc;tre le  type de la machine num&eacute;ro 10, il  suffit de lire la
+valeur de <code>caf_types[10]</code>.</p>
+
+<p> Par  ailleurs, on a besoin de conna&icirc;tre l'&eacute;tat
+des  diff&eacute;rentes machines  &agrave; caf&eacute;;  par exemple,  un  client a-t-il
+demand&eacute;  un  caf&eacute;&nbsp;?   On  peut  donc  imaginer une  fonction,  appel&eacute;e
+<code>lire_etat</code>, qui ira lire l'&eacute;tat de la machine &agrave; caf&eacute;. Elle
+renverra par exemple le code 0  pour dire "machine pr&ecirc;te", et le code 1
+pour dire  "quelqu'un a demand&eacute; un  caf&eacute;".  On peut  bien s&ucirc;r imaginer
+encore d'autres codes pour dire par exemple que le r&eacute;servoir d'eau est
+vide, etc.</p>
+
+<p>Un programme d&eacute;clenchant N machines afin qu'elles fassent toutes du caf&eacute; ressemblera en fin de 
+compte &agrave; celui-ci:</p>
+
+<pre class="demo">for (int i=0; i &lt; N; i++) {<br />    if (lire_etat(i)==1) {<br />       int rvl = faire_le_cafe(i,caf_types[i],cafforce);<br />       if (rvl == 0) {<br />          printf "le cafe est pret\n";<br />       } else {<br />          printf "Machine en panne\n";<br />       };<br />    }<br />}<br /></pre>
+
+<p><a href="#">top</a></p><hr /> 
+
+<h3><a name="cafobj">Le caf&eacute; en programmation objet</a></h3>
+
+<p>Tout cela est bien beau, mais on voit d'embl&eacute;e que
+cette mani&egrave;re de proc&eacute;der peut poser quelques probl&egrave;mes:</p>
+
+<ul>
+
+  <li>Ecrite de cette mani&egrave;re, la programmation n'a qu'un tr&egrave;s lointain
+      rapport avec la mani&egrave;re dont nous pensons, de sorte qu'elle a un
+      c&ocirc;t&eacute; artificiel, y compris lors de la conception du
+      programme.</li>
+  <li>Le programme risque de se r&eacute;v&eacute;ler fort peu robuste:
+      en effet, si l'on d&eacute;sire le modifier afin
+      d'ajouter un nouveau type de machine &agrave; caf&eacute;, on devra modifier
+      la fonction <code>faire_le_cafe</code>, afin d'ajouter une
+      condition &agrave; l'instruction <code>switch</code>. Pour peu que le
+      programme soit complexe, il y aura un grand nombre de fonctions
+      &eacute;crites sur le mod&egrave;le de <code>faire_le_cafe</code>. Il n'est
+      pas &eacute;vident de les retouver toutes lorsqu'on doit ajouter un
+      nouveau mod&egrave;le de cafeti&egrave;re. D'autant plus qu'elles seront
+      probablement dispers&eacute;es un peu partout dans le code. Lors de
+      cette modification, on risque d'ajouter des erreurs dans
+      les lignes de code <i>correspondant aux cafeti&egrave;res existant
+      d&eacute;j&agrave;</i>.</li>
+</ul>
+
+<h4><a name="cafmodele">Mod&eacute;liser une cafeti&egrave;re</a></h4>
+
+<p>Il est bien  plus naturel  de raisonner  en termes
+d'objets,  car c'est notre  mani&egrave;re quotidienne  de penser:  il s'agit
+en effet de faire fonctionner un ensemble <em>d'objets</em>. Ceux-ci:</p>
+
+<ul>
+  <li>Ont un grand nombre de points en commun (il s'agit toujours de machines &agrave; caf&eacute;)
+  </li><li>Sont cependant de plusieurs types
+  </li><li>Ont une certaine structure (en fait, ils contiennent d'autres
+      objets), ainsi qu'un comportement vis-&agrave;-vis du monde ext&eacute;rieur:
+      <ul>
+	<li>On peut leur "donner l'ordre" de faire le caf&eacute;.
+	</li><li>On peut leur "demander" dans quel &eacute;tat ils sont. 
+      </li></ul>
+</li></ul>
+
+<p>La   programmation   objets   va   permettre   de
+<em>mod&eacute;liser</em>  cet   ensemble  d'objets et  ainsi d'&eacute;crire un  programme bien plus proche  de la
+mani&egrave;re de  penser humaine.  D'autre  part, la structure  du programme
+est telle que  la modification d'un objet ne devrait  pas avoir
+d'impact  sur les  caract&eacute;ristiques d'un autre  objet, ou  sur les 
+caract&eacute;ristiques g&eacute;n&eacute;rales  du programme; le programme  sera donc plus
+robuste, et plus facile &agrave; maintenir.</p>
+
+<h4><a name="cafecekoi">qu'est-ce qu'une cafeti&egrave;re&nbsp;?</a></h4>
+
+<p>  Nous dirons qu'une cafeti&egrave;re est  un objet. Cet objet est un ensemble de composants:<br />
+</p><ul><li>R&eacute;servoir d'eau
+  </li><li>R&eacute;servoir de caf&eacute;
+  </li><li>R&eacute;servoir de sucre
+  </li><li>R&eacute;servoir de cuillers
+  </li><li>R&eacute;servoir de gobelets
+  </li><li>R&eacute;sistance chauffante
+</li></ul>
+
+<p> Lorsque nous  &eacute;crirons le programme, il nous suffira
+de repr&eacute;senter  ces objets par  des <em>variables</em>, ainsi  il sera
+possible d'&eacute;crire:</p>
+
+<pre class="demo">
+cafetiere A;
+</pre>
+
+<p>de la m&ecirc;me  mani&egrave;re qu'on &eacute;crit en C:</p>
+
+<pre class="demo">
+int B;
+</pre>
+
+<h4><a name="cafesortes">Une cafeti&egrave;re est une cafeti&egrave;re, mais il y en a plusieurs sortes</a></h4>
+
+<p>Par  ailleurs, nous avons vu  qu'il pouvait exister
+plusieurs types de cafeti&egrave;res: or, m&ecirc;me si une machine avec r&eacute;serve de
+caf&eacute; en grain est de  conception diff&eacute;rente d'une machine avec r&eacute;serve
+de  caf&eacute; en  poudre, nous  savons  parfaitement qu'il  s'agit dans les
+deux cas de
+cafeti&egrave;res,  c'est-&agrave;-dire  que  ces  deux objets
+ont  un grand  nombre de caract&eacute;ristiques communes. Nous  allons
+exprimer cette  relation dans notre programme objet,  en utilisant les
+relations  d'<em>h&eacute;ritage</em>: nous  aurons donc  un nouveau  type de
+variable    (<code>cafetiere_grain</code>),     diff&eacute;rent    du    type
+<code>cafetiere</code>, mais  qui <em>h&eacute;rite</em> de ce  type un grand
+nombre  de   caract&eacute;ristiques.   Simplement,  il   <em>ajoute</em>
+de
+nouvelles caract&eacute;ristiques &agrave; ce type. Ces
+caract&eacute;ristiques nous
+permettront de pr&eacute;ciser &agrave; la machine le
+proc&eacute;d&eacute; exact pour faire le caf&eacute;, alors que les
+caract&eacute;ristiques communes permettent
+de dire &agrave; quelles conditions un objet peut l&eacute;gitimement
+&ecirc;tre appel&eacute;
+cafeti&egrave;re.</p>
+
+<h4><a name="boutons">Boutons marche-arr&ecirc;t ou autres r&eacute;glages</a></h4>
+
+<p>Lorsqu'on  se trouve &agrave; l'ext&eacute;rieur  de la cafeti&egrave;re, on n'a
+pas acc&egrave;s  aux pi&egrave;ces composant la cafeti&egrave;re. De m&ecirc;me,
+dans notre programme, un m&eacute;canisme permettra de <em>cacher</em> les
+objets situ&eacute;s &agrave; l'int&eacute;rieur de l'objet <code>cafetiere</code>.<br />
+  Par contre,  on a un moyen  de remplir  le r&eacute;servoir d'eau ou le
+r&eacute;servoir de caf&eacute;, 
+de savoir combien  d'eau il reste dans le  r&eacute;servoir, combien de sucre
+dans la  r&eacute;serve de sucre,  etc.  De m&ecirc;me,  on a plusieurs  boutons de
+r&eacute;glage (caf&eacute; fort, moyen, faible),  et on a un bouton pour d&eacute;clencher
+la mise en  route du caf&eacute;.  Dans notre mod&egrave;le,  cela correspond &agrave; 
+des <code>fonctions</code> que nous appellerons <em>m&eacute;thodes</em>,
+ou  encore  <em>fonctions-membres</em>.   Les  fonctions-membres  sont
+partie  prenante de  l'objet,  de la  m&ecirc;me  mani&egrave;re que  le bouton  de
+marche-arr&ecirc;t de la  (vraie) cafeti&egrave;re est une partie  de la cafeti&egrave;re.
+Mais il s'agit de la  partie "interface" avec le monde ext&eacute;rieur. Pour
+faire  du  caf&eacute;  italien,   nous  pourrons  alors  &eacute;crire  dans  notre
+programme:</p>
+
+<pre class="demo">cafetiere_grain A;<br />A.force(10);<br />A.faire_le_cafe();<br /></pre>
+
+<p>On   voit  que  le  style   de  programmation  est
+consid&eacute;rablement diff&eacute;rent de ce  qui pr&eacute;c&egrave;de; alors que pr&eacute;c&eacute;demment,
+le num&eacute;ro de  la cafeti&egrave;re, le type de  cafeti&egrave;re, et peut-&ecirc;tre encore
+d'autres  informations  sont  pass&eacute;es  en  param&egrave;tre  &agrave;  une  fonction
+<code>faire_le_cafe</code>,      cette      fois      la      fonction
+<code>faire_le_cafe</code>  est  directement  int&eacute;gr&eacute;e &agrave;  la  variable
+<code>A</code>, ce  qui est  bien plus proche  de la r&eacute;alit&eacute;:
+c'est bien la  machine &agrave; caf&eacute;, qui int&egrave;gre  un m&eacute;canisme permettant de
+faire  du  caf&eacute;;  de   la  m&ecirc;me  mani&egrave;re,  l'algorithme  expliquant  &agrave;
+l'ordinateur comment  le caf&eacute;  devra &ecirc;tre fait  se trouve  "int&eacute;gr&eacute;" &agrave;
+l'objet  de type <code>cafetiere</code>.<br />  Plus pr&eacute;cis&eacute;ment,  on va
+pouvoir  dire  au programme  que  toute  cafetiere  doit avoir  <em>au
+moins</em> une fonction <code>faire_le_cafe</code>, mais cette fonction sera  tr&egrave;s diff&eacute;rente suivant le type de
+cafeti&egrave;re.  La  seule chose  de s&ucirc;re, c'est  que cette  fonction devra
+exister.    <br />  Puisque   la   fonction  est   int&eacute;gr&eacute;e  &agrave;   l'objet
+<code>cafetiere</code>, celui-ci  peut aller chercher  les informations dont
+il a besoin <em>directement &agrave; l'int&eacute;rieur</em> de l'objet: c'est ainsi
+que le param&egrave;tre <code>cafforce</code> de tout-&agrave;-l'heure a &eacute;t&eacute; retir&eacute;;
+il n'est  plus n&eacute;cessaire,  car la force  du caf&eacute;  a &eacute;t&eacute; fix&eacute;e  par la
+fonction <code>force()</code>, qui est elle aussi une m&eacute;thode de notre
+objet.  A  l'inverse de la  fonction <code>faire_le_cafe()</code>, par
+contre, on peut tr&egrave;s bien imaginer que pour certains types de machines
+la fonction <code>force()</code> est inexistante (dans ce cas la force
+du  caf&eacute; est  pr&eacute;d&eacute;finie et  ne peut  &ecirc;tre ajust&eacute;e  par l'utilisateur:
+c'est moins confortable,  mais &ccedil;a fait tout-de-m&ecirc;me du  caf&eacute;). Donc la
+fonction     <code>force()</code>      sera     une     m&eacute;thode     de
+<code>cafetiere_grain</code>,              <em>pas</em>             de
+<code>cafetiere</code>.</p>
+
+
+<h4><a name="voyants">Voyants</a></h4>
+
+<p>La fonction appel&eacute;e pr&eacute;c&eacute;demment <code>lire_etat</code> devient, elle
+aussi, une fonction-membre: elle joue alors le r&ocirc;le d'un voyant.</p>
+
+<h4><a name="cafemain">Programme principal</a></h4>
+
+<p>Nous  pouvons maintenant r&eacute;&eacute;crire  l'&eacute;bauche de notre
+programme: </p>
+
+<pre class="demo">cafetiere C[100];<br /><br />... initialiser C[i] avec des objets de type cafetiere_grain,<br />cafetiere_poudre, cafetiere_soluble ...<br /><br />for (int i=0; i &lt; N; i++) {<br />    if (C[i].lire_etat()==1) {<br />       int rvl = C[i].faire_le_cafe();<br />       if (rvl == 0) {<br />          printf "le cafe est pret\n";<br />       } else {<br />          printf "Machine en panne\n";<br />       };<br />    }<br />}<br /></pre>
+
+<h4><a name="robusta">Des programmes plus robustes</a></h4>
+
+<p>Puisque  les objets de  type <code>cafetiere</code>
+sont tout simplement des variables  comme les autres, il est possible,
+par  exemple, de  les ranger  dans  un tableau.   Chaque &eacute;l&eacute;ment  d'un
+tableau  sera  donc  une  <code>cafetiere</code>,  cependant  certains
+&eacute;l&eacute;ments  peuvent &ecirc;tre un  objet de  type <code>cafetiere_grain</code>
+alors    que    d'autres   peuvent    &ecirc;tre    un    objet   de    type
+<code>cafetiere_soluble</code>.   De  sorte  que lorsque  la  fonction
+<code>C[i].faire_le_cafe()</code>  est appel&eacute;e, rien  ne dit  qu'il se
+passe en r&eacute;alit&eacute; la m&ecirc;me  chose &agrave; chaque it&eacute;ration du tableau. C'&eacute;tait
+d&eacute;j&agrave; le cas en programmation fonctionnelle, la diff&eacute;rence ici est tout
+simplement que la  structure <code>switch</code> pr&eacute;c&eacute;dente a disparu: 
+elle est remplac&eacute;e par un m&eacute;canisme d'appel de fonctions int&eacute;gr&eacute; au
+syst&egrave;me lui-m&ecirc;me. Cela conduit &agrave; une <em>totale s&eacute;paration</em>
+entre les diff&eacute;rents 
+types de  cafeti&egrave;re, donc  si je  rajoute dans un  ou deux  si&egrave;cles un
+nouveau type de cafeti&egrave;re, je  ne risque plus d'ajouter des erreurs et
+de faire planter les autres types. Le code est &agrave; la fois plus clair, parce que plus proche de la pens&eacute;e humaine,
+<em>et</em> plus robuste, en  ce sens qu'une 
+modification  quelque  part  risque  moins  d'introduire  des  erreurs
+ailleurs. Ces deux caract&eacute;ristiques conduisent &agrave; un code plus simple &agrave;
+maintenir.</p>
+
+  <h2><a name="obj-classes">Classes et objets</a></h2>
+
+  <p>Une <em>classe</em> est une mani&egrave;re de d&eacute;crire un type
+d'objets: on peut le voir comme un moule, qui servira &agrave; la
+fabrication des objets proprement dits. Une classe n'est donc pas un objet.
+Un objet se caract&eacute;rise par trois choses:  </p>
+  <ul>
+    <li>Un &eacute;tat</li>
+	<li>Un comportement</li>
+    <li>Une identit&eacute;</li>
+  </ul>
+ 
+  <h4><a name="obj-etat">L'&eacute;tat d'un objet:</a></h4>
+ <p>L'&eacute;tat d'un objet est la combinaison de ses
+propri&eacute;t&eacute;s: celles-ci  peuvent elles-m&ecirc;mes 
+&ecirc;tre des objets. Par exemple, l'&eacute;tat de la machine
+&agrave; caf&eacute; sera:</p>
+  <ul>
+    <li>En fonctionnement</li>
+    <li>Pr&ecirc;te &agrave; faire le caf&eacute;</li>
+    <li>R&eacute;servoir &agrave; caf&eacute; plein ou vide</li>
+    <li>etc.</li>
+  </ul>
+<p>L'&eacute;tat d'un objet d&eacute;pend de son histoire: si la machine
+&agrave; caf&eacute; est plusieurs fois en fonctionnement, son
+r&eacute;servoir finira par se vider.</p>
+
+  <h4><a name="obj-comp">Le comportement d'un objet:  </a></h4>
+ <p>Le comportement d'un objet est ce qu'il est capable de r&eacute;aliser, la mani&egrave;re dont il r&eacute;agira 
+ &agrave; des messages ext&eacute;rieurs, ... le comportement correspond donc au code qui sera ins&eacute;r&eacute; &agrave;
+ l'int&eacute;rieur de l'objet afin de la faire agir. Un changement d'&eacute;tat peut g&eacute;n&eacute;rer un 
+ comportement particulier (le r&eacute;servoir &agrave; caf&eacute; se vide: l'objet t&eacute;l&eacute;phone &agrave;
+ la maintenance), et r&eacute;ciproquement une action entra&icirc;nera un changement d'&eacute;tat.</p>
+
+<h4><a name="obj-id">L'identit&eacute; d'un objet:</a></h4>
+ <p>Si l'on veut que plusieurs objets cohabitent dans le programe, il faudra bien les diff&eacute;rentier d'une 
+ mani&egrave;re ou d'une autre: l'identit&eacute; est l&agrave; pour cela. 
+ Le programmeur n'a g&eacute;n&eacute;ralement pas &agrave; s'en pr&eacute;occuper, elle est directement g&eacute;r&eacute;e
+ par le syst&egrave;me. L'identit&eacute; de l'objet en C++ est simplement l'adresse de l'objet dans la m&eacute;moire.</p>
+ 
+
+<h4><a name="obj-met">Des objets "m&eacute;tiers"</a></h4>
+
+<p> Les objets m&eacute;tiers sont des objets qui doivent &ecirc;tre compris par toute personne du domaine concern&eacute;:
+ par exemple, l'objet cafeti&egrave;re devrait &ecirc;tre ais&eacute;ment compr&eacute;hensible par tous ceux qui 
+ s'occupent r&eacute;ellement de la machine &agrave; caf&eacute;. Par contre, si on met les machines &agrave; caf&eacute;
+ dans un tableau, qui lui-m&ecirc;me sera un objet, ce tableau n'est utile que pour le d&eacute;roulement du programme 
+ lui-m&ecirc;me: les gens "du m&eacute;tier" n'ont aucune raison de s'y int&eacute;resser.</p>
+
+<h4><a name="obj-rel">Relations entre objets</a></h4>
+
+<p>Les objets vont communiquer entre eux en s'envoyant des <em>messages</em>: dans la r&eacute;alit&eacute;, 
+ces messages sont tout simplement des appels de fonctions, comme on l'a vu. Les objets sont en relation entre eux 
+(un objet en relation avec aucun autre objet ne servirait &agrave; rien). On distingue plusieurs types de relations:</p>
+
+<dl>
+	<dt><em>Association</em></dt>
+	<dd>C'est la plus courante, aussi la moins forte: c'est la relation qui lie un enseignant et ses &eacute;tudiants, par exemple.</dd>
+	<dt><em>Agr&eacute;gation</em></dt>
+	<dd>C'est la relation qui lie un objet et ses composants: la cafeti&egrave;re et son r&eacute;servoir d'eau, de caf&eacute;,
+	de gobelets, par exemple. Elle est plus forte que la relation d'association, toutefois une cafeti&egrave;re peut exister 
+	sans son r&eacute;servoir &agrave; caf&eacute;.</dd>
+	<dt><em>Composition</em></dt>
+	<dd>La relation la plus forte (utilis&eacute;e rarement). Un immeuble de 10 &eacute;tages ne peut exister sans 
+	tous ses &eacute;tages, et r&eacute;ciproquement: on exprimera donc dans le code le fait que si l'objet immeuble 
+	est d&eacute;truit, tous les objets le composant seront d&eacute;truits &eacute;galement, et r&eacute;ciproquement.</dd>
+	<dt><em>Une sorte de</em></dt>
+	<dd>On pourra exprimer le fait qu'une machine &agrave; caf&eacute; particuli&egrave;re est "une sorte de" machine &agrave; caf&eacute;.</dd>
+	<dt><em>Un tas de</em> </dt>
+	<dd>Des objets particuliers (les conteneurs) nous permettront de mettre nos objets dans des structures de donn&eacute;es:
+	on pourra donc avoir "un tableau de cafeti&egrave;res", "une pile de cafeti&egrave;re", 
+	"une queue de cafeti&egrave;res", etc.</dd>
+</dl>
+
+<p>Les relations d'association, d'agr&eacute;gation et de composition s'expriment en ins&eacute;rant des variables 
+membres dans une d&eacute;finition de classe 
+(<a  href="types.html#class"><img alt="apres" src="apres.gif" /></a>). 
+Dans le cas de la relation de composition, il convient de s'assurer que les objets sont construits ou d&eacute;truits 
+ensemble. La relation "est une sorte de" s'exprime gr&acirc;ce &agrave; l'h&eacute;ritage (<a  href="heritage.html">
+<img alt="apres" src="apres.gif" /></a>). Les autres relations s'expriment par les mod&egrave;les 
+(<a  href="modeles.html"><img alt="apres" src="apres.gif" /></a>)</p>
+
+<p><a href="#">top</a></p><hr /> 
+
+<address>
+<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
+<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
+<a href="mailto:emmanuel.courcelle@toulouse.inra.fr">Emmanuel Courcelle &lt;emmanuel.courcelle@toulouse.inra.fr&gt;</a></address>
+
+</div>
+</body>
+</html>
