@@ -28,7 +28,7 @@
     Sources: http://www.gnu.org/s/libc/manual/html_node/Backtraces.html
              http://tombarta.wordpress.com/2008/08/01/c-stack-traces-with-gcc
              
-    emmanuel.courcelle@toulouse.inra.fr
+    emmanuel.courcelle@toulouse.inp-toulouse.fr
     
 */
 
