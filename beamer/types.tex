@@ -1,0 +1,293 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Les types de base}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2016}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Table des matières}
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\section{Expressions et instructions}
+
+\subsection{Expressions et instructions}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une expression pas trop compliquée}
+\begin{lstlisting}[language=c++]
+7;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une expression renvoie toujours une valeur}
+L'expression suivante renvoie 7:
+\begin{lstlisting}[language=c++]
+4 + 3;
+\end{lstlisting}
+
+L'expression suivante:
+\begin{itemize}
+\item{met 7 dans la variable b}
+\item{renvoie \textbf{aussi} la valeur 7}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+b = 4 + 3;
+\end{lstlisting}
+
+Si bien que l'expression suivante met 7 dans b \textbf{et} dans a:
+\begin{lstlisting}[language=c++]
+a = (b = 4 + 3);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Instructions simples et complexes}
+Une instruction peut être simple, dans ce cas \textbf{elle se termine par un ;}
+\begin{lstlisting}[language=c++]
+a = 4 + 3;
+\end{lstlisting}
+Ou alors c'est un \textbf{bloc}, il est délimité par { ou }
+\begin{lstlisting}[language=c++]
+{
+   a = 4 + 3;
+   b = 4 - 3;
+}
+\end{lstlisting}
+\begin{block}{Déclarations de variables en C}
+Elles se font \textbf{toujours} en début de bloc !
+En C++, on déclare les variables n'importe où.
+\end{block}
+\end{frame}
+
+\subsection{Les instructions conditionnelles}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'instruction conditionnelle if}
+
+La forme générale:
+\begin{lstlisting}[language=c++]
+if (expression) 
+   instruction1;
+else
+   instruction2;
+\end{lstlisting}
+
+\begin{block}{Commentaires}
+\begin{itemize}
+\item{\textbf{en C}: Si expression vaut 1 instruction1, si elle vaut 2 instruction2}
+\item{\textbf{en C++}: Si expression vaut \textbf{true} instruction1, si elle vaut \textbf{false} instruction2}
+\item{instruction1 et instruction2 peut être un bloc}
+\item{else est optionnel}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les if imbriqués}
+
+On peut écrire aussi, même si ce n'est pas très lisible:
+\begin{lstlisting}[language=c++]
+if (expression1) 
+   instruction1;
+else if (expression2)
+   instruction2;
+else if (expression3)
+   instruction3;
+else
+   instruction4;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le switch}
+
+Dans beaucoup de cas, on préfèrera utiliser l'instruction switch plutôt que des if imbriqués:
+\begin{lstlisting}[language=c++]
+switch(expression) {
+    case 1: instruction1;
+    case 2: instruction2;
+    case 5: instruction3;
+    default: instruction4;
+}
+\end{lstlisting}
+
+\begin{block}{ATTENTION, PIEGE !}
+Si expression vaut 1 on exécutera instruction1, instruction2, instruction3, puis instruction4 ! \\
+Si vous ne voulez pas cela, vous pouvez utiliser break:
+\begin{lstlisting}[language=c++]
+switch(expression) {
+    case 1: instruction1; break;
+    case 2: instruction2; break;
+    case 5: instruction3; break;
+    default: instruction4;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Ne pas en abuser !}
+L'héritage du C++ permettra de limiter de manière drastique l'utilisation des switches !
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'instruction ?:;}
+C'est un if...else compact, qui peut être utilisé au milieu d'une instruction. \\
+Très pratique, à condition de ne pas en abuser car le code risque d'être illisible !
+
+\begin{lstlisting}[language=c++]
+// Ce code...
+int a;
+if ( b == 1 )
+{
+	a = 3000;
+}
+else
+{
+	a = -10;
+}
+
+// ...est equivalent a celui-ci:
+int A = b==1 ? 3000 : -10;
+
+// Etonnant, non ?
+\end{lstlisting}
+\end{frame}
+
+\subsection{Les boucles}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {for}
+\begin{itemize}
+\item{Permet de boucler en spécifiant condition initiale, condition finale, et incrémentation d'un compteur}
+\item{Généralisée en C++ pour balayer un conteneur (par exemple un tableau) avec des itérateur}
+\item{La boucle peut ne jamais être exécutée}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+float x = 1;
+for (int i=0; i<n; i++)
+    x = 2 * x;
+\end{lstlisting}
+\begin{block}{ATTENTION, PIEGE !}
+La forme ci-dessus fonctionne en C++, pas en C. \\
+En C on écrira plutôt:
+\begin{lstlisting}[language=c++]
+int i;
+float x = 1;
+for (i=0; i<n; i++)
+    x = 2 * x;
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {while}
+\begin{itemize}
+\item{Permet de boucler jusqu'à que la condition soit réalisée}
+\item{La boucle peut ne jamais être exécutée}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+while (c!=' ') {
+   c = getchar();
+   chaine[i++] = c;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {do... while}
+\begin{itemize}
+\item{Permet de boucler jusqu'à que la condition soit réalisée}
+\item{La condition est évaluée en fin de boucle}
+\item{En conséquence, la boucle est exécutée au moins une fois}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+do {
+  instruction;
+} while (condition);
+\end{lstlisting}
+\end{frame}
+
+\subsection{break et continue}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Sortir avec break}
+break permet de sortir prématurément d'une boucle. \\
+Le code C suivant compte le nombre de zéros situés au début d'un tableau:
+\begin{lstlisting}[language=c++]
+int cpt = 0;
+for (cpt = 0; cpt < n; cpt++) {
+    if (A[cpt]!=0)
+       break;
+}
+\end{lstlisting}
+
+\begin{block}{ATTENTION}
+\begin{itemize}
+\item{On ne peut sortir avec break que de la boucle la plus interne.}
+\item{break est utilisé seulement dans les switches et dans les boucles}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Sauter des itérations avec continue}
+continue permet de sauter des itérations.
+Le code C suivant fait un traitement coûteux pour toutes les cellules non nulles:
+\begin{lstlisting}[language=c++]
+int cpt = 0;
+for (cpt = 0; cpt < n; cpt++) {
+    if (A[cpt]==0)
+       continue;
+    blabla();
+    ...faire un traitement complique
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Techniques d'obfuscation de code}
+Puisqu'une instruction renvoie toujours une valeur, n'importe quelle instruction \\
+peut servir de condition dans un if ou une boucle.\\
+On peut donc faire plusieurs choses à la fois:
+
+\begin{itemize}
+\item{Exécuter une instruction, par exemple remplir une variable}
+\item{Utiliser la valeur de la variable pour prendre une décision}
+\end{itemize}
+
+\textbf{Cela conduit rapidement à du code illisible !}
+
+\begin{lstlisting}[language=c++]
+// Plutot que d'ecrire cela:
+if (a=sin(theta))
+   instruction1;
+else
+   instruction2;
+   
+// Ecrivez ce qui suit, un poil plus long mais plus lisible:
+a=sin(theta)
+if (a!=0)
+   instruction1;
+else
+   instruction2;
+\end{lstlisting}
+\end{frame}
+
+\end{document}
+  
