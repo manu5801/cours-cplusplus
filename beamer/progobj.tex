@@ -1,0 +1,409 @@
+\documentclass{beamer}
+  \usepackage[utf8]{inputenc}
+  \usepackage{listings}
+  \usetheme{Warsaw}
+  \usecolortheme{wolverine}
+  
+\usepackage{color}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{gris}{rgb}{0.9,0.9,0.9}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+
+\lstset{ %
+  backgroundcolor=\color{gris},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=true,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  commentstyle=\color{mygreen},    % comment style
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=single,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=c++,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  %numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  %numbersep=5pt,                   % how far the line-numbers are from the code
+  %numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+  rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  stringstyle=\color{mymauve},     % string literal style
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+  \title{La programmation orientée objets}
+  \subtitle{Introduction au C++ et à la programmation objet}
+  \author{E. Courcelle}\institute{CALMIP, UMS 3669}
+  \date{Mai 2016}
+  \begin{document}
+
+  \begin{frame}
+  \titlepage
+  \end{frame}
+
+  \section*{Table des matières}
+  \begin{frame}
+    \tableofcontents
+  \end{frame}
+
+  \section{Les modules, ancêtres des objets}
+
+  \subsection{Variables locales, variables globales}
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle {Une variable globale...}
+
+  Une \textbf{variable globale} est accessible à partir de \\ \textbf{toutes les fonctions du programme}
+
+  \begin{lstlisting}[language=c++]
+  %*\textbf{int x=0};*)
+  int fonction1() {
+    %*\textbf{x=1;}*)
+    return 2 * x;         
+  }
+  int fonction2() {
+    %*\textbf{x = x + 2;}*)
+    return 2 * x;         
+  }  
+  \end{lstlisting}
+  
+  \end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle {...Une variable locale}
+  
+  Une \textbf{variable locale} n'est accessible qu'à partir d'un \textbf{bloc déterminé} \\
+  (par exemple une \texttt{fonction}):
+
+  \begin{lstlisting}[language=c++]
+  int fonction() {
+    %*\textbf{int x=1;}*)
+    return 2 * x;         
+  }
+  \end{lstlisting}
+  \end{frame}
+
+  \subsection{L'approche modulaire}
+  \begin{frame}
+  \frametitle {Interface publique, implémentation cachée}
+
+  \begin{columns}[t]
+
+  \begin{column}{6cm}
+  \textbf{Interface du module}
+  \begin{itemize}
+    \item{Noms des fonctions}
+    \item{Ce qu'elles font}
+    \item{Ce qui rentre \\ (les paramètres des fonctions)}
+    \item{Ce qu'elles renvoient \\ (le type de la valeur de retour)}
+  \end{itemize}
+  \end{column}
+
+  \begin{column}{6cm}
+  \textbf{Implémentation du module}
+  \begin{itemize}
+     \item{Variables du module \\ ("globales")}
+     \item{Code des fonctions}
+  \end{itemize}
+  \end{column}
+
+  \end{columns}
+
+  \end{frame}
+  
+  \begin{frame}
+  \frametitle {Prototypage et travail en équipe}
+  \textbf{L'encapsulation} des données permet:
+    \begin{itemize}
+    \item De travailler \alert{par prototypage} en commençant \\ par l'interface publique
+    \item De travailler en équipe:
+    \begin{itemize}
+    \item On se met d'accord \alert{sur l'interface}
+    \item Chacun écrit l'implémentation \alert{"comme il/elle veut"}
+    \end{itemize}
+    \end{itemize}
+  \end{frame}
+
+    \section{Les objets}
+  \subsection{Une pile de char}
+  
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle {Un module qui définit une pile de caractères}
+  L'interface du module est constitué par deux fonctions: l'une pour empiler, l'autre pour dépiler.
+
+  \begin{lstlisting}[language=c++]
+  // Mettre un caractere en haut de la pile 
+  // et la faire grossir d'un caractere
+  void push(char){};
+  
+  // Renvoyer le caractere du haut de la pile 
+  // et diminuer la pile d'un caractere
+  char pop(){};  
+  \end{lstlisting} 
+  \end{frame}
+  
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle {Gérer plusieurs piles de caractères}
+  On ajoute un entier qui permettra d'identifier la pile:
+
+  \begin{lstlisting}[language=c++]
+  // Mettre un caractere en haut de la pile 
+  // et la faire grossir d'un caractere
+  // id permet de choisir une pile parmi plusieurs
+  void push(int id, char c){};
+  
+  // Renvoyer le caractere du haut de la pile 
+  // et diminuer la pile d'un caractere
+  // id permet de choisir une pile parmi plusieurs
+  char pop(int id){};  
+  \end{lstlisting} 
+  \end{frame}
+
+  \subsection{Des objets intégrés au système de typage}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle {Créer un nouveau type de variables}
+  La solution du C++: créer un \alert{nouveau type} de variables
+
+  \begin{lstlisting}[language=c++]
+class Stack_char {
+
+   // Mettre un caractere en haut de la pile 
+   // et la faire grossir d'un caractere
+   void push(char c);
+
+   // Renvoyer le caractere du haut de la pile 
+   // et diminuer la pile d'un caractere
+   char pop();
+
+}
+
+// Creer trois piles dans notre programme
+Stack_char a,b,c;
+
+a.push('a');
+a.push('z');
+b.push('u');
+c.push('t');
+cout << a.pop(); // Imprime %*\textbf{z}*)
+  \end{lstlisting} 
+  \end{frame}
+  
+  \subsection {Opérations sur les objets}
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{Comme un type natif !}
+   Un tableau de piles de caractères:
+  \begin{lstlisting}[language=c++]
+Stack_char[10] tableau_de_piles;
+\end{lstlisting}
+Une pile initialisée (c++11):
+  \begin{lstlisting}[language=c++]
+Stack_char a = {'a','z','e','r','t','y'};
+\end{lstlisting}
+Recopier une pile dans une autre:
+\begin{lstlisting}[language=c++]
+Stack_char b = a;
+\end{lstlisting}
+Effectuer un transtypage:
+\begin{lstlisting}[language=c++]
+Stack_char a;
+Stack_int b = (Stack_int) a;
+\end{lstlisting}
+\textbf{... à condition de définir ce que tout ça signifie !}
+\end{frame}
+
+\section{L'héritage}
+\subsection {Classer les objets}
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{Mais quel bazar !}
+Images d'objets
+\end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{C'est mieux comme ça !}
+Images d'objets
+\end{frame}
+
+\subsection{Dessiner des formes}
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{Plusieurs formes}
+  On voudrait faire un programe pour dessiner plusieurs formes: \\
+  Créons donc plusieurs types d'objets:
+\begin{lstlisting}[language=c++]
+class Circle;
+class Triangle;
+class Square:
+\end{lstlisting}
+Dessin de formes... et d'une pile ! \\
+mouais... Mais que ce soient des formes ou des piles, on mettrait tout sur le même plan ?
+\end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{NON ! Une forme est une forme !}
+  Une forme est un objet qu'on peut \textbf{dessiner} et qui a \textbf{un centre} et \textbf{une couleur}.\\
+  Et il y en a \textbf{plusieurs sortes}.
+\begin{lstlisting}[language=c++]
+enum kind {circle, triangle, square};
+class Shape {
+   point center;
+   color col;
+   kind k;
+public:
+   point where() {return center};
+   void draw();
+};
+\end{lstlisting}
+Voilà qui est déjà mieux ! 
+\end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{La fonction draw}
+  Imaginons à quoi va ressembler la fonction draw:
+\begin{lstlisting}[language=c++]
+void Shape::draw() {
+   if (kind==cercle) {
+      // dessine-moi un cercle !
+   } elsif (kind==triangle) {
+      // dessine-moi un triangle !
+   } elsif (kind==square) {
+      // dessine-moi un carre !
+   } else {
+      // oups je ne sais pas dessiner cela !
+   }
+\end{lstlisting}
+Pour le passage à l'échelle on repassera ! \\
+Plus il y a de formes à dessiner, plus la fonction draw deviendra compliquée et illisible !
+
+\end{frame}
+  
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{Ben OUI ! Une forme est... une forme !}
+Reprenons: une forme, c'est un truc qu'on peut dessiner, \\ qui a une couleur et un centre. \\
+Sauf que je ne sais pas à quoi elle ressemble, donc je ne sais pas le dessiner. \\
+En c++, ça s'écrit comme ça:
+
+\begin{lstlisting}[language=c++]
+class Shape {
+private:
+   point center;
+   color col;
+public:
+   point where() { return center;};
+   *\textbf{virtual}*) void draw()=0;
+}
+\end{lstlisting}
+
+draw est une \textbf{fonction virtuelle pure}, on sait qu'elle existera un jour, mais on ne sait pas ce qu'elle fera !
+
+\end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{Une classe abstraite...}
+  Les objets de classe Shape ne \textbf{ne peuvent pas} être créés ! \\
+  C'est normal puisque Shape est une classe virtuelle: 
+
+\begin{lstlisting}[language=c++]
+Shape une_forme; // NE COMPILE PAS !
+\end{lstlisting}
+
+Par contre, je peux imaginer une fonction qui prenne une forme en paramètre:
+\begin{lstlisting}[language=c++]
+void arriere_plan(const & Shape); // PAS DE PROBLEME !
+\end{lstlisting}
+
+Je ne peux pas créer une forme, mais si j'en ai une je peux la passer à une fonction... \\
+Mais comment pourrais-je avoir une forme ?
+
+\end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{...Des classes concrètes...}
+  Mais à quoi sert donc ce concept de forme, si ce n'est à dessiner \\ 
+  des cercles, des triangles, des carrés ? \\
+  On va donc écrire en c++ que carre, cercle, triangle sont \textbf{des sortes de} forme:
+
+\begin{lstlisting}[language=c++]
+class Circle: public Shape {
+   ...
+public:
+   void draw();
+};
+class Triangle: public Shape {
+   ...
+public:
+   void draw();
+};
+class Square: public Shape {
+   ...
+public:
+   void draw();
+};
+\end{lstlisting}
+
+\end{frame}
+
+  \begin{frame}[fragile=singleslide,shrink=20]
+  \frametitle{...qu'on sait dessiner et créer !}
+\begin{block}{Pour utiliser une forme on fait comme d'habitude:}
+\begin{itemize}
+\item{Déclarer les variables en leur donnant le type adéquat}
+\item{Appeler la fonction \texttt{draw} pour dessiner}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+Circle c;
+Triangle d;
+Square s;
+c.draw(); d.draw(); s.draw()
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Pour créer une nouvelle forme on doit:}
+\begin{itemize}
+\item{Créer une classe qui dérive de Shape}
+\item{Implémenter la fonction draw associée}
+\item{Ainsi on ne touche pas à ce qui existe déjà !}
+\item{...Et maintenant ça passe à l'échelle}
+\end{itemize}
+\end{block}
+\end{frame}
+  
+\begin{frame}
+\frametitle{Héritage correct}
+L'héritage permettra de faire évoluer votre code en douceur... \\ 
+\textbf{à condition qu'il soit correctement défini !}
+  
+\begin{block}{Héritage correct}
+Les fonctions virtuelles des classes dérivées doivent:
+\begin{itemize}
+\item{En faire au moins autant que la fonction de la classe de base}
+\item{Ne pas avoir d'exigence supérieure à celles de la classe de base}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\section{Résumé}
+\subsection{Classes et objets}
+\begin{frame}
+\frametitle{Classes et objets}
+\begin{block}{Qu'est-ce qu'une classe ?}
+Une classe est la description d'un type d'objets. \\ 
+C'est en quelque sorte un moule, qui permettra par la suite de créer de nouveaux objets.
+\end{block}
+\begin{block}{Qu'est-ce qu'un objet ?}
+Un objet est une variable du programme, qui se caractérise par :
+\begin{itemize}
+\item{Un état}
+\item{Un comportement}
+\item{Une identité}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\end{document}
+  
