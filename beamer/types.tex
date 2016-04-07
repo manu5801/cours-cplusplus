@@ -1,0 +1,786 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Les types de base}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2016}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Table des matières}
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\section{Expressions et instructions}
+
+\subsection{Expressions et instructions}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une expression pas trop compliquée}
+\begin{lstlisting}[language=c++]
+7;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une expression renvoie toujours une valeur}
+L'expression suivante renvoie 7:
+\begin{lstlisting}[language=c++]
+4 + 3;
+\end{lstlisting}
+
+L'expression suivante:
+\begin{itemize}
+\item{met 7 dans la variable b}
+\item{renvoie \textbf{aussi} la valeur 7}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+b = 4 + 3;
+\end{lstlisting}
+
+Si bien que l'expression suivante met 7 dans b \textbf{et} dans a:
+\begin{lstlisting}[language=c++]
+a = (b = 4 + 3);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Instructions simples et complexes}
+Une instruction peut être simple, dans ce cas \textbf{elle se termine par un ;}
+\begin{lstlisting}[language=c++]
+a = 4 + 3;
+\end{lstlisting}
+Ou alors c'est un \textbf{bloc}, il est délimité par { ou }
+\begin{lstlisting}[language=c++]
+{
+   a = 4 + 3;
+   b = 4 - 3;
+}
+\end{lstlisting}
+\begin{block}{Déclarations de variables en C}
+Elles se font \textbf{toujours} en début de bloc !
+En C++, on déclare les variables n'importe où.
+\end{block}
+\end{frame}
+
+\subsection{Les instructions conditionnelles}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'instruction conditionnelle if}
+
+La forme générale:
+\begin{lstlisting}[language=c++]
+if (expression) 
+   instruction1;
+else
+   instruction2;
+\end{lstlisting}
+
+\begin{block}{Commentaires}
+\begin{itemize}
+\item{\textbf{en C}: Si expression vaut 1 instruction1, si elle vaut 2 instruction2}
+\item{\textbf{en C++}: Si expression vaut \textbf{true} instruction1, si elle vaut \textbf{false} instruction2}
+\item{instruction1 et instruction2 peut être un bloc}
+\item{else est optionnel}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les if imbriqués}
+
+On peut écrire aussi, même si ce n'est pas très lisible:
+\begin{lstlisting}[language=c++]
+if (expression1) 
+   instruction1;
+else if (expression2)
+   instruction2;
+else if (expression3)
+   instruction3;
+else
+   instruction4;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le switch}
+
+Dans beaucoup de cas, on préfèrera utiliser l'instruction switch plutôt que des if imbriqués:
+\begin{lstlisting}[language=c++]
+switch(expression) {
+    case 1: instruction1;
+    case 2: instruction2;
+    case 5: instruction3;
+    default: instruction4;
+}
+\end{lstlisting}
+
+\begin{block}{ATTENTION, PIEGE !}
+Si expression vaut 1 on exécutera instruction1, instruction2, instruction3, puis instruction4 ! \\
+Si vous ne voulez pas cela, vous pouvez utiliser break:
+\begin{lstlisting}[language=c++]
+switch(expression) {
+    case 1: instruction1; break;
+    case 2: instruction2; break;
+    case 5: instruction3; break;
+    default: instruction4;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Ne pas en abuser !}
+L'héritage du C++ permettra de limiter de manière drastique l'utilisation des switches !
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'instruction ?:;}
+C'est un if...else compact, qui peut être utilisé au milieu d'une instruction. \\
+Très pratique, à condition de ne pas en abuser car le code risque d'être illisible !
+
+\begin{lstlisting}[language=c++]
+// Ce code...
+int a;
+if ( b == 1 )
+{
+	a = 3000;
+}
+else
+{
+	a = -10;
+}
+
+// ...est equivalent a celui-ci:
+int A = b==1 ? 3000 : -10;
+
+// Etonnant, non ?
+\end{lstlisting}
+\end{frame}
+
+\subsection{Les boucles}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {for}
+\begin{itemize}
+\item{Permet de boucler en spécifiant condition initiale, condition finale, et incrémentation d'un compteur}
+\item{Généralisée en C++ pour balayer un conteneur (par exemple un tableau) avec des itérateur}
+\item{La boucle peut ne jamais être exécutée}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+float x = 1;
+for (int i=0; i<n; i++)
+    x = 2 * x;
+\end{lstlisting}
+\begin{block}{ATTENTION, PIEGE !}
+La forme ci-dessus fonctionne en C++, pas en C. \\
+En C on écrira plutôt:
+\begin{lstlisting}[language=c++]
+int i;
+float x = 1;
+for (i=0; i<n; i++)
+    x = 2 * x;
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {while}
+\begin{itemize}
+\item{Permet de boucler jusqu'à que la condition soit réalisée}
+\item{La boucle peut ne jamais être exécutée}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+while (c!=' ') {
+   c = getchar();
+   chaine[i++] = c;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {do... while}
+\begin{itemize}
+\item{Permet de boucler jusqu'à que la condition soit réalisée}
+\item{La condition est évaluée en fin de boucle}
+\item{En conséquence, la boucle est exécutée au moins une fois}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+do {
+  instruction;
+} while (condition);
+\end{lstlisting}
+\end{frame}
+
+\subsection{break et continue}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Sortir avec break}
+break permet de sortir prématurément d'une boucle. \\
+Le code C suivant compte le nombre de zéros situés au début d'un tableau:
+\begin{lstlisting}[language=c++]
+int cpt = 0;
+for (cpt = 0; cpt < n; cpt++) {
+    if (A[cpt]!=0)
+       break;
+}
+\end{lstlisting}
+
+\begin{block}{ATTENTION}
+\begin{itemize}
+\item{On ne peut sortir avec break que de la boucle la plus interne.}
+\item{break est utilisé seulement dans les switches et dans les boucles}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Sauter des itérations avec continue}
+continue permet de sauter des itérations. \\
+Imaginons que le code C suivant fait un traitement coûteux pour toutes les cellules non nulles:
+\begin{lstlisting}[language=c++]
+int cpt = 0;
+for (cpt = 0; cpt < n; cpt++) {
+    if (A[cpt]==0)
+       continue;
+    blabla();
+    ...faire un traitement complique
+}
+\end{lstlisting}
+\end{frame}
+
+
+\subsection{Ecrivons du code lisible}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Non à l'obfuscation !}
+Puisqu'une instruction renvoie toujours une valeur, n'importe quelle instruction \\
+peut servir de condition dans un if ou une boucle.\\
+On peut donc faire plusieurs choses à la fois:
+\begin{itemize}
+\item{Exécuter une instruction, par exemple remplir une variable}
+\item{Utiliser la valeur de la variable pour prendre une décision}
+\end{itemize}
+
+\textbf{Cela conduit rapidement à du code illisible !}
+
+\begin{lstlisting}[language=c++]
+// Plutot que d'ecrire cela:
+if (a=sin(theta))
+   instruction1;
+else
+   instruction2;
+   
+// Ecrivez ce qui suit, un poil plus long mais plus lisible:
+a=sin(theta)
+if (a!=0)
+   instruction1;
+else
+   instruction2;
+\end{lstlisting}
+\end{frame}
+
+\section{Le préprocesseur}
+
+\subsection{Les constantes en langage C}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les constantes en langage C}
+Le préprocesseur du C est un programme séparé du compilateur. \\
+Il effectue des rechercher/remplacer tout au long du code.
+
+il n'y a pas de constantes en C. \\
+Mais l'instruction \#define permet d'utiliser des symboles. \\
+Dans l'exemple ci-dessous,PI sera remplacé par 3.14
+
+\begin{lstlisting}[language=c++]
+#define PI 3.14
+\end{lstlisting}
+
+\begin{block}{En C++...}
+En C++, on peut définir de "vraies" constantes.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les constantes Chaines de caractères}
+Le code suivant définit une chaine de caractères:
+\begin{lstlisting}[language=c++]
+"Bonjour tout le monde"
+\end{lstlisting}
+
+\begin{block}{ATTENTION ! PIEGE !}
+Une chaine de caractères est un tableau qui se termine par 0 \\
+Une constante caractère s'écrit 'a', elle contient un octet.\\
+Une chaine de caractères n'ayant qu'un seul caractère s'écrit "a", \\
+elle contient deux octets (le a et le 0).
+\end{block}
+
+\begin{block}{En C++...}
+En C++, on peut définir de "vraies" chaines de caractère (string)
+\end{block}
+
+\end{frame}
+
+\subsection{Compilation conditionnelle}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Compilation conditionnelle}
+bla bla
+\end{frame}
+
+\subsection{Les includes}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {\#include}
+bla bla
+\end{frame}
+
+\section{Déclarations de variables}
+
+\subsection{Les variables simples}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {La portée d'une variable}
+La portée d'une variable est la portion de code depuis laquelle \\
+on peut utiliser cette variable. \\
+\begin{itemize}
+\item{Elle commence lorsque la variable est déclarée et se termine à la fin du bloc}
+\item{Les blocs internes ont accès à la variable}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+...
+{
+   ...            // Ici, on ne peut pas utiliser A
+   int A = 5;     // Debut de la portee de A
+   ...
+   {
+      ...         // Ici, on peut utiliser A
+   }
+   ...
+}                 // A partir d'ici, on ne peut plus utiliser A 
+...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Différences entre C et C++}
+
+\begin{block}{En C...}
+En C, les variables doivent être déclarées en début de bloc. \\
+En C++, on peut les déclarer simplement lorsqu'on en a besoin.
+\end{block}
+\begin{block}{En C++...}
+En C++, on peut déclarer des indices de boucle for de dans la boucle elle-même:
+\begin{lstlisting}[language=c++]
+for (int i=0; i<10; i++) {
+   ...
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\subsection{Les types de base}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les types entiers}
+\begin{lstlisting}[language=c++]
+short A = 1;
+int B = 10;
+long B = 100;
+long long C = 1000;
+
+unsigned int = A;
+
+\end{lstlisting}
+\begin{block}{ATTENTION ! PIEGE !}
+Tout ce qu'on sait, c'est que \textbf{short} prend moins d'octets que \textbf{int}, \\
+qui en prend moins que \textbf{long}, qui lui-même en prend moins que \textbf{long long}. \\
+Mais d'une machine à l'autre, les tailles des entiers \\ 
+ne sont pas obligatoirement les mêmes. \\
+Les types unsigned ne sont jamais négatifs.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {D'autres types entiers}
+\begin{lstlisting}[language=c++]
+char c = 'a';
+
+enum jour_t {lundi=1, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+jour_t jour;
+...
+if (jour == mercredi) {
+   ...
+}
+\end{lstlisting}
+\begin{block}{Les booléens en C}
+Il n'y a pas de type booléen en C. \\
+Faux s'écrit "entier nul", et vrai s'écrit "entier non nul".
+\end{block}
+\begin{block}{Les booléens en C++}
+En C++, il existe un type booléen. \\
+Une variable booléenne peut prendre les valeurs true ou false, \\
+ce qui conduit à des codes plus lisibles.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les types float}
+Il y a quatre types float. Contrairement aux types entiers, leur taille est normalisée, \\ 
+ainsi que la manière de coder mantisse et exposant (norme IEE 754)
+\begin{itemize}
+\item{\textbf{float}. Réel simple précision, codé sur 32 bits}
+\item{\textbf{double}. Réel double précision, codé sur 64 bits}
+\item{\textbf{long double}. Réel quadruple précision, codé sur 128 bits}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le type void}
+void signifie "vide". \\
+On ne peut pas donner ce type à une variable. \\
+Mais on peut donner ce type à un pointeur, cela signifie \\ "pointeur vers n'importe quelle variable". \\
+On peut aussi donner void comme type de retour d'une fonction, cela signifie \\
+"fonction qui ne renvoie rien"
+\begin{lstlisting}[language=c++]
+void* ptr;
+void f(float x);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Taille d'une variable d'un type donné}
+On a vu à propos des entiers que suivant le système \\ la taille d'un entier peut varier. \\
+La fonction \textbf{sizeof} permet de savoir quelle place prend:
+\begin{itemize}
+\item{une variable}
+\item{un type}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+cout << "Taille d'un entier quadruple precision = " << sizeof( long long int );
+
+short s;
+cout << "Taille de s = " << sizeof(s);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Des types entiers dont on connait la taille}
+On peut avoir besoin dans certains cas d'utiliser des entiers dont on connaisse \\
+précisément l'occupation mémoire, par exemple pour des questions de portabilité.
+\begin{lstlisting}[language=c++]
+#include <stdint.h>
+int8_t a;
+utin8_t au;
+
+int16_t b;
+uint16_t bu;
+
+int32_t c;
+uint32_t cu;
+
+int64_t d;
+uint64_d du;
+\end{lstlisting}
+\end{frame}
+
+\subsection{Le type auto (c++11)}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Le type auto}
+\textbf{En C++11 uniquement}, permet de donner à une variable \\ 
+le même type qu'une autre variable:
+\begin{lstlisting}[language=c++]
+int A = 4;
+auto B = A; // B est initialise a partir de A, et a le meme type
+\end{lstlisting}
+\end{frame}
+
+\subsection{Les types dérivés}
+
+\begin{frame}
+\frametitle {Types dérivés}
+\begin{itemize}
+\item{Tableaux}
+\item{Pointeurs}
+\item{Structures}
+\item{Unions}
+\item{Toute combinaison de tous ces types}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les tableaux}
+\begin{block}{Les tableaux en C}
+En C, un tableau est:
+\begin{itemize}
+\item{Une adresse de base}
+\item{Un type d'éléments, permettant de connaitre la taille de la cellule}
+\item{Une zone de la mémoire pour stocker le tableau}
+\end{itemize}
+\end{block}
+\begin{lstlisting}[language=c++]
+#define TAILLE 10
+int A[TAILLE];
+\end{lstlisting}
+\begin{block}{ATTENTION, PIEGE}
+\textbf{C'est au programmeur de se souvenir de la taille du tableau}
+\end{block}
+\begin{block}{Pointeurs et tableaux}
+\textbf{Les notions de tableau et de pointeur sont interchangeables}
+\end{block}
+\begin{block}{Les tableaux en C++}
+En C++, la stdlib propose les vecteurs, bien plus souples à utiliser que les tableaux C
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Initialiser le tableau}
+Le tableau \textbf{doit être initialisé}, le C ne le fera pas automatiquement
+\begin{lstlisting}[language=c++]
+int a[5]   = {34,35,36,37,12};
+float x[5] = {3.14,1.5};   // Les 3 derniers elements sont = 0
+int b[]    = {1,2,3,4};    // b est de dimension 4
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Passer le tableau à une fonction}
+Comme le C ne connait que l'adresse de base, le développeur doit \\
+\textbf{passer explicitement la taille du tableau} \\
+Deux manières de procéder:
+\begin{lstlisting}[language=c++]
+// Declaration de la fonction: 1ere maniere
+void fonction_1(int tab[],int taille) {
+   ...
+}
+
+// Declaration de la fonction: 2nde maniere
+void fonction_2(int* tab,int taille) {
+   ...
+}
+
+// Utilisation de ces fonctions: pas de difference !
+int main() {
+   int t[TAILLE];
+   
+   fonction_1(t,TAILLE);
+   fonction_2(t,TAILLE);
+ }
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les structures}
+Permet de mettre dans une entité unique plusieurs données de types différents.
+\begin{lstlisting}[language=c++]
+// Declaration d'une personne
+struct personne {
+   char nom[20];
+   char prenom[20];
+   int no_ss;
+}
+
+// Initialisation
+personne moi = {"Emanuel","Courcelle",1};
+
+// Acceder aux champs
+cout << "Bonjour je m'appelle " << moi.prenom << "\n";
+\end{lstlisting}
+
+\begin{block}{Les objets en C++}
+Pour déclarer des objets nous utiliserons des \textbf{classes}, \\ qui dérivent directement des structures.
+\end{block}
+\end{frame}
+
+\section{Les opérateurs}
+\subsection{Les opérateurs}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Affectation}
+\begin{lstlisting}[language=c++]
+=
+\end{lstlisting}
+
+Copie une variable sur une autre. \\
+Peut être coûteux si la variable est grosse. \\
+\begin{lstlisting}[language=c++]
+A = B
+\end{lstlisting}
+\begin{block}{ATTENTION, PIEGE !}
+Si A et B sont des tableaux, B ne sera pas copié sur A ! \\
+Simplement l'adresse de base de A sera remplacée par l'adresse de base de B ! \\
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Arithmétiques}
+\begin{lstlisting}[language=c++]
++ - * / %
++= -= *= %=
+\end{lstlisting}
+
+\begin{itemize}
+\item{Binaires: + - * / \%}
+\item{Unaires: += -= *= /= \%=}
+\item{Incrémentation ++ ou décrémentation --}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+A = B + C;
+
+A = A + 4;
+A += 4;     // Meme chose !
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Incrémentation, décrémentation}
+\begin{lstlisting}[language=c++]
+++i, i++, --i, i--
+\end{lstlisting}
+
+\begin{itemize}
+\item{Définis sur le type pointeur ou entier}
+\item{Servent à itérer dans une boucle: compteurs, indices de tableaux, pointeurs}
+\item{En C++, ils sont aussi définis sur les itérateurs}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+for (int i=0; i<1000; ++i) {
+    a[i] *= 2;
+}
+\end{lstlisting}
+
+\begin{block}{ATTENTION ! PIEGE !}
+La valeur retournée par ++ ou - - est différente suivant qu'on itère avant ou après la variable.
+\begin{lstlisting}[language=c++]
+int i = 0;
+int j = i++; // j contient 0, i contient 1
+
+int i = 0;
+int k = ++i; // k et i contiennent 1
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Opérateur de comparaison}
+\begin{lstlisting}[language=c++]
+== , !=
+< , <= , > , >=
+\end{lstlisting}
+
+\begin{block}{C ou C++}
+\begin{itemize}
+\item{Ils renvoient 0 ou 1 \textbf{en C}}
+\item{Ils renvoie false ou true \textbf{en C++}}
+\item{Ils sont utilisés dans les boucles, dans les structures if, etc.}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Opérateur logiques}
+\begin{lstlisting}[language=c++]
+! , && , ||
+\end{lstlisting}
+\begin{itemize}
+\item{non}
+\item{et}
+\item{ou}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Opérateurs pour nombres binaires}
+\begin{lstlisting}[language=c++]
+& | ^ << >>
+\end{lstlisting}
+\begin{itemize}
+\item{ET bit à bit}
+\item{OU bit à bit}
+\item{NON bit à bit}
+\item{Décalage à gauche, donc multiplication par deux}
+\item{Décalage à droite, donc division par deux}
+\end{itemize}
+\begin{block}{C ou C++}
+En \textbf{C++}, les opérateurs de décalage prennent le plus souvent \\ 
+une autre signification: sortie ou entrée
+\end{block}
+\end{frame}
+
+\section{Les fonctions}
+\subsection{Les fonctions}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les fonctions}
+Deux parties, la première est \textbf{optionnelle}:
+\begin{itemize}
+\item{La déclaration: l'interface}
+\item{La définition: L'implémentation, le code de la fonction}
+\end{itemize}
+
+\begin{block}{La déclaration}
+Se trouve dans le fichier .hpp \\
+Comprend trois parties:
+\begin{itemize}
+\item{Le type de retour, éventuelement void}
+\item{Le nom de la fonction}
+\item{Les types de arguments}
+\end{itemize}
+\end{block}
+
+\begin{block}{La définition}
+Se trouve dans le fichier .cpp \\
+Comprend deux parties:
+\begin{itemize}
+\item{La déclaration, doit être \textbf{la même} que dans le fchier .h}
+\item{Le corps de la fonction: le code}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les fonctions: exemples}
+\begin{lstlisting}[language=c++]
+// Une declaration de fonction qui prend un parametre flottant,
+// renvoie un parametre flottant
+float sinh(float);
+
+// La definition de la meme fonction, a mettre 
+// dans le .cpp correspondant
+float sinh(float x) {
+   result = exp(x) - exp(-x);
+   result /= 2;
+   return result;
+}
+\end{lstlisting}
+
+\begin{block}{Les fonctions du C et du C++ sont récursives}
+Elles peuvent donc s'appeler elles-mêmes:
+\begin{lstlisting}[language=c++]
+// Version recursive de la fonction factorielle
+int factorielle(int x) {
+    if (n==1) 
+       return 1;
+    else
+       return n * factorielle(n - 1);
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\end{document}
