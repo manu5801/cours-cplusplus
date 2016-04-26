@@ -1601,27 +1601,6 @@ int&amp; renv() {
 </pre></div>
 
 <p><a href="#">top</a></p><hr />
-
-<div class="autres"><p><big><img alt="Les autres ?" src="dechirure.gif"  width="25" />Autres langages objets</big></p>
-
-<table border="1">
-  <tr>
-    <th align="center"> Langage </th>
-    <th align="center"> Pointeur </th>
-    <th align="center"> R&eacute;f&eacute;rence </th>
-  </tr>
-  <tr><th> C++ </th><td><b>OUI</b></td><td><b>OUI</b></td></tr>
-  <tr><th> perl</th><td><b>OUI</b><sup>1</sup></td><td>NON</td></tr>
-  <tr><th>java</th><td>NON</td><td>NON</td></tr>
-  <tr><th>python<sup>2</sup></th><td>NON</td><td>NON</td></tr>
-  <tr><th>php5</th><td><b>OUI</b><sup>1</sup></td><td>NON</td></tr>
-</table>
-<ol>
-  <li>Une <em>r&eacute;f&eacute;rence</em> perl ou en php est en fait &eacute;quivalent &agrave; un <em>pointeur</em> C ou C++. Par contre, &eacute;tant donn&eacute; que perl int&egrave;gre un "ramasse-miette" (gestion de la m&eacute;moire), l'utilisation des r&eacute;f&eacute;rences en perl est assez diff&eacute;rente de celle des pointeurs en C/C++.</li>
-  <li>La situation en python est un peu particuli&egrave;re: en effet, dans ce langage, toutes les variables sont des pointeurs vers des z&ocirc;nes de m&eacute;moire. Il faut avoir cela pr&eacute;sent &agrave; l'esprit lorsqu'on r&eacute;alise des affectations.</li>
-</ol></div>
-
-<p><a href="#">top</a></p><hr />
       
 <h3><a name="desc-const">Le descripteur const</a></h3>
 
@@ -2788,70 +2767,6 @@ private:
 </pre>
 
 <p><a href="#">top</a></p><hr />
-
-<h4><img alt="Les autres ?" src="dechirure.gif"  width="20" />
-Autres langages objets...</h4>
-
-<table class="tableau">
-  <tr>
-    <th align="center"> Langage </th>
-    <th align="center"> class </th>
-    <th align="center"> private, public, protected </th>
-    <th align="center"> Fonctions membres </th>
-    <th align="center"> Constructeurs </th>
-    <th align="center"> Destructeurs </th>
-    <th align="center"> Fonctions amies </th>
-    <th align="center"> Fonctions membres statiques </th>
-    <th align="center"> Donn&eacute;es membres statiques </th>
-    <th align="center"> Donn&eacute;es ou fonctions membres const </th>
-    <th align="center"> Pointeur this </th>
-  </tr>
-  <tr>
-    <td><b>C++</b> </td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>perl</b></td>
-    <td>NON</td><td>NON</td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td>NON</td>
-    <td>NON</td><td><b>OUI</b></td>
-    <td>NON</td><td>NON(1)</td>
-  </tr>
-  <tr>
-    <td><b>java</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td>NON</td><td>NON</td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td>NON</td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>python</b></td>
-    <td><b>OUI</b></td><td>NON</td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td>NON</td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td>NON</td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>php5</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td><b>OUI</b></td><td>NON</td>
-    <td><b>OUI</b></td><td><b>OUI</b></td>
-    <td>(seulement données)</td><td><b>OUI</b></td>
-  </tr>
-</table>
-<ol>
-  <li>Le tableau associatif <code>%self</code> dans lequel on met g&eacute;n&eacute;ralement les donn&eacute;es des objets en perl, joue toutefois le m&ecirc;me r&ocirc;le que <code>this</code>.</li>
-</ol>
-
-<p><a href="#">top</a></p><hr />
 <address>
 <a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>
@@ -2859,4 +2774,3 @@ Autres langages objets...</h4>
 </address>
 </div>
 </body> </html>
-

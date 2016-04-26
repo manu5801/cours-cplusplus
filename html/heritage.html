@@ -630,57 +630,8 @@ on doit la réécrire. Si on oublie une redéfinition, le compilateur ne s'aperc
    <li><code>ProgressionBar</code> et <code>Traitement</code> d&eacute;rivent par ailleurs d'autres classes, suivant la mani&egrave;re dont l'application a &eacute;t&eacute; con&ccedil;ue: elles utilisent donc l'h&eacute;ritage multiple.</li>
 </ul>
 
-
-<h4><img alt="Les autres ?" src="dechirure.gif"  width="25" />
-Autres langages objets...</h4>
-
-<table class="tableau">
-  <tr>
-    <th> Langage </th>
-    <th> H&eacute;ritage </th>
-    <th> mot-cl&eacute; virtual </th>
-    <th> Classe abstraite </th>
-    <th> H&eacute;ritage multiple </th>
-  </tr>
-  <tr>
-    <td><b>C++</b> </td>
-    <td><b>OUI</b></td><td><b>OUI</b></td><td><b>OUI</b></td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>perl</b></td>
-    <td><b>OUI<sup>(1)</sup></b></td><td>NON<sup>(3)</sup></td><td><b>Possible <sup>(6)</sup></b></td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>java</b></td>
-    <td><b>OUI<sup>(2)</sup></b></td><td>NON<sup>(3)</sup></td><td><b>OUI <sup>(4)</sup></b></td><td>NON<sup>(5)</sup></td>
-  </tr>
-  <tr>
-    <td><b>python</b></td>
-    <td><b>OUI</b></td><td>NON<sup>(3)</sup></td><td><b>Possible <sup>(6)</sup></b></td><td>NON<sup>(5)</sup></td>
-  </tr>
-  <tr>
-    <td><b>php5</b></td>
-    <td><b>OUI</b></td><td>NON<sup>(3)</sup></td><td><b>OUI <sup>(4)</sup></b></td><td>NON<sup>(5)</sup></td>
-  </tr>
-</table>
-
-<ol>
-  <li>Utilisation du tableau <code>@ISA</code> (Est une sorte de)</li>
-  <li>Mot-cl&eacute; <code>extends</code> (&eacute;tendre les fonctionnalit&eacute;s de)</li>
-  <li>Toutes les fonctions sont des fonctions virtuelles</li>
-  <li>On d&eacute;finit une classe abstraite et on sp&eacute;cifie les fonctions qui doivent
-  &ecirc;tre red&eacute;finies, par le mot-cl&eacute; <code>abstract</code></li>
-  <li>Mais les mots-cl&eacute;s <code>interface</code> et
-      <code>implementation</code> en java, <code>implements</code> en php correspondent aux m&ecirc;mes
-      fonctionnalit&eacute;s que l'h&eacute;ritage multiple.</li>
-  <li>Pour d&eacute;finir une classe abstraite en perl ou en python, il
-  suffit de s'arranger pour que certaines fonctions (les
-  "fonctions membres virtuelles pures") g&eacute;n&egrave;rent une exception.</li>
-</ol>
-
-
-
 <p><a href="#">top</a></p><hr /> 
+
 <address>
 <a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
 <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/deed.fr"><img alt="Licence Creative Commons" src="cc-byncnd.png" /></a>

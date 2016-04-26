@@ -28,12 +28,6 @@
 <dl class="img">
  <dt><a href="http://www.inp-toulouse.fr" title="I.N.P.T."><img alt="logo INPT" src="inpt.png" /></a></dt>
 </dl>
-<!--<dl class="img">
- <dt><a href="http://www.ups-tlse.fr" title="L'Universit&eacute; Paul sabatier"><img alt="logo ups" src="ups.jpg" /></a></dt>
-</dl>
-<dl class="img">
- <dt><a href="http://www.adbt.com" title="L'adbt"><img alt="logo adbt" src="adbt.jpg" /></a></dt>
-</dl>-->
 <dl>  
  <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
  <dd id="smenu1" style="height:20em;overflow: scroll;">
@@ -370,7 +364,7 @@ le  m&ecirc;me que  l'expression  ci-dessus, mais  le  code nettement  moins
 lisible. Le C++ respecte  tout simplement la
 convention   suivante:    lorsqu'il   rencontre   une   instruction
 <code>C&nbsp;=&nbsp;A&nbsp;+&nbsp;B</code>,  il ex&eacute;cute  en r&eacute;alit&eacute;
-l'instruction     <code>C&nbsp;=&nbsp;operator+(A,C)</code>.</p>
+l'instruction     <code>C&nbsp;=&nbsp;operator+(A,B)</code>.</p>
 
 <p>La fonction  <code>operator+</code>  doit accepter
 deux param&egrave;tres de type  <code>complexe</code> en entr&eacute;e, et elle doit renvoyer &eacute;galement un complexe, d'o&ugrave; le prototype suivant:</p>
@@ -972,48 +966,6 @@ dans le nom de l'op&eacute;rateur lui-m&ecirc;me.
       d&eacute;tails, et le chapitre sur la biblioth&egrave;que standard, qui fait
       largement appel &agrave; cette notion d'objets fonctions</li>
 </ul>
-
-<p><a href="#">top</a></p><hr />
-<div class="autres langages"><p><img alt="DECHIRURE" src="dechirure.gif" />Autres langages objets</p>
-<table class="tableau">
-  <tr>
-    <th> Langage </th>
-    <th> Surcharge d'une fonction </th>
-    <th> Valeurs par d&eacute;faut des arguments </th>
-    <th> Surcharge des op&eacute;rateurs </th>
-  </tr>
-  <tr>
-    <td><b>C++</b> </td>
-    <td><b>OUI</b></td><td><b>OUI</b></td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>perl</b></td>
-    <td><b>Possible (1)</b></td><td><b>OUI</b></td><td><b>Possible (2)</b></td>
-  </tr>
-  <tr>
-    <td><b>java</b></td>
-    <td><b>OUI</b></td><td>NON</td><td>NON</td>
-  </tr>
-  <tr>
-    <td><b>python</b></td>
-    <td>NON</td><td><b>OUI</b></td><td><b>OUI</b></td>
-  </tr>
-  <tr>
-    <td><b>php5</b></td>
-    <td>NON</td><td><b>OUI</b></td><td>NON</td>
-  </tr>
-</table>
-<ol>
-  <li>En perl, le typage des donn&eacute;es n'existe pas vraiment... du coup,
-    le passage d'arguments est assez "souple" pour qu'il 
-    soit possible de surcharger une fonction, m&ecirc;me si le langage ne
-    le pr&eacute;voit pas explicitement</li>
-  <li>La surcharge des op&eacute;rateurs est possible, en perl, par
-  l'interm&eacute;diaire du module OVERLOAD. D'autre part, le fonction
-  <code>tie</code> peut &ecirc;tre consid&eacute;r&eacute;e comme une sorte de surcharge
-  des op&eacute;rateurs d'acc&egrave;s  aux tableaux.</li> 
-</ol>
-</div>
 
 <p><a href="#">top</a></p><hr />
 <address>
