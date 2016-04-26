@@ -23,6 +23,9 @@
 \tableofcontents
 \end{frame}
 
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
 \section{Expressions et instructions}
 
 \subsection{Expressions et instructions}
@@ -344,7 +347,7 @@ bla bla
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {\#include}
-bla bla
+Voir plus loin
 \end{frame}
 
 \section{Déclarations de variables}
@@ -753,22 +756,7 @@ Comprend deux parties:
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Les fonctions: exemples}
-\begin{lstlisting}[language=c++]
-// Une declaration de fonction qui prend un parametre flottant,
-// renvoie un parametre flottant
-float sinh(float);
-
-// La definition de la meme fonction, a mettre 
-// dans le .cpp correspondant
-float sinh(float x) {
-   result = exp(x) - exp(-x);
-   result /= 2;
-   return result;
-}
-\end{lstlisting}
-
-\begin{block}{Les fonctions du C et du C++ sont récursives}
+\frametitle{Les fonctions sont récursives}
 Elles peuvent donc s'appeler elles-mêmes:
 \begin{lstlisting}[language=c++]
 // Version recursive de la fonction factorielle
@@ -779,7 +767,330 @@ int factorielle(int x) {
        return n * factorielle(n - 1);
 }
 \end{lstlisting}
+\end{frame}
+
+\subsection{Compilation séparée}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les bibliothèques système}
+Les include permettent d'utiliser les fonctions définies par le système \\
+ou par des éditeurs tiers:
+
+\begin{block}{Les bibliothèques système en C}
+\begin{lstlisting}[language=c++]
+#include stdio.h>
+\end{lstlisting}
 \end{block}
+
+\begin{block}{Les bibliothèques système en C++}
+\begin{lstlisting}[language=c++]
+#include <iostream>
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les déclarations dans le .hpp}
+Les déclarations de fonctions se trouvent  \\
+dans les fichiers \texttt{.hpp } (en C++) \\
+ou dans les fichiers \texttt{.h} (en C)
+
+\begin{block}{Le fichier \texttt{hyperbolique.hpp}}
+\begin{lstlisting}[language=c++]
+// Une declaration de fonction qui prend un parametre flottant,
+// renvoie un parametre flottant
+float sinh(float);
+float cosh(float);
+...
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les définitions dans le .cpp}
+Les définitions des fonctions se trouvent \\
+dans les fichiers \texttt{.cpp} (en C++) \\
+ou dans les fichiers \texttt{.c} (en C)
+
+\begin{block}{Le fichier \texttt{hyperbolique.cpp}}
+\begin{lstlisting}[language=c++]
+// en debut de fichier, on inclue le header
+#include "hyperbolique.hpp"
+
+// La definition de sinh
+float sinh(float x) {
+   result = exp(x) - exp(-x);
+   result /= 2;
+   return result;
+}
+// La definition de cosh
+float cosh(float x) {
+   result = exp(x) + exp(-x);
+   result /= 2;
+   return result;
+}
+
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{La fonction main dans un .cpp}
+Tout exécutable doit avoir une fonction main ! \\
+Les fonctions appelées:
+\begin{itemize}
+\item{doivent être déclarées en incluant les fichiers d'e"n-têtes}
+\item{n'ont pas besoin d'être définies dans l'unité de compilation considérée}
+\item{doivent être résolues à l'édition de liens}
+\end{itemize}
+
+\begin{block}{Le fichier cosinh2.cpp}
+\begin{lstlisting}[language=c++]
+#include <iostream>
+#include "hyperbolique.hpp"
+
+int main() {
+   float s = sinh(2.0);
+   float t = cosh(2.0);
+   std.cout << "sinh=" << s << "  cosh=" << t << '\n';
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Pour compiler...}
+
+\begin{block}{Compiler et linker tout d'un coup}
+\begin{lstlisting}[language=c++]
+c++ -o cosinh2 hyperbolique.cpp cosinh2.cpp
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Compiler en plusieurs fois}
+\begin{lstlisting}[language=c++]
+c++ -c -o hyperbolique.o hyperbolique.cpp
+c++ -c -o cosinh2.o cosinh2.cpp
+c++ -o cosinh2 cosinh2.o hyperbolique.o
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Faire une bibliothèque et utiliser la bibliothèque}
+\begin{lstlisting}[language=c++]
+c++ -c -o hyperbolique.o hyperbolique.cpp
+ar -c libhyper.a hyperbolique.o
+c++ -o cosinh2 cosinh2.cpp -l hyper
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+\subsection{Pointeurs et références}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les références: un alias}
+
+\begin{lstlisting}[language=c++]
+int A=3;
+int& a=A;
+A = 2 * a;
+\end{lstlisting}
+
+\textbf{a} et \textbf{A} ont toujours la même valeur car il s'agit de la même variable. \\
+\textbf{Elles sont identiques}
+
+\begin{block}{ATTENTION, Piège !}
+\begin{lstlisting}[language=c++]
+int &a;    // Ne compile pas ! 
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les pointeurs: des variables qui pointent sur d'autres}
+
+\begin{lstlisting}[language=c++]
+int A=3;
+int* a;
+a = &A;
+A += 1;
+\end{lstlisting}
+
+\textbf{a} contient l'adresse de \textbf{A} \\
+*a est la valeur se trouvant à cette adresse, soit A \\
+\textbf{*a et A sont égales}
+
+\begin{block}{ATTENTION, Piège !}
+\begin{lstlisting}[language=c++]
+int *a;    // ca compile, mais risque de plantage !
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Attention, terrain miné !}
+
+\begin{block}{Ne pas confondre...}
+\begin{lstlisting}[language=c++]
+int* x=NULL;       // Declaration d'un pointeur vers un entier
+...
+y = *x + 2;        // Operateur d'indirection !
+
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Ne pas confondre non plus...}
+\begin{lstlisting}[language=c++]
+int& x=A;       // Declaration d'une reference vers un entier
+...
+int* y = &x;    // Operateur reference !
+
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Passage de paramètres par valeur}
+Par défaut, les paramètres sont passés \textbf{par valeur} \\
+Cela signifie que:
+\begin{itemize}
+\item{ils sont copiés à l'entrée de la fonction}
+\item{\textbf{Cela peut être très lourd !!!!}}
+\item{Il ne peut pas y avoir d'effets de bord}
+\item{Ce sont des paramètres d'entrée seulement}
+\end{itemize}
+
+\begin{block}{Un exemple pas trop dur}
+\begin{lstlisting}[language=c++]
+void f(int x) {
+   x = 0;
+}
+x = 5;
+f(x);   // il y a toujours 5 dans x 
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Passage de paramètres par référence}
+On peut faire en sorte de passer les paramètres par \textbf{référence} \\
+Cela signifie que:
+\begin{itemize}
+\item{Seule leur adresse est copiée à l'entrée de la fonction}
+\item{\textbf{Or une adresse c'est tout petit !!!!}}
+\item{Il peut y avoir des effets de bord (ou pas...)}
+\item{Ils peuvent être des paramètres d'entrée ou de sortie}
+\end{itemize}
+
+\begin{block}{Passer un paramètre par adresse en C}
+bouh que c'est laid ! \\
+A chaque fois qu'on appelle f, il faut se rappeler que le paramètre \\
+est passé par référence.
+\begin{lstlisting}[language=c++]
+void f(int* x) {
+   *x = 0;
+}
+x = 5;
+f(&x);   // maintenant il y a 0 dans x
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Passage de paramètres par référence}
+\begin{block}{Passer un paramètre par référence en C++}
+Bien plus joli ! \\
+L'information "passé par référence" est codée dans le prototype de la fonction \\
+\textbf{et c'est tout !}
+\begin{lstlisting}[language=c++]
+void f(int& x) {
+   x = 0;
+}
+x = 5;
+f(x);   // maintenant il y a 0 dans x
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Renvoyer une valeur}
+Une fonction peut renvoyer une valeur.
+\begin{itemize}
+\item{Cela signifie une copie pour passer "à l'extérieur" de la fonction}
+\item{\textbf{Cela peut être très lourd !!!!}}
+\item{Cest une \texttt{rvalue} (un truc qu'on met à \textbf{droite} de = ) }
+\end{itemize}
+
+\begin{block}{Renvoyer une lvalue en C}
+On n'a jamais vu \textbf{en C} une ligne de code aussi bizarre:
+\begin{lstlisting}[language=c++]
+f(x) = y;  // nawak !
+y = f(x);  // ok
+\end{lstlisting}
+\end{block}
+Par contre, une fonction C a le droit de renvoyer un pointeur \\
+ça contient une adresse, mais c'est une \texttt{rvalue} !
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Renvoyer une référence}
+Une fonction peut renvoyer une référence.
+\begin{itemize}
+\item{Cela signifie qu'on renvoie juste l'adresse d'un objet}
+\item{\textbf{Or une adresse c'est tout petit !!!!}}
+\item{Attention à ne pas renvoyer un objet créé dans la fonction !}
+\item{Attention à ne pas renvoyer par référence un paramètre passé en entrée}
+\begin{itemize}
+\item{ça ne sert à rien}
+\item{Si le paramètre est un littéral... boum !}
+\end{itemize}
+\item{\textbf{Cela peut être très lourd !!!!} (quoique, les compilos modernes savent optimiser) }
+\item{Cest une \texttt{lvalue} (un truc qu'on met à \textbf{gauche} de = )}
+\end{itemize}
+
+\begin{block}{Renvoyer une lvalue en C++}
+\textbf{En C++} (mais pas en C) on peut écrire cela, aussi bizarre que ça paraisse:
+\begin{lstlisting}[language=c++]
+f(x) = y; // ok (en c++)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Passage de paramètres par référence constante}
+Avoir le beurre et l'argent du beurre, c'est possible \textbf{en C++} !
+
+\begin{itemize}
+\item{Passer une variable par référence, \textbf{c'est bien pour la performance}}
+\item{Spécifier que cette variable est constante, \textbf{ça évite les effets de bord}}
+\item{Du coup, la variable redevient une \textbf{variable d'entrée} uniquement}
+\end{itemize}
+
+\begin{block}{Supprimer les effets de bord}
+\begin{lstlisting}[language=c++]
+void f(const int& x) {
+   x = 0; // NOOOOOOOOOON x est contant, ne compile pas !
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Je passe comment alors ? Pointeur, référence, valeur ?}
+
+\textbf{Pour des variables en entrée}
+\begin{itemize}
+\item{\textbf{Si la variable est petite}, le passage par valeur est suffisant}
+\item{\textbf{Si c'est un gros objet}, préférer le passage par \texttt{const \&}}
+\end{itemize}
+
+\textbf{Pour des variables en entrée et en sortie}
+\begin{itemize}
+\item{\textbf{A chaque fois qu'on peut}, utiliser des \textbf{références}}
+\item{\textbf{Quand on n'a pas le choix}, utiliser des \textbf{pointeurs}}
+\end{itemize}
 \end{frame}
 
 \begin{frame}

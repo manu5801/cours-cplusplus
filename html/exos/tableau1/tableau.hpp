@@ -15,6 +15,10 @@ public:
 	Tableau & operator=(const Tableau &t);
 	~Tableau();
 
+	// move
+	Tableau(Tableau&& t): A(t.A),sz(t.sz) {t.sz = 0; t.A =NULL; cerr << "constr move\n";};
+	Tableau & operator=(Tableau &t) {A=t.A;sz=t.sz,A=NULL;sz=0; cerr << "operateur= move\n"; };
+
 	// renvoie la taille du Tableau
 	size_t size() const { return sz;};
 	
@@ -36,7 +40,7 @@ public:
 	// friend ostream & operator<<(ostream&, const Tableau&);
  
 private:
-	const size_t sz;
+	size_t sz;
 	float *A;
 	
 	// Le signe __ rappelle qu'il s'agit de methodes privees
@@ -47,9 +51,10 @@ private:
 // Une fonction qui n'est pas une methode
 // Le prototype ci-dessous fonctionne, mais entraine l'appel de 2 constructuers + 2 destructeurs inutiles !
 // Tableau operator+(Tableau t1, Tableau t2);
-Tableau operator+(const Tableau& t1, const Tableau& t2);
+Tableau  operator+(const Tableau& t1, const Tableau& t2);
 
 // Operateur d'impression, déclaré ici
 ostream & operator<<(ostream&, const Tableau&);
 
+void swap(Tableau& t1, Tableau& t2);
 #endif

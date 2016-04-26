@@ -26,11 +26,12 @@ int main() {
 	cout << "OPERATION T1 += 45       --> T1= " << T1 << '\n';
 
 	cout << "\n======== OPERATION T3 =  T1 + T2\n";
-	Tableau T3(10);
-	T3 = T1 + T2;
+	Tableau T3 = T1 + T2;
 	cout << "OPERATION T3 =  T1 + T2  --> T1= " << T1 << '\n';
 	cout << "                         --> T2= " << T2 << '\n';
 	cout << "                         --> T3= " << T3 << '\n';
+
+	T1 + T2;
 	
 	// Une manière moins jolie mais moins couteuse de faire une addition
 	cout << "\n======== OPERATION Tableau T4=T1; T4 += T2\n";
@@ -39,6 +40,9 @@ int main() {
 	cout << "OPERATION Tableau T4=T1;T4+=T2 --> T1= " << T1 << '\n';
 	cout << "                               --> T2= " << T2 << '\n';
 	cout << "                               --> T3= " << T3 << '\n';
+
+	cout << "SWAP\n";
+	swap(T1,T2);
 	
 	cout << "C'EST FINI !\n";
 	return 0;

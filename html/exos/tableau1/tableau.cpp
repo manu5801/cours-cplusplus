@@ -143,4 +143,11 @@ ostream & operator<<(ostream& os, const Tableau& t) {
 	return os;
 }
 
+void swap(Tableau& t1, Tableau& t2) {
+     Tableau& tmp = t1;
+     t1 = t2;
+     t2 = tmp;
+}
+
+
 	
