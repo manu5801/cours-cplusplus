@@ -12,6 +12,8 @@
 \author{E. Courcelle}\institute{CALMIP, UMS 3669}
 \date{Mai 2016}
 
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
 \begin{document}
 
 \begin{frame}
@@ -1040,8 +1042,8 @@ Une fonction peut renvoyer une référence.
 \begin{itemize}
 \item{Cela signifie qu'on renvoie juste l'adresse d'un objet}
 \item{\textbf{Or une adresse c'est tout petit !!!!}}
-\item{Attention à ne pas renvoyer un objet créé dans la fonction !}
-\item{Attention à ne pas renvoyer par référence un paramètre passé en entrée}
+\item{\textbf{Attention} à ne pas renvoyer un objet créé dans la fonction !}
+\item{\textbf{Attention} à ne pas renvoyer par référence un paramètre passé en entrée}
 \begin{itemize}
 \item{ça ne sert à rien}
 \item{Si le paramètre est un littéral... boum !}
@@ -1092,6 +1094,123 @@ void f(const int& x) {
 \item{\textbf{Quand on n'a pas le choix}, utiliser des \textbf{pointeurs}}
 \end{itemize}
 \end{frame}
+
+\subsection{Autres choses sur les pointeurs}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Pointeur sur une structure}
+\begin{block}{Pointer sur les champs d'une structure (1)}
+\begin{lstlisting}[language=c++]
+struct personne {
+   string nom;
+   string prenom;
+   int age;
+};
+personne *p;
+(*p).nom    = "Dupont";    // Les () sont indispensables !
+(*p).prenom = "Claude";
+(*p).age    = 20;
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Pointer sur les champs d'une structure (2)}
+\begin{lstlisting}[language=c++]
+struct personne {
+   string nom;
+   string prenom;
+   int age;
+};
+personne *p;
+p->nom    = "Dupont";    // c'est bien plus joli !
+p->prenom = "Claude";
+p->age    = 20;
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Pointeurs et tableaux}
+Les pointeurs permettent de faire du calcul d'adresse:
+\begin{lstlisting}[language=c++]
+#define TAILLE 100
+int tab[TAILLE];
+int* p = tab;     // p pointe vers tab[0]
+int *q = tab + 1; // p pointe vers tab[1]
+q -= 2;           // HOULALA !!!! q POINTE AVANT LE TABLEAU !!!
+q = p + TAILLE - 1; // q pointe vers le dernier element
+q = p + TAILLE;     // HOULALA !!!! q POINTE APRES LE TABLEAU !!!
+q = p + 5;          // q pointe vers tab[5]
+q++;                // q pointe vers tab[6]
+cout << q - p;      // 6
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Initialiser un tableau à 0}
+\begin{block}{Première méthode}
+\begin{lstlisting}[language=c++]
+for (int i=0; i<TAILLE; i++) tab[i] = 0;
+\end{lstlisting}
+\end{block}
+\begin{block}{Seconde méthode}
+\begin{lstlisting}[language=c++]
+int* q = tab + TAILLE;
+for (int* r=tab; r<q; r++) *r = 0;
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Copier deux tableaux}
+\begin{block}{Première méthode}
+\begin{lstlisting}[language=c++]
+for (int i=0; i<TAILLE; i++) dst[i] = src[i];
+\end{lstlisting}
+\end{block}
+\begin{block}{Seconde méthode}
+\begin{lstlisting}[language=c++]
+int* s = src;
+int* d = dst;
+for (int i=0; r<TAILLE; i++) *d++ = *s++;
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les void *}
+Ce sont des pointeurs vers un type de données non précisé.
+\begin{itemize}
+\item{Utiles pour échanger des adresses brutes}
+\item{Ne permettent pas de faire du calcul d'adresse !}
+\end{itemize}
+\end{frame}
+
+\subsection{Allocation dynamique de mémoire}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Allocation dynamique de la mémoire}
+Trois fonctions pour allouer/libérer la mémoire:
+\begin{itemize}
+\item{\texttt{malloc} pour allouer de la mémoire}
+\item{\texttt{realloc} pour réallouer (plus de) mémoire}
+\item{\texttt{free} pour rendre la mémoire}
+\end{itemize}
+
+\begin{block}{ATTENTION, PIEGE !}
+\begin{itemize}
+\item{\texttt{malloc} et \texttt{realloc} renvoient un \texttt{void *}}
+\item{Il faudra le "caster" pour l'utiliser !}
+\item{Il faudra ensuite initialiser le tableau !}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+int size_t dimension = 1000;
+int* tab = (int*) malloc(size_t * sizeof(int));
+for (size_t i=0; i<dimension; i++) tab[i] = 0;
+\end{lstlisting}
+\end{block}
+\end{frame}
+
 
 \begin{frame}
 (à suivre)

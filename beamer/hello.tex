@@ -1,0 +1,41 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Hello world !}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2016}
+
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Hello world !}
+\begin{lstlisting}[language=c++]
+#include <iostream>
+using namespace std;
+
+int main(int argc, char* argv[]) {
+    cout << "Nombre de parametres: " << argc << endl;
+    cout << "Nom du programme    : " << argv[0] << endl;
+    cout << "Hello world" << '\n';
+    cerr << "Hello buggy world" << '\n';
+    return 0;
+};
+\end{lstlisting}
+\end{frame}
+
+\end{document}
+  

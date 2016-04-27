@@ -61,7 +61,7 @@ int fonction() {
 \subsection{L'approche modulaire}
 
 \begin{frame}
-\frametitle {Interface publique, implémentation cachée}
+\frametitle {Un module: Interface et implémentation}
 
 \begin{columns}[t]
 
@@ -109,11 +109,11 @@ L'interface du module est constitué par deux fonctions: l'une pour empiler, l'a
 \begin{lstlisting}[language=c++]
 // Mettre un caractere en haut de la pile 
 // et la faire grossir d'un caractere
-void push(char){};
+void push_char(char);
   
 // Renvoyer le caractere du haut de la pile 
 // et diminuer la pile d'un caractere
-char pop(){};  
+char pop_char();  
 \end{lstlisting} 
 \end{frame}
   
@@ -124,12 +124,12 @@ On ajoute un entier qui permettra d'identifier la pile:
 // Mettre un caractere en haut de la pile 
 // et la faire grossir d'un caractere
 // id permet de choisir une pile parmi plusieurs
-void push(int id, char c){};
+void push_char(int id, char c);
   
 // Renvoyer le caractere du haut de la pile 
 // et diminuer la pile d'un caractere
 // id permet de choisir une pile parmi plusieurs
-char pop(int id){};  
+char pop_char(int id);  
 \end{lstlisting} 
 \end{frame}
 
@@ -191,7 +191,7 @@ Stack_int b = (Stack_int) a;
 \subsection {Classer les objets}
 
 \begin{frame}
-\frametitle{Ciel, quel désordre dans mon argenterie !}
+\frametitle{Ciel, quel désordre dans mon argenterie !}    
 \begin{centering}%
 \pgfimage[width=\paperheight]{images/bazar}%
 \par%
@@ -261,9 +261,9 @@ Imaginons à quoi va ressembler la fonction draw:
 void Shape::draw() {
   if (kind==cercle) {
      // dessine-moi un cercle !
-  } elsif (kind==triangle) {
+  } else if (kind==triangle) {
      // dessine-moi un triangle !
-  } elsif (kind==square) {
+  } else if (kind==square) {
      // dessine-moi un carre !
   } else {
      // oups je ne sais pas dessiner cela !
@@ -286,7 +286,7 @@ private:
    color col;
 public:
    point where() { return center;};
-   *\textbf{virtual}*) void draw()=0;
+   %*\textbf{virtual}*) void draw()=0;
 }
 \end{lstlisting}
 draw est une \textbf{fonction virtuelle pure}, on sait qu'elle existera un jour, mais on ne sait pas ce qu'elle fera !
@@ -318,17 +318,17 @@ On va donc écrire en c++ que carre, cercle, triangle sont \textbf{des sortes de
 class Circle: public Shape {
    ...
 public:
-   void draw();
+   virtual void draw();
 };
 class Triangle: public Shape {
    ...
 public:
-   void draw();
+   virtual void draw();
 };
 class Square: public Shape {
    ...
 public:
-   void draw();
+   virtual void draw();
 };
 \end{lstlisting}
 \end{frame}
@@ -379,11 +379,15 @@ Les fonctions virtuelles des classes dérivées doivent:
 \begin{frame}
 \frametitle{Classes et objets}
 \begin{block}{Qu'est-ce qu'une classe ?}
-Une classe est la description d'un type d'objets. \\ 
-C'est en quelque sorte un moule, qui permettra par la suite de créer de nouveaux objets.
+Une classe est la description d'un type d'objets.
+\begin{itemize}
+\item{C'est en quelque sorte un \textbf{moule}}
+\item{Il permettra par la suite de créer de nouveaux objets}
+\item{Techniquement, c'est un type de données}
+\end{itemize}
 \end{block}
 \begin{block}{Qu'est-ce qu'un objet ?}
-Un objet est une variable du programme, qui se caractérise par :
+Un objet est une \textbf{variable} du programme, qui se caractérise par :
 \begin{itemize}
 \item{Un état}
 \item{Un comportement}
