@@ -436,17 +436,21 @@ standard sont pr&eacute;sent&eacute;s rapidement ci-dessous:</p>
 
 <h4>Conteneurs s&eacute;quentiels g&eacute;n&eacute;ralistes:</h4>
 <dl>
-  <dt><code><a href="http://www.cplusplus.com/reference/stl/vector">vector</a></code></dt>
-  <dd>Tableau &agrave; une dimension</dd>
-  <dt><code><a href="http://www.cplusplus.com/reference/stl/List">list</a></code></dt>
+  <dt><code><a href="http://www.cplusplus.com/reference/array/array/">array</a> (<strong>c++11</strong>)</code></dt>
+  <dd>Tableau &agrave; une dimension, taille fixe</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/vector/vector/">vector</a></code></dt>
+  <dd>Tableau &agrave; une dimension, peut se redimensionner</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/List/list/">list</a></code></dt>
   <dd>Liste doublement cha&icirc;n&eacute;e</dd>
-  <dt><code><a href="http://www.cplusplus.com/reference/stl/deque">deque</a></code></dt>
+  <dt><code><a href="http://www.cplusplus.com/reference/forward_list/forward_list/">forward_list</a> (<strong>c++11</strong>)</code></dt>
+  <dd>Liste simplement cha&icirc;n&eacute;e</dd>
+  <dt><code><a href="http://www.cplusplus.com/reference/deque/deque/">deque</a></code></dt>
   <dd>Ressemble &agrave; un vecteur, sauf que l'insertion et la suppression en t&ecirc;te de liste 
   sont plus performantes.</dd>
-  <dt><code><a href="http://www.cplusplus.com/reference/stl/queue">queue</a></code></dt> 
+  <dt><code><a href="http://www.cplusplus.com/reference/queue/queue/">queue</a></code></dt> 
   <dd>File d'attente (premier entr&eacute;, premier sorti). <em>Une queue est un adaptateur de conteneur, qui  repose (par d&eacute;
   faut) sur un conteneur de type deque.</em></dd>
-  <dt><code><a href="http://www.cplusplus.com/reference/stl/stack">stack</a></code></dt>
+  <dt><code><a href="http://www.cplusplus.com/reference/stack/stack/">stack</a></code></dt>
   <dd>Pile (dernier entr&eacute;, premier sorti). <em>C'est un adaptateur de conteneur.</em></dd>
 </dl>
 
@@ -454,13 +458,16 @@ standard sont pr&eacute;sent&eacute;s rapidement ci-dessous:</p>
 
 <dl>
   <dt><code><a
-      href="http://www.cplusplus.com/reference/stl/map">map</a></code>, <code><a href="http://www.cplusplus.com/reference/stl/multimap">multimap</a></code></dt> 
-  <dd>Tableau associatif, dans le cas de multimap plusieurs &eacute;l&eacute;ments peuvent avoir la m&ecirc;me cl&eacute; </dd>
+      href="http://www.cplusplus.com/reference/map/map/">map</a></code>, <code><a href="http://www.cplusplus.com/reference/map/multimap/">multimap</a></code></dt> 
+  <dd>Tableau associatif, dans le cas de multimap plusieurs &eacute;l&eacute;ments peuvent avoir la m&ecirc;me cl&eacute; Les clés sont mises dans l'ordre, donc on doit pouvoir les comparer</dd>
   <dt><code><a
-      href="http://www.cplusplus.com/reference/stl/set">set</a></code>, <code><a href="http://www.cplusplus.com/reference/stl/multiset">multiset</a></code></dt> 
+      href="http://www.cplusplus.com/reference/unordered_map/unordered_map/">unordered_map</a></code>, <code><a href="http://www.cplusplus.com/reference/unordered_map/unordered_multimap/">unordered_multimap</a> (<strong>c++11</strong>)</code></dt> 
+  <dd>Tableau associatif, dans le cas de multimap plusieurs &eacute;l&eacute;ments peuvent avoir la m&ecirc;me cl&eacute; Les clés sont hachées, donc il doit exister une fonction de hachage.</dd>
+  <dt><code><a
+      href="http://www.cplusplus.com/reference/set/set">set</a></code>, <code><a href="http://www.cplusplus.com/reference/set/multiset">multiset</a></code></dt> 
   <dd>Ensemble (set), dans le cas de multiset on peut avoir plusieurs fois le
       m&ecirc;me &eacute;l&eacute;ment.</dd>
-  <dt><code><a href="http://www.cplusplus.com/reference/stl/priority_queue">priority_queue</a></code> </dt>
+  <dt><code>priority_queue</code> </dt>
   <dd>File d'attente. On acc&egrave;de uniquement &agrave; l'objet situ&eacute; en haut de la queue. De plus, le conteneur garantit que l'objet
   situï¿œ en haut est le "plus grand". <em>Il s'agit d'un adaptateur de conteneur, qui repose sur
   un vecteur.</em></dd>
