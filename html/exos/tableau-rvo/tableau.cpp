@@ -100,47 +100,16 @@ void Tableau::__copie (float src[], float dest[], size_t s) {
 	};
 }
 
-// Deux autres manières d'écrire le même code: difficilement lisible, mais on voit ça souvent
-/*
-void Tableau::copie (float src, float *dest, size_t s) {
-	for (size_t i=0; i<s; i++) {
-		*(dest++) = src;
-	};
-};
-void Tableau::copie (float *src, float *dest, size_t s) {
-	for (size_t i=0; i<s; i++) {
-		*(dest++) = *(src++);
-	};
-}
-*/
-
 // Tableau operator+(Tableau t1, Tableau t2) {
 Tableau operator+(const Tableau& t1, const Tableau& t2) {
 	cerr << "operateur+" << '\n';
-	Tableau s(t1.size());
-	if (t1.size() != t2.size()) {
-		cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" << '\n'; 
-		exit(1);
-	} else {
-		s = t1;
+//	if (t1.size() != t2.size()) {
+//		cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" << '\n'; 
+//		exit(1);
+//	} else {
+		Tableau s = t1;
 		s += t2;
-	};
-	return s;
+		return s;
+//	};
 };
 
-ostream & operator<<(ostream& os, const Tableau& t) {
-	if (t.size() == 0 ) {
-		os << "{}";
-		return os;
-	}
-	
-	size_t i_dernier = t.size() - 1;
-	os << '{';
-	for (int i=0; i<i_dernier; ++i) {
-		os << t[i] << ',';
-	}
-	os << t[i_dernier] << '}';
-	return os;
-}
-
-	
