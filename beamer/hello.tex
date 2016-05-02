@@ -15,6 +15,8 @@
 \pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
 \logo{\pgfuseimage{logo}}
 
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
 \begin{document}
 
 \begin{frame}
@@ -35,6 +37,16 @@ int main(int argc, char* argv[]) {
     return 0;
 };
 \end{lstlisting}
+
+\begin{block}{Pour compiler...}
+\begin{lstlisting}[language=c++]
+c++ -o hello hello.cpp
+
+OU
+
+c++ -o hello -std=c++11 hello.cpp
+\end{lstlisting}
+\end{block}
 \end{frame}
 
 \end{document}
