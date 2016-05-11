@@ -1119,8 +1119,8 @@ objet peut avoir un nombre illimit&eacute; de r&eacute;f&eacute;rences. Mais il 
 
 <pre class="demo">
 homme pierre;
-<b>homme* ce_mec = pierre;</b>
-<b>homme* le_type_la_bas = pierre;</b>
+<b>homme* ce_mec = &pierre;</b>
+<b>homme* le_type_la_bas = &pierre;</b>
 <b>homme* encore_un_bebe= new(homme);</b>
 </pre>
 
@@ -1788,25 +1788,29 @@ La fonction de desallocation (lib&#233;ration de la m&#233;moire) est : <code><b
 
 <ul>
     <li><code><b>void * malloc (size_t size);</b></code></li>
+    <li><code><b>void * calloc (size_t nbelts, size_t size);</b></code></li>
     <li><code><b>void * realloc (void * ptr, size_t size);</b></code></li>
     <li><code><b>void free (void * ptr);</b></code></li>
 </ul>
 
-<p>Le type <code>size_t</code> est d&#233;fini dans <code>stdlib.h</code>; il est &#233;quivalent, suivant les syst&#232;mes, &#224; <code>unsigned int</code> ou <code>unsigned long int</code>. 
-La fonction <code>malloc</code> alloue  <code>size</code> octets de m&#233;moire contigu&#235;; elle renvoie un pointeur g&#233;n&#233;rique sur la zone allou&#233;e ou NULL en cas d'&#233;chec.</p>
-<p>La fonction <code>realloc</code> modifie la taille du bloc m&#233;moire point&#233; par <code>ptr</code> pour l'amener &#224; une taille de
+<p>Le type <code>size_t</code> est d&#233;fini dans <code>stdlib.h</code>; il est &#233;quivalent, suivant les syst&#232;mes, &#224; <code>unsigned int</code> ou <code>unsigned long int</code>. </p>
+<p>La fonction <code>malloc</code> alloue  <code>size</code> octets de m&#233;moire contigu&#235;; elle renvoie un pointeur g&#233;n&#233;rique sur la zone allou&#233;e ou NULL en cas d'&#233;chec.</p>
+<p>La fonction <code>calloc</code> alloue nbelts de size taille dans une zone m&eacute;moire, mais surtout <strong>elle les initialise</strong> (&agrave; z&eacute;ro), 
+ce qui peut &ecirc;tre important du point-de-vue de la s&eacute;curit&eacute;.</p>
+<p>La fonction <code>realloc</code> modifie la taille du bloc m&#233;moire point&#233; par <code>ptr</code> (ce bloc doit avoir &eacute;t&eacute; allou&eacute; 
+au pr&eacute;alable par <code>malloc</code> ou <code>calloc</code>) pour l'amener &#224; une taille de
 <code>size</code> octets; elle conserve le contenu de la zone m&#233;moire commune &#224; l'ancien et au nouveau bloc; le contenu de la zone
 nouvellement allou&#233; n'est pas initialis&#233;. Si <code>ptr</code> est nul, l'appel &#224; <code>realloc</code> est &#233;quivalent &#224;
 un appel &#224; <code>malloc</code>. La fonction <code>realloc</code> renvoie un pointeur g&#233;n&#233;rique sur la nouvelle zone allou&#233;e.</p>
 
 <p>La fonction <code>free</code> lib&#232;re l'espace m&#233;moire allou&#233; par une des fonctions pr&#233;c&#233;dentes; <code>ptr</code> est le pointeur sur la zone m&#233;moire &#224; d&#233;sallouer.</p>
 
-<p>Voici un exemple d'utilisation de <code>malloc</code>, dans lequel on alloue dynamiquement un tableau de 1000 entiers:</p>
+<p>Voici un exemple d'utilisation de <code>calloc</code>, dans lequel on alloue dynamiquement un tableau de 1000 entiers:</p>
 
 <pre class="demo">
 size_t dimension = 1000;
-int* tab = (int *) malloc ( dimension * sizeof(int) );
-...
+int* tab = (int *) calloc ( dimension, sizeof(int) );
+if ( tab==NULL) { ...traitement d'erreur... };
 free(tab);
 </pre>
 
@@ -2589,9 +2593,9 @@ constante.</p>
 class tableau {
 public:
   tableau(int);
-  ~tableau() {free buffer; buffer = NULL;};
+  ~tableau() {free(buffer); buffer = NULL;};
 private:
-  <b>const</b> size_t dimension;
+  <b>const</b> size_t taille;
   int* buffer;
 };
 
@@ -2600,7 +2604,8 @@ tableau::tableau(int s) : <b>taille(s)</b> {
 };
 
 void main() {
-  tableau TAB(1000);
+  tableau t1(1000);
+  tableau t2(10000);
 };
 </pre>
 

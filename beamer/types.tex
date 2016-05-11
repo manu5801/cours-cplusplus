@@ -780,7 +780,7 @@ ou par des éditeurs tiers:
 
 \begin{block}{Les bibliothèques système en C}
 \begin{lstlisting}[language=c++]
-#include stdio.h>
+#include <stdio.h>
 \end{lstlisting}
 \end{block}
 
@@ -1048,7 +1048,6 @@ Une fonction peut renvoyer une référence.
 \item{ça ne sert à rien}
 \item{Si le paramètre est un littéral... boum !}
 \end{itemize}
-\item{\textbf{Cela peut être très lourd !!!!} (quoique, les compilos modernes savent optimiser) }
 \item{Cest une \texttt{lvalue} (un truc qu'on met à \textbf{gauche} de = )}
 \end{itemize}
 
@@ -1190,23 +1189,70 @@ Ce sont des pointeurs vers un type de données non précisé.
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Allocation dynamique de la mémoire}
-Trois fonctions pour allouer/libérer la mémoire:
+Quatre fonctions pour allouer/libérer la mémoire:
 \begin{itemize}
 \item{\texttt{malloc} pour allouer de la mémoire}
+\item{\texttt{calloc} pour allouer et initialiser de la mémoire}
 \item{\texttt{realloc} pour réallouer (plus de) mémoire}
 \item{\texttt{free} pour rendre la mémoire}
 \end{itemize}
 
-\begin{block}{ATTENTION, PIEGE !}
+\begin{block}{ATTENTION !}
 \begin{itemize}
-\item{\texttt{malloc} et \texttt{realloc} renvoient un \texttt{void *}}
-\item{Il faudra le "caster" pour l'utiliser !}
-\item{Il faudra ensuite initialiser le tableau !}
+\item{\texttt{malloc}, \texttt{calloc} et \texttt{realloc} renvoient un \texttt{void *}}
+\item{Il faudra le convertir pour l'utiliser !}
+\item{Si on utilise malloc, Il faudra initialiser le tableau !}
+\item{Si l'allocation de mémoire n'a pas fonctionné, renvoie NULL: \textbf{il faut faire le test !}}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{malloc}
+Allocation de mémoire, sans initialisation.
+
+\begin{lstlisting}[language=c++]
+int size_t dimension = 1000;
+int* tab = (int*) malloc(dimension * sizeof(int));
+if ( tab==NULL ) {...erreur... };
+cout << tab[0] << '\n';     // renvoie n'importe quoi
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{calloc}
+Allocation de mémoire, suivi d'initialisation
+
+\begin{block}{ATTENTION, PIEGE !}
+Ne s'utilise pas tout-à-fait comme malloc !
+\begin{lstlisting}[language=c++]
+int size_t dimension = 1000;
+int* tab = (int*) calloc(dimension,sizeof(int));
+if ( tab==NULL ) {...erreur... };
+cout << tab[0] << '\n';    // renvoie 0
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{realloc}
+Nouvelle allocation de mémoire, plus ou moins grande \\
+que l'allocation initiale.
+
+\begin{block}{ATTENTION}
+\begin{itemize}
+\item{Il est possible que la nouvelle zone soit à un endroit différent !}
+\item{Si la seconde zone est plus grande que la première, pas d'initialisation}
+\item{Les données sont recopiées de sorte qu'on garde les données qui étaient déjà en mémoire}
 \end{itemize}
 \begin{lstlisting}[language=c++]
 int size_t dimension = 1000;
-int* tab = (int*) malloc(size_t * sizeof(int));
-for (size_t i=0; i<dimension; i++) tab[i] = 0;
+int* tab = (int*) calloc(dimension,sizeof(int));
+if ( tab==NULL ) {...erreur... };
+...
+tab = realloc((void *) tab, 2 * dimension);
+if ( tab==NULL ) {...erreur... };
+cout << tab[0] << '\n';    // tab[0] pareil avant et apres realloc
 \end{lstlisting}
 \end{block}
 \end{frame}

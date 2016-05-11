@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>/home/manu/Documents/devt/c++/cours_c++/html/exos/std/array.cpp</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.23.1" />
+	<meta name="date" content="2016-05-18T16:11:38+0200" />
+	<style type="text/css">
+	body
+	{
+		font-family: Monospace, monospace;
+		font-size: 10pt;
+	}
+	.style_0
+	{
+		color: #000000;
+		background-color: #ffffff;
+	}
+	.style_1
+	{
+		color: #d00000;
+		background-color: #ffffff;
+	}
+	.style_4
+	{
+		color: #007f00;
+		background-color: #ffffff;
+	}
+	.style_5
+	{
+		color: #00007f;
+		background-color: #ffffff;
+		font-weight: bold;
+	}
+	.style_6
+	{
+		color: #ff8000;
+		background-color: #ffffff;
+	}
+	.style_7
+	{
+		color: #ff8000;
+		background-color: #ffffff;
+	}
+	.style_9
+	{
+		color: #007f7f;
+		background-color: #ffffff;
+	}
+	.style_10
+	{
+		color: #301010;
+		background-color: #ffffff;
+	}
+	.style_11
+	{
+		color: #000000;
+		background-color: #ffffff;
+	}
+	.style_19
+	{
+		color: #0000d0;
+		background-color: #ffffff;
+		font-weight: bold;
+	}
+
+	</style>
+</head>
+
+<body>
+<p>
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;string&gt;</span><br />
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;iostream&gt;</span><br />
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;array&gt;</span><br />
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;vector&gt;</span><br />
+<span class="style_5">using&nbsp;namespace&nbsp;</span><span class="style_11">std</span><span class="style_10">;</span><br />
+<br />
+<span class="style_1">/*&nbsp;Objet:</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_1">1/&nbsp;Enveloppe&nbsp;un&nbsp;int</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_1">2/&nbsp;Il&nbsp;a&nbsp;un&nbsp;constructeur,&nbsp;un&nbsp;constructeur&nbsp;de&nbsp;copie,&nbsp;un&nbsp;operator=&nbsp;et&nbsp;un&nbsp;destructeur.</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_1">ATTENTION&nbsp;Pour&nbsp;que&nbsp;ça&nbsp;marche&nbsp;avec&nbsp;array&nbsp;il&nbsp;faut&nbsp;un&nbsp;constructeur&nbsp;par&nbsp;défaut&nbsp;(sans&nbsp;paramètre)&nbsp;!</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_1">La&nbsp;méthode&nbsp;fill&nbsp;de&nbsp;array&nbsp;utilisera&nbsp;l'opérator=</span><br />
+<span class="style_1">*/</span><br />
+<span class="style_5">class&nbsp;</span><span class="style_19">Objet&nbsp;</span><span class="style_10">{</span><br />
+<span class="style_5">public</span><span class="style_10">:</span><br />
+&nbsp;&nbsp;&nbsp;<span class="style_19">Objet</span><span class="style_10">(</span><span class="style_5">int&nbsp;</span><span class="style_11">x</span><span class="style_10">=</span><span class="style_4">0</span><span class="style_10">):&nbsp;</span><span class="style_11">value</span><span class="style_10">(</span><span class="style_11">x</span><span class="style_10">)&nbsp;{&nbsp;</span><span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Hello&nbsp;World&nbsp;I&nbsp;am&nbsp;an&nbsp;Objet&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">x&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;}&nbsp;;</span><br />
+&nbsp;&nbsp;&nbsp;<span class="style_19">Objet</span><span class="style_10">(</span><span class="style_5">const&nbsp;</span><span class="style_19">Objet</span><span class="style_10">&amp;&nbsp;</span><span class="style_11">o</span><span class="style_10">):&nbsp;</span><span class="style_11">value</span><span class="style_10">(</span><span class="style_11">o</span><span class="style_10">.</span><span class="style_11">getVal</span><span class="style_10">())&nbsp;{</span><span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Hello&nbsp;World&nbsp;I&nbsp;am&nbsp;a&nbsp;clone&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">o</span><span class="style_10">.</span><span class="style_11">getVal</span><span class="style_10">()&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;&nbsp;};</span><br />
+&nbsp;&nbsp;&nbsp;<span class="style_19">Objet</span><span class="style_10">&amp;&nbsp;</span><span class="style_5">operator</span><span class="style_10">=(</span><span class="style_5">const&nbsp;</span><span class="style_19">Objet</span><span class="style_10">&amp;&nbsp;</span><span class="style_11">o</span><span class="style_10">)&nbsp;{&nbsp;</span><span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Aïe&nbsp;J'étais&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">value&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"&nbsp;Je&nbsp;suis&nbsp;écrasé&nbsp;par&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">o</span><span class="style_10">.</span><span class="style_11">value&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;&nbsp;</span><span class="style_11">value&nbsp;</span><span class="style_10">=&nbsp;</span><span class="style_11">o</span><span class="style_10">.</span><span class="style_11">value</span><span class="style_10">;&nbsp;};</span><br />
+&nbsp;&nbsp;&nbsp;<span class="style_10">~</span><span class="style_19">Objet</span><span class="style_10">(){</span><span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Bye&nbsp;bye&nbsp;world&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">value&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;};</span><br />
+&nbsp;&nbsp;&nbsp;<span class="style_5">int&nbsp;</span><span class="style_11">getVal</span><span class="style_10">()&nbsp;</span><span class="style_5">const&nbsp;</span><span class="style_10">{&nbsp;</span><span class="style_5">return&nbsp;</span><span class="style_11">value</span><span class="style_10">;};</span><br />
+<br />
+<span class="style_5">private</span><span class="style_10">:</span><br />
+&nbsp;&nbsp;&nbsp;<span class="style_5">int&nbsp;</span><span class="style_11">value</span><span class="style_10">;</span><br />
+<span class="style_10">};</span><br />
+<br />
+<span class="style_1">/*</span><br />
+&nbsp;<span class="style_1">*&nbsp;Sortie:&nbsp;si&nbsp;on&nbsp;ne&nbsp;définit&nbsp;pas&nbsp;ça,&nbsp;pas&nbsp;possible&nbsp;d'écrire&nbsp;cout&nbsp;&lt;&lt;&nbsp;o&nbsp;!</span><br />
+&nbsp;<span class="style_1">*/</span><br />
+<span class="style_11">ostream</span><span class="style_10">&amp;&nbsp;</span><span class="style_5">operator</span><span class="style_10">&lt;&lt;(</span><span class="style_11">ostream</span><span class="style_10">&amp;&nbsp;</span><span class="style_11">os</span><span class="style_10">,&nbsp;</span><span class="style_5">const&nbsp;</span><span class="style_19">Objet</span><span class="style_10">&amp;&nbsp;</span><span class="style_11">o</span><span class="style_10">)&nbsp;{</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">os&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Val="&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">o</span><span class="style_10">.</span><span class="style_11">getVal</span><span class="style_10">()&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+<span class="style_10">}</span><br />
+<br />
+<span class="style_5">int&nbsp;</span><span class="style_11">main</span><span class="style_10">()&nbsp;{</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"On&nbsp;joue&nbsp;avec&nbsp;un&nbsp;array&nbsp;d'Objets\n"</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">array</span><span class="style_10">&lt;</span><span class="style_19">Objet</span><span class="style_10">,</span><span class="style_4">10</span><span class="style_10">&gt;&nbsp;</span><span class="style_11">A</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">A</span><span class="style_10">.</span><span class="style_11">fill</span><span class="style_10">(</span><span class="style_19">Objet</span><span class="style_10">(</span><span class="style_4">1000</span><span class="style_10">));</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">A</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">A</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;=&nbsp;</span><span class="style_4">6</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">A</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"On&nbsp;joue&nbsp;avec&nbsp;un&nbsp;vecteur&nbsp;d'Objets\n"</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">vector</span><span class="style_10">&lt;</span><span class="style_19">Objet</span><span class="style_10">&gt;&nbsp;</span><span class="style_11">V</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">V</span><span class="style_10">.</span><span class="style_11">reserve</span><span class="style_10">(</span><span class="style_4">10</span><span class="style_10">);</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">V</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">V</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;=&nbsp;</span><span class="style_4">6</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">V</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cerr&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"On&nbsp;joue&nbsp;avec&nbsp;un&nbsp;vecteur&nbsp;d'Objets&nbsp;initialisé&nbsp;à&nbsp;partir&nbsp;d'une&nbsp;liste&nbsp;d'initialisation.&nbsp;Il&nbsp;y&nbsp;aura&nbsp;conversions\n"</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">vector</span><span class="style_10">&lt;</span><span class="style_19">Objet</span><span class="style_10">&gt;</span><span class="style_11">v1</span><span class="style_10">={</span><span class="style_4">1</span><span class="style_10">,</span><span class="style_4">2</span><span class="style_10">,</span><span class="style_4">3</span><span class="style_10">,</span><span class="style_4">4</span><span class="style_10">,</span><span class="style_4">5</span><span class="style_10">,</span><span class="style_4">6</span><span class="style_10">,</span><span class="style_4">7</span><span class="style_10">,</span><span class="style_4">8</span><span class="style_10">,</span><span class="style_4">9</span><span class="style_10">,</span><span class="style_4">10</span><span class="style_10">};</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">v1</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">v1</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;=&nbsp;</span><span class="style_4">6000</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">v1</span><span class="style_10">[</span><span class="style_4">5</span><span class="style_10">]&nbsp;&lt;&lt;&nbsp;</span><span class="style_7">'\n'</span><span class="style_10">;</span><br />
+<span class="style_10">}</span><br />
+
+</p>
+</body>
+</html>

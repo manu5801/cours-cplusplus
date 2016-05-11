@@ -217,7 +217,7 @@
 
 <ol><li> <b>corrig&eacute;: <a href="exos/auto_ptr/auto_ptr.cpp">code</a>,  <a href="exos/auto_ptr/auto_ptr.cpp.html">html</a></b> 
       <ul>
-	<li>Ecrire un objet qui contient deux pointeurs sur des tableaux (le tableau est l'objet de l'exercice ci-dessus), faites en sorte que le seond constructeur génère une exception, mettez tout ça dans une boucle et observez la fuite de mémoire. Remplacez les pointeurs par des auto_ptr pour boucher la fuite.</li>
+	<li>Ecrire un objet qui contient deux pointeurs sur des tableaux (le tableau est l'objet de l'exercice ci-dessus), faites en sorte que le constructeur du second tableau génère une exception, mettez tout ça dans une boucle et observez la fuite de mémoire. Remplacez les pointeurs par des auto_ptr pour boucher la fuite.</li>
       </ul></li>
      <li><b>corrig&eacute;: <a href="exos/cpt/cpt_ptr.cpp">code</a>,  <a href="exos/cpt/cpt_ptr.cpp.html">html</a></b> <br />
      Ecrire un objet (en fait deux classes amies) qui implémente un pointeur avec comptage de référence.</li>
@@ -227,6 +227,12 @@
 <h2><a id="stdlib">biblioth&egrave;que standard</a></h2>
 
 <ol>
+    <li><b>corrigé: <a href="exos/std/array.cpp">code</a>, <a href="exos/std/array.cpp.html">html</a></b><br />
+    Ecrire un objet (on l'appelle Objet) qui encapsule un entier, définir le constructeur, le constructeur de copie, l'opérateur = et le destructeur, en écrivant
+    sur cerr un message spécifique à chacune de ces fonctions.
+    Définissez alors un array (c++11) et un vecteur d'Objets, histoire de visualiser ce qui se passe (les messages envoyés par les constructeurs
+    le destructeur et l'opérateur = sont très instructifs).
+    </li>
 <li> <b>corrig&eacute;: <a href="exos/std/occurrences.cpp">code</a>,  <a href="exos/std/occurrences.cpp.html">html</a></b> <br />
     Ecrire un code qui lise un texte sur l'entr&eacute;e standard, qui
     compte les occurrences de chaque mot, et qui imprime sur la
