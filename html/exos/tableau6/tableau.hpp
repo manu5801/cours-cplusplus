@@ -17,10 +17,7 @@ public:
 	// Le constructeur principal
 	explicit Tableau();
 	
-	// Le trio infernal
-	Tableau (const Tableau & );
-	Tableau & operator=(const Tableau &);
-	~Tableau();
+	// Le trio infernal: ON N'EN N'A PAS BESOIN !!!
 
 	// Le constructeur de conversion
 	template <typename U> Tableau (const Tableau<U,S>&);
@@ -67,32 +64,12 @@ template <typename T,size_t S> Tableau<T, S>::Tableau() {
 
 // CE QUI SUIT ETAIT JUSQUE LA DANS LE .cpp
 
-// Le constructeur de copie - pas d'allocation memoire a faire !
-template <typename T,size_t S> Tableau<T, S>::Tableau (const Tableau<T, S> & t) {
-	cerr << "constructeur de copie" << '\n';
-	__copie(t.A,A);
-};
-
 template <typename T,size_t S> template <typename U> Tableau<T,S>::Tableau (const Tableau<U,S>& t) {
 	//__copie(t.A,A); // Ne compile pas car t.A est PRIVATE
 	for (size_t i=0; i<S; ++i) {
 		A[i] = t[i];
 	}
 }
-
-// L'operateur = PAS D'ALLOCATION DE MEMOIRE, juste gerer les identites
-template <typename T, size_t S> Tableau<T, S> & Tableau<T, S>::operator=(const Tableau<T, S> &t) {
-	cerr << "operateur =" << '\n';
-	if (this==&t)    // Pour gerer les cas A=A
-		return *this;
-	__copie(t.A,A);
-	return *this;
-};
-
-// Le destructeur: PAS NECESSAIRE ICI
-template <typename T, size_t S> Tableau<T,S>::~Tableau() { 
-	cerr << "destructeur (sz = " << S << ")\n";
-};
 
 // renvoie un element du tableau sans deborder
 // pas la peine de tester i < 0, size_t est un type unsigned

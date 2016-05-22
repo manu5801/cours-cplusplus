@@ -27,6 +27,7 @@ private:
  */
 ostream& operator<<(ostream& os, const Objet& o) {
     os << "Val=" << o.getVal() << '\n';
+    return os;
 }
 
 int main() {
@@ -39,8 +40,10 @@ int main() {
 
 	cerr << "On joue avec un vecteur d'Objets\n";
 	vector<Objet> V;
-	V.reserve(10);
-	cout << V[5] << '\n';
+	//V.reserve(10);
+	V.resize(10);
+	//cout << V[5] << '\n';
+	cout << V.at(5) << '\n';
 	V[5] = 6;
 	cout << V[5] << '\n';
 

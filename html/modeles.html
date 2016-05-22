@@ -119,7 +119,7 @@ standard <a href="stdlib.html"><img alt="apres" src="apres.gif" class="noprint" 
 <h2 id="modele-fct">Les modèles de fonctions</h2>
 
 <p>La fonction <code>min</code> ci-dessous renvoie simplement le plus petit de deux nombres... ou de deux objets:</p>
-<pre class="demo"><b>template &lt;typename T&gt; const min(T const&amp; a,T const&amp; b)
+<pre class="demo"><b>template &lt;typename T&gt; min(const T&amp; a,const T&amp; b)
 {
    return a &gt; b ? b : a;
 }
@@ -253,16 +253,44 @@ lisibilit&eacute; du code: en effet, la syntaxe <code>complexe&lt;float&gt;</cod
 <h4>Exemple: La classe tableau</h4>
 
 <p>La classe <code>tableau</code> <a href="types.html#const"><img alt="avant" src="avant.gif" class="noprint" /></a> d&eacute;finie ci-dessus
-peut &ecirc;tre r&eacute;&eacute;crite en utilisant un
-mod&egrave;le:</p>
+peut &ecirc;tre r&eacute;&eacute;crite en utilisant un mod&egrave;le:</p>
 
-<pre class="demo">template&lt;size_t TAILLE&gt; class tableau {<br /> char buffer[TAILLE];<br /> void copie(const tableau&lt;TAILLE&gt; &amp;);<br />public:<br /> tableau(){};<br /> tableau(const tableau &amp;);<br /> tableau&lt;TAILLE&gt; &amp; operator=(const tableau&lt;TAILLE&gt; &amp;);<br /> ~tableau() {delete buffer;};<br />};<br /><br />template&lt;size_t TAILLE&gt; tableau&lt;TAILLE&gt;::tableau(const tableau &amp; b ) {<br /> copie(b);<br /> cout &lt;&lt; "copie effectuee par const de copie\n";<br />};<br /><br />template&lt;size_t TAILLE&gt; void tableau&lt;TAILLE&gt;::copie(const<br />tableau&lt;TAILLE&gt; &amp; b) { <br /> memcpy(buffer,b.buffer,TAILLE);<br />};<br /></pre>
+<pre class="demo">template&lt;size_t TAILLE&gt; class tableau {
+    private:
+       int buffer[TAILLE];
+       void copie(const tableau&lt;TAILLE&gt; &amp;);
+    
+    public:
+        tableau(){};
+        tableau(const tableau &amp;);
+        tableau&lt;TAILLE&gt; &amp; operator=(const tableau&lt;TAILLE&gt; &amp;);
+        ~tableau() {};
+    };
+    
+    template&lt;size_t TAILLE&gt; tableau&lt;TAILLE&gt;::tableau(const tableau &amp; b ) {
+       copie(b);
+       cout &lt;&lt; "copie effectuee par constructeur de copie\n";
+    };
+    
+    template&lt;size_t TAILLE&gt; void tableau&lt;TAILLE&gt;::copie(const tableau&lt;TAILLE&gt; &amp; b) {
+       memcpy(buffer,b.buffer,TAILLE);
+    };
+</pre>
 
 <p>Cette impl&eacute;mentation est int&eacute;ressante,
 parce qu'on n'a plus besoin d'utiliser l'op&eacute;rateur <code>new</code>
 dans le constructeur. Du coup, on n'a plus besoin non plus du "trio infernal" <a href="surch.html#affect-trio"><img alt="avant" src="avant.gif" class="noprint" /></a> 
 Par contre, on ne peut plus choisir la taille du tableau lors de l'ex&eacute;cution du code, celle-ci doit &ecirc;tre fix&eacute;e &agrave; 
-la compilation.</p>
+la compilation. Il résulte de tout ça que l'implémentation est finalement bien plus simple:</p>
+
+<pre class="demo">template&lt;size_t TAILLE&gt; class tableau {
+    private:
+       int buffer[TAILLE];
+    };
+</pre>
+
+<p>Si A et B sont des objets de type tableau, on pourra écrire:<tt>A=B</tt>, le compilateur saura générer automatiquement
+l'opérateur =. Bien sûr, dans une <strong>vraie</strong> implémentation on définira également les opérateurs[]. </p>
 
 <h2><a name="modele-spe">Sp&eacute;cialisation</a></h2>
 

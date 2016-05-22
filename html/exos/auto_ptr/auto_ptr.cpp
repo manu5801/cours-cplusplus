@@ -6,7 +6,7 @@ using namespace std;
 
 #include "tableau7.hpp"
 
-typedef tableau<int> Tint;
+typedef Tableau<int> Tint;
 
 // tableauO contient deux OBJETS de type tableau
 // Pas de fuite de mémoire, bien que la construction du second tableau génère une exception
@@ -53,8 +53,8 @@ class tableauF {
 
 class tableauA {
     private:
-        auto_ptr<tableau<int> > T1;     // ATTENTION auto_ptr<tableau<int>> T1; ne marchera pas, le compilo va se prendre les pieds dans le tapis
-        auto_ptr<tableau<int> > T2;
+        auto_ptr<Tableau<int> > T1;     // ATTENTION auto_ptr<tableau<int>> T1; ne marchera pas, le compilo va se prendre les pieds dans le tapis
+        auto_ptr<Tableau<int> > T2;
     
     public:
         tableauA(int s1, int s2):T1(new Tint(s1)),T2(new Tint(s2)) {
@@ -67,14 +67,14 @@ class tableauA {
 };
 
 // Choisissez ci-dessous le type de tableau que vous souhaitez essayer
-typedef tableauO tableauZ;
+//typedef tableauO tableauZ;
 //typedef tableauF tableauZ;
-//typedef tableauA tableauZ;
+typedef tableauA tableauZ;
 
 // choisissez ci-dessous le type d'essai que vous voulez réaliser
-//#define FUITE
+#define FUITE
 //#define RESPONSABILITE
-#define CONST
+//#define CONST
 
 main() {
 
@@ -86,7 +86,7 @@ main() {
 #ifdef FUITE
     for (;;) {
     	try {
-    	    tableauZ f(1000,1000000000);
+    	    tableauZ f(1000,4000000000);
     	} catch(const exception &e) {
     	    cerr << e.what() << '\n';
     	};

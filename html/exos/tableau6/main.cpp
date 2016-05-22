@@ -24,6 +24,16 @@ int main() {
 	
 	T1.transform(g);
 	T1.print();
+
+	// Essai du constructeur de copie par défaut
+	Tableau<int,10>T2 = T1;
+	T2.print();
+
+	Tableau<int,10>T3;
+	T3.print();
+
+	// Essai de operator= par défaut
+	T3 = T1;
+	T3.print();
 };
 
-  
