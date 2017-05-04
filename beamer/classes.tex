@@ -1,0 +1,521 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Le type class}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2017}
+
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Table des matières}
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
+\section{Les classes}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Types et objets}
+
+\begin{block}{ATTENTION, Ne pas confondre}
+Une \textbf{classe} est un \textbf{type}.
+Un \textbf{objet} est une \textbf{variable}.
+Une \textbf{classe} permet d'instancier une variable, comme un \textbf{moule} permet de faire un objet en plastique.
+\end{block}
+
+\begin{block}{Une déclaration de classe}
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   void init(float x, float y);
+   void copie(const complexe& y);
+private:
+   float r;
+   float i;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{On trouve quoi dans une classe ?}
+\begin{itemize}
+\item{Des déclarations de types (types locaux)}
+\item{Des variables (membres, propriétés, ...)}
+\item{Des déclarations de fonctions (fonctions membres, méthodes)}
+\item{Des définitions de fonctions inline (plus rapide si la fonction est triviale)}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   void init(float x, float y);
+   void copie(const complexe& y);
+private:
+   float r;
+   float i;
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\subsection{Sections privées, publiques, protégées}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Section private}
+Utilisable \textbf{presque} uniquement à partir d'une \textbf{variable de la même classe}.
+
+Donc Le code suivant ne compile pas:
+\begin{lstlisting}[language=c++]
+complexe x;
+...
+x.r = 0.0;
+x.i = 0.0;
+\end{lstlisting}
+
+Par contre, le code suivant fonctionne (Attention aux notations !):
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   void init(float x, float y) {r=x;   i=y;};
+   void copie(const complexe& y)  {r=y.r; i=y.i;};
+private:
+   float r;
+   float i;
+}   
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Section public}
+Utilisable depuis partout, y compris le code extérieur à l'objet.
+
+Donc Le code suivant fonctionne:
+\begin{lstlisting}[language=c++]
+complexe x;
+...
+x.init(0,0);
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Section protected}
+Utilisable depuis les classes dérivées uniquement, cf. plus tard !
+\end{frame}
+
+\subsection{Fonctions ou classes amies}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une classe peut choisir ses amis}
+Une classe peut déclarer explicitement que certaines fonctions, ou certaines autres classes, sont \textbf{amies}.
+
+Dans ce cas, les fonctions, ou les fonctions membres des classes amies \textbf{ont accès à la section privée de la classe en question}.
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   void init(float x, float y) {r=x;   i=y;};
+   void copie(const complexe& y)  {r=y.r; i=y.i;};
+   friend complexe addition(const complexe &c1, const complexe& c2);
+   
+private:
+   float r;
+   float i;
+}  
+
+complexe addition(const complexe &c1, const complexe& c2) {
+   complexe c3;
+   c3.r = c1.r + c1.r;
+   c3.i = c3.i + c3.i;
+   return c3;
+}
+\end{lstlisting}
+
+Voir également plus loin.
+\end{frame}
+
+\subsection{Accès aux données}
+
+\begin{frame}{On met quoi où ?}
+\begin{block}{Dans la section private}
+Tout ce qui se rapporte au \textbf{fonctionnement interne de l'objet}: variables et fonctions.
+\end{block}
+\begin{block}{Dans la section public}
+\begin{itemize}
+\item{Toutes les fonctions d'interface mais \textbf{pas de variables}. }
+\item{On \textbf{change} la valeur d'une propriété par une fonction \textbf{mutante} (mutator)}
+\item{On \textbf{lit} la valeur d'une propriété par une fonction de type \textbf{accesseur} (accessor)}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Calcul du module intégré à la classe}
+Une nouvelle version de complexe, avec calcul du module:
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   void init(float x, float y) {r=x;   i=y; _calc_module();};
+   copie(const complexe& y)  {r=y.r; i=y.i; m=y.m;};
+   float get_r() { return r;};
+   float get_i() { return i;};
+   void set_r(float x) { r=x; _calc_module();};
+   void set_i(float x) { i=x; _calc_module();};
+   float get_m() {return m;};
+private:
+   float r;
+   float i;
+   float m;
+   void _calc_module();
+}
+
+void complexe::_calc_module() {
+    m = sqrt(r*r + i*i);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {m (module), variable privée}
+Le membre m est privé, donc on ne pourra pas écrire (\textbf{et c'est dommage} !):
+\begin{lstlisting}[language=c++]
+complexe c;
+...
+cout << c.m; // Ne compile pas
+\end{lstlisting}
+
+On devra écrire (un peu plus lourd, \textbf{mais pas plus lent}):
+\begin{lstlisting}[language=c++]
+complexe c;
+...
+cout << c.get_m();
+\end{lstlisting}
+
+On ne pourra pas non plus écrire (\textbf{et c'est tant mieux} !):
+\begin{lstlisting}[language=c++]
+complexe c;
+...
+c.m = 56; // Ne compile pas
+\end{lstlisting}
+
+\textbf{L'objet reste toujours cohérent}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une version avec calcul du module au fil de l'eau}
+Une nouvelle version de complexe, optimisée pour les fonctions mutantes.
+
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   void init(float x, float y) {r=x;   i=y;};
+   copie(const complexe& y)  {r=y.r; i=y.i;};
+   float get_r() { return r;};
+   float get_i() { return i;};
+   void set_r(float x) { r=x;};
+   void set_i(float x) { i=x;};
+   float get_m() {return sqrt(r*r+i*i);};
+private:
+   float r;
+   float i;
+}
+\end{lstlisting}
+\textbf{Vu depuis l'extérieur de l'objet, rien n'a changé }
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le meilleur des deux mondes}
+Une nouvelle version de complexe, optimisée pour tous les cas d'utilisation.
+
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+  void init(float x, float y) {r=x; i=y; m=0; m_flg=false;};
+  void copie(const complexe& y )  {r=y.r; i=y.i; m=y.m;};
+  float get_r() { return r;};
+  float get_i() { return i;};
+  void set_r(float x) { r=x; m_flg=false;};
+  void set_i(float x) { i=x; m_flg=false;};
+  float get_m();
+private:
+  float r;
+  float i;
+  bool m_flg;
+  float m;
+  void _calc_module() {m=sqrt(r*r+i*i);};
+};
+
+float complexe::get_m() {
+  if (!m_flg) {
+    _calc_module();
+    m_flg=true;
+  };
+  return m;
+};
+\end{lstlisting}
+\textbf{Vu depuis l'extérieur de l'objet, rien n'a changé }
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Ne pas abuser des accesseurs !}
+Dans le code précédent, il n'y a pas de fonction getmflg
+
+Pourquoi ?
+\end{frame}
+
+\subsection{Les constructeurs}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Définition du constructeur}
+Encore un nouveau complexe:
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+  complexe(float x, float y):r(x),i(y),m_flg(true) {_calc_module();}; 
+  void copie(const complexe& y )  {r=y.r; i=y.i; m=y.m;};
+  float get_r() { return r;};
+  float get_i() { return i;};
+  void set_r(float x) { r=x; m_flg=false;};
+  void set_i(float x) { i=x; m_flg=false;};
+  float get_m();
+private:
+  float r;
+  float i;
+  bool m_flg;
+  float m;
+  void _calc_module() {m=sqrt(r*r+i*i);};
+};
+\end{lstlisting}
+
+Le constructeur:
+\begin{itemize}
+\item{A un nom imposé}
+\item{Renvoie le nouvel objet construit mais \textbf{on ne le dit pas !}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Redéfinition du constructeur}
+Le constructeur a été redéfini, et maintenant nous pouvons écrire:
+
+\begin{lstlisting}[language=c++]
+complex x(2,0);
+\end{lstlisting}
+
+Mais nous ne \textbf{pouvons pas} écrire:
+\begin{lstlisting}[language=c++]
+complex x;
+\end{lstlisting}
+car le constructeur prédéfini (fourni par le compilateur) \textbf{a disparu} !
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {La liste d'initialisation}
+Le constructeur est The place to be pour:
+\begin{itemize}
+\item{Initialiser les membres}
+\item{Demander des ressources (mémoire, fichiers, etc.)}
+\end{itemize}
+
+\begin{block}{Initialiser les variables}
+\begin{itemize}
+\item{Cela se fait dans la liste d'initialisation}
+\item{Placée et exécutée \textbf{avant} le code du constructeur.}
+\item{Peut être vide (si rien à initialiser)}
+\end{itemize}
+\end{block}
+
+\begin{block}{Demander des ressources}
+\begin{itemize}
+\item{Cela se fait dans le corps du constructeur}
+\item{Placé et exécuté \textbf{après} l'initialisation des variables.}
+\item{Peut être vide (si pas de ressource à demander)}
+\begin{lstlisting}[language=c++]
+classe complexe {
+public:
+  complexe(float x, float y): r(x), i(y) {};
+}
+\end{lstlisting}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{Les destructeurs}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le destructeur}
+Le destructeur:
+\begin{itemize}
+\item{A un nom imposé: ~complexe}
+\item{Ne renvoit rien}
+\item{est The place to be pour rendre au système les ressources qu'il vous a prêtées}
+\end{itemize}
+\end{frame}
+
+\subsection{Variables et fonctions de classes}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Variables et fonctions-membres statiques}
+Le code suivant permet d'avoir un mode "debug" à la classe complexe. nous allons positionner une variable booléenne, 
+la valeur de cette variable est \textbf{commune à tous les objets de la classe}.
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   ...
+   static void set_debug() { debflg=true;};
+   static void clr_debug() { debflg=false;};
+private:
+   ...
+   static bool debflg;
+   ...
+};
+
+// Allocation memoire et initialisation dans le programme principal
+bool complexe::debflg=false;
+
+main () {
+   complexe::set_debug();        // passe en mode debug
+   ...
+   complexe::clr_debug();        // sort du mode debug
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Variables et fonctions-membres statiques (2)}
+\begin{block}{ATTENTION, PIEGE !}
+Une donnée membre statique ressemble beaucoup à une variable globale:
+\begin{itemize}
+\item{L'emplacement mémoire doit être alloué dans le programme principal, pas par l'appel au constructeur}
+\item{Sa durée de vie s'étend sur toute la durée du programme, indépendemment des instances des objets}
+\item{Par contre, elle obéit aux \textbf{mêmes règles de portée} que les autres données membres de la classe.}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\subsection{les objets constants}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Membres constants}
+Le code suivant encapsule un tableau C:
+\begin{lstlisting}[language=c++]
+class tableau {
+public:
+  tableau(int);
+  ~tableau() {free(buffer); buffer = NULL;};
+private:
+  const size_t taille;
+  int* buffer;
+};
+
+tableau::tableau(int s) : taille(s) {
+  buffer = (int *) malloc ( taille * sizeof(int) );
+};
+
+void main() {
+  tableau t1(1000);
+  tableau t2(10000);
+};
+\end{lstlisting}
+
+\begin{itemize}
+\item{La taille du tableau est choisie à la construction de l'objet}
+\item{La taille du tableau, un fois construit, ne \textbf{peut pas changer} par la suite}
+\item{Le membre taille est donc déclaré comme constant}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Objets constants}
+Avec la classe complexe précédemment écrite, le code suivant ne compile pas:
+\begin{lstlisting}[language=c++]
+const complexe i(0,1);
+float X = i.get_i(); // Qui dit que get_i laisse l'objet constant ?
+\end{lstlisting}
+Il suffit de réécrire la classe pour exprimer le fait que les accesseurs laissent l'objet constant:
+\begin{lstlisting}[language=c++]
+class complexe {
+private:
+   float r;
+   float i;
+   ...
+public:
+   complexe(float, float);
+   float get_r() const { return r;};
+   float get_i() const { return i;};
+   ...
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Membres mutable}
+Nous avons un souci avec le complexe version 3 (le plus performant !). Le code suivant ne compilera pas,
+car si c'est un acesseur du point-de-vue \textbf{logique}, en réalité il \textbf{modifie l'objet}:
+\begin{lstlisting}[language=c++]
+float complexe::get_m() const {
+  if (!m_flg) {
+    _calc_module();
+    m_flg=true;
+  };
+  return m;
+};
+\end{lstlisting}
+Pour s'en sortir, on déclare certains membres \textbf{mutable}:
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+  ...
+  float get_r() const { return r;};
+  float get_i() const { return i;};
+  float get_m() const;
+private:
+  ...
+  mutable bool m_flg;
+  mutable float m;
+  void _calc_module() const {m=sqrt(r*r+i*i);};
+};
+
+float complexe::get_m() const {
+   ...
+}
+\end{lstlisting}
+\end{frame}
+
+\subsection{Le pointeur *this}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {This, c'est tout moi}
+Tout code d'une fonction-membre peut utiliser le pointeur \textbf{this}, qui pointe sur l'objet courant.
+Cela est utile pour enchainer les fonctions set dans le cas du complexe:
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   complexe& set_r(float x) { r=x; return *this;};
+   complexe& set_i(float y) { r=y; return *this;};
+private:
+   ...
+}
+complexe x(0,1);
+x.set_r(1).set_r(0);
+\end{lstlisting}
+
+\begin{block}{Opérateurs}
+Cette structure est très utile dans la redéfinition des opérateurs, car c'est elle qui
+permettra d'écrire du code de la même forme avec des variables de types de base et avec des objets.
+\end{block}
+\end{frame}
+
+\begin{frame}
+(à suivre)
+\end{frame}
+
+\end{document}
