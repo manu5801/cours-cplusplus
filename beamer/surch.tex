@@ -1,0 +1,457 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Surcharge des fonctions et opérateurs}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2017}
+
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Table des matières}
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
+\section{Surcharger les fonctions}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Surcharger une fonction ou une méthode}
+
+En C++, il est possible de déclarer et définir \textbf{plusieurs fonctions ayant le même nom}, à condition que les listes de leurs arguments diffèrent (types différents):
+
+\begin{lstlisting}[language=c++]
+float flineaire (float x) {                   
+   float y = 3 * x + 2;
+   return y;
+}
+
+complexe flineaire (const complexe & x) {
+   complexe y(0,0);
+   y.set_r (3*x.get_r() + 2);
+   y.set_i (3*x.get_i());
+   return y;
+}
+\end{lstlisting}
+
+\begin{block}{Les règles de surcharge}
+\begin{itemize}
+\item{Le type de la valeur de retour ne fait pas partie du protoype: Ainsi, il n'est pas possible de surcharger une fonction par une autre fonction qui aurait même nom et même liste d'arguments mais une valeur de retour différente.}
+\item{Dans le cas de méthodes d'objets, \texttt{const} fait partie du prototype, de sorte qu'on peut avoir une méthode \texttt{float f()} et une méthode \texttt{float f() const} }
+\item{La norme définit les règles permettant à partir d'une liste de paramètres de choisir l'une ou l'autre des fonctions.}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Surcharger le constructeur}
+
+Le constructeur étant une fonction-membre parmi d'autres, il est possible de le surcharger. 
+
+Dans le cas du type complexe, cela permettra
+de remplacer la fonction-membre copie par le \textbf{constructeur de copie}.
+
+Dès lors il est possible d'écrire \texttt{complexe a = b;}
+
+\begin{lstlisting}[language=c++]
+class complexe {
+public:
+   complexe(float x,float y) : r(x), i(y) {};
+   complexe(const complexe& c) : r(c.r),i(c.i) {};
+private:
+   float r;
+   float i;
+   ...
+}
+
+main() {
+   const complexe j(0,1);
+   complexe A=j;
+}
+\end{lstlisting}
+\end{frame}
+
+\section{Valeurs par défaut des arguments}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Cas des fonctions ou des méthodes}
+On peut donner aux arguments des valeurs par défaut.
+
+Une utilisation possible de cela est de réutiliser du code ancien, en étendant une fonction sans remettre en cause l'existant.
+
+Par exemple avec la fonction \texttt{flineaire}:
+
+\begin{lstlisting}[language=c++]
+float flineaire (float x, int a=3, int b=2) {                   
+   float y = a * x + b;
+   return y;
+}
+
+float c1 = flineaire(2.0);      // c1 vaut 8.0
+float c2 = flineaire(2.0,4);    // c2 vaut 10.0
+float c3 = flineaire(2.0,4,4);  // c3 vaut 12.0
+\end{lstlisting}
+
+\begin{block}{ATTENTION}
+\begin{itemize}
+\item{Il n'y a pas d'arguments positionnels en C++}
+\item{En conséquence, les arguments ayant une valeur par défaut sont \textbf{systématiquement} en fin de liste}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Cas des constructeurs}
+On peut donner aux arguments des constructeurs des valeurs par défaut:
+\begin{lstlisting}[language=c++]
+class complexe {
+private:
+  ...
+public:
+  complexe(float x=0, float y=0) {r=x;   i=y; _calc_module();};
+  ...
+};
+
+main() {
+  complexe C;        // sous-entendu initialiser a 0
+  complexe C1(2);    // sous-entendu initialiser a (2,0) [reel]
+  complexe C2(2,3);
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Conversions de types}
+
+On peut même écrire et c'est une \textbf{facilité d'écriture}:
+\begin{lstlisting}[language=c++]
+   complexe C1 = 2;
+   complexe C2 = {2,3}; // C++11
+\end{lstlisting}
+
+Ce qui correspond à une \textbf{conversion} entre types (ici conversion depuis le type \texttt{float} vers le type \texttt{complexe}). 
+Cette conversion peut aussi bien être nuisible si elle n'a pas de sens, 
+elle peut dans ce cas être inhibée grâce au mot-clé \texttt{explicit}. 
+
+Cela sera utile par exemple dans la définition de l'objet \texttt{tableau}:
+
+\begin{lstlisting}[language=c++]
+class tableau {
+  ...
+public:
+  explicit tableau(int);                                              
+};
+
+main() {
+  tableau T = 1000;   // Ne compile pas !
+  tableau T(1000);    // OK, cree un tableau de dimension 1000
+}
+\end{lstlisting}
+
+\begin{block}{ATTENTION, Piège !}
+Si on ne met pas \texttt{explicit} dans le code ci-dessus, on risque d'avoir des conversions non souhaitées, qui conduisent à des erreurs à l'exécution. 
+Ces erreurs seront détectées à la compilation si on les interdit par l'utilisation de \texttt{explicit}
+\end{block}
+\end{frame}
+
+\section{Surcharger les opérateurs}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Opérateurs et fonctions}
+Un opérateur est un appel de fonction écrit de manière plus lisible:
+
+\begin{lstlisting}[language=c++]
+c = a + b:
+\end{lstlisting}
+
+pourrait s'écrire:
+
+\begin{lstlisting}[language=c++]
+c = add(a,b);
+\end{lstlisting}
+ mais ce ne serait pas très agréable à lire, surtout dans le cas de formules compliquées:
+\begin{lstlisting}[language=c++]
+d = a + 2*(b+c);            // Ecrit sous forme de formule
+d = add(a,mul(2,add(b,c))); // Moins agreable a lire
+\end{lstlisting}
+
+D'où il résulte que:
+\begin{itemize}
+\item{Surcharger un opérateur revient à surcharger une fonction.}
+\item{Cela permettra d'écrire des formules en utilisant des objets}
+\item{Par exemple \texttt{c = a + b} où a,b,c sont des complexes}
+\end{itemize}
+
+\begin{block}{ATTENTION !!! Pièges !}
+\begin{itemize}
+\item{La surcharge des opérateurs ne \textbf{change pas les règles de priorité ou d'associativité}}
+\item{A chaque opérateur sa fonction avec son \textbf{nom réservé}}
+\item{Vous pouvez surcharger les opérateurs existants, \textbf{pas} en inventer de nouveaux !}
+\item{On peut mettre n'importe quoi dans le code de la fonction surchargée.
+
+C'est au programeur de \textbf{surcharger ses opérateurs intelligemment !}}
+\end{itemize}
+\end{block}
+\end{frame} 
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les quatre opérations}
+
+\begin{block}{Opérateurs unaires}
+\begin{lstlisting}[language=c++]
++=  operator+=
+-=  operator-=
+*=  operator*=
+/=  operator/=
+%=  operator%=
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Opérateurs binaires}
+\begin{lstlisting}[language=c++]
++  operator+
+-  operator-
+*  operator*
+/  operator/
+%  operator%
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'addition de complexes}
+
+Voici une première manière de définir les opérateurs \texttt{+} et \texttt{+=} sur les complexes.
+
+Elle fait appel à une fonction amie, car l'opérateur + doit accéder aux membres privés.
+\begin{lstlisting}[language=c++]
+class complexe {
+private:
+  ...
+public:
+  ...
+  complexe& operator+= (const complexe&);
+  friend complexe operator+(const complexe& a, const complexe& b);
+};
+
+complexe& complexe::operator+=(const complexe& c) {
+  r += c.r;
+  i += c.i;
+  return *this;
+};
+complexe complexe::operator+(const complexe& a, const complexe& b) {
+  complexe c;
+  c.r = a.r + b.r;
+  c.i = a.i + b.i;
+  return c;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'addition de complexes (2)}
+
+Voici une seconde manière de définir les opérateurs \texttt{+} et \texttt{+=} sur les complexes.
+
+Elle est préférable à la précédente, car il y a moins de dépendences (plus d'amie):
+\begin{lstlisting}[language=c++]
+class complexe {
+private:
+  ...
+public:
+  ...
+  complexe& operator+= (const complexe&);
+};
+
+complexe& complexe::operator+=(const complexe& c) {
+  r += c.r;
+  i += c.i;
+  return *this;
+};
+complexe complexe::operator+(const complexe& a, const complexe& b) {
+  complexe c=a;
+  c += b;
+  return c;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Incrémentation, décrémentation}
+
+Ces opérateurs (- - ) et (+ +) sont utiles pour définir des \textbf{itérateurs}, permettant d'itérer sur des objets de type conteneur.
+
+Il y a cependant une subtilité importante, utile pour reproduire exactement le comportement des opérateurs natifs du C correspondants:
+
+\textbf{Postindexation:}
+\begin{lstlisting}[language=c++]
+i = 1;
+j = i++;       // Incremente et renvoie le vieux i
+cout i << j;   // Renvoie 2 1
+\end{lstlisting}
+
+\textbf{Préindexation:}
+\begin{lstlisting}[language=c++]
+i = 1;
+j = ++i;       // Incremente et renvoie le nouveau i
+cout i << j;   // Renvoie 2 2
+\end{lstlisting}
+
+En C++, un opérateur d'incrémentation sur un objet de type iterateur sera défini de la manière suivante:
+\begin{lstlisting}[language=c++]
+class iterateur {
+   iterateur& operator++() {   // Version POSTFIXEE
+      fais_une_iteration;      // PERFORMANTE
+      return *this;
+   }
+   iterateur operator++(int) { // Version PREFIXEE
+      iterateur i1 = i;        // PEU PERFORMANTE
+      fais_une_iteration;
+      return i1;
+   }
+}
+\end{lstlisting}
+\begin{block}{ATTENTION}
+\begin{itemize}
+   \item{Le paramètre \texttt{int} n'est \textbf{pas utilisé}, il sert uniquement au mécanisme de surcharge}
+   \item{Il sera toujours préférable d'utiliser la version \textbf{préfixée} des itérateurs.}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {L'opérateur=}
+
+Le même signe = peut servir à l'\textbf{affectation} ou à l'\textbf{initialisation}, or ce sont deux opérations différentes:
+\begin{lstlisting}[language=c++]
+complexe A = 5;   // Initialisation, appel du constructeur
+complexe B = A;   // Initialisation, appel du constructeur de copie
+complexe C; 
+C = A;            // Affectation, appel de operator=
+\end{lstlisting}
+
+L'initialisation correspond à:
+\begin{itemize}
+\item{Allocation mémoire (ou autres ressources)}
+\item{Affectation des membres de l'objet}
+\item{Elle est réalisée par \textbf{un constructeur}}
+\end{itemize}
+
+L'affectation est réalisée par \textbf{l'operator=}.
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Copier la classe tableau}
+\begin{lstlisting}[language=c++]
+class tableau {
+public:
+  explicit tableau(int t): taille(t) {
+    buffer = malloc(t * sizeof(char))
+  };
+  tableau(const tableau& t): taille(t.taille) {
+    buffer = malloc(t.taille * sizeof(char));
+    copie(t.buffer,taille);
+  };
+  tableau& operator=(const tableau& t) {
+    taille = t.taille;
+    if (this !=&t) { // AUTO REFERENCE
+       buffer = realloc(buffer,b.taille * sizeof(char));
+       copie(t.buffer,taille);
+       return *this;
+    }
+  }
+  ~tableau() {free buffer;};
+  
+private:
+  int taille;
+  char* buffer;
+  void copie(const char* src, int taille) {
+    for (int i=0; i<taille;++i){
+      buffer[i] = src[i]; 
+    };
+  }
+};
+
+void main() {
+  tableau B(1000);
+  tableau A(1000);
+  tableau C(500);
+  A=B=C;
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le trio infernal}
+
+Il est constitué par:
+\begin{itemize}
+\item{Le constructeur}
+\item{Le constructeur de copie}
+\item{L'opérateur d'affectation}
+\end{itemize}
+
+\begin{block}{La règle d'or du trio infernal}
+\begin{itemize}
+\item{Le système fournira une version par défaut pour ces trois fonctions}
+\item{La version par défaut du système n'est pas toujours correcte (cf. tableau)}
+\item{Si je dois écrire l'une des trois, je dois écrire les trois !}
+\end{itemize}
+\end{block}
+\end{frame}
+
+\section{Conversions}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Conversions depuis un type de base vers une classe}
+
+Les constructeurs sont utilisés pour fournir ces conversions:
+\begin{lstlisting}[language=c++]
+complexe AC = {0, 1};
+
+float CF = 3.0;
+complexe CC = CF; // Conversion implicite
+AC += CF;
+
+float BF = 2.0;
+AC += BF;  // Conversion implicite
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Conversions depuis une classe vers un type de base}
+
+Les opérateurs de conversion sont utilisés pour cela:
+\begin{lstlisting}[language=c++]
+class complexe {
+     public:
+       ...
+       operator float() {return r;};
+     private:
+       ...
+     };
+     
+main() {
+  complexe A = (3.5,4.4);
+  float Z = (float) A; // Z contient 3.5
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+(à suivre)
+\end{frame}
+
+\end{document}
