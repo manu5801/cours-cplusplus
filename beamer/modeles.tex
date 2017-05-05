@@ -42,7 +42,7 @@ Ce que nous savons faire:
 Ce dont nous avons encore besoin:
 \begin{itemize}
 \item{Savoir exprimer la relation "Est une liste de"}
-\item{Implémenter des "contenurs d'objets" avec une structure définie}
+\item{Implémenter des "conteneurs d'objets" avec une structure définie}
 \end{itemize}
 
 \textbf{Les modèles vont nous le permettre}
@@ -261,15 +261,21 @@ template<typename T1, typename T2> class Machin<T1 *, T2 *> {
 \item{L'exécutable généré peut être plus gros}
 \end{itemize}
 \end{block}
+\end{frame}
 
+\begin{frame}
+\frametitle {Template libraries}
 De nombreuses bibliothèques reposent sur les templates:
 \begin{itemize}
 \item{La stl: Standard Template Library}
 \item{Beaucoup de bibliothèques intégrées à boost}
 \item{La bibliothèque de calcul matriciel eigen http://eigen.tuxfamily.org est une bibliothèque de templates}
 \end{itemize}
-\end{frame}
+Ces bibliothèques utilisent des techniques de "Template metaprogramming"
 
+cf. https://en.wikipedia.org/wiki/Template\_metaprogramming
+
+\end{frame}
 
 \begin{frame}
 (à suivre)
