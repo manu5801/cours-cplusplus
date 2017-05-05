@@ -1212,7 +1212,7 @@ Quatre fonctions pour allouer/libérer la mémoire:
 Allocation de mémoire, sans initialisation.
 
 \begin{lstlisting}[language=c++]
-int size_t dimension = 1000;
+size_t dimension = 1000;
 int* tab = (int*) malloc(dimension * sizeof(int));
 if ( tab==NULL ) {...erreur... };
 cout << tab[0] << '\n';     // renvoie n'importe quoi
@@ -1226,7 +1226,7 @@ Allocation de mémoire, suivi d'initialisation
 \begin{block}{ATTENTION, PIEGE !}
 Ne s'utilise pas tout-à-fait comme malloc !
 \begin{lstlisting}[language=c++]
-int size_t dimension = 1000;
+size_t dimension = 1000;
 int* tab = (int*) calloc(dimension,sizeof(int));
 if ( tab==NULL ) {...erreur... };
 cout << tab[0] << '\n';    // renvoie 0
@@ -1246,7 +1246,7 @@ que l'allocation initiale.
 \item{Les données sont recopiées de sorte qu'on garde les données qui étaient déjà en mémoire}
 \end{itemize}
 \begin{lstlisting}[language=c++]
-int size_t dimension = 1000;
+size_t dimension = 1000;
 int* tab = (int*) calloc(dimension,sizeof(int));
 if ( tab==NULL ) {...erreur... };
 ...
