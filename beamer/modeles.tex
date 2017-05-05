@@ -1,0 +1,278 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Les modèles}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2017}
+
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Table des matières}
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
+\section{Les modèles}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les modèles pour quoi faire ?}
+
+Ce que nous savons faire:
+\begin{itemize}
+\item{Exprimer les relations d'agrégation}
+\item{Exprimer la relation "Est une sorte de"}
+\end{itemize}
+
+Ce dont nous avons encore besoin:
+\begin{itemize}
+\item{Savoir exprimer la relation "Est une liste de"}
+\item{Implémenter des "contenurs d'objets" avec une structure définie}
+\end{itemize}
+
+\textbf{Les modèles vont nous le permettre}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Un modèle de fonction}
+
+La fonction générique ci-dessous renvoie le plus "petit" de ses deux arguments:
+\begin{lstlisting}[language=c++]
+template <typename T> min(const T& a,const T& b)
+{
+   if (a > b) return b;
+   else return a;
+}
+\end{lstlisting}
+
+Le code suivant pourra être compilé:
+\begin{lstlisting}[language=c++]
+int i=4,j=6;
+int m = min(i,j);
+
+float x=3.14, y=5.65;
+float z= min(x,y);
+
+string s1="houlala", s2="aieaieaie";
+string s = min(s1, s2);
+\end{lstlisting}
+
+Mais le code suivant \textbf{ne compilera pas}:
+\begin{lstlisting}[language=c++]
+complexe c1=0, c2=1;
+complexe c = min(c1,c2);
+\end{lstlisting}
+
+Trois fonctions différentes ont été générées, mais ça coince sur la quatrième.
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Un modèle de classe}
+
+Une nouvelle définition des complexes, qui peut reposer sur différents types de nombres:
+\begin{lstlisting}[language=c++]
+template<typename NUM=float> class complexe {
+public:
+ complexe(NUM x=0, NUM y=0);
+ complexe(const complexe<NUM> & );
+ ~complexe();
+ operator NUM();
+ complexe<NUM> & operator=(const complexe<NUM> &);
+ complexe<NUM> & operator+= (const complexe<NUM> &);
+ NUM get_r() const { return r;};
+ NUM get_i() const { return i;};
+ void set_r(NUM x) { r=x; m_flg=false;};
+ void set_i(NUM x) { i=x; m_flg=false;};
+ NUM get_m() const;
+ static void set_debug() { debflg=true;};
+ static void clr_debug() { debflg=false;};
+
+private:
+ NUM r;
+ NUM i;
+ mutable bool m_flg;
+ mutable NUM m;
+ static bool debflg;
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Un modèle de classe (2)}
+
+Définition d'une fonction-membre en-dehors de la classe:
+\begin{lstlisting}[language=c++]
+ template <typename NUM> void complexe<NUM>::_calc_module() const {
+    m=sqrt(r*r+i*i);
+ };
+\end{lstlisting}
+Il s'agit d'une fonction modèle, membre de la classe \texttt{complexe<NUM>}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Instantiation du modèle}
+
+On peut alors utiliser notre classe de la manière suivante:
+\begin{lstlisting}[language=c++]
+typedef complexe<> complexe_float;
+typedef complexe<double> complexe_double;
+
+main() {
+ complexe<> F;          // Utilisation de la valeur par defaut: float
+ complexe_double<C>;    
+}
+\end{lstlisting}
+
+Ou, sans doute plus lisible:
+\begin{lstlisting}[language=c++]
+typedef complexe<> complexe_float;
+typedef complexe<double> complexe_double;
+
+main() {
+ complexe_float F;
+ complexe_double D;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Paramètres de modèles}
+
+Deux types de paramètres sont utilisables dans les modèles:
+
+\begin{itemize}
+\item{\texttt{typename} suivi d'un \textbf{nom de type} (ou de classe) }
+\item{\texttt{int} (ou un autre type entier) suivi d'un nombre, qui indique par exemple une dimension}
+\end{itemize}
+
+La classe tableau réécrite:
+\begin{lstlisting}[language=c++]
+template<size_t TAILLE, typename T> class tableau {
+    private:
+       T buffer[TAILLE];
+    
+    public:
+        tableau(){};
+};
+    
+template<size_t TAILLE> tableau<TAILLE>::tableau(const tableau & b ) {
+   for (size_t i=0; i<S; ++i) { A[i] = 0; };
+};
+
+main() {
+   tableau<100,float> T1,T2;
+   T1 = T2;
+}
+   
+\end{lstlisting}
+
+\begin{itemize}
+\item{Pas besoin d'allocation mémoire ni de copie (pas de trio infernal, le compilateur fait ça très bien)}
+\item{On a besoin d'un constructeur sinon rien n'est initialisé}
+\item{\textbf{ATTENTION ! La taille du tableau est fixée lors de la compilation}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Spécialisation}
+
+On peut écrire un code particulier pour certains paramètres de modèles. Par exemple on peut imaginer qu'un tableau de booléens ne
+sera pas écrit de la même manière qu'un tableau de flottants (car un booléen peut tenir sur un bit):
+
+\begin{lstlisting}[language=c++]
+template<> class tableau<bool> {
+  ...
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Spécialisation partielle}
+
+On spécialiser partiellement les modèles:
+
+\begin{lstlisting}[language=c++]
+template<typename T1, typename T2> class Machin {
+...
+}
+
+// Les deux parametres ont le meme type
+template<typename T> class Machin<T,T> {
+...
+}
+
+// Le second type est double
+template<typename T1> class Machin<T1,double> {
+...
+}
+
+// On travaille avec des pointeurs
+template<typename T1, typename T2> class Machin<T1 *, T2 *> {
+...
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}
+\frametitle {Tout est fixé à la compilation}
+
+\begin{block}{ATTENTION !}
+\begin{itemize}
+\item{Tout est fixé (dimensions, types, ...) lors de la compilation}
+\item{Le modèle permet d'éviter le copié-collé grâce à la programmation générique}
+\item{Les codes des modèles sont écrits \textbf{dans les .hpp}, car le compilateur a besoin du code lors de la compilation}
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle {Avantages et inconvénients des modèles}
+
+\begin{block}{LE PLUS}
+\begin{itemize}
+\item{Tout est fixé (dimensions, types, ...) lors de la compilation, le compilateur peut faire tous les tests de cohérence}
+\item{Le code généré peut être très rapide (pas d'allocation mémoire etc.)}
+\item{Une bibliothèque reposant sur des templates sera très simple à installer (juste copier des fichiers, qui sont tous des .h)}
+\end{itemize}
+\end{block}
+
+\begin{block}{LE MOINS}
+\begin{itemize}
+\item{Tout est fixé lors de la compilation, le code offrira moins de souplesse (dimensions)}
+\item{La compilation est plus lente}
+\item{L'exécutable généré peut être plus gros}
+\end{itemize}
+\end{block}
+
+De nombreuses bibliothèques reposent sur les templates:
+\begin{itemize}
+\item{La stl: Standard Template Library}
+\item{Beaucoup de bibliothèques intégrées à boost}
+\item{La bibliothèque de calcul matriciel eigen http://eigen.tuxfamily.org est une bibliothèque de templates}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+(à suivre)
+\end{frame}
+
+\end{document}
