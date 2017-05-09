@@ -1,0 +1,364 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{Les exceptions}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, UMS 3669}
+\date{Mai 2017}
+
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section*{Table des matières}
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
+\section{Les exceptions}
+
+\subsection{Le concept}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Que faire en d'erreur ?}
+
+Lorsqu'un objet rencontre une condition d'erreur, que doit-il faire ?
+\begin{itemize}
+\item{Prendre une décision ? \textbf{Surtout pas !}}
+\end{itemize}
+
+L'objet \textbf{ne sait pas} comment l'erreur doit être traitée: tout dépend du contexte, or l'objet doit fonctionner
+dans des contextes différents.
+
+L'objet doit:
+\begin{itemize}
+\item{Soit traiter l'erreur lui-même, s'il le peut}
+\item{Soit \textbf{signaler } au programme appelant qu'il a rencontré une situation d'exception}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Comment signaler une condition d'exception ?}
+
+On peut signaler une condition d'exception par trois moyens:
+\begin{itemize}
+\item{Terminer la fonction en retournant un code d'erreur: \textbf{Pas toujours possible !} (quel code renverra la fonction \texttt{sqrt} ?)}
+\item{Déposer un code d'erreur dans une variable globale (\texttt{errno} en C). \textbf{Possible mais lourd}}
+\item{Générer une exception; \textbf{Le plus souple}}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Qu'est-ce qu'une exception ?}
+
+C'est un \textbf{objet} qui va contenir des informations sur l'exception à condition que le programmeur les y mette:
+\begin{itemize}
+\item{Message d'erreur}
+\item{Code numérique d'erreur}
+\item{Numéro de ligne, nom de fichier, ...}
+\end{itemize}
+
+Cet objet sera \textbf{"lancé"} comme une bouteille à la mer par la fonction qui a rencontré la condition d'exception, puis la fonction est interrompue.
+
+L'objet va alors \textbf{remonter la pile d'appels}, et chaque fonction appelante a le choix entre:
+
+\begin{itemize}
+\item{Intercepter l'exception et la traiter}
+\item{L'ignorer, dans ce cas l'objet passera au niveau supérieur, mais la fonction sera interrompue}
+\end{itemize}
+
+Si aucune fonction ne traite l'exception, \textbf{le programme lui-même est interrompu} par le système d'exploitation.
+
+\end{frame}
+
+\subsection{La syntaxe}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Lancer une exception}
+
+La fonction suivante implémente la division d'un complexe par un flottant:
+\begin{lstlisting}[language=c++]
+complexe& complexe::operator/=(float x) {
+  r /= x;
+  i /= x;
+  return *this;
+}
+\end{lstlisting}
+
+Si on appelle la fonction ci-dessus avec x=0, le programme s'arrêtera brutalement avec un message d'erreur.
+Dans la version ci-dessous, on laisse au programeur la possibilité de gérer ce cas:
+\begin{lstlisting}[language=c++]
+complexe& complexe::operator/=(float x) {
+  if ( x == 0 ) throw ( "division par zero" );  
+  r /= x;
+  i /= x;
+  return *this;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Attraper et afficher une exception}
+
+La fonction \texttt{main} ci-dessous propose un traitement d'erreur:
+\begin{lstlisting}[language=c++]
+int main() {
+   complexe c(5,6);
+   try
+   {
+   	float x;
+   	cout << "Entrez un dividende: ";
+    cin >> x;
+    c /= x;
+   }
+   catch ( const char * c )
+   {
+    	cout << c << "\n";
+   }
+   return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Attraper et traiter une exception}
+
+La fonction \texttt{main} ci-dessous essaie de traiter l'exception et de réagir en conséquence:
+\begin{lstlisting}[language=c++]
+int main() {
+   complexe c(5,6);
+   do
+   {
+      try
+      {
+         float x;
+         cout << "Entrez un dividende: ";
+         cin >> x;
+         c /= x;
+         break;
+      }
+      catch ( const char * msg )
+      {
+         cout << msg << " Recommencez\n";
+      }
+   } while (true);
+   return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le traitement peut se faire à différents niveaux}
+
+La fonction \texttt{main} ci-dessous ne traite plus rien, car le traitement est fait en-dessous:
+\begin{lstlisting}[language=c++]
+void input_et_divise(complexe& c) {
+   do
+   {
+      try
+      {
+         float x;
+         cout << "Entrez un dividende: ";
+         cin >> x;
+         c /= x;
+         break;
+      }
+      catch ( const char * msg )
+      {
+         cout << msg << " Recommencez\n";
+      }
+   } while (true);
+}
+
+int main() {
+   complexe c(5,6);
+   input_et_divise(c);
+   cout << "Partie reelle    : " << c.get_r() << "\n";
+   cout << "Partie imaginaire: " << c.get_i() << "\n";
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {La hiérarchie d'exceptions}
+
+\begin{itemize}
+\item{Il est préférable d'envoyer des \textbf{objets}, et pas simplement une chaine de caractères.}
+\item{Il est par ailleurs conseillé d'utiliser la \textbf{hiérarchie d'exceptions} prédéfinie par la bibliothèque standard du C++}
+\end{itemize}
+
+\begin{centering}%
+\pgfimage[width=\paperheight]{images/hierarchie-exception}%
+\par%
+\end{centering}%
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Envoyer un objet exception}
+
+La fonction de division:
+\begin{lstlisting}[language=c++]
+complexe& complexe::operator/=(float x) {
+  if ( x == 0 ) {
+     domain_error e ("division par zero" );
+     throw e;
+  }
+  r /= x;
+  i /= x;
+  return *this;
+}
+\end{lstlisting}
+
+Soit, en plus concis:
+\begin{lstlisting}[language=c++]
+complexe& complexe::operator/=(float x) {
+  if ( x == 0 ) {
+     throw domain_error ("division par zero" );
+  }
+  r /= x;
+  i /= x;
+  return *this;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Des traitements plus ou moins fin}
+
+Une nouvelle version de la première fonction main:
+\begin{lstlisting}[language=c++]
+int main() {
+   complexe c(5,6);
+   try
+   {
+   	float x;
+   	cout << "Entrez un dividende: ";
+	cin >> x;
+	c /= x;
+   }
+   catch ( exception & e ) 
+   {
+    	cout << e.what() << "\n";
+   }
+   return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Des traitements plus ou moins fins (2)}
+
+Une nouvelle version de la seconde fonction main:
+\begin{lstlisting}[language=c++]
+void input_et_divise(complexe& c) {
+	do
+	{
+      try
+      {
+         float x;
+         cout << "Entrez un diviseur: ";
+         cin >> x;
+         c /= x;
+         break;
+      }
+      catch ( const domain_error& e )
+      {
+         cout << e.what() << " Recommencez\n";
+      }
+   } while (true);
+}
+
+int main() {
+   complexe c(5,6);
+   try
+   {
+      input_et_divise(c);
+      cout << "Partie reelle    : " << c.get_r() << "\n";
+      cout << "Partie imaginaire: " << c.get_i() << "\n";
+   }
+   catch ( const exception& e )
+   {
+      cout << e.what() << "\n";
+   }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Des traitements plus ou moins fins}
+
+Dans les codes qui précèdent, l'utilisation du caractère \texttt{\&} est \textbf{fondamentale}: en effet, passer l'exception par 
+référence permet:
+
+\begin{itemize}
+\item{D'utiliser l'édition de lien dynamique et non pas statique}
+\item{D'ajuster les traitements à l'exception \textbf{réellement émise}}
+\item{D'avoir des traitements plus ou moins fins, suivant qu'on attrape l'exception plus ou moins haut dans la 
+chaine d'héritage}
+\end{itemize}
+
+\textbf{Il est indispensable que toutes les exceptions émises dérivent d'un même objet}
+
+Les exceptions non capturées ne sont \textbf{pas traitées} et remontent toute la chaine d'appels, 
+éventuellement jusqu'au système d'exploitation (arrêt du programme).
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {traitement de plusieurs types d'exceptions}
+
+Le programme suivant traite toutes les exceptions possibles:
+\begin{lstlisting}[language=c++]
+try {
+    blabla
+  }
+  catch (const  & domain_error e) {
+    blabla
+  }
+  catch (const  & bad_alloc e) {
+     blabla
+  }  
+  catch (...) {
+    cout << "Autre exception\n";
+  };
+} 
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Exceptions et constructeurs}
+
+\begin{centering}
+\textbf{Oui !}
+\end{centering}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Exceptions et destructeurs}
+
+\begin{centering}
+\textbf{Non !}
+\end{centering}
+
+\end{frame}
+
+\begin{frame}
+(à suivre)
+\end{frame}
+
+\end{document}
