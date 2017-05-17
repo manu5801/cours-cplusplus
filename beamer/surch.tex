@@ -188,8 +188,11 @@ c = add(a,b);
 d = a + 2*(b+c);            // Ecrit sous forme de formule
 d = add(a,mul(2,add(b,c))); // Moins agreable a lire
 \end{lstlisting}
+\end{frame}
 
-D'où il résulte que:
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Opérateurs et fonctions (2)}
+
 \begin{itemize}
 \item{Surcharger un opérateur revient à surcharger une fonction.}
 \item{Cela permettra d'écrire des formules en utilisant des objets}
@@ -253,7 +256,7 @@ complexe& complexe::operator+=(const complexe& c) {
   i += c.i;
   return *this;
 };
-complexe complexe::operator+(const complexe& a, const complexe& b) {
+complexe operator+(const complexe& a, const complexe& b) {
   complexe c;
   c.r = a.r + b.r;
   c.i = a.i + b.i;
@@ -282,7 +285,7 @@ complexe& complexe::operator+=(const complexe& c) {
   i += c.i;
   return *this;
 };
-complexe complexe::operator+(const complexe& a, const complexe& b) {
+complexe operator+(const complexe& a, const complexe& b) {
   complexe c=a;
   c += b;
   return c;
@@ -310,17 +313,21 @@ i = 1;
 j = ++i;       // Incremente et renvoie le nouveau i
 cout i << j;   // Renvoie 2 2
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Incrémentation, décrémentation (2)}
 
 En C++, un opérateur d'incrémentation sur un objet de type iterateur sera défini de la manière suivante:
 \begin{lstlisting}[language=c++]
 class iterateur {
-   iterateur& operator++() {   // Version POSTFIXEE
-      fais_une_iteration;      // PERFORMANTE
+   iterateur& operator++() {   // Version PREFIXEE
+      fais_une_iteration();    // PERFORMANTE
       return *this;
    }
-   iterateur operator++(int) { // Version PREFIXEE
+   iterateur operator++(int) { // Version POSTFIXEE
       iterateur i1 = i;        // PEU PERFORMANTE
-      fais_une_iteration;
+      fais_une_iteration();
       return i1;
    }
 }
@@ -351,7 +358,13 @@ L'initialisation correspond à:
 \item{Elle est réalisée par \textbf{un constructeur}}
 \end{itemize}
 
-L'affectation est réalisée par \textbf{l'operator=}.
+L'affectation correspond à:
+\begin{itemize}
+\item{Vérifications éventuelles de compatibilité}
+\item{Affectation des membres de l'objet}
+\item{Elle est réalisée par \textbf{un operator=}}
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
@@ -367,9 +380,8 @@ public:
     copie(t.buffer,taille);
   };
   tableau& operator=(const tableau& t) {
-    taille = t.taille;
     if (this !=&t) { // AUTO REFERENCE
-       buffer = realloc(buffer,b.taille * sizeof(char));
+       if (taille != t.taille { ... };
        copie(t.buffer,taille);
        return *this;
     }
@@ -400,9 +412,9 @@ void main() {
 
 Il est constitué par:
 \begin{itemize}
-\item{Le constructeur}
 \item{Le constructeur de copie}
 \item{L'opérateur d'affectation}
+\item{Le destructeur}
 \end{itemize}
 
 \begin{block}{La règle d'or du trio infernal}
