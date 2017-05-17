@@ -137,8 +137,8 @@ private:
 
 complexe addition(const complexe &c1, const complexe& c2) {
    complexe c3;
-   c3.r = c1.r + c1.r;
-   c3.i = c3.i + c3.i;
+   c3.r = c1.r + c2.r;
+   c3.i = c1.i + c2.i;
    return c3;
 }
 \end{lstlisting}
@@ -283,7 +283,7 @@ Encore un nouveau complexe:
 \begin{lstlisting}[language=c++]
 class complexe {
 public:
-  complexe(float x, float y):r(x),i(y),m_flg(true) {_calc_module();}; 
+  complexe(float x, float y):r(x),i(y),m_flg(true),m(_calc_module()) {}; 
   void copie(const complexe& y )  {r=y.r; i=y.i; m=y.m;};
   float get_r() { return r;};
   float get_i() { return i;};
@@ -311,12 +311,12 @@ Le constructeur:
 Le constructeur a été redéfini, et maintenant nous pouvons écrire:
 
 \begin{lstlisting}[language=c++]
-complex x(2,0);
+complexe x(2,0);
 \end{lstlisting}
 
 Mais nous ne \textbf{pouvons pas} écrire:
 \begin{lstlisting}[language=c++]
-complex x;
+complexe x;
 \end{lstlisting}
 car le constructeur prédéfini (fourni par le compilateur) \textbf{a disparu} !
 \end{frame}
@@ -358,7 +358,7 @@ public:
 Le destructeur:
 \begin{itemize}
 \item{A un nom imposé: ~complexe}
-\item{Ne renvoit rien}
+\item{Ne renvoie rien}
 \item{est The place to be pour rendre au système les ressources qu'il vous a prêtées}
 \end{itemize}
 \end{frame}

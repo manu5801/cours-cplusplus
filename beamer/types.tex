@@ -342,14 +342,80 @@ En C++, on peut définir de "vraies" chaines de caractère (string)
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Compilation conditionnelle}
-bla bla
+La compilation conditionnelle permet de compiler ou pas un passage en fonction 
+d'une condition:
+\begin{lstlisting}[language=c++]
+#ifdef GNULINUX
+   ... Version de code pour gnu/linux
+#else
+   ... Version de code pour les autres
+#endif
+#define WIND
+   ... code ajoute pour Windows
+#endif
+\end{lstlisting}
 \end{frame}
 
 \subsection{Les includes}
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {\#include}
-Voir plus loin
+Permet d'inclure un fichier lors de la compilation, en principe un fichier \texttt{.h} ou \texttt{.hpp}
+
+\begin{block}{Où sont les include ?}
+Si les includes sont ceux du système (ou de bibliothèques ajoutées), on écrit entre < et > 
+et le chemin est calculé:
+
+\begin{itemize}
+\item{Soit à partir des répertoires systèmes}
+\item{Soit à partir des répertoires donnés par le switch de compilateur -I}
+\end{itemize}
+
+Si les includes sont ceux mon application, on écrit entre \"
+et le chemin est calculé:
+
+\begin{itemize}
+\item{à partir des répertoire courant}
+\end{itemize}
+\end{block}
+
+\begin{lstlisting}[language=c++]
+#include <iostream>
+#include<biblio/chemin/vers/un/fichier.hpp>
+#include "mes_fonctions.hpp"
+#include "ma_biblio/mes_fonctions.hpp"
+\end{lstlisting}
+
+\begin{block}{Fichiers .hpp et .cpp}
+Les fichiers \texttt{.hpp} contiennent:
+\begin{itemize}
+\item{Des \textbf{déclarations} de contantes, de fonctions, de classes}
+\item{Le code des fonctions déclarées \texttt{inline}}
+\item{Des modèles (templates)}
+\end{itemize}
+\textbf{Ils sont utilisés par le compilateur}
+
+Les fichiers \texttt{.cpp} contiennent:
+\begin{itemize}
+\item{Des variables globales}
+\item{Les définitions (le code) des fonctions}
+\end{itemize}
+\textbf{Ils sont utilisés par l'éditeur de lien}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les Once Only headers}
+C'est au programmeur de faire en sorte qu'un header ne soit pas inclus plusieurs fois ! (hé oui)
+Cela se fait de la manière suivante:
+
+\begin{lstlisting}[language=c++]
+#ifndef MON_MODULE
+#define MON_MODULE
+...
+#endif
+\end{lstlisting}
 \end{frame}
 
 \section{Déclarations de variables}

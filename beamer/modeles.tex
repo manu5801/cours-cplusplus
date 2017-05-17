@@ -30,6 +30,8 @@
 
 \section{Les modèles}
 
+\subsection{Introduction}
+
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Les modèles pour quoi faire ?}
 
@@ -47,6 +49,8 @@ Ce dont nous avons encore besoin:
 
 \textbf{Les modèles vont nous le permettre}
 \end{frame}
+
+\subsection{Déclarations}
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Un modèle de fonction}
@@ -124,6 +128,8 @@ Définition d'une fonction-membre en-dehors de la classe:
 Il s'agit d'une fonction modèle, membre de la classe \texttt{complexe<NUM>}
 \end{frame}
 
+\subsection{Instantiations}
+
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Instantiation du modèle}
 
@@ -170,8 +176,10 @@ template<size_t TAILLE, typename T> class tableau {
         tableau(){};
 };
     
-template<size_t TAILLE> tableau<TAILLE>::tableau(const tableau & b ) {
-   for (size_t i=0; i<S; ++i) { A[i] = 0; };
+template<size_t TAILLE, typename T> tableau<TAILLE,T>::tableau() {
+   for (size_t i=0; i<TAILLE; ++i) { 
+      buffer[i] = 0; 
+   };
 };
 
 main() {
@@ -188,24 +196,68 @@ main() {
 \end{itemize}
 \end{frame}
 
+\subsection{Spécialisation}
+
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Spécialisation}
 
-On peut écrire un code particulier pour certains paramètres de modèles. Par exemple on peut imaginer qu'un tableau de booléens ne
-sera pas écrit de la même manière qu'un tableau de flottants (car un booléen peut tenir sur un bit):
+Dans ce qui suit, on  suppose que les objets mis dans le tableau sont \textbf{pourvus d'un opérateur inférieur}.
+
+Ecrivons la fonctions min, qui va rechercher la valeur la plus petite du tableau:
 
 \begin{lstlisting}[language=c++]
-template<> class tableau<bool> {
-  ...
-}
+T template<size_t TAILLE, typename T> tableau<TAILLE>::min() {
+   T maxVal = "La valeur la plus grande possible pour T";
+   for (size_t i=0; i<TAILLE; ++i) {
+      if (buffer[i] < maxVal) maxVal=buffer[i];
+   };
+   return maxVal;
+};
 \end{lstlisting}
+
+Comment exprimer "La valeur la plus grande possible pour T" ?
+
+Si T est un type numérique, on peut utiliser les defines trouvés dans \texttt{limits.h}:
+
+\begin{itemize}
+\item{ \texttt{SHRT\_MIN SHRT\_MAX} pour des \texttt{short}}
+\item{ \texttt{INT\_MIN, INT\_MAX} pour des \texttt{int}}
+\item{...}
+\end{itemize}
+... sauf que ça ne va pas bien s'insérer dans le modèle !
+
+On passe donc par une classe de la bibliothèque standard:
+\begin{lstlisting}[language=c++]
+T template<size_t TAILLE, typename T> tableau<TAILLE>::min() {
+   T maxVal = std::numeric_limits<T>::max();
+   for (size_t i=0; i<TAILLE; ++i) {
+      if (buffer[i] < maxVal) maxVal=buffer[i];
+   };
+   return maxVal;
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Spécialisation (2)}
+
+Et pour une classe écrite par moi (\texttt{maClasse}), je \textbf{spécialise} le modèle:
+
+\begin{lstlisting}[language=c++]
+template<> struct std::numeric_limits<maClasse> {
+   static maClasse min() { return maClasse(...); };
+   static maClasse max() { return maClasse(...); };
+};
+\end{lstlisting}
+
+Voir le fichier d'en-têtes \texttt{limits}
 
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Spécialisation partielle}
 
-On spécialiser partiellement les modèles:
+On peut spécialiser partiellement les modèles:
 
 \begin{lstlisting}[language=c++]
 template<typename T1, typename T2> class Machin {
