@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <algorithm>
 using namespace std;
 
 
@@ -38,7 +39,7 @@ int main()
 		in >> mot;
 		if (mot.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") == string::npos)
 		{			
-			V1.insert(V1.begin(),mot);
+			V1.push_back(mot);
 		};
 	};
 	
@@ -46,6 +47,15 @@ int main()
 	{
 		out << *i << '\n';
 	};
+
+	cout << "Il y a " << V1.size() << " mots\n";
+	sort(V1.begin(),V1.end());
+
+	vector<string> V2(V1.size());
+	unique_copy(V1.begin(),V1.end(),V2.begin());
+
+	cout << "Il y a " << V2.size()-count(V2.begin(),V2.end(),"") << " mots differents\n";
+	
 };
 
 
