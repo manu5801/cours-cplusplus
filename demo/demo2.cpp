@@ -49,14 +49,23 @@ int main()
 
 	int taille = 10;
 
-	/* Mettre dans la liste 10 nombres */
+	/* Mettre dans la liste 10 fois le meme nombre */
 	float random = gen();
 	L.insert(L.begin(),taille,random);
 	affichage(L);
 
+	/* On peut aussi le faire pour le vecteur */
+	// V.insert(V.begin(),taille,random);
+
 	/* Mettre dans le vecteur des nombres aléatoires */
 	V.resize(10,0);
 	generate(V.begin(),V.end(),gen);
+
+	/* On pourrait aussi le faire pour la liste */
+	//L.resize(10,0);
+	//generate(L.begin(),L.end(),gen);
+	//affichage(L);
+
 	affichage(V);
 
 	/* Combien y a-t-il de nombres > 0 ? */
