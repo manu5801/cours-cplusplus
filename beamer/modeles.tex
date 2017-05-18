@@ -140,11 +140,11 @@ typedef complexe<double> complexe_double;
 
 main() {
  complexe<> F;          // Utilisation de la valeur par defaut: float
- complexe_double<C>;    
+ complexe<double> D;
 }
 \end{lstlisting}
 
-Ou, sans doute plus lisible:
+Ou, sans doute plus lisible grâce à l'instruction C typedef:
 \begin{lstlisting}[language=c++]
 typedef complexe<> complexe_float;
 typedef complexe<double> complexe_double;
@@ -168,6 +168,39 @@ Deux types de paramètres sont utilisables dans les modèles:
 
 La classe tableau réécrite:
 \begin{lstlisting}[language=c++]
+template<size_t TAILLE> class tableau {
+    private:
+       int buffer[TAILLE];
+    
+    public:
+        tableau(){};
+};
+    
+template<size_t TAILLE> tableau<TAILLE>::tableau() {
+   for (size_t i=0; i<TAILLE; ++i) { 
+      buffer[i] = 0; 
+   };
+};
+
+main() {
+   tableau<100> T1,T2;
+   T1 = T2;
+}
+   
+\end{lstlisting}
+
+\begin{itemize}
+\item{Pas besoin d'allocation mémoire ni de copie (pas de trio infernal, le compilateur fait ça très bien)}
+\item{On a besoin d'un constructeur sinon rien n'est initialisé}
+\item{\textbf{ATTENTION ! La taille du tableau est fixée lors de la compilation}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Paramètres de modèles (2)}
+
+La classe Tableau avec deux paramètres de modèles:
+\begin{lstlisting}[language=c++]
 template<size_t TAILLE, typename T> class tableau {
     private:
        T buffer[TAILLE];
@@ -188,12 +221,6 @@ main() {
 }
    
 \end{lstlisting}
-
-\begin{itemize}
-\item{Pas besoin d'allocation mémoire ni de copie (pas de trio infernal, le compilateur fait ça très bien)}
-\item{On a besoin d'un constructeur sinon rien n'est initialisé}
-\item{\textbf{ATTENTION ! La taille du tableau est fixée lors de la compilation}}
-\end{itemize}
 \end{frame}
 
 \subsection{Spécialisation}
@@ -203,10 +230,10 @@ main() {
 
 Dans ce qui suit, on  suppose que les objets mis dans le tableau sont \textbf{pourvus d'un opérateur inférieur}.
 
-Ecrivons la fonctions min, qui va rechercher la valeur la plus petite du tableau:
+Ecrivons la fonctions minVal, qui va rechercher la valeur la plus petite du tableau:
 
 \begin{lstlisting}[language=c++]
-T template<size_t TAILLE, typename T> tableau<TAILLE>::min() {
+T template<size_t TAILLE, typename T> tableau<TAILLE>::minVal() {
    T maxVal = "La valeur la plus grande possible pour T";
    for (size_t i=0; i<TAILLE; ++i) {
       if (buffer[i] < maxVal) maxVal=buffer[i];
@@ -228,7 +255,7 @@ Si T est un type numérique, on peut utiliser les defines trouvés dans \texttt{
 
 On passe donc par une classe de la bibliothèque standard:
 \begin{lstlisting}[language=c++]
-T template<size_t TAILLE, typename T> tableau<TAILLE>::min() {
+T template<size_t TAILLE, typename T> tableau<TAILLE>::minVal() {
    T maxVal = std::numeric_limits<T>::max();
    for (size_t i=0; i<TAILLE; ++i) {
       if (buffer[i] < maxVal) maxVal=buffer[i];
