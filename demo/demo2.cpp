@@ -5,6 +5,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <iterator>
 using namespace std;
 
 
@@ -32,13 +33,30 @@ float gen() { return (1000.0 *  rand()) / RAND_MAX - 500; }
 
 
 
-struct aff_t {           // function object type:
-  void operator() (float i) {std::cout << ' ' << i;}
+struct aff_t {           // function object
+  void operator() (float i) {cout << ' ' << i;}
 } aff;
 
 /* Affichage du contenu d'un conteneur */
 template< typename T> void affichage(const T& l) {
-	for_each(l.begin(),l.end(),aff);
+
+	// NE MARCHE PAS POUR UNE LISTE !!!
+	//for(size_t i=0; i<l.size();++i) {
+	//     cout << " " << l[i];
+        //}
+
+	// Version C++ a l'ancienne
+	//for (typename T::const_iterator i=l.begin(); i!=l.end();++i) {
+        //   cout << " " << *i;
+        //}
+
+	// Version genre stl	
+	//for_each(l.begin(),l.end(),[](x){cout << ' ' << x});
+	
+	// Version C++11 moderne
+	for(auto& x: l) {
+	   cout << " " << x;
+        }
 	cout << endl;
 }
 

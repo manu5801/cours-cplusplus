@@ -40,7 +40,7 @@ int main()
 		if (mot.find_first_not_of("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") == string::npos)
 		{			
 			V1.push_back(mot);
-		};
+		}
 	};
 	
 	for (tableau::iterator i=V1.begin(); i!=V1.end(); i++)

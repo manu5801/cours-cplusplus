@@ -75,7 +75,7 @@ main() {
 /* Fuite de mémoire:
        N'oubliez pas de taper: ulimit -v 200000
        Observez la fuite à l'aide de top dans une autre fenêtre
-       ça fuit dans le cas de tableauF, tableauO et tableauA se comportent correctement
+       ça fuit dans le cas PTR, les autres se comportent correctement
 */
    for (;;) {
 	try {
