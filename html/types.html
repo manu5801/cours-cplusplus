@@ -669,7 +669,8 @@ lorsqu'on utilise la bibliothèque standard: en effet, les déclarations de type
 
 <h2 id="tableau">Les tableaux</h2>
 
-<p>Ce chapitre décrit les tableaux, tels qu'ils sont utilisés en langage C. Nous verrons plus loin que le C++, s'il permet la définition de tableaux "à la C", offre plusieurs autres possibilités pour définir des tableaux.</p>
+<p>Ce chapitre décrit les tableaux, tels qu'ils sont utilisés en langage C. Nous verrons plus loin que le C++, s'il permet la définition de tableaux "à la C", 
+offre plusieurs autres possibilités pour définir des tableaux (par exemple ici: <a href="mem.html#new-tab"><img alt="après" src="apres.gif" /></a>)</p>
 
 <p>Un tableau est un ensemble d'&#233;l&#233;ments de m&#234;me type, chaque &#233;l&#233;ment du tableau &#233;tant rep&#233;r&#233; par son ou
 ses indices. Un tableau peut &#234;tre &#224; une dimension  (1 indice, identique &#224; un vecteur), &#224; 2 dimensions (2 indices, identique &#224; une matrice) ou &#224; n dimensions (n indices).</p>
@@ -1222,32 +1223,6 @@ sont les m&ecirc;mes, simplement le code est ici plus optimis&eacute;. </p>
 <p>Voici l'histoire d'un accouchement &agrave; haut risque, suite &agrave; l'ex&eacute;cution de la fonction 
 <code>co&iuml;t</code>...</p>
 
-<h3><a name="ptr-retval">Retour d'un param&egrave;tre par valeur</a></h3>
-
-<pre class="demo">
-<b>humain</b> coit(homme&amp; h, femme&amp; f) {
-   ...
-   humain enfant = h + f;
-   ...
-   <b>return enfant;</b>
-};
-
-homme pierre;
-femme marie;
-humain loulou = coit(pierre,marie);
-</pre>
-
-<p>Une dr&ocirc;le de mani&egrave;re de faire un enfant: l'enfant nait dans le contexte de la fonction <code>coit</code>,
-mais &agrave; la fin de la fonction, on en fait un cl&ocirc;ne, on sort le cl&ocirc;ne et on massacre l'enfant. 
-Merci de ne pas pr&eacute;venir le comit&eacute; d'&eacute;thique... C'est long, compliqu&eacute; et immoral, mais
-&ccedil;a marche.</p>
-<p>Que s'est-il passé au juste ? Tout simplement que la fonction a renvoyé une valeur.. qui est une rvalue (la valeur
-renvoyée par cette fonction ne peut se trouver à gauche du signe =). Comme on l'a déjà dit 
-<a href="#lrvalue"><img src="avant.gif" alt="avant" /></a>, si on désire pérenniser cette valeur, la seule solution est de
-la <em>copier</em> dans une lvalue.</p> 
-
-<p><a href="#">top</a></p><hr />
-
 <h3><a name="ptr-retref">Retour d'un param&egrave;tre par r&eacute;f&eacute;rence</a></h3>
 
 <pre class="demo">
@@ -1263,14 +1238,12 @@ femme marie;
 humain&amp; loulou = coit(pierre,marie);
 </pre>
 
-<p>Voil&agrave; qui est encore pire: l'enfant, apr&egrave;s sa naissance, est retourn&eacute; sous le nom <code>loulou</code>... mais tout-de-suite apr&egrave;s il est d&eacute;truit, puisqu'il s'agit d'une variable
+<p>L'enfant, &agrave; la naissance, est retourn&eacute; sous le nom <code>loulou</code>... mais tout-de-suite apr&egrave;s il est d&eacute;truit, puisqu'il s'agit d'une variable
 locale &agrave; la fonction <code>coit</code>, qui n'existe donc que le temps que la fonction est ex&eacute;cut&eacute;e.</p>
 
 <div class="attention"><p><img alt="ATTENTION"  src="attention.gif" /> Attention, cela ne veut pas dire qu'on ne doit pas 
-renvoyer de r&eacute;f&eacute;rences en sortie d'une fonction. On ne doit pas renvoyer de r&eacute;f&eacute;rence sur un
-objet interne &agrave; la fonction, car cet objet cesse d'exister lorsque la fonction a fini son ex&eacute;cution. 
-Le pire, c'est que... &ccedil;a peut marcher: rien ne dit que le syst&egrave;me aura d&eacute;truit tout-de-suite l'objet. 
-Mais gare au plantage si vous changez de conditions (de compilateur, par exemple).</p></div>
+renvoyer de r&eacute;f&eacute;rences en sortie d'une fonction. <strong>On ne doit pas renvoyer de r&eacute;f&eacute;rence sur un
+objet interne &agrave; la fonction</strong>, car cet objet cesse d'exister lorsque la fonction a fini son ex&eacute;cution.</p></div>
 
 <h3><a name="ptr-retptr">Retour d'un param&egrave;tre par pointeur</a></h3>
 
@@ -1285,20 +1258,67 @@ Mais gare au plantage si vous changez de conditions (de compilateur, par exemple
 homme pierre;
 femme marie;
 humain* nouveau_ne = coit(pierre,marie);
+...
+delete(nouveau_ne);
 </pre>
 
-<p>Cette fois, &ccedil;a va mieux: l'enfant est cr&eacute;&eacute; par <code>new</code>, mais il est <i>quelque part
-ailleurs</i>, et <i>il n'a pas &eacute;t&eacute; baptis&eacute; (pas de nom)</i>. On ne sait que l'appeler <code>*enfant</code>.
+<p>Cette fois, &ccedil;a va mieux: l'enfant est cr&eacute;&eacute; par l'opérateur <code>new</code> (<a href="mem.html#new""><img alt="apres" src="apres.gif" /></a>),
+mais il est <i>quelque part ailleurs</i> (il y a eu une allocation dynamique). On ne sait que l'appeler <code>*enfant</code>.
 Seul le pointeur est interne &agrave; la fonction. On renvoie (par une recopie) le pointeur &agrave; l'ext&eacute;rieur,
-et on d&eacute;truit le pointeur d'origine (mais cela n'a aucune importance, l'enfant est pr&eacute;serv&eacute;). </p>
+et on d&eacute;truit le pointeur d'origine (mais cela n'a aucune importance, c'est juste un pointeur: l'enfant est pr&eacute;serv&eacute;). </p>
 
-<h3><a name="move">Utilisation du constructeur de déplacement (c++11)</a></h3>
+<div class="attention"><p><img alt="NOOON" src="nepasfaire.png" />
+La fonction a créé un objet, mais c'est le code appelant qui devra rendre la mémoire. Cette situation n'est pas très propre, et surtout
+elle risque d'amener à des fuites de mémoire (si on oublie d'appeler le delete). Pour éviter cela, il convient de remplacer
+le pointeur <code>nouveau_ne</code> par un smart pointer, de type unique_ptr. Ainsi l'appel à la fonction devient:</p>
 
-<p>Finalement, la meilleure solution pour renvoyer un objet créé dans une fonction est d'utiliser la sémantique de pointeurs tel que
-décrite ci-dessus. Or, cela est fort ennuyeux, en effet cela aboutit à un code fort peu lisible, alors que tout l'intérêt
-du C++, par rapport au C, est justement d'améliorer la lisibilité du code: la dernière norme, le C++11, répod à cette préoccupation
-grâce aux "Rvalue-references" et aux constructeurs de déplacement. Nous n'en dirons pas plus dans ce cours, sachez cependant
-que ces deux concepts permettent d'améliorer les performances des bibliothèques.</p>
+<pre class="demo">
+unique_ptr&lt;humain&gt; nouveau_ne = coit(pierre,marie);
+</pre>
+</div>
+
+<h3><a name="ptr-retval">Retour d'un param&egrave;tre par valeur</a></h3>
+
+<pre class="demo">
+<b>humain</b> coit(homme&amp; h, femme&amp; f) {
+   ...
+   humain enfant = h + f;
+   ...
+   <b>return enfant;</b>
+};
+
+homme pierre;
+femme marie;
+humain loulou = coit(pierre,marie);
+</pre>
+
+<h4>Autrefois...</h4>
+<p>Il y a encore quelques années, il était déconseillé de travailler de cette manière: l'enfant nait dans le contexte de la fonction <code>coit</code>,
+mais &agrave; la fin de la fonction, on en fait un cl&ocirc;ne, on sort le cl&ocirc;ne et on détruit l'enfant. C'est long,et peu performant, 
+mais ça marche. <br />
+<p>Que s'est-il passé au juste ? Tout simplement la fonction a renvoyé une valeur, qui est une rvalue (la valeur
+renvoyée par cette fonction ne peut se trouver à gauche du signe =). Comme on l'a déjà dit 
+<a href="#lrvalue"><img src="avant.gif" alt="avant" /></a>, si on désire pérenniser cette valeur, la seule solution est de
+la <em>copier</em> dans une lvalue. </p> 
+
+<h4>Aujourd'hui</h4>
+<p>Aujourd'hui, deux mécanismes permettent aux compilateurs de gérer correctement cette situation:</p>
+<ol>
+<li>Tous les compilateurs actuels utilisent le "RVO" (Return Value Optimization), c'est-à-dire qu'ils savent éviter la séquence copie/destruction. 
+Ils sont capables de "déplacer" les données de l'obejt retourné simplement en modifiant les pointeurs à l'intérieur des objets.</li>
+<li>Le C++11 a introduit, pour ce cas d'utilisation et aussi pour beaucoup d'autres cas, le paradigme du "deplacement de données", qui permet au 
+programmeur de contrôler l'utilisation du "move" ou du "copy". Nous effleurerons cette question dans le chapitre sur les classes.</li>
+</ol>
+
+<h3>En conclusion</h3>
+<ul>
+<li>Aujourd'hui, la meilleure manière de renvoyer un objet créé dans une fonction est de le renvoyer par valeur: c'est le moyen le plus simple,
+le plus lisible, et il n'y a plus, avec les compilateurs actuels, de problèmes de performance.</li>
+<li>Le code "ancien", en particulier le code des bibliothèques, renverra souvent les objets par pointeurs, pour des raisons de performance
+qui ne sont aujourd'hui plus justifiées</li>
+<li>Mais ce code existe, nous avons besoin de l'utiliser: dans ce cas, il est important de stocker la valeur retournée non pas dans un pointeur ordinaire,
+mais dans un <strong>smart pointer</strong>. Ainsi les soucis d'allocation mémoire causés par les pointeurs seront élégamment résolus.</li>
+</ul>
 
 <p><a href="#">top</a></p><hr />
 
@@ -1355,6 +1375,12 @@ int B=5;
 <p>L'expression: <b><code>a=B</code></b>   changera  la   <em>valeur</em>  de
 <code>a</code>, donc aussi la valeur de <code>A</code>.</p>
 </div>
+
+<h3><a name="rvalue-ref">Le type "r-value référence"</a></h3>
+
+<p>Ce type est essentiellement utilisé en paramètre de fonctions, il permet de poser une référence sur une rvalue,
+c'est-à-dire d'utiliser un objet qui n'a pas de nom, et qui normalement n'a qu'une existence temporaire </p>
+<p>Soit le programme suivant:</p>
 
 <h3><a name="ptr">Le type pointeur</a></h3>
 
