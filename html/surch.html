@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+v<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -285,15 +285,23 @@ main() {
 main() {
    <b>complexe A(5);
    complexe B=5;
-   complexe C;</b>
+   complexe C;
+   complexe D = { 1.23, 4.56 };</b>
 };
 </pre>
 
-<p>Les deux premi&egrave;res lignes ont exactement la m&ecirc;me signification,
+<ul>
+<li>Les deux premi&egrave;res lignes ont exactement la m&ecirc;me signification,
 simplement  <code>C=5</code> est plus  parlant.Tout le  monde comprend
 que l'initialisation d'un complexe par  un r&eacute;el donne un complexe avec
-une partie imaginaire nulle. D'autre part, la troisi&egrave;me ligne conduit &agrave; l'initialisation &agrave; 0 
-d'un nombre complexe.</p>
+une partie imaginaire nulle. </li>
+<li>La troisi&egrave;me ligne conduit &agrave; l'initialisation &agrave; 0 
+d'un nombre complexe.</li>
+<li>La quatrième ligne introduit l'"initalisation uniforme": on retrouve la syntaxe d'initialisation qui avait été 
+présentée pour initialiser les tableaux au bon vieux temps du langage C <a href="types.html#tableau"><img alt="avant" src="avant.gif" /></a>.
+Elle est à présent généralisée et permet d'initialiser <strong>tous les objets</strong> (<em>attention, seulement à partir de C++11 !</em>)</li>
+</ul>
+</p>
 
 <h4>Le mot-cl&eacute; explicit</h4>
 
