@@ -317,14 +317,10 @@ main() {
 }
 </pre>
 
-<p >L&agrave;,  il n'est pas  du tout &eacute;vident, lorsqu'on  lit le
-code   ci-dessus,   que   cela   signifie  "allouer   un   buffer   de
-<em>taille</em> 1024 octets"...  Le
-concepteur de  <code>tableau</code> devrait donc  inhiber cette &eacute;criture,
-qui  se  r&eacute;v&egrave;le inad&eacute;quate.  D'autant plus que cette écriture correspond en fait
-à une conversion (depuis le type int vers le type tableau), qui en l'occurrence n'est pas souhaitable, 
-et peut provoquer des soucis soit à la compilation, soit à l'exécution. On peut donc inhiber cette conversion implicite
-en utilisant  le  mot-cl&eacute; <code>explicit</code> devant la d&eacute;finition du constructeur:</p>
+<p>Cela ne veut déjà pas dire grand-chose, mais surtout cela signifie que si j'ai besoin d'un tableau à un endroit du code (par exemple en paramètre
+d'appel de fonction), et que je fournisse par erreur un entier... le compilateur fera gentiment une conversion ! 
+Le mot-clé explicit permet de s'assurer que cette erreur sera bien découverte à la compilation et non pas à l'exécution.</p>
+
 
 <pre class="demo">
 class tableau {
@@ -765,25 +761,37 @@ href="stdlib.html#iterateurs"><img    alt="apr&egrave;s"   src="apres.gif" /></a
 
 <h4><a name="affec-init">Affectation n'est pas initialisation</a></h4>
 
-<p><img alt="NOOON" src="nepasfaire.png" />En d&eacute;pit  des apparences, les deux  lignes de code  ci-dessous ne sont
-pas &eacute;quivalentes.</p>
-
+<p>Dans ce paragraphe on utilisera la fonction suivante:</p>
 <pre class="demo">
-complexe A=4;
-A=5;
+tableau renvoie_tableau() {
+    tableau t = { 1,2,3 };
+    return t;
+}
 </pre>
 
-<p>En  effet,  la   premi&egrave;re  ligne  correspond  &agrave;  une
-d&eacute;claration de variable avec <em>initialisation</em>, alors  que la seconde ligne  correspond &agrave; une
-<em>affectation</em>.     L'initialisation    est   une    affectation
-<em>pr&eacute;c&eacute;d&eacute;e  d'une  allocation  de  m&eacute;moire</em>.   Dans  le  cas  de
-l'initialisation,  la  fonction  appel&eacute;e  est le  <em>constructeur  de
-copie</em>,   dans   le   cas    de   l'affectation   il   s'agit   de
-l'<code>operator=</code>.   Afin  d'&eacute;viter  de  r&eacute;&eacute;crire du  code,  la
-mani&egrave;re habituelle de  proc&eacute;der est de d&eacute;finir une  fonction priv&eacute;e de
-copie, fonction  qui sera appel&eacute;e par le  constructeur <em>et</em> par
-l'op&eacute;rateur  d'affectation.  Cela  pourrait donner  par  exemple, pour
-notre objet <code>tableau</code>:</p>
+<p><img alt="NOOON" src="nepasfaire.png" />En d&eacute;pit  des apparences, les quatre lignes de code marqués 1 à 4 
+ne sont pas &eacute;quivalentes.</p>
+
+<pre class="demo">
+tableau t1 = {4,5,6};
+tableau t2 = {7,8};
+
+1- tableau t3 = t1;
+2- t3 = t2;
+
+3- tableau t4 = renvoie_tableau();
+4- t3 = renvoie_tableau();
+</pre>
+
+<p>En effet on a écrit ici:</p>
+<ol>
+<li>Une <em>déclaration de variable avec initialisation</em></li>
+<li>Une <em>affectation</em> (la variable t3 existait déjà) </li>
+<li>Une <em>déclaration de variable avec initialisation à partir d'une rvalue</em></li>
+<li>Une <em>affectation à parti d'une rvalue</em></li>
+</ol>
+
+<p>A ces quatre opérations peuvent correspondre quatre fonctions-membres différentes.</p>
 
 <pre class="demo">
 class tableau {
@@ -808,26 +816,43 @@ tableau::tableau(int t) {
   buffer = malloc(t * sizeof(char));
 };
 
+// Pour la ligne 1-
 tableau::tableau(const tableau&amp; b) {
   taille = b.taille; 
   buffer = malloc(taille * sizeof(char)); 
   copie(b);
 };
-  
+
+// Pour la ligne 2-  
 tableau&amp; tableau::operator=(const tableau&amp; b) {
   if (this !=&amp;b)
   {
-    if (taille != b.taille)
-      buffer = realloc(buffer,b.taille * sizeof(char));
-    copie(b);
+      free(buffer);
+      buffer = malloc(taille * sizeof(char)); 
+      copie(b);
   }
   return *this;
 };
 
-void main() {
-  tableau B(1000);
-  tableau A(1000);
-  A=B;
+// Pour la ligne 3- (en C++11 !!!)
+tableau::tableau(tableau&amp;&amp; b) {
+  taille = b.taille; 
+  buffer = b.buffer;
+  b.taille = 0;
+  b.buffer = nullptr;
+};
+
+// Pour la ligne 4- (en C++11 !!!)
+tableau&amp; tableau::operator=(tableau&amp;&amp; b) {
+  if (this !=&amp;b)
+  {
+    free(b.buffer);
+    taille = b.taille; 
+    buffer = b.buffer;
+    b.taille = 0;
+    b.buffer = nullptr;
+  }
+  return *this;
 };
 </pre>
 
@@ -840,7 +865,7 @@ par    le    jeu   des    pointeurs    et    des   r&eacute;f&eacute;rences.    
 <code>operator=</code>  risque  alors  de  provoquer un  plantage (on croit traviller sur l'objet destination, alors qu'on
 travaille <em>aussi</em> sur l'objet source: D'où dans le code ci-dessous le <code>if (this != &amp;b)</code>.</p>
 
-<h4><a name="affect-trio">Le trio infernal</a></h4>
+<h4><a name="affect-trio">Le trio infernal et le quintette infernal</a></h4>
 
 <p>Le trio infernal est constitu&eacute; par les trois fonctions suivantes:</p>
 
@@ -858,9 +883,19 @@ se contentent de la version fournie par d&eacute;faut.</p>
 
 <div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
  <em>Si  vous fournissez  l'une de ces  trois fonctions,
-fournissez  les  trois</em>.  Sinon,  gros  risques  de plantages,  le
-compilateur se chargeant de fournir ses  versions "&agrave; lui" de la ou des
-fonctions manquantes...</p></div>
+fournissez  les  trois</em>. En effet, cela signifie que votre objet gère des ressources (mémoire, connexions réseau, etc.).
+Les versions proposées par le compilateur ne s'occuperont pas de la gestion des ressources, d'où probablement
+de gros soucis lors de l'exécution du code.</p></div>
+
+<p>Pour le quintette infernal, ajoutez les deux fonctions suivantes:</p>
+
+<ul>
+<li>Constructuer de déplacement (move constructor)</li>
+<li>Affectation de déplacement</li>
+</ul>
+
+<p>Si vous ne fournissez pas ces deux fonctions le programme fonctionnera tout de même car on peut toujours remplacer un déplacement par une copie. 
+Simplement, étant moins optimisé, il risque d'avoir des performances inférieures.</p>
 
 <h4><a name="trio-cage">La mise en cage du trio infernal</a></h4>
 
@@ -874,10 +909,10 @@ copie de  celui-ci.  Dans ce  cas, constructeur de copie  et op&eacute;rateur
 d'affectation peuvent d'ailleurs &ecirc;tre des fonctions vides...</p>
 
 <pre class="demo">
-class unique {
+class non_copiable {
 private:
-   unique(const unique&amp;) {};
-   unique&amp; operator=(const unique&amp;) {};
+   non_copiable(const non_copiable&amp;) {};
+   non_copiable&amp; operator=(const non_copiable&amp;) {};
    ...
 </pre>
 
