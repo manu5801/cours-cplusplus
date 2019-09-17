@@ -43,10 +43,11 @@
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#new">Les op&eacute;rateurs <code>new</code> et <code>delete</code></a></li>
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#new-tab">Les op&eacute;rateurs <code>new[]</code> et <code>delete[]</code></a></li>
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#malloc">Fonctions malloc, free, realloc</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#except">En cas d'erreur d'allocation</a></li> 
 		</ul></li>
 		<li><a onclick="javascript=cacher_menu()" href="mem.html#obj">Objets utilis&eacute;s pour la gestion de la m&eacute;moire</a> 
 		<ul>
-			<li><a onclick="javascript=cacher_menu()" href="mem.html#auto_ptr">L'objet <code>auto_ptr</code></a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#unique_ptr">L'objet <code>unique_ptr</code></a></li> 
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#gest">Objets gestionnaires de ressources</a></li> 
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#robuste">Produire du code robuste, malgr&eacute; les exceptions</a></li> 
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#compt">Les objets &agrave; comptage de r&eacute;f&eacute;rence</a></li> 
@@ -239,24 +240,18 @@ d'allocation    dynamique   de    m&eacute;moire:    <code>malloc</code>   et
 <code>free</code> pour allouer de la  m&eacute;moire et la rendre au syst&egrave;me,
 <code>realloc</code>  pour refaire une  allocation m&eacute;moire  lorsque le
 bloc   pr&eacute;c&eacute;demment  allou&eacute;   est  trop   juste. Tout   cela  est
-r&eacute;utilisable, &agrave; condition de prendre quelques pr&eacute;cautions:</p>
+r&eacute;utilisable, &agrave; condition de bien faire la différence entre les deux utilisations:</p>
 
 <ul>
   <li><code>new</code> alloue la m&eacute;moire, <em>puis</em> appelle le
-      constructeur. <code>malloc</code> <em>n'appelle pas le
-      constructeur</em>. Attention, donc &agrave; l'initialisation correcte
-      de l'objet.</li>
-  <li><code>delete</code> appelle le destructeur <i>puis</i> rend la m&eacute;moire au syst&egrave;me. <code>free</code> <em>n'appelle pas le
-      destructeur</em>. Attention donc au code qui ne sera pas ex&eacute;cut&eacute;</li>
-  <li><code>realloc</code> <em>ne doit pas &ecirc;tre utilis&eacute;</em> dans le
-      cas d'objets de type class: <code>realloc</code> va provoquer
-      une copie de la m&eacute;moire bit &agrave; bit, ce qui risque de provoquer
-      des catastrophes dans certains cas.</li>
-  <li><em>Soyez coh&eacute;rent</em>: si vous avez utilis&eacute; <code>new</code>
-      pour cr&eacute;er un objet, utilisez <code>delete</code> pour le
-      d&eacute;truire. Si vous avez utilis&eacute; <code>alloc</code> pour cr&eacute;er un
-      objet, utilisez <code>free</code> pour le d&eacute;truire.</li>
+      constructeur. <code>malloc</code> <em>ne sait pas ce qu'est un objet !</em>. malloc alloue une zone de mémoire (bas niveau), alors que new initialise un objet ou un tableau d'objets (haut niveau).</li>
+  <li><code>delete</code> appelle le destructeur <i>puis</i> rend la m&eacute;moire au syst&egrave;me. <code>free</code> <em>ne sait pas ce qu'est un 
+  destructeur</em>, il ne risque donc pas de l'appeler.</li>
 </ul>
+
+<h3><a name="except">En cas d'erreur d'allocation</a></h3>
+<p>S'il n'est pas possible d'allouer la mémoire demandée, <tt>new</tt> lancera l'exception <tt>bad_alloc</tt>. Par contre, 
+<tt>malloc</tt> ou <tt>calloc</tt> se contentera de renvoyer un pointeur <tt>nullptr</tt></p>
 
 <p>Conclusion: pour du code  C++, il n'y a aucune raison
 de  ne  pas  utiliser  les  op&eacute;rateurs  du  C++,  <code>new</code>  et
@@ -293,69 +288,55 @@ risque  fort  d'aboutir &agrave;  des  objets  "irresponsables" vis-&agrave;-vis
 l'allocation m&eacute;moire. Cette  solution est toutefois acceptable lorsque
 les   objets   r&eacute;f&eacute;rents   comptent   eux-m&ecirc;mes  les   r&eacute;f&eacute;rences   <a
 href="#compt"><img  alt="apres"  src="apres.gif" /></a>.  La
-seconde solution peut &ecirc;tre impl&eacute;ment&eacute;e par un <code>auto_ptr</code>.</p></div>
+seconde solution peut &ecirc;tre impl&eacute;ment&eacute;e par un <code>unique_ptr</code>.</p></div>
 
 <p><a href="#">top</a></p><hr />
 
 <h2><a name="obj">Objets  utilis&eacute;s pour la gestion de la m&eacute;moire</a></h2>
 
-<h3><a name="auto_ptr">L'objet <code>auto_ptr</code></a></h3>
+<h3><a id="uniq-ptr">L'objet <tt>unique_ptr</tt></a></h3>
 
-<p><code>auto_ptr</code> fait  partie de la biblioth&egrave;que  standard du C++
-<a href="stdlib.html"><img alt="apres" src="apres.gif" /></a>
-.  Il sert &agrave;  d&eacute;finir un  pointeur "intelligent"...  en tous  cas fort
-sympathique, ayant les caract&eacute;ristiques suivantes:</p>
+<p>Cet objet, défini dans la stl, définit un "smart pointer", c'est-à-dire un objet dont le rôle est de:</p>
 
 <ul>
-  <li>Un <code>auto_ptr</code> est <em>toujours</em> propri&eacute;taire de
-      l'objet sur lequel il pointe</li>
-  <li>Lorsque l'<code>auto_ptr</code> est d&eacute;truit, l'objet sur lequel
-      il pointe est d&eacute;truit &eacute;galement. On est donc assur&eacute; de ne pas
-      avoir de pointeur pendouillant.</li>
-  <li>Si l'on copie un <code>auto_ptr</code>, l'<code>auto_ptr</code>
-      original perd l'objet point&eacute;, de sorte que s'il
-      est d&eacute;truit, le r&eacute;f&eacute;rent ne sera pas d&eacute;truit. Par contre, si
-      le <em>nouvel</em> <code>auto_ptr</code> est d&eacute;truit, le
-      r&eacute;f&eacute;rent sera d&eacute;truit puisque la copie est le nouveau propri&eacute;taire.</li>
+<li>Encapsuler un pointeur renvoyé par un appel new ou new[]</li>
+<li>Libérer la mémoire allouée par celui-ci lorsque l'objet sort de sa portée: il y a un delete dans son destructeur.</li>
 </ul>
 
-<p>Le code  suivant,  qui utilise  des  objets de  type
-<code>complexe</code>, illustre l'utilisation d'<code>auto_ptr</code>:</p>
+<p>Un unique_ptr est <strong>toujours</strong> propriétaire de l'objet sur lequel il pointe. Un <tt>unique_ptr</tt> <strong>ne peut pas être copié</strong>, mais 
+<strong>il peut être déplacé !</strong>. En effet si on copie un pointeur, on se retrouve avec deux pointeurs qui sont chacun responsables
+de l'objet pointé, ce qui est une erreur si on ne prend pas des précautions. Si on déplace un pointeur, on passe simplement
+la responsabilité de l'un vers l'autre.</p>.
+
+<p>Le code suivant montre ce que devient notre code tableau défini plus haut lorsqu'on utilise un <tt>unique_ptr</tt> à la place d'un pointeur ordinaire:</p>
 
 <pre class="demo">
-typedef auto_ptr&lt;complexe&gt; complexe_ptr;
+#include <memory>
+class tableau {
+public:
+  tableau(int);
+
+private:
+  const size_t taille;
+  unique_ptr<int> buffer;
+};
+
+tableau::tableau(int s) : taille(s) {
+  buffer = (unique_ptr&lt;int&gt;) new int [taille];
+};
 
 void main() {
-  <b>complexe_ptr c2(new complexe);</b>            // allocation d'un auto_ptr.
+  tableau t1(1000);
+  try
   {
-    <b>complexe_ptr c1(new complexe(5,5));</b>	    // allocation d'un auto_ptr
-    c2=c1;			            // c2 devient proprietaire du complexe
-					    // son ancien referent est detruit
-					    // c1 n'est plus le propri&eacute;taire, 
-  };					    // il peut &ecirc;tre d&eacute;truit.
-}
+      tableau t2(100000000000000000);
+  } 
+  catch (bad_alloc & e)
+  {
+      cout << "oups, pas assez de mémoire !" << endl;
+  }
+};
 </pre>
-
-<p>Un  objet de  type  <code>auto_ptr</code> peut  donc
-avantageusement &ecirc;tre allou&eacute; dans le constructeur &agrave; la place d'un objet
-ordinaire.  La  destruction du r&eacute;f&eacute;rent sera automatique  au moment de
-la  destruction de  l'objet, sans  m&ecirc;me  qu'il soit  n&eacute;cessaire de  le
-sp&eacute;cifier dans le destructeur. Dans le code ci-dessus, tous nos ennuis
-viennent  en  effet   uniquement  de  <code>c3</code>,  d&eacute;clar&eacute;  comme
-<code>complexe*</code>.</p>
-
-<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-En fait,  l'important n'est pas l&agrave;:  apr&egrave;s tout, vous  &ecirc;tes bien assez
-malin  pour ne pas  oublier d'&eacute;crire  les quelques  lignes de  code du
-destructeur           correspondant          aux          instructions
-<code>delete</code>. L'important, c'est qu'il est fort possible que le
-constructeur, <em>apr&egrave;s  avoir allou&eacute; un  ou plusieurs pointeurs</em>,
-g&eacute;n&egrave;re une exception (fonctionnement normal pour un constructeur).  La
-construction de  l'objet est alors interrompue,  et <em>le destructeur
-n'est   pas   appel&eacute;</em>.     R&eacute;sultat:   une   fuite   de   m&eacute;moire.
-L'<code>auto_ptr</code>  est donc  la solution  &eacute;l&eacute;gante,  car lorsque
-l'auto_ptr  sera   d&eacute;truit,  le  r&eacute;f&eacute;rent  sera   lui  aussi  d&eacute;truit.
-</p></div>
 
 <h3><a name="gest">Objets gestionnaires de ressources</a></h3>
 
@@ -379,55 +360,22 @@ Les trois principes fondamentaux pour g&eacute;rer les ressources sont:</p>
 </dl>
 </div>
 
-<p><code>auto_ptr</code> est un bon exemple d'objet dont l'unique raison
+<p><code>unique_ptr</code> est un bon exemple d'objet dont l'unique raison
 d'&ecirc;tre est la gestion d'une ressource (en l'occurrence la m&eacute;moire).</p>
 
-<h3><a name="robuste">Produire du code robuste, malgr&eacute; les exceptions</a></h3>
+<h3><a name="robuste">Produire du code robuste, simple à maintenir, lisible</a></h3>
 
-<p>On l'a vu, les exceptions peuvent avoir pour cons&eacute;quence l'apparition
-de fuites de m&eacute;moire ou de pointeurs pendouillants. Voici quelques
-astuces permettant d'&eacute;viter ces d&eacute;sagr&eacute;ment.</p>
+<p>Mon code C++ idéal: pas de fuites de mémoire, lisible, performant</p>
 
-<h4>auto_ptr</h4>
-
-<p>Utiliser <code>auto_ptr</code> le plus souvent possible.</p>
-
-<h4>p=NULL</h4>
-
-<p>Apr&egrave;s avoir  ex&eacute;cut&eacute; <code>delete p</code>, <em>on se
-retrouve avec un pointeur pendouillant</em>. Donc, remettez les choses
-en ordre <em>d&egrave;s  la ligne suivante</em> (&agrave; moins,  bien s&ucirc;r, qu'on ne
-sorte de  la port&eacute;e). Par exemple avec  <code>p=NULL;</code> En effet,
-s'il  arrive qu'un  second appel  <code>delete</code> soit  lanc&eacute; (par
-exemple  &agrave;  partir   du  destructeur),  il  ne  se   passera  rien  si
-<code>p</code>  vaut  <code>NULL</code>, alors  que  le r&eacute;sultat  sera
-catastrophique si <code>p</code> pendouille.</p>
-
-<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-Le code suivant est <em>dangereux</em>:<img alt="NOOON" src="nepasfaire.png" /></p>
-
-<pre class="demo">
-delete p ;
-p = new toto();
-</pre></div>
-
-<div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />Si <code>toto</code> envoie une exception, <code>p</code> continue &agrave;
-pendouiller. Il vaut mieux faire:</p>
-
-<pre class="demo">
-delete p ;
-p = NULL;
-p = new toto();
-
-</pre></div>
-
-<h3><a name="compt">Les objets &agrave; comptage de r&eacute;f&eacute;rence</a></h3>
-
-<p>Il   est  possible  d'impl&eacute;menter   des  objets  qui
-<em>comptent</em>  le  nombre de  pointeurs  mis  sur  eux.  De  cette
-mani&egrave;re, il est ais&eacute;, lorsque ce  nombre arrive &agrave; 0, de faire en sorte
-que  ces  objets s'auto-d&eacute;truisent.   Cela  passe,  bien  s&ucirc;r, par  la
-surcharge des op&eacute;rateurs <code>=, *, -&gt;</code>.</p>
+<ul>
+<li>Utiliser des objets gestionnaires de ressources: ostream, istream pour les fichiers, unique_ptr pour la mémoire, etc.</li>
+<li>En particulier, ne pas utiliser de pointeurs</li>
+<li>Ne pas utiliser de tableaux "à la C", ni d'opérateur new/delete. Utiliser à la place les conteneurs de la stl</li>
+<li>Dans les conteneurs, on peut déposer soit des objets, soit des <tt>unique_ptr</tt></li>
+<li>Pour itérer sur un conteneur, utiliser la nouvelle syntaxe for</li>
+<li>Les fonctions peuvent retourner des objets, pas la peine de se creuser la cervelle en renvoyant des pointeurs</li>
+<li>Ne pas écrire le trio infernal ni le quintette infernal, le compilateur s'en chargera</li>
+</ul>
 
 <p><a href="#">top</a></p><hr />
 <address>

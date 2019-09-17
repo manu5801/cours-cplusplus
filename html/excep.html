@@ -38,6 +38,7 @@
      <ul>
 	   <li><a onclick="javascript=cacher_menu()" href="excep.html#const">...constructeurs</a></li>			
 	   <li><a onclick="javascript=cacher_menu()" href="excep.html#dest">...destructeurs</a></li>
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#noexcept">noexcept</a></li>
 	 </ul></li>
 	</ul>
  </dd>
@@ -510,6 +511,18 @@ rencontrer  un grand  nombre  de probl&egrave;mes  (ressources impossibles  &agr
 trouver, par exemple), mais  normalement le destructeur ne <em>devrait
 pas</em> g&eacute;n&eacute;rer d'erreur...  ou alors, c'est grave, car cela signifie
 que le syst&egrave;me refuse de r&eacute;cup&eacute;rer une ressource. </p></div>
+
+<h2><a name="noexcept">noexcept</a></h2>
+<p>Si une fonction ne <strong>peut pas</strong> générer d'exceptions, il est important de le signaler: cela se fait par l'utilisation du mot-clé <tt>noexcept</tt> qui se place 
+dans la déclaration du prototype, à la fin de celui-ci:</p>
+
+<pre class="demo">
+    void ma_fonction(float x)  noexcept;
+</pre>
+
+<p>Pourquoi est-ce important ? Cela ne changera rien à la logique de votre code, mais cette mention informe le compilateur qu'il a le droit d'utiliser certaines optimisations, sans casser le déroulement du code.
+En particulier il est <strong>très important</strong> d'utiliser <tt>noexcept</tt> lorsque vous déclarez <strong>un opérateur de déplacement ou un constructeur de déplacement</strong> <a
+href="surch.html#affec-init"><img        alt="avant"        src="avant.gif" /></a>.</p>
 
 <p><a href="#"></a></p><hr />
 <address>

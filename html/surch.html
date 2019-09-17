@@ -39,7 +39,8 @@ v<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/
 			<li><a href="surch.html#surch-construc">Le constructeur de copie</a></li> 
 			<li><a href="surch.html#valdef">Valeurs par d&eacute;faut des arguments</a></li> 
 			<li><a href="surch.html#valdef-construc">Valeurs par d&eacute;faut et constructeurs</a></li> 
-		</ul></li>
+		</ul>
+        </li>
 		<li><a href="surch.html#surch-op">Surcharger les op&eacute;rateurs</a> 
 		<ul>
 			<li><a href="surch.html#ope-fonc">Op&eacute;rateurs et fonctions</a></li> 
@@ -49,7 +50,8 @@ v<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/
 			<li><a href="surch.html#conv-ope">Conversions et op&eacute;rateurs</a></li> 
 			<li><a href="surch.html#autres-ope">Autres op&eacute;rateurs</a></li> 
 		</ul></li>
-	</ul> </dd>
+	</ul> 
+</dd>
 </dl>
 <dl>
  <dt><a href="exos.html#surcharge" title="Les exercices de ce chapitre">Exercices</a></dt>
@@ -835,7 +837,7 @@ tableau&amp; tableau::operator=(const tableau&amp; b) {
 };
 
 // Pour la ligne 3- (en C++11 !!!)
-tableau::tableau(tableau&amp;&amp; b) {
+tableau::tableau(tableau&amp;&amp; b) noexcept {
   taille = b.taille; 
   buffer = b.buffer;
   b.taille = 0;
@@ -843,7 +845,7 @@ tableau::tableau(tableau&amp;&amp; b) {
 };
 
 // Pour la ligne 4- (en C++11 !!!)
-tableau&amp; tableau::operator=(tableau&amp;&amp; b) {
+tableau&amp; tableau::operator=(tableau&amp;&amp; b) noexcept {
   if (this !=&amp;b)
   {
     free(b.buffer);
@@ -864,6 +866,10 @@ affect&eacute;e &agrave; elle-m&ecirc;me: cela est  un cas de figure tout-&agrav
 par    le    jeu   des    pointeurs    et    des   r&eacute;f&eacute;rences.     Or,
 <code>operator=</code>  risque  alors  de  provoquer un  plantage (on croit traviller sur l'objet destination, alors qu'on
 travaille <em>aussi</em> sur l'objet source: D'où dans le code ci-dessous le <code>if (this != &amp;b)</code>.</p>
+
+<h5><a id="noexcept">noexcept</a></h5>
+<p>Le mot <tt>noexcept</tt> situé à la fin de la déclaration est important, il sera expliqué au chapitre sur les exceptions <a
+href="excep.html#noexcept"><img    alt="apr&egrave;s"   src="apres.gif" /></a></p>
 
 <h4><a name="affect-trio">Le trio infernal et le quintette infernal</a></h4>
 
@@ -890,7 +896,7 @@ de gros soucis lors de l'exécution du code.</p></div>
 <p>Pour le quintette infernal, ajoutez les deux fonctions suivantes:</p>
 
 <ul>
-<li>Constructuer de déplacement (move constructor)</li>
+<li>Constructeur de déplacement (move constructor)</li>
 <li>Affectation de déplacement</li>
 </ul>
 
