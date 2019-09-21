@@ -27,9 +27,9 @@ class Objet {
 public:
    Objet(int x=0): value(x) { cerr << "Hello World I am an Objet " << x << '\n';} ;
    Objet(const Objet& o): value(o.getVal()) {cerr << "Hello World I am a clone " << o.getVal() << '\n'; };
-//   Objet(const Objet&& o): value(o.getVal()) {cerr << "Hello World I am a vampire " << o.getVal() << '\n'; };
+   Objet(const Objet&& o): value(o.getVal()) {cerr << "Hello World I am a vampire " << o.getVal() << '\n'; };
    Objet& operator=(const Objet& o)  { cerr << "Hello World J'étais " << value << " Je suis écrasé par " << o.value << '\n'; value = o.value; return *this; };
-//   Objet& operator=(const Objet&& o) { cerr << "Hello World J'étais " << value << " J'ai volé une valeur " << o.value << '\n'; value = o.value; return *this; };
+   Objet& operator=(const Objet&& o) { cerr << "Hello World J'étais " << value << " J'ai volé une valeur " << o.value << '\n'; value = o.value; return *this; };
    ~Objet(){cerr << "Bye bye world " << value << '\n';};
    int getVal() const { return value;};
 
@@ -43,13 +43,13 @@ private:
 * Impression du contenu de Objet
 *
 **********************************/
-ostream& operator<<(ostream& os, const Objet o)
+ostream& operator<<(ostream& os, const Objet& o)
 {
 	os << o.getVal();
 	return os;
 }
 
-template<typename T,size_t D> ostream& operator<<(ostream& os,const array<T,D> conteneur)	
+template<typename T,size_t D> ostream& operator<<(ostream& os,const array<T,D>& conteneur)	
 {
         os << "{";
         string v="";
@@ -62,7 +62,7 @@ template<typename T,size_t D> ostream& operator<<(ostream& os,const array<T,D> c
         return os;
 }
 
-template<typename T> ostream& operator<<(ostream& os,const vector<T> conteneur)	
+template<typename T> ostream& operator<<(ostream& os,const vector<T>& conteneur)	
 {
         os << "{";
         string v="";
@@ -112,7 +112,7 @@ int main() {
 	cerr << "===== Impression de mon_vecteur" << endl;
 	cout << "mon_vecteur = " << mon_vecteur << endl;
 
-	cerr << "===== On joue avec un vecteur d'Objets initialise a partir d'une liste d'initialisation. Il y aura des conversions" << endl;
+	cerr << "==== On joue avec un vecteur d'Objets initialise a partir d'une liste d'initialisation. Il y aura des conversions" << endl;
 	vector<Objet>v1({1,2,3,4,5,6,7,8,9,10});
 	v1.reserve(20);
 	cerr << "===== Impression de v1" << endl;

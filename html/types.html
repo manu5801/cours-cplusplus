@@ -1422,12 +1422,12 @@ diff&eacute;rentes. </p></div>
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
 Il est très dangereux de laisser un pointeur non initialisé: cela signifie que le pointeur contient n'importe quoi, donc qu'il pointe
 sur une zône mémoire arbitraire. Cela peut se traduire ultérieurement par des plantages difficiles à tracer. On doit donc <em>toujours</em>
-initialiser son pointeur, quitte à l'initialiser à la valeur <code>NULL</code>: il sera aisé de tester la valeur du pointeur pour savoir s'il est initialisé ou non:</p>
+initialiser son pointeur, quitte à l'initialiser à la valeur <code>NULL</code> (<code>nullptr</code> en C++11): il sera aisé de tester la valeur du pointeur pour savoir s'il est initialisé ou non:</p>
 
 <pre class="demo">
-int * p = NULL;
+int * p = nullptr;
 ...
-if ( p == NULL )
+if ( p == nullptr )
 {
    ...
 }

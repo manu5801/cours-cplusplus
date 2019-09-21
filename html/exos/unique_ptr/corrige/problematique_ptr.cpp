@@ -6,7 +6,7 @@ using namespace std;
 
 /***************
 *
-*  COMPILATION = c++ -std=c++11 unique_ptr.cpp -o unique_ptr
+*  COMPILATION = c++ -std=c++11 problematique_ptr.cpp -o problematique_ptr
 *  EXECUTION   = ulimit -v 200000
 *                ./unique_ptr
 *
@@ -21,7 +21,10 @@ using namespace std;
 * Le destructeur la libère
 * Donc tout va bien
 *
-* Vraiment ? Pas si sur....
+* Vraiment ? Pas si sur.... Ce code est vraiment problématique !
+*
+* 1/ Vérifiez ce qui se passe en décommentant tour à tout les lignes marquées 1, 2, 3 
+* 2/ Remplacez les pointeurs dans Tab2 par des unique_ptr et vérifiez qu'il n'y a plus de problème
 *
 ****************/
 
@@ -49,16 +52,17 @@ public:
 int main() {
 
 /* Fuite de mémoire:
-       N'oubliez pas de taper: ulimit -v 200000
+       N'oubliez pas  ulimit -v 200000
        Observez la fuite à l'aide de top dans une autre fenêtre
        Vérifiez que la troisième ligne provoque une fuite, mais pas les deux autres
+       Comme c'est bizarre !
 */
 
    for (;;) {
 	try {
-	    // Tab2 t = {1000,1000};	     // ca marche
-	    Tab2 t = {10000000000,1000};  // Pas de fuite: pourquoi ?
- 	    // Tab2 t = {1000,10000000000};     // Pas de fuite: pourquoi ?
+	    Tab2 t = {1000,1000};             // 1 - ca marche
+	    // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
+ 	    // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
     	} catch(const exception &e) {
     	    cerr << e.what() << '\n';
     	};

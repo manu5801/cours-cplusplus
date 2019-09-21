@@ -17,7 +17,7 @@ using namespace std;
 *
 *********/
 
-... compteur;
+map<string,int> compteur;
 
 int main () {
 
@@ -31,12 +31,12 @@ int main () {
 
 
    compteur.erase(" "); 
-   for ( ... ) {
+   for (auto i : compteur) {
        if (i.second < 5) continue;
        if (i.first.find_first_of("azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN")!=string::npos) {
           cout.width(30);
           cout.setf(ios::left);
-          cout << i.... << i.second << '\n';
+          cout << i.first << i.second << '\n';
        }
    }
    return 0;

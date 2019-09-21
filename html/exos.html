@@ -72,41 +72,8 @@
 
 <h2><a id="pointeurs">Pointeurs et r&eacute;f&eacute;rences</a></h2>
 <ol>
-  <li> <b>corrig&eacute; <a href="exos/p/p1.cpp">code</a>, <a href="exos/p/p1.cpp.html">html</a></b><br /> Programme <code>p1.cpp</code>:
-      <ul>
-	<li>On d&eacute;clare un tableau d'entiers <code>A</code> de dimension
-	    10</li>
-	<li>Deux sous-programmes, <code>remplitA</code> et
-	    <code>impA</code>, permettent de remplir et imprimer le
-	    tableau.</li>
-	<li>D&eacute;clarer une r&eacute;f&eacute;rence vers l'&eacute;l&eacute;ment 5 du tableau et
-	    incr&eacute;menter sa valeur</li>
-	<li>D&eacute;clarer un pointeur vers l'&eacute;l&eacute;ment 7, incr&eacute;menter le
-	    pointeur et la valeur point&eacute;e</li>
-      </ul></li>
-  <li><b>corrig&eacute; <a href="exos/p/p2.cpp">code</a>, <a href="exos/p/p2.cpp.html">html</a></b><br />  Programme <code>p2.cpp</code>:
-      <ul>
-	<li>D&eacute;clarer un entier</li>
-	<li>D&eacute;clarer une r&eacute;f&eacute;rence vers cet entier</li>
-	<li>D&eacute;clarer un pointeur vers cet entier</li>
-	<li>Dans les deux cas, imprimer la variable, l'adresse de la
-	    variable, la valeur point&eacute;e.</li>
-      </ul></li>
-  <li><b>corrig&eacute; <a href="exos/p/p3.cpp">code</a>, <a href="exos/p/p3.cpp.html">html</a></b><br />  En reprenant <code>p1.cpp</code>, d&eacute;clarer des pointeurs sur A[5], en
-      utilisant ou non les attributs <code>const</code>.
-      <ul>
-	<li>V&eacute;rifier que certaines instructions ne seront pas
-	    compil&eacute;es</li>
-	<li>V&eacute;rifier que, malgr&eacute; tout, <code>*a</code> peut changer de
-	    valeur...</li>
-      </ul></li>
-  <li><b>corrig&eacute; <a href="exos/p/alea.cpp">code</a>, <a href="exos/p/alea.cpp.html">html</a></b><br /> Programme
-      <code>alea.cpp</code>:  Soit  un tableau  de  dimension 
-      200. Ecrire une fonction qui renvoie de mani&egrave;re al&eacute;atoire chaque
-      cellule du tableau, sous forme de lvalue</li>
-  <li><b>corrig&eacute; <a href="exos/p/alea1.cpp">code</a>, <a href="exos/p/alea1.cpp.html">html</a></b><br /> Programme
-      <code>alea1.cpp</code>:  Même exercice que ci-dessus, mais la taille du tableau est passée en argument du programme.
-      Cela afin d'utiliser quelques fonctions de passage de paramètres de la ligne de commande.</li>
+  <li> Pointeurs, références, const, ... <a href="exos/pointeurs/pointeurs.cpp">exercice</a>,<a href="exos/pointeurs/corrige/pointeurs.cpp">corrigé</a></li>
+  <li> Rvalue références... <a href="exos/pointeurs/rvalue-reference.cpp">exercice</a>,<a href="exos/pointeurs/corrige/rvalue-reference.cpp">corrigé</a></li>
 </ol>
 
 <h2><a id="class">Le type class</a></h2>
@@ -215,32 +182,20 @@
 
 <h2><a id="memoire">Gestion de la m&eacute;moire</a></h2>
 
-<ol><li> <b>corrig&eacute;: <a href="exos/auto_ptr/auto_ptr.cpp">code</a>,  <a href="exos/auto_ptr/auto_ptr.cpp.html">html</a></b> 
-      <ul>
-	<li>Ecrire un objet qui contient deux pointeurs sur des tableaux (le tableau est l'objet de l'exercice ci-dessus), faites en sorte que le constructeur du second tableau génère une exception, mettez tout ça dans une boucle et observez la fuite de mémoire. Remplacez les pointeurs par des auto_ptr pour boucher la fuite.</li>
-      </ul></li>
-     <li><b>corrig&eacute;: <a href="exos/cpt/cpt_ptr.cpp">code</a>,  <a href="exos/cpt/cpt_ptr.cpp.html">html</a></b> <br />
-     Ecrire un objet (en fait deux classes amies) qui implémente un pointeur avec comptage de référence.</li>
+<ol>
+    <li>Pourquoi ce code ne veut pas compiler ?<a href="exos/unique_ptr/unique_ptr_non_copie.cpp">exercice</a> </li>    
+    <li>Un objet qui gère deux pointeurs, c'est problématique... et très dangereux ! <a href="exos/unique_ptr/problematique_ptr.cpp">exercice</a>,<a href="exos/unique_ptr/corrige/problematique_ptr.cpp">corrigé</a> </li>    
 </ol>
 <hr />
 
 <h2><a id="stdlib">biblioth&egrave;que standard</a></h2>
 
 <ol>
-    <li><b>corrigé: <a href="exos/std/array.cpp">code</a>, <a href="exos/std/array.cpp.html">html</a></b><br />
-    Ecrire un objet (on l'appelle Objet) qui encapsule un entier, définir le constructeur, le constructeur de copie, l'opérateur = et le destructeur, en écrivant
-    sur cerr un message spécifique à chacune de ces fonctions.
-    Définissez alors un array (c++11) et un vecteur d'Objets, histoire de visualiser ce qui se passe (les messages envoyés par les constructeurs
-    le destructeur et l'opérateur = sont très instructifs).
-    </li>
-<li> <b>corrig&eacute;: <a href="exos/std/occurrences.cpp">code</a>,  <a href="exos/std/occurrences.cpp.html">html</a></b> <br />
-    Ecrire un code qui lise un texte sur l'entr&eacute;e standard, qui
-    compte les occurrences de chaque mot, et qui imprime sur la
-    sortie standard chaque mot, en ordre alphab&eacute;tique, suivi du
-    nombre d'occurences de ce mot. On ne gardera que les mots contenant uniquement des lettres, en supprimant 
-    les mots contenant des chiffres ou des caract&egrave;res sp&eacute;ciaux, et on affichera uniquement les mots apparaissant
-    plus de 5 fois</li>
-<li><b>Programme en téléchargement.</b> Téléchargez <a href="exos/std/texte.zip">ce programme</a>, compilez-le en mode <b>-std C++0x</b> (gcc) ou <b>-std c++11</b>
+    <li>Un array d'objets ou un vector d'objets ? Que se passe-t-il quand on met des objets dans une structure de données ?
+    <a href="exos/std/array.cpp">Exercice</a>, <a href="exos/std/corrige/array.cpp">Corrigé</a> </li>
+    <li>Un programme qui utilise la structure de données map pour compter le nombre d'occurrences de chaque mot 
+    dans un texte. <a href="exos/std/occurrences.cpp">Exercice</a>, <a href="exos/std/corrige/occurrences.cpp">Corrigé</a> </li></li>
+    <li><b>Programme en téléchargement.</b> Téléchargez <a href="exos/std/texte.zip">ce programme</a>, compilez-le en mode <b>-std C++0x</b> (gcc) ou <b>-std c++11</b>
  (clang) et exécutez-le comme ceci:<code>./a.out help</code> pour savoir comment il fonctionne</li>
 </ol>
 <hr />
