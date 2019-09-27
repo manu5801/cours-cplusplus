@@ -746,15 +746,33 @@ int main() {
 
 <p>Lorsque l'on manipule des tableaux, on utilise fr&#233;quemment les boucles it&#233;ratives ( for ou while) et les op&#233;rateurs d'incr&#233;mentation:</p>
 
+<h4>Boucle for</h4>
+
 <p><b>Exemple:</b>Initialisation d'un tableau avec une boucle for</p>
 
 <pre class="demo">
 #define TAILLE 100
-float y[TAILLE];
+float tableau[TAILLE];
 int i;
 for (i=0;i&lt;TAILLE;++i)
-   y[i]=i*i;
+   tableau[i]=i*i;
 </pre>
+
+<h4>Boucle for permettant d'itérer à travers un tableau (C++11)</h4>
+
+<p>Le C++ 11 apporte une nouvelle boucle for, bien plus simple d'utilisation et plus lisible lorsqu'il s'agit d'itérer à travers un tableau
+ou une autre structure de données équivalente. L'exemple précédent peut aussi s'écrire:</p>
+
+<pre class="demo">
+#define TAILLE 100
+float tableau[TAILLE];
+
+for (auto i : tableau) {
+   tableau[i]=i*i;
+}
+</pre>
+
+<h4>Boucle while</h4>
 
 <p><b>Exemple:</b> Recherche du premier élément nul d'un tableau</p>
 
