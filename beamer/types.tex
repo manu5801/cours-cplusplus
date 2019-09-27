@@ -10,7 +10,7 @@
 \title{Les types de base}
 \subtitle{Introduction au C++ et à la programmation objet}
 \author{E. Courcelle}\institute{CALMIP, UMS 3669}
-\date{Mai 2016}
+\date{Décembre 2019}
 
 \addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 
@@ -201,6 +201,35 @@ for (i=0; i<n; i++)
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {for (en C++11) }
+Cette forme de l'instruction \textbf{for} permet d'itérer à travers un conteneur (cf. la stl). C'est une instruction de haut niveau
+qui par derrière utilise les itérateurs, et qui se révèlera très pratique et très lisible:
+
+\begin{lstlisting}[language=c++]
+int somme = 0;
+vector<int> mon_vecteur = { 1,2,3,4,5};
+for ( auto element : mon_vecteur )
+{
+    somme += element;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {while}
+\begin{itemize}
+\item{Permet de boucler jusqu'à que la condition soit réalisée}
+\item{La boucle peut ne jamais être exécutée}
+\end{itemize}
+\begin{lstlisting}[language=c++]
+while (c!=' ') {
+   c = getchar();
+   chaine[i++] = c;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {while}
 \begin{itemize}
 \item{Permet de boucler jusqu'à que la condition soit réalisée}
@@ -305,7 +334,7 @@ Le préprocesseur du C est un programme séparé du compilateur. \\
 Il effectue des rechercher/remplacer tout au long du code.
 
 il n'y a pas de constantes en C. \\
-Mais l'instruction \#define permet d'utiliser des symboles. \\
+Mais l'instruction \texttt{\#define} permet d'utiliser des symboles. \\
 Dans l'exemple ci-dessous,PI sera remplacé par 3.14
 
 \begin{lstlisting}[language=c++]
@@ -327,9 +356,9 @@ Le code suivant définit une chaine de caractères:
 
 \begin{block}{ATTENTION ! PIEGE !}
 Une chaine de caractères est un tableau qui se termine par 0 \\
-Une constante caractère s'écrit 'a', elle contient un octet.\\
-Une chaine de caractères n'ayant qu'un seul caractère s'écrit "a", \\
-elle contient deux octets (le a et le 0).
+Une constante caractère s'écrit \texttt{'a'}, elle contient \textbf{un} octet.\\
+Une chaine de caractères n'ayant qu'\textbf{un seul} caractère s'écrit \textbf{"a"}, \\
+elle contient \textbf{deux octets} (le a et le 0).
 \end{block}
 
 \begin{block}{En C++...}
@@ -350,7 +379,7 @@ d'une condition:
 #else
    ... Version de code pour les autres
 #endif
-#define WIND
+#ifdef WINDOWS
    ... code ajoute pour Windows
 #endif
 \end{lstlisting}
@@ -363,20 +392,16 @@ d'une condition:
 Permet d'inclure un fichier lors de la compilation, en principe un fichier \texttt{.h} ou \texttt{.hpp}
 
 \begin{block}{Où sont les include ?}
-Si les includes sont ceux du système (ou de bibliothèques ajoutées), on écrit entre < et > 
+Si les includes sont ceux du système (ou de bibliothèques ajoutées), on écrit entre \texttt{<} et \texttt{>}
 et le chemin est calculé:
 
 \begin{itemize}
 \item{Soit à partir des répertoires systèmes}
-\item{Soit à partir des répertoires donnés par le switch de compilateur -I}
+\item{Soit à partir des répertoires donnés par le switch de compilateur \texttt{-I}}
 \end{itemize}
 
-Si les includes sont ceux mon application, on écrit entre \"
-et le chemin est calculé:
-
-\begin{itemize}
-\item{à partir des répertoire courant}
-\end{itemize}
+Si les includes sont ceux mon application, on écrit entre `` ``
+et le chemin est calculé à partir des répertoire courant.
 \end{block}
 
 \begin{lstlisting}[language=c++]
@@ -403,6 +428,27 @@ Les fichiers \texttt{.cpp} contiennent:
 \textbf{Ils sont utilisés par l'éditeur de lien}
 \end{block}
 
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {\#include en C++}
+Par convention, les include système en C++ n'ont pas d'extension:
+
+\begin{lstlisting}[language=c++]
+#include <iostream>
+#include <vector>
+\end{lstlisting}
+
+Les includes de la bibliothèque standard du C sont utilisables en C++ en :
+\begin{itemize}
+\item{ajoutant la lettre "c" au début}
+\item{retirant l'extension}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+#include <math.h>       // en langage C
+#include <cmath>        // la meme chose en langage C++
+\end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
@@ -450,11 +496,11 @@ on peut utiliser cette variable. \\
 \frametitle {Différences entre C et C++}
 
 \begin{block}{En C...}
-En C, les variables doivent être déclarées en début de bloc. \\
+En C, les variables \textbf{doivent} être déclarées en début de bloc. \\
 En C++, on peut les déclarer simplement lorsqu'on en a besoin.
 \end{block}
 \begin{block}{En C++...}
-En C++, on peut déclarer des indices de boucle for de dans la boucle elle-même:
+En C++, on peut déclarer des indices de boucle for \textbf{dans la boucle elle-même}:
 \begin{lstlisting}[language=c++]
 for (int i=0; i<10; i++) {
    ...
@@ -481,7 +527,7 @@ Tout ce qu'on sait, c'est que \textbf{short} prend moins d'octets que \textbf{in
 qui en prend moins que \textbf{long}, qui lui-même en prend moins que \textbf{long long}. \\
 Mais d'une machine à l'autre, les tailles des entiers \\ 
 ne sont pas obligatoirement les mêmes. \\
-Les types unsigned ne sont jamais négatifs.
+Les types unsigned ne sont \textbf{jamais} négatifs.
 \end{block}
 \end{frame}
 
@@ -542,7 +588,7 @@ La fonction \textbf{sizeof} permet de savoir quelle place prend:
 \end{itemize}
 
 \begin{lstlisting}[language=c++]
-cout << "Taille d'un entier quadruple precision = " << sizeof( long long int );
+cout << "Taille d'un tres long entier = " << sizeof( long long int );
 
 short s;
 cout << "Taille de s = " << sizeof(s);
@@ -615,7 +661,7 @@ int A[TAILLE];
 \textbf{Les notions de tableau et de pointeur sont interchangeables}
 \end{block}
 \begin{block}{Les tableaux en C++}
-En C++, la stdlib propose les vecteurs, bien plus souples à utiliser que les tableaux C
+En C++, la stdlib propose le type \texttt{vector} ou \texttt{array}, bien plus souples à utiliser que les tableaux C
 \end{block}
 \end{frame}
 
@@ -667,7 +713,7 @@ struct personne {
 }
 
 // Initialisation
-personne moi = {"Emanuel","Courcelle",1};
+personne moi = {"Emmanuel","Courcelle",1};
 
 // Acceder aux champs
 cout << "Bonjour je m'appelle " << moi.prenom << "\n";
@@ -687,10 +733,13 @@ Pour déclarer des objets nous utiliserons des \textbf{classes}, \\ qui dériven
 \end{lstlisting}
 
 Copie une variable sur une autre. \\
-Peut être coûteux si la variable est grosse. \\
+En C++: Peut être coûteux si la variable est grosse, c'est à dire \textbf{si la variable est un objet}. \\
+En C: Peut être un peu coûteux également dans le cas de structures.
+
 \begin{lstlisting}[language=c++]
 A = B
 \end{lstlisting}
+
 \begin{block}{ATTENTION, PIEGE !}
 Si A et B sont des tableaux, B ne sera pas copié sur A ! \\
 Simplement l'adresse de base de A sera remplacée par l'adresse de base de B ! \\
@@ -698,7 +747,7 @@ Simplement l'adresse de base de A sera remplacée par l'adresse de base de B ! \
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Arithmétiques}
+\frametitle{Arithmétique}
 \begin{lstlisting}[language=c++]
 + - * / %
 += -= *= %=
@@ -736,7 +785,7 @@ for (int i=0; i<1000; ++i) {
 \end{lstlisting}
 
 \begin{block}{ATTENTION ! PIEGE !}
-La valeur retournée par ++ ou - - est différente suivant qu'on itère avant ou après la variable.
+La valeur retournée par ++ ou - - est différente suivant qu'on itère \textbf{avant} ou \textbf{après} la variable.
 \begin{lstlisting}[language=c++]
 int i = 0;
 int j = i++; // j contient 0, i contient 1
@@ -807,9 +856,9 @@ Deux parties, la première est \textbf{optionnelle}:
 Se trouve dans le fichier .hpp \\
 Comprend trois parties:
 \begin{itemize}
-\item{Le type de retour, éventuelement void}
+\item{Le type de retour, éventuellement void}
 \item{Le nom de la fonction}
-\item{Les types de arguments}
+\item{Les types des arguments}
 \end{itemize}
 \end{block}
 
@@ -817,7 +866,7 @@ Comprend trois parties:
 Se trouve dans le fichier .cpp \\
 Comprend deux parties:
 \begin{itemize}
-\item{La déclaration, doit être \textbf{la même} que dans le fchier .h}
+\item{La déclaration, doit être \textbf{la même} que dans le fichier .h}
 \item{Le corps de la fonction: le code}
 \end{itemize}
 \end{block}
@@ -828,8 +877,8 @@ Comprend deux parties:
 Elles peuvent donc s'appeler elles-mêmes:
 \begin{lstlisting}[language=c++]
 // Version recursive de la fonction factorielle
-int factorielle(int x) {
-    if (n==1) 
+int factorielle(unsigned int x) {
+    if (n==0) 
        return 1;
     else
        return n * factorielle(n - 1);
@@ -909,7 +958,7 @@ float cosh(float x) {
 Tout exécutable doit avoir une fonction main ! \\
 Les fonctions appelées:
 \begin{itemize}
-\item{doivent être déclarées en incluant les fichiers d'e"n-têtes}
+\item{doivent être déclarées en incluant les fichiers d'en-têtes}
 \item{n'ont pas besoin d'être définies dans l'unité de compilation considérée}
 \item{doivent être résolues à l'édition de liens}
 \end{itemize}
@@ -998,6 +1047,36 @@ int *a;    // ca compile, mais risque de plantage !
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Le pointeur nul: fier de ne pointer sur rien !}
+
+Un pointeur qui ne pointe sur rien, \textbf{c'est très dangereux}.
+Le pointeur nul ne pionte sur rien, \textbf{mais on peut le savoir}.
+
+\begin{block}{ATTENTION, Piège !}
+Un pointeur doit \textbf{toujours} pointer sur un bloc de variables valide, ou alors être \textbf{nul}.
+\end{block}
+
+
+Comment ça s'écrit ?
+\begin{itemize}
+\item{en C et en C++ avant C++11: \texttt{NULL}}
+\item{en C++11: \texttt{nullptr}}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+int* x=nullptr;
+...
+if (x != nullptr)
+{
+   ...traiter le cas pointeur nul
+} else {
+   ...traiter le cas pointeur valide
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Attention, terrain miné !}
 
 \begin{block}{Ne pas confondre...}
@@ -1048,11 +1127,11 @@ Cela signifie que:
 \begin{itemize}
 \item{Seule leur adresse est copiée à l'entrée de la fonction}
 \item{\textbf{Or une adresse c'est tout petit !!!!}}
-\item{Il peut y avoir des effets de bord (ou pas...)}
+\item{Il peut y avoir des effets de bord}
 \item{Ils peuvent être des paramètres d'entrée ou de sortie}
 \end{itemize}
 
-\begin{block}{Passer un paramètre par adresse en C}
+\begin{block}{Passer un paramètre par pointeur en C}
 bouh que c'est laid ! \\
 A chaque fois qu'on appelle f, il faut se rappeler que le paramètre \\
 est passé par référence.
@@ -1078,49 +1157,6 @@ void f(int& x) {
 }
 x = 5;
 f(x);   // maintenant il y a 0 dans x
-\end{lstlisting}
-\end{block}
-\end{frame}
-
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Renvoyer une valeur}
-Une fonction peut renvoyer une valeur.
-\begin{itemize}
-\item{Cela signifie une copie pour passer "à l'extérieur" de la fonction}
-\item{\textbf{Cela peut être très lourd !!!!}}
-\item{Cest une \texttt{rvalue} (un truc qu'on met à \textbf{droite} de = ) }
-\end{itemize}
-
-\begin{block}{Renvoyer une lvalue en C}
-On n'a jamais vu \textbf{en C} une ligne de code aussi bizarre:
-\begin{lstlisting}[language=c++]
-f(x) = y;  // nawak !
-y = f(x);  // ok
-\end{lstlisting}
-\end{block}
-Par contre, une fonction C a le droit de renvoyer un pointeur \\
-ça contient une adresse, mais c'est une \texttt{rvalue} !
-\end{frame}
-
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Renvoyer une référence}
-Une fonction peut renvoyer une référence.
-\begin{itemize}
-\item{Cela signifie qu'on renvoie juste l'adresse d'un objet}
-\item{\textbf{Or une adresse c'est tout petit !!!!}}
-\item{\textbf{Attention} à ne pas renvoyer un objet créé dans la fonction !}
-\item{\textbf{Attention} à ne pas renvoyer par référence un paramètre passé en entrée}
-\begin{itemize}
-\item{ça ne sert à rien}
-\item{Si le paramètre est un littéral... boum !}
-\end{itemize}
-\item{Cest une \texttt{lvalue} (un truc qu'on met à \textbf{gauche} de = )}
-\end{itemize}
-
-\begin{block}{Renvoyer une lvalue en C++}
-\textbf{En C++} (mais pas en C) on peut écrire cela, aussi bizarre que ça paraisse:
-\begin{lstlisting}[language=c++]
-f(x) = y; // ok (en c++)
 \end{lstlisting}
 \end{block}
 \end{frame}
@@ -1156,7 +1192,74 @@ void f(const int& x) {
 \textbf{Pour des variables en entrée et en sortie}
 \begin{itemize}
 \item{\textbf{A chaque fois qu'on peut}, utiliser des \textbf{références}}
-\item{\textbf{Quand on n'a pas le choix}, utiliser des \textbf{pointeurs}}
+\item{\textbf{Quand on n'a pas le choix (\textit{c'est-à-dire jamais})}, utiliser des \textbf{pointeurs}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Renvoyer une valeur}
+Une fonction peut renvoyer une valeur.
+\begin{itemize}
+\item{Cela peut être très lourd si:
+\begin{itemize}
+\item{vous utilisez un compilateur tout pourri}
+\item{vos objets n'ont pas de constructeur de déplacement (en C++, voir plus loin)}
+\item{Car cela signifie une copie de l'objet pour passer "à l'extérieur" de la fonction}
+\end{itemize}}
+\item{Cest une \texttt{rvalue} (un truc qu'on ne peut pas mettre à \textbf{gauche} de =, du coup on le met à droite.) }
+\item{Renvoyer une variable ou un objet par valeur est le moyen normal de travailler, \textbf{avec des compilateurs modernes}.}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Renvoyer une référence}
+Une fonction \textbf{en C++} peut renvoyer une référence.
+\begin{itemize}
+\item{Cela signifie qu'on renvoie juste l'adresse d'un objet}
+\item{\textbf{Or une adresse c'est tout petit !!!!}}
+\item{\textbf{Attention} à ne pas renvoyer par référence un objet créé dans la fonction !}
+\begin{itemize}
+\item{ça ne compilera pas, et si ça compile ça plantera}
+\end{itemize}
+\item{\textbf{Attention} à ne pas renvoyer par référence un paramètre passé en entrée}
+\begin{itemize}
+\item{ça ne sert à rien}
+\item{Si le paramètre est un littéral... boum !}
+\end{itemize}
+\item{Cest une \texttt{lvalue} (un truc qu'on met à \textbf{gauche} de = )}
+\end{itemize}
+
+\begin{block}{Renvoyer une lvalue en C++}
+\textbf{En C++} (mais pas en C) on peut écrire cela, aussi bizarre que ça paraisse:
+\begin{lstlisting}[language=c++]
+f(x) = y; // ok (en c++)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Renvoyer un pointeur}
+Une fonction peut renvoyer un pointeur. Un motif de programmation courant:
+\begin{itemize}
+\item{Allouer dynamiquement de la mémoire dans le corps de la fonction}
+\item{Renvoyer le pointeur contenant l'adresse de base}
+\end{itemize}
+
+C'est la seule manière de faire en C. \\
+Mais si vous faites du C++ (et surtout du C++11):
+
+\begin{itemize}
+\item{c'est mal}
+\item{c'est moche}
+\item{c'est ringard}
+\end{itemize}
+
+En C++: 
+
+\begin{itemize}
+\item{On ne fait pas d'allocation dynamique, ou alors on la cache (voir plus loin)}
+\item{On renvoie des objets par valeur, pas des pointeurs}
 \end{itemize}
 \end{frame}
 
@@ -1298,6 +1401,18 @@ if ( tab==NULL ) {...erreur... };
 cout << tab[0] << '\n';    // renvoie 0
 \end{lstlisting}
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{malloc ou calloc ?}
+
+\begin{itemize}
+\item{Dans la vie ordinaire: ni l'un ni l'autre, en C++ on a d'autres solutions}.
+\item{Pour un code "HPC" parallèle: préférer malloc car il ne fait pas d'initialisation,
+donc il permet de tirer partie de la "first touch policy": il suffit d'initialiser la mémoire
+dans les threads pour que la mémoire allouée soit "bien placée" par rapport aux processeurs}
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]

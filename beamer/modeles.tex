@@ -10,7 +10,7 @@
 \title{Les modèles}
 \subtitle{Introduction au C++ et à la programmation objet}
 \author{E. Courcelle}\institute{CALMIP, UMS 3669}
-\date{Mai 2017}
+\date{Décembre 2019}
 
 \addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 
@@ -44,7 +44,9 @@ Ce que nous savons faire:
 Ce dont nous avons encore besoin:
 \begin{itemize}
 \item{Savoir exprimer la relation "Est une liste de"}
-\item{Implémenter des "conteneurs d'objets" avec une structure définie}
+\begin{itemize}
+\item{Cela nous permettra d'implémenter des "conteneurs d'objets" avec une structure définie indépendante du type d'objets que l'on met dedans}
+\end{itemize}
 \end{itemize}
 
 \textbf{Les modèles vont nous le permettre}
@@ -135,9 +137,6 @@ Il s'agit d'une fonction modèle, membre de la classe \texttt{complexe<NUM>}
 
 On peut alors utiliser notre classe de la manière suivante:
 \begin{lstlisting}[language=c++]
-typedef complexe<> complexe_float;
-typedef complexe<double> complexe_double;
-
 main() {
  complexe<> F;          // Utilisation de la valeur par defaut: float
  complexe<double> D;
@@ -230,10 +229,10 @@ main() {
 
 Dans ce qui suit, on  suppose que les objets mis dans le tableau sont \textbf{pourvus d'un opérateur inférieur}.
 
-Ecrivons la fonctions minVal, qui va rechercher la valeur la plus petite du tableau:
+Ecrivons la fonctions maxVal, qui va rechercher la valeur la plus grande du tableau:
 
 \begin{lstlisting}[language=c++]
-T template<size_t TAILLE, typename T> tableau<TAILLE>::minVal() {
+T template<size_t TAILLE, typename T> tableau<TAILLE>::maxVal() {
    T maxVal = "La valeur la plus grande possible pour T";
    for (size_t i=0; i<TAILLE; ++i) {
       if (buffer[i] < maxVal) maxVal=buffer[i];
@@ -255,7 +254,7 @@ Si T est un type numérique, on peut utiliser les defines trouvés dans \texttt{
 
 On passe donc par une classe de la bibliothèque standard:
 \begin{lstlisting}[language=c++]
-T template<size_t TAILLE, typename T> tableau<TAILLE>::minVal() {
+T template<size_t TAILLE, typename T> tableau<TAILLE>::maxVal() {
    T maxVal = std::numeric_limits<T>::max();
    for (size_t i=0; i<TAILLE; ++i) {
       if (buffer[i] < maxVal) maxVal=buffer[i];
@@ -327,19 +326,20 @@ template<typename T1, typename T2> class Machin<T1 *, T2 *> {
 
 \begin{block}{LE PLUS}
 \begin{itemize}
-\item{Tout est fixé (dimensions, types, ...) lors de la compilation, le compilateur peut faire tous les tests de cohérence}
-\item{Le code généré peut être très rapide (pas d'allocation mémoire etc.)}
-\item{Une bibliothèque reposant sur des templates sera très simple à installer (juste copier des fichiers, qui sont tous des .h)}
+\item{Tout est fixé (dimensions, types, ...) lors de la compilation:\begin{itemize}\item{le compilateur peut faire tous les tests de cohérence}\end{itemize} }
+\item{Le code généré peut être très rapide (pas d'allocation mémoire, ...)}
+\item{Une bibliothèque reposant sur des templates sera très simple à installer (juste copier des fichiers, qui sont tous des .hpp)}
 \end{itemize}
 \end{block}
 
 \begin{block}{LE MOINS}
 \begin{itemize}
-\item{Tout est fixé lors de la compilation, le code offrira moins de souplesse (dimensions)}
+\item{Tout est fixé (dimensions, types, ...) lors de la compilation:\begin{itemize}\item{le code offrira moins de souplesse (dimensions)}\end{itemize} }
 \item{La compilation est plus lente}
 \item{L'exécutable généré peut être plus gros}
 \end{itemize}
 \end{block}
+
 \end{frame}
 
 \begin{frame}

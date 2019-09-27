@@ -10,7 +10,7 @@
 \title{Le type class}
 \subtitle{Introduction au C++ et à la programmation objet}
 \author{E. Courcelle}\institute{CALMIP, UMS 3669}
-\date{Mai 2017}
+\date{Décembre 2019}
 
 \addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 
@@ -314,6 +314,12 @@ Le constructeur a été redéfini, et maintenant nous pouvons écrire:
 complexe x(2,0);
 \end{lstlisting}
 
+Nous pouvons aussi écrire (\textbf{en C++11}):
+
+\begin{lstlisting}[language=c++]
+complexe x = { 2, 0 };
+\end{lstlisting}
+
 Mais nous ne \textbf{pouvons pas} écrire:
 \begin{lstlisting}[language=c++]
 complexe x;
@@ -357,7 +363,7 @@ public:
 \frametitle {Le destructeur}
 Le destructeur:
 \begin{itemize}
-\item{A un nom imposé: ~complexe}
+\item{A un nom imposé: \~ complexe}
 \item{Ne renvoie rien}
 \item{est The place to be pour rendre au système les ressources qu'il vous a prêtées}
 \end{itemize}
@@ -439,7 +445,7 @@ void main() {
 Avec la classe complexe précédemment écrite, le code suivant ne compile pas:
 \begin{lstlisting}[language=c++]
 const complexe i(0,1);
-float X = i.get_i(); // Qui dit que get_i laisse l'objet constant ?
+float X = i.get_i(); // Qui a dit que get_i est un accesseur ?
 \end{lstlisting}
 Il suffit de réécrire la classe pour exprimer le fait que les accesseurs laissent l'objet constant:
 \begin{lstlisting}[language=c++]
@@ -460,7 +466,7 @@ public:
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Membres mutable}
 Nous avons un souci avec le complexe version 3 (le plus performant !). Le code suivant ne compilera pas,
-car si c'est un acesseur du point-de-vue \textbf{logique}, en réalité il \textbf{modifie l'objet}:
+car si c'est un accesseur du point-de-vue \textbf{logique}, en réalité il \textbf{modifie l'objet}:
 \begin{lstlisting}[language=c++]
 float complexe::get_m() const {
   if (!m_flg) {

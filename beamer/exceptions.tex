@@ -10,7 +10,7 @@
 \title{Les exceptions}
 \subtitle{Introduction au C++ et à la programmation objet}
 \author{E. Courcelle}\institute{CALMIP, UMS 3669}
-\date{Mai 2017}
+\date{Décembre 2019}
 
 \addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 
@@ -125,9 +125,9 @@ int main() {
     cin >> x;
     c /= x;
    }
-   catch ( const char * c )
+   catch ( const char * e )
    {
-    	cout << c << "\n";
+    	cout << e << "\n";
    }
    return 0;
 }
@@ -164,9 +164,9 @@ int main() {
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Le traitement peut se faire à différents niveaux}
 
-La fonction \texttt{main} ci-dessous ne traite plus rien, car le traitement est fait en-dessous:
+La fonction \texttt{main} ci-dessous ne traite rien, car le traitement est fait dans la fonction \texttt{inputEtDivise}
 \begin{lstlisting}[language=c++]
-void input_et_divise(complexe& c) {
+void inputEtDivise(complexe& c) {
    do
    {
       try
@@ -186,7 +186,7 @@ void input_et_divise(complexe& c) {
 
 int main() {
    complexe c(5,6);
-   input_et_divise(c);
+   inputEtDivise(c);
    cout << "Partie reelle    : " << c.get_r() << "\n";
    cout << "Partie imaginaire: " << c.get_i() << "\n";
 }
@@ -198,7 +198,7 @@ int main() {
 
 \begin{itemize}
 \item{Il est préférable d'envoyer des \textbf{objets}, et pas simplement une chaine de caractères.}
-\item{Il est par ailleurs conseillé d'utiliser la \textbf{hiérarchie d'exceptions} prédéfinie par la bibliothèque standard du C++}
+\item{Il est par ailleurs \textbf{plus que conseillé} d'utiliser la \textbf{hiérarchie d'exceptions} prédéfinie par la bibliothèque standard du C++}
 \end{itemize}
 
 \begin{centering}%
@@ -237,7 +237,7 @@ complexe& complexe::operator/=(float x) {
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Des traitements plus ou moins fin}
+\frametitle {Des traitements plus ou moins fins}
 
 Une nouvelle version de la première fonction main:
 \begin{lstlisting}[language=c++]
@@ -264,7 +264,7 @@ int main() {
 
 Une nouvelle version de la seconde fonction main:
 \begin{lstlisting}[language=c++]
-void input_et_divise(complexe& c) {
+void inputEtDivise(complexe& c) {
 	do
 	{
       try
@@ -286,7 +286,7 @@ int main() {
    complexe c(5,6);
    try
    {
-      input_et_divise(c);
+      inputEtDivise(c);
       cout << "Partie reelle    : " << c.get_r() << "\n";
       cout << "Partie imaginaire: " << c.get_i() << "\n";
    }
@@ -343,7 +343,7 @@ try {
 \frametitle {Exceptions et constructeurs}
 
 \begin{centering}
-\textbf{Oui !}
+\textbf{OUIIIIIIIIIIIIIIIIIIIIIIIIIIII !}
 \end{centering}
 
 \end{frame}
@@ -352,7 +352,7 @@ try {
 \frametitle {Exceptions et destructeurs}
 
 \begin{centering}
-\textbf{Non !}
+\textbf{NOOOOOOOOOOOOOOOOOOOOOOOOOOOOON !}
 \end{centering}
 
 \end{frame}

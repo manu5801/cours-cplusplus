@@ -10,7 +10,7 @@
 \title{Surcharge des fonctions et opérateurs}
 \subtitle{Introduction au C++ et à la programmation objet}
 \author{E. Courcelle}\institute{CALMIP, UMS 3669}
-\date{Mai 2017}
+\date{Décembre 2019}
 
 \addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 
@@ -109,7 +109,7 @@ float c3 = flineaire(2.0,4,4);  // c3 vaut 12.0
 
 \begin{block}{ATTENTION}
 \begin{itemize}
-\item{Il n'y a pas d'arguments positionnels en C++}
+\item{Il n'y a pas d'arguments nommés en C++}
 \item{En conséquence, les arguments ayant une valeur par défaut sont \textbf{systématiquement} en fin de liste}
 \end{itemize}
 \end{block}
@@ -128,9 +128,10 @@ public:
 };
 
 main() {
-  complexe C;        // sous-entendu initialiser a 0
-  complexe C1(2);    // sous-entendu initialiser a (2,0) [reel]
-  complexe C2(2,3);
+  complexe c;        // sous-entendu initialiser a 0
+  complexe c1(2);    // sous-entendu initialiser a (2,0) [reel]
+  complexe c2 = {2}; // meme chose que ci-dessus
+  complexe c3 = {2,3};
 }
 \end{lstlisting}
 \end{frame}
@@ -138,10 +139,9 @@ main() {
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Conversions de types}
 
-On peut même écrire et c'est une \textbf{facilité d'écriture}:
+On peut écrire et c'est une \textbf{facilité d'écriture}:
 \begin{lstlisting}[language=c++]
    complexe C1 = 2;
-   complexe C2 = {2,3}; // C++11
 \end{lstlisting}
 
 Ce qui correspond à une \textbf{conversion} entre types (ici conversion depuis le type \texttt{float} vers le type \texttt{complexe}). 
@@ -240,7 +240,7 @@ C'est au programeur de \textbf{surcharger ses opérateurs intelligemment !}}
 
 Voici une première manière de définir les opérateurs \texttt{+} et \texttt{+=} sur les complexes.
 
-Elle fait appel à une fonction amie, car l'opérateur + doit accéder aux membres privés.
+La fonction operator+ fait appel à une fonction amie, pour lui permettre d'accéder aux membres privés.
 \begin{lstlisting}[language=c++]
 class complexe {
 private:
@@ -270,7 +270,7 @@ complexe operator+(const complexe& a, const complexe& b) {
 
 Voici une seconde manière de définir les opérateurs \texttt{+} et \texttt{+=} sur les complexes.
 
-Elle est préférable à la précédente, car il y a moins de dépendences (plus d'amie):
+Elle est préférable à la précédente, car il y a moins de dépendences (et la fonction n'est plus une amie):
 \begin{lstlisting}[language=c++]
 class complexe {
 private:
@@ -302,16 +302,16 @@ Il y a cependant une subtilité importante, utile pour reproduire exactement le 
 
 \textbf{Postindexation:}
 \begin{lstlisting}[language=c++]
-i = 1;
-j = i++;       // Incremente et renvoie le vieux i
-cout i << j;   // Renvoie 2 1
+int i = 1;
+j = i++;          // Incremente et renvoie le vieux i
+cout << i << j;   // Renvoie 2 1
 \end{lstlisting}
 
 \textbf{Préindexation:}
 \begin{lstlisting}[language=c++]
-i = 1;
-j = ++i;       // Incremente et renvoie le nouveau i
-cout i << j;   // Renvoie 2 2
+int i = 1;
+j = ++i;          // Incremente et renvoie le nouveau i
+cout << i << j;   // Renvoie 2 2
 \end{lstlisting}
 \end{frame}
 
@@ -325,10 +325,10 @@ class iterateur {
       fais_une_iteration();    // PERFORMANTE
       return *this;
    }
-   iterateur operator++(int) { // Version POSTFIXEE
-      iterateur i1 = i;        // PEU PERFORMANTE
+   iterateur operator++(int) {           // Version POSTFIXEE
+      iterateur vieil_iterateur = *this; // PEU PERFORMANTE
       fais_une_iteration();
-      return i1;
+      return vieil_iterateur;
    }
 }
 \end{lstlisting}
@@ -368,60 +368,89 @@ L'affectation correspond à:
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Copier la classe tableau}
+\frametitle {Le quintette infernal 1/3}
 \begin{lstlisting}[language=c++]
 class tableau {
 public:
-  explicit tableau(int t): taille(t) {
-    buffer = malloc(t * sizeof(char))
-  };
   tableau(const tableau& t): taille(t.taille) {
     buffer = malloc(t.taille * sizeof(char));
     copie(t.buffer,taille);
   };
-  tableau& operator=(const tableau& t) {
+  tableau& operator=(const tableau& t): taille(t.taille) {
     if (this !=&t) { // AUTO REFERENCE
-       if (taille != t.taille { ... };
+       free(buffer);
+       buffer = malloc(taille * sizeof(char));
        copie(t.buffer,taille);
        return *this;
     }
   }
-  ~tableau() {free buffer;};
-  
-private:
-  int taille;
-  char* buffer;
-  void copie(const char* src, int taille) {
-    for (int i=0; i<taille;++i){
-      buffer[i] = src[i]; 
-    };
+  tableau(const tableau&& t) noexcept: 
+    taille(t.taille), buffer(t.buffer) {
+    t.taille = 0;
+    t.buffer = 0;
+  };
+  tableau& operator=(tableau&& t) noexcept {
+    if (this !=&t) { // AUTO REFERENCE
+       free(buffer);
+       taille = t.taille;
+       buffer = t.buffer;
+       t.taille = 0;
+       t.buffer = nullptr;
+       return *this;
+    }
   }
-};
-
-void main() {
-  tableau B(1000);
-  tableau A(1000);
-  tableau C(500);
-  A=B=C;
-};
+  ~tableau() {free buffer;};
 \end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Le trio infernal}
+\frametitle {Le quintette infernal 2/3}
+\begin{lstlisting}[language=c++]
+private:
+  int taille;
+  char* buffer;
+  void copie(const char* src, int taille) ...
+};
+
+void main() {
+  tableau tab1(1000);   // Constructeur
+  tableau tab2 = tab1;  // Constructeur de copie
+  tableau tab3(500);
+  tab3 = tab2;          // Operateur=
+  tableau tab4 = tab1 + tab2;   // Constructeur de deplacement
+  tab3 = tab4 + tab2;           // Operateur= de deplacement
+};
+\end{lstlisting}
+
+\begin{itemize}
+\item{\texttt{Constructeur de copie}  \texttt{malloc} + \texttt{copie} }
+\item{\texttt{Opérateur=} \texttt{free} + \texttt{malloc} }
+\item{\texttt{Constructeur de déplacement} copie de pointeurs }
+\item{\texttt{Opérateur de déplacement} \texttt{free} + copie de pointeurs }
+\item{\texttt{Destructeur} \texttt{free} }
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le quintette infernal 3/3}
+
+\textbf{trio en C++, quintette en C++11, mais toujours infernal}
 
 Il est constitué par:
 \begin{itemize}
 \item{Le constructeur de copie}
 \item{L'opérateur d'affectation}
+\item{Le constructeur de déplacement}
+\item{L'opérateur de déplacement}
 \item{Le destructeur}
 \end{itemize}
 
-\begin{block}{La règle d'or du trio infernal}
+\begin{block}{La règle d'or du trio/quintette infernal}
 \begin{itemize}
-\item{Le système fournira une version par défaut pour ces trois fonctions}
-\item{La version par défaut du système n'est pas toujours correcte (cf. tableau)}
-\item{Si je dois écrire l'une des trois, je dois écrire les trois !}
+\item{\textit{La bonne nouvelle}: Le système fournira \textbf{une version par défaut pour ces trois fonctions} }
+\item{\textit{la mauvaise nouvelle}: La version par défaut du système \textbf{ne convient pas toujours}, en particulier s'il y a allocation de ressources dans le constructeur}
+\item{\textit{La mauvaise nouvelle}: Si je dois écrire l'une des trois/cinq, \textbf{je dois écrire les trois/cinq} ! En effet, si vous fournissez l'un, les duex/quatre autres ne seront pas générés !}
+\item{\textit{La bonne nouvelle}: dans du code applicatif, \textbf{les versions par défaut sont la plupart du temps suffisantes}, surtout si on utilise des objets gestionnaires de ressources}
 \end{itemize}
 \end{block}
 \end{frame}
