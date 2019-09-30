@@ -2,54 +2,76 @@
 #include <cstdlib>
 using namespace std;
 
-
-class stack { 
+/**********
+ * La classe Stack permet d'implémenter des piles d'entiers
+ * 
+ * On passe un entier au constructuer, qui sera la taille de la pile
+ * 
+ * On ne peut faire que deux opérations: 
+ *       push (mettre un entier sur la pile)
+ *       pop  (retirer l'entier du haut de la pile)
+ * 
+ * En cas d'erreur (débordement de pile, erreur d'allocation, etc. 
+ * on sort du programme: violent mais efficace !
+ * 
+ * c++ -std=c++11 stack.cpp -o stack
+ * 
+ **********/
+class Stack { 
 	
 public:
-	stack(int n) : size(n), top(0) {
-		A = (int *) malloc(size*sizeof(int));
-		for (int i=0; i<size; i++) A[i] = 0;
+	Stack(int n) : ... {
+		base = ...;
+		if (base == nullptr) {
+			exit(1);
+		}
+		for (...) {
+			base[i] = 0;
+		}
 	};
-	~stack() { free(A); };
+	~Stack() { ... };
 	void push (int);
 	int pop();
-	int length() const {return top;};
+	size_t getLength() const {return top;};
 	
 private:
-	const int size;
-	int *A;
-	int top;
+	size_t size;   // La taille max de la pile
+	int *base;	   // L'adresse de base de la pile
+	size_t top;	   // Le nombre d'éléments dans la pile
 };
 
-void stack::push (int i) {
+void Stack::push (int i) {
 	if (top < size) {
-		A[top++] = i;
+		...
+	} else {
+		exit(1);
 	}
 }
 
-int stack::pop() {
-	if (top) {
-		return A[--top];
+int Stack::pop() {
+	if (top>0) {
+		return ...
 	} else {
-		return 0;
+		exit(1);
 	}
 }
 
 
 int main() {
-	stack s(10);
-	srand(time(NULL));
+	Stack s(10);
+	srand(time(nullptr));
 	
-	for (int i=0;i<15;i++)
+	// Essayez de mettre i<20 pour voir ce qui se passe
+	for (size_t i=0;i<10;i++)
 	{
 		int z = rand() % 1000;
 		s.push(z);
-		cout << "je mets dans la pile le nombre " << z << " (taille de la pile " << s.length() << ")\n";
+		cout << "je mets dans la pile le nombre " << z << " (taille de la pile " << s.getLength() << ")" << endl;
 	}
-	cout << "\n\n\n";
-	for (int i=0; i<15; i++) {
-		cout << "je depile maintenant le nombre " << s.pop() << " (taille de la pile " << s.length() << ")\n";
+	cout << endl;
+
+	for (size_t i=0; i<10; i++) {
+		cout << "je depile maintenant le nombre " << s.pop() << " (taille de la pile " << s.getLength() << ")" << endl;
 	}
+	cout << "La pile est vide" << endl;
 }
-
-
