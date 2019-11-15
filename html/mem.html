@@ -370,7 +370,7 @@ d'&ecirc;tre est la gestion d'une ressource (en l'occurrence la m&eacute;moire).
 <ul>
 <li>Utiliser des objets gestionnaires de ressources: ostream, istream pour les fichiers, unique_ptr pour la mémoire, etc.</li>
 <li>En particulier, ne pas utiliser de pointeurs</li>
-<li>Ne pas utiliser de tableaux "à la C", ni d'opérateur new/delete. Utiliser à la place les conteneurs de la stl</li>
+<li>Ne pas utiliser de tableaux "à la C". Dans la mesure du possible, ne pas utiliser d'opérateur new/delete: utiliser à la place les conteneurs de la stl</li>
 <li>Dans les conteneurs, on peut déposer soit des objets, soit des <tt>unique_ptr</tt></li>
 <li>Pour itérer sur un conteneur, utiliser la nouvelle syntaxe for</li>
 <li>Les fonctions peuvent retourner des objets, pas la peine de se creuser la cervelle en renvoyant des pointeurs</li>
