@@ -14,7 +14,7 @@
   <style type="text/css" media="print">
          @import url(coursprint.css);
   </style>
-  <title>Gestion de la m&eacute;moire</title>
+  <title>Gestion des ressources: mémoire, fichiers,...</title>
 </head>
 
 <body>
@@ -45,13 +45,10 @@
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#malloc">Fonctions malloc, free, realloc</a></li> 
 			<li><a onclick="javascript=cacher_menu()" href="mem.html#except">En cas d'erreur d'allocation</a></li> 
 		</ul></li>
-		<li><a onclick="javascript=cacher_menu()" href="mem.html#obj">Objets utilis&eacute;s pour la gestion de la m&eacute;moire</a> 
-		<ul>
-			<li><a onclick="javascript=cacher_menu()" href="mem.html#unique_ptr">L'objet <code>unique_ptr</code></a></li> 
-			<li><a onclick="javascript=cacher_menu()" href="mem.html#gest">Objets gestionnaires de ressources</a></li> 
-			<li><a onclick="javascript=cacher_menu()" href="mem.html#robuste">Produire du code robuste, malgr&eacute; les exceptions</a></li> 
-			<li><a onclick="javascript=cacher_menu()" href="mem.html#compt">Les objets &agrave; comptage de r&eacute;f&eacute;rence</a></li> 
-		</ul></li>
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#obj">Objets utilis&eacute;s pour la gestion de la m&eacute;moire</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#fichiers">Objets utilisés pour la gestion des fichiers</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#gest">Objets gestionnaires de ressources</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#robuste">Produire du code robuste</a></li> 
 	</ul>
  </dd>
 </dl>
@@ -84,7 +81,7 @@
 </div>
 
 <div id="contenu">
-<h1><a name="surch-fonc-op">Gestion de la m&eacute;moire</a></h1>
+<h1><a name="surch-fonc-op">Gestion des ressources: m&eacute;moire, fichiers,...</a></h1>
 
 <p>Ce paragraphe  traite des  pointeurs,  des probl&egrave;mes
 li&eacute;s &agrave; l'allocation  dynamique de m&eacute;moire, et des  moyens qui existent
@@ -338,12 +335,85 @@ void main() {
 };
 </pre>
 
-<h3><a name="gest">Objets gestionnaires de ressources</a></h3>
+<p><a href="#">top</a></p><hr />
 
-<p>Pour  &eacute;viter les  ennuis &eacute;voqu&eacute;s  ci-dessus, arrangez-vous  pour qu'un
-objet <em>ne g&egrave;re qu'une seule ressource</em>. Eventuellement, si vous
-devez g&eacute;rer  trois ressources, rien  ne vous emp&ecirc;che  d'utiliser trois
-objets  diff&eacute;rents,  quitte  &agrave;   les  ins&eacute;rer  dans  un  autre  objet.</p>
+<h2 id="fichiers">Objets utilisés pour la gestion des fichiers</h2>
+
+<h3>Ouvrir un fichier en écriture</h3>
+<p>L'objet ofstream permet d'ouvrir un fichier en écriture, le fichier sera fermé <strong>lorsque l'objet sortira de la portée</strong>. Le code suivant
+peut être copié-collé telquel, à chaque exécution il ajoute 10 lignes au fichier "fichier.txt":</p>
+
+<pre class="demo">
+#include &lt;fstream&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+void ecrireFichierSiPossible(const char* nom=nullptr) 
+{
+   string msg = "bonjour ";
+   int i = 0;
+
+   if (nom!=nullptr)
+   {
+      ofstream output(nom,ios_base::app);              // Ouvrir en mode APPEND
+      if (output)                                      // Si on a pu l'ouvrir
+      {
+         for (;i&lt;10;++i)
+	 {
+            output &lt;&lt; msg &lt;&lt; i &lt;&lt; endl;
+            if (output.fail())	                       // Si probleme IO, on sort
+            {
+               cerr &lt;&lt; "Erreur d'ecriture" &lt;&lt; endl;
+	       break;
+            }
+         }
+      }
+   }                                                   // ...et le fichier est ferme ICI !
+}
+
+int main() {
+	ecrireFichierSiPossible("fichier.txt");
+}
+</pre>
+
+<h3>Ouvrir un fichier en lecture</h3>
+<p>L'objet ifstream permet d'ouvrir un fichier en lecture, le fichier sera fermé <strong>lorsque l'objet sortira de la portée</strong>. Le code ci-dessous,
+lui aussi copiable-et-compilable, relit partiellement le fichier précédent et imprime ce qu'il a lu.</p>
+
+<pre class="demo">
+#include &lt;&lt;fstream&gt;&gt;
+#include &lt;&lt;iostream&gt;&gt;
+using namespace std;
+
+main() {
+   ifstream input("fichier.txt");      // Ouverture du fichier
+
+   string mot1,mot2;
+   if (input) {                        // Si le fichier a pu etre ouvert
+      while(true) {
+         input &gt;&gt; mot1 &gt;&gt; mot2;
+         if ( input.eof()) break;     // On sort si le fichier est fini
+         cout  &lt;&lt; mot1 + " " + mot2 &lt;&lt; endl;
+         int pos = input.tellg();     // Ou suis-je ?
+         input.seekg(pos+10);	      // On saute 10 caracteres
+         if ( input.eof()) break;     // On sort si la fin de fichiers est atteinte
+      }
+      cout &lt;&lt; "j'ai tout lu" &lt;&lt; endl;
+   } else {
+      cout &lt;&lt; "pas pu ouvrir" &lt;&lt; endl;
+   }
+}                                     // Le fichier est ferme ICI
+</pre>
+
+<p>Le chapitre sur la bibliothèque standard abord la question des entrées-sorties de manière plus approfondie.</p>
+
+<p><a href="#">top</a></p><hr />
+
+<h2><a name="gest">Objets gestionnaires de ressources</a></h2>
+
+<p>Le point commun entre les pointeurs intelligents et les objets type ifstream est que ces objets n'ont qu'une seule
+fonction: gérer une ressource. Cette manière de programmer, efficace et sûre, correspond à la technique de programmation C++ appelée
+RAII: Resource Acquisition Is Initialisation. cf. https://code.i-harness.com/fr/docs/cpp/language/raii
 
 <div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
 Les trois principes fondamentaux pour g&eacute;rer les ressources sont:</p>
@@ -360,19 +430,22 @@ Les trois principes fondamentaux pour g&eacute;rer les ressources sont:</p>
 </dl>
 </div>
 
-<p><code>unique_ptr</code> est un bon exemple d'objet dont l'unique raison
-d'&ecirc;tre est la gestion d'une ressource (en l'occurrence la m&eacute;moire).</p>
+<p><code>unique_ptr</code>, <code>ifstream</code> ou <code>ofstream</code> sont des exemples d'objets dont l'unique raison
+d'&ecirc;tre est la gestion d'une ressource.</p>
 
-<h3><a name="robuste">Produire du code robuste, simple à maintenir, lisible</a></h3>
+<p><a href="#">top</a></p><hr />
 
-<p>Mon code C++ idéal: pas de fuites de mémoire, lisible, performant</p>
+<h2><a name="robuste">Produire du code robuste, simple à maintenir, lisible</a></h2>
+
+<h3>Mon code C++ idéal: pas de fuites de mémoire, lisible, performant</h3>
 
 <ul>
-<li>Utiliser des objets gestionnaires de ressources: ostream, istream pour les fichiers, unique_ptr pour la mémoire, etc.</li>
-<li>En particulier, ne pas utiliser de pointeurs</li>
-<li>Ne pas utiliser de tableaux "à la C". Dans la mesure du possible, ne pas utiliser d'opérateur new/delete: utiliser à la place les conteneurs de la stl</li>
+<li>Utiliser des objets gestionnaires de ressources: ofstream, ifstream pour les fichiers, unique_ptr pour la mémoire, etc.</li>
+<li>Ne pas utiliser de pointeurs</li>
+<li>Ne pas utiliser de tableaux "à la C". Dans la mesure du possible, ne pas utiliser d'opérateur new/delete: 
+utiliser à la place les conteneurs de la stl</li>
 <li>Dans les conteneurs, on peut déposer soit des objets, soit des <tt>unique_ptr</tt></li>
-<li>Pour itérer sur un conteneur, utiliser la nouvelle syntaxe for</li>
+<li>Pour itérer sur un conteneur, utiliser de préférence la nouvelle syntaxe for</li>
 <li>Les fonctions peuvent retourner des objets, pas la peine de se creuser la cervelle en renvoyant des pointeurs</li>
 <li>Ne pas écrire le trio infernal ni le quintette infernal, le compilateur s'en chargera</li>
 </ul>

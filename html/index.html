@@ -41,7 +41,7 @@
     <li><strong><a href="#heritage">H&eacute;ritage</a></strong></li>
     <li><strong><a href="#modeles">Mod&egrave;les (&quot;templates&quot;)</a></strong></li>
     <li><strong><a href="#excep">Exceptions</a></strong></li>
-    <li><strong><a href="#mem">Gestion de la m&eacute;moire</a></strong></li>
+    <li><strong><a href="#mem">Gestion des ressources</a></strong></li>
 	<li><strong><a href="#stdlib">La biblioth&egrave;que standard</a></strong></li>
     <li><strong><a href="#ref">R&eacute;f&eacute;rences et autres liens</a></strong></li>
     <li><strong><a href="#exos">Exercices</a></strong></li>
@@ -266,28 +266,26 @@
 			<li><a href="excep.html#dest">...destructeurs</a></li>
 		</ul></li>
 	</ul></li>
-	<li><strong><a href="mem.html" id="mem">Gestion de la m&eacute;moire</a></strong> 
+	<li><strong><a href="mem.html" id="mem">Gestion des ressources: mémoire, fichiers,...</a></strong></li>
 	<ul>
 		<li><a href="mem.html#alloc-dynam">Qu'est-ce que l'allocation dynamique de m&eacute;moire? </a>
 		<ul>
-			<li><a href="mem.html#pile-tas">Pointeurs empil&eacute;s, objets entass&eacute;s</a></li> 
-			<li><a href="mem.html#fuite-mem">Objets perdus et fuites de m&eacute;moire</a></li> 
-			<li><a href="mem.html#dangling">Les pointeurs qui pendouillent</a></li> 
-			<li><a href="mem.html#proprio">Propri&eacute;taires et r&eacute;f&eacute;rents</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#pile-tas">Pointeurs empil&eacute;s, objets entass&eacute;s</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#fuite-mem">Objets perdus et fuites de m&eacute;moire</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#dangling">Les pointeurs qui pendouillent</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#proprio">Propri&eacute;taires et r&eacute;f&eacute;rents</a></li> 
 		</ul></li>
-		<li><a href="mem.html#oper">Op&eacute;rateurs et fonctions</a> 
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#oper">Op&eacute;rateurs et fonctions</a> 
 		<ul>
-			<li><a href="mem.html#new">Les op&eacute;rateurs <code>new</code> et <code>delete</code></a></li>
-			<li><a href="mem.html#new-tab">Les op&eacute;rateurs <code>new[]</code> et <code>delete[]</code></a></li>
-			<li><a href="mem.html#malloc">Fonctions malloc, free, realloc</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#new">Les op&eacute;rateurs <code>new</code> et <code>delete</code></a></li>
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#new-tab">Les op&eacute;rateurs <code>new[]</code> et <code>delete[]</code></a></li>
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#malloc">Fonctions malloc, free, realloc</a></li> 
+			<li><a onclick="javascript=cacher_menu()" href="mem.html#except">En cas d'erreur d'allocation</a></li> 
 		</ul></li>
-		<li><a href="mem.html#obj">Objets utilis&eacute;s pour la gestion de la m&eacute;moire</a> 
-		<ul>
-			<li><a href="mem.html#auto_ptr">L'objet <code>auto_ptr</code></a></li> 
-			<li><a href="mem.html#gest">Objets gestionnaires de ressources</a></li> 
-			<li><a href="mem.html#robuste">Produire du code robuste, malgr&eacute; les exceptions</a></li> 
-			<li><a href="mem.html#compt">Les objets &agrave; comptage de r&eacute;f&eacute;rence</a></li> 
-		</ul></li>
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#obj">Objets utilis&eacute;s pour la gestion de la m&eacute;moire</a></li>
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#fichiers">Objets utilisés pour la gestion des fichiers</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#gest">Objets gestionnaires de ressources</a></li> 
+		<li><a onclick="javascript=cacher_menu()" href="mem.html#robuste">Produire du code robuste</a></li> 
 	</ul></li>
 	<li><strong><a href="stdlib.html" id="stdlib">La biblioth&egrave;que standard</a></strong> 
 	<ul>
