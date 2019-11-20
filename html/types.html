@@ -766,9 +766,9 @@ ou une autre structure de données équivalente. L'exemple précédent peut auss
 <pre class="demo">
 #define TAILLE 100
 float tableau[TAILLE];
-
-for (auto i : tableau) {
-   tableau[i]=i*i;
+int somme = 0;
+for (auto x : tableau) {
+   somme += x;
 }
 </pre>
 

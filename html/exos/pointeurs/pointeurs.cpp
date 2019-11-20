@@ -57,6 +57,13 @@ main() {
 	cout << "A[10] = " << A[DIMENSION] << endl;
 	cout << endl;
 
+	// Itération sur un tableau à la C, mais à la mode de C++11
+	for (auto x : A) {
+		x = 15.6;
+	}
+	imprimeTableau("Tableau modifié",A,DIMENSION);
+	
+
 #ifdef NIVEAU1
 	// *********************************************************************************
 	// On joue avec les références
@@ -73,6 +80,15 @@ main() {
 	ref8++;
 	imprimeTableau("Val incrementee",A,DIMENSION);
 	cout << endl;
+
+	// Itérer à travers un tableau à la C mais à la mode du C++11
+	int B[3] = {0};
+	for ( ... ) {
+		x = 6;
+	}
+	imprimeTableau("Tableau B = ",B,3);
+	cout << endl;
+
 #endif
 #ifdef NIVEAU2
 	// *********************************************************************************
