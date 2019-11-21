@@ -13,8 +13,8 @@ Tableau::Tableau(size_t n): sz(n) {
 		A = nullptr;
 	}
 	else {	
-		A = (float *) malloc(sz*sizeof(float));
-		__copie(0.0,A,sz);
+		A = (...) malloc(...);
+		__copie(...,A,sz);
 	}
 }
 
@@ -45,8 +45,8 @@ Tableau::Tableau(const std::initializer_list<float>& l) {
  *********************/
 Tableau::Tableau (const Tableau & t): sz(t.sz) {
 	cerr << "constructeur de copie -> malloc + copie" << '\n';
-	A = (float *) malloc(sz*sizeof(float));
-	__copie(t.A,A,sz);
+	A = () malloc();
+	__copie(...,A,sz);
 }
 
 /****
@@ -63,16 +63,16 @@ Tableau::Tableau (const Tableau & t): sz(t.sz) {
  *********************/
 Tableau & Tableau::operator=(const Tableau &t) {
 	cerr << "operateur =" << " -> free + malloc + copie\n";
-	if (this==&t)    // Pour gerer les cas A=A
+	if (...)    // Pour gerer les cas A=A
 		return *this;
 
 	if (sz != t.sz) {
 		// TODO - Utiliser realloc
 		free(A);
 		sz = t.sz;
-		if (sz != 0) A = (float *) malloc(sz*sizeof(float));
+		if (sz != 0) A = (...) malloc(...);
 	};
-	__copie(t.A,A,sz);
+	__copie(...,A,sz);
 	return *this;
 }
 
@@ -121,7 +121,7 @@ Tableau::~Tableau() {
 	cerr << "destructeur (sz = " << sz << ") -> free\n";
 	if ( A != nullptr) 
 	{
-		free(A);
+		...;
 		A = nullptr;
 	}
 }
@@ -129,34 +129,34 @@ Tableau::~Tableau() {
 // renvoie un element du tableau sans deborder
 // pas la peine de tester i < 0, size_t est un type unsigned
 // (decommentez ce qui suit vous verrez si cela compile)
-float & Tableau::operator[](size_t i) {
+... Tableau::operator[](size_t i) {
 	//if (i<0) {
 	//  cerr << "ATTENTION Debordement de tableau - je renvoie tableau[0]\n";
 	//  return *A;
 	//} else
 	if (i>=sz) {
 		cerr << "ATTENTION Debordement de Tableau - je renvoie Tableau[sz-1]\n";
-		return A[sz-1];
+		return ...;
 		// return *(A+sz-1);  // Une autre manière d'écrire la même chose
 	} else {
-		return A[i];
+		return ...;
 		//return *(A+i);
 	};
 }
 
 // meme chose - version const
-float Tableau::operator[](size_t i) const {
+... Tableau::operator[](size_t i) const {
 	if (i>=sz) {
 		cerr << "ATTENTION Debordement de Tableau - je renvoie Tableau[sz-1]\n";
-		return A[sz-1];
+		return ...;
 	} else {
-		return A[i];
+		return ...;
 	};
 }
 
 // operateurs +=
 // Le parametre est t, un autre Tableau
-Tableau & Tableau::operator+=(const Tableau & t) {
+... Tableau::operator+=(...) {
 	cerr << "operateur+=(const Tableau &) -> += sur une zone mémoire" << '\n';
 	if (sz != t.sz) {
 		cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" << '\n'; 
@@ -166,11 +166,11 @@ Tableau & Tableau::operator+=(const Tableau & t) {
 			A[i] += t[i];
 		};
 	};
-	return *this;
+	return ...;
 }
 
 // Le parametre est x, un flottant
-Tableau & Tableau::operator+=(float x) {
+... Tableau::operator+=(...) {
 	cerr << "operateur+=(float) -> += sur une zone mémoire" << '\n';
 	for (size_t i=0; i < sz; i++) {
 		A[i] += x;
@@ -236,8 +236,8 @@ Tableau operator+(const Tableau& t1, const Tableau& t2) {
 		cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" << '\n'; 
 		exit(1);
 	}
-	Tableau s = t1;
-	s += t2;
+	Tableau s = ...;
+	s += ...;
 	return s;
 }
 
