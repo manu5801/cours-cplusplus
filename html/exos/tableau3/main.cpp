@@ -2,9 +2,10 @@
 using namespace std;
 
 #include "tableau.hpp"
-#include "traitements.hpp"
+#include "homo.hpp"
+#include "ecret.hpp"
 
-// compilation: c++ -o tableau tableau.hpp traitements.hpp main.cpp
+// compilation: c++ -o tableau tableau.hpp main.cpp
 
 int main() {
 Tableau T1(10);
@@ -16,12 +17,15 @@ for (size_t i=0; i<10; i++) {
 homo f(10.5);
 ecret g(225);
 
-T1.print();
+cout << T1 << endl;
 T1.transform(f);
-T1.print();
+cout << T1 << endl;
 
 T1.transform(g);
-T1.print();
-};
+cout << T1 << endl;
+
+return 0;
+
+}
 
   

@@ -50,7 +50,7 @@ public:
 	// friend ostream & operator<<(ostream&, const Tableau&);
  
 	// La famille de fonctions transform: on leur passe un objet-fonction Functor1p
-	... transform(...);
+	void transform(const Functor1p& );
 
 private:
 	size_t sz;

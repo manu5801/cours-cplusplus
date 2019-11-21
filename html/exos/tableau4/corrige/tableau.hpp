@@ -1,5 +1,76 @@
-#include <cstdlib>
-#include "tableau.hpp"
+#ifndef __TABLEAU__
+#define __TABLEAU__
+
+#include <iostream>
+#include <initializer_list>
+using namespace std;
+
+// Un objet-fonction general, a un parametre
+template <typename T=float> class Functor1p {
+public:
+    virtual T operator()(T) const = 0;
+};
+
+template <typename T=float> class Tableau {
+public:
+
+	// Le constructeur principal - on passe la dimension du tableau en parametre
+	explicit Tableau(size_t n=0);
+	
+	// Initialiser un tableau à partir d'une liste d'initialisation
+	Tableau (const initializer_list<T>& l);
+
+	// Le trio infernal
+	Tableau (const Tableau &);
+	Tableau & operator=(const Tableau &);
+	~Tableau();
+
+	// Les deux derniers membres pour faire le quintette infernal
+	Tableau (Tableau &&) noexcept;
+	Tableau & operator=(Tableau &&) noexcept;
+
+	// renvoie la taille du Tableau
+	size_t size() const { return sz;};
+	
+	// renvoie un element du Tableau sans deborder
+	T & operator[](size_t i);
+	
+	// meme chose - version const
+	T operator[](size_t i) const;
+	
+	// operateurs +=
+	// Le parametre est un autre Tableau
+	Tableau & operator+=(const Tableau & t);
+	
+	// Le parametre est un float
+	Tableau & operator+=(T x);
+	
+	// Operateur d'impression, on le déclare souvent comme ami
+	// Ici ce n'est pas la peine, car on utilise l'opérateur[]
+	// friend ostream & operator<<(ostream&, const Tableau&);
+ 
+	// La famille de fonctions transform: on leur passe un objet-fonction Functor1p
+	void transform(const Functor1p<T> & );
+
+private:
+	size_t sz;
+	T *A;
+	
+	// Bonne pratique: Le signe __ rappelle qu'il s'agit de methodes privees
+	void __copie (T src, T dest[], size_t s);
+	void __copie (T src[], T dest[], size_t s);
+};
+
+// Une fonction qui n'est pas une methode
+// Le prototype ci-dessous fonctionne, mais entraine l'appel de 2 constructuers + 2 destructeurs inutiles !
+// Tableau operator+(Tableau t1, Tableau t2);
+template < typename T> Tableau<T> operator+(const Tableau<T>& t1, const Tableau<T>& t2);
+
+// Operateur d'impression, déclaré ici
+template < typename T> ostream & operator<<(ostream&, const Tableau<T>&);
+
+
+// -------------> CE QUI SUIT ETAIT JUSQUE LA DANS LE .cpp <------------------
 
 /****
  * Constructeur principal
@@ -7,13 +78,13 @@
  * param: n La taille du tableau en nombre de cellules
  * 
  ********************/
-Tableau::Tableau(size_t n): sz(n) {
+template <typename T> Tableau<T>::Tableau(size_t n): sz(n) {
 	cerr << "constructeur sz = " << n << " -> malloc + init\n";
 	if (n==0) {
 		A = nullptr;
 	}
 	else {	
-		A = (float *) malloc(sz*sizeof(float));
+		A = (T *) malloc(sz*sizeof(T));
 		__copie(0.0,A,sz);
 	}
 }
@@ -26,13 +97,16 @@ Tableau::Tableau(size_t n): sz(n) {
  * 
  ********************/
 
-Tableau::Tableau(const std::initializer_list<float>& l) {
+template<typename T> Tableau<T>::Tableau(const std::initializer_list<T>& l) {
      cerr << "constructeur liste init = -> malloc + init\n";
      sz = l.size();
      size_t i = 0;
-     A = (float *) malloc(sz*sizeof(float));
-     for (auto j=l.begin();j!=l.end();++j) {
-		 A[i++] = *j;
+     A = (T *) malloc(sz*sizeof(T));
+     //for (auto j=l.begin();j!=l.end();++j) {
+	 //	 A[i++] = *j;
+	 //}
+	 for (auto x : l) {
+		 A[i++] = x;
 	 }
 }
 
@@ -43,9 +117,9 @@ Tableau::Tableau(const std::initializer_list<float>& l) {
  * param: t Le tableau à copier
  * 
  *********************/
-Tableau::Tableau (const Tableau & t): sz(t.sz) {
+template<typename T> Tableau<T>::Tableau (const Tableau & t): sz(t.sz) {
 	cerr << "constructeur de copie -> malloc + copie" << '\n';
-	A = (float *) malloc(sz*sizeof(float));
+	A = (T *) malloc(sz*sizeof(T));
 	__copie(t.A,A,sz);
 }
 
@@ -61,7 +135,7 @@ Tableau::Tableau (const Tableau & t): sz(t.sz) {
  * return *this
  * 
  *********************/
-Tableau & Tableau::operator=(const Tableau &t) {
+template<typename T> Tableau<T> & Tableau<T>::operator=(const Tableau<T> &t) {
 	cerr << "operateur =" << " -> free + malloc + copie\n";
 	if (this==&t)    // Pour gerer les cas A=A
 		return *this;
@@ -70,7 +144,7 @@ Tableau & Tableau::operator=(const Tableau &t) {
 		// TODO - Utiliser realloc
 		free(A);
 		sz = t.sz;
-		if (sz != 0) A = (float *) malloc(sz*sizeof(float));
+		if (sz != 0) A = (T *) malloc(sz*sizeof(T));
 	};
 	__copie(t.A,A,sz);
 	return *this;
@@ -83,7 +157,7 @@ Tableau & Tableau::operator=(const Tableau &t) {
  * param: t Le tableau à copier
  * 
  *********************/
-Tableau::Tableau (Tableau && t) noexcept : sz(t.sz) {
+template<typename T>Tableau<T>::Tableau (Tableau<T> && t) noexcept : sz(t.sz) {
 	cerr << "constructeur de déplacement -> o" << '\n';
 	A = t.A;
 	sz= t.sz;
@@ -99,7 +173,7 @@ Tableau::Tableau (Tableau && t) noexcept : sz(t.sz) {
  * return *this
  * 
  *********************/
-Tableau & Tableau::operator=(Tableau && t) noexcept {
+template<typename T> Tableau<T> & Tableau<T>::operator=(Tableau<T> && t) noexcept {
 	cerr << "operateur= déplacement -> free + o" << '\n';
 	if (this!=&t)    // Pour gerer les cas A=A
 	{
@@ -117,7 +191,7 @@ Tableau & Tableau::operator=(Tableau && t) noexcept {
  * Rendre la mémoire au système
  * 
  *********************/
-Tableau::~Tableau() { 
+template<typename T> Tableau<T>::~Tableau() { 
 	cerr << "destructeur (sz = " << sz << ") -> free\n";
 	if ( A != nullptr) 
 	{
@@ -129,7 +203,7 @@ Tableau::~Tableau() {
 // renvoie un element du tableau sans deborder
 // pas la peine de tester i < 0, size_t est un type unsigned
 // (decommentez ce qui suit vous verrez si cela compile)
-float & Tableau::operator[](size_t i) {
+template<typename T> T & Tableau<T>::operator[](size_t i) {
 	//if (i<0) {
 	//  cerr << "ATTENTION Debordement de tableau - je renvoie tableau[0]\n";
 	//  return *A;
@@ -145,7 +219,7 @@ float & Tableau::operator[](size_t i) {
 }
 
 // meme chose - version const
-float Tableau::operator[](size_t i) const {
+template<typename T> T Tableau<T>::operator[](size_t i) const {
 	if (i>=sz) {
 		cerr << "ATTENTION Debordement de Tableau - je renvoie Tableau[sz-1]\n";
 		return A[sz-1];
@@ -156,7 +230,7 @@ float Tableau::operator[](size_t i) const {
 
 // operateurs +=
 // Le parametre est t, un autre Tableau
-Tableau & Tableau::operator+=(const Tableau & t) {
+template<typename T> Tableau<T> & Tableau<T>::operator+=(const Tableau<T> & t) {
 	cerr << "operateur+=(const Tableau &) -> += sur une zone mémoire" << '\n';
 	if (sz != t.sz) {
 		cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" << '\n'; 
@@ -169,9 +243,9 @@ Tableau & Tableau::operator+=(const Tableau & t) {
 	return *this;
 }
 
-// Le parametre est x, un flottant
-Tableau & Tableau::operator+=(float x) {
-	cerr << "operateur+=(float) -> += sur une zone mémoire" << '\n';
+// Le parametre est x, un T
+template<typename T> Tableau<T> & Tableau<T>::operator+=(T x) {
+	cerr << "operateur+=(T) -> += sur une zone mémoire" << '\n';
 	for (size_t i=0; i < sz; i++) {
 		A[i] += x;
 	};
@@ -186,7 +260,7 @@ Tableau & Tableau::operator+=(float x) {
  * s   = La taille de la zone mémoire
  * 
  ****************/
-void Tableau::__copie (float src, float dest[], size_t s)
+template<typename T> void Tableau<T>::__copie (T src, T dest[], size_t s)
 {
 	for ( size_t i=0; i<s; i++) {
 		dest[i] = src;
@@ -201,28 +275,12 @@ void Tableau::__copie (float src, float dest[], size_t s)
  * s   = La taille de la zone mémoire
  * 
  ****************/
-void Tableau::__copie (float src[], float dest[], size_t s) {
+template<typename T> void Tableau<T>::__copie (T src[], T dest[], size_t s) {
 	for (size_t i=0; i<s; i++) {
 		dest[i] = src[i];
 	};
 }
 
-// Deux autres manières d'écrire le même code: difficilement lisible, mais on voit ça souvent
-// C'est du C de bas niveau ...
-/*
-void Tableau::copie (float src, float *dest, size_t s) {
-	for (size_t i=0; i<s; i++) {
-		*(dest++) = src;
-	};
-};
-void Tableau::copie (float *src, float *dest, size_t s) {
-	for (size_t i=0; i<s; i++) {
-		*(dest++) = *(src++);
-	};
-}
-*/
-
-// Tableau operator+(Tableau t1, Tableau t2) {
 /***************************
  * Opérateur +
  * 
@@ -230,13 +288,13 @@ void Tableau::copie (float *src, float *dest, size_t s) {
  * return: Un tableau retourné par valeur
  * 
  *********************/
-Tableau operator+(const Tableau& t1, const Tableau& t2) {
+template<typename T> Tableau<T> operator+(const Tableau<T>& t1, const Tableau<T>& t2) {
 	cerr << "operateur+" << '\n';
 	if (t1.size() != t2.size()) {
 		cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" << '\n'; 
 		exit(1);
 	}
-	Tableau s = t1;
+	Tableau<T> s = t1;
 	s += t2;
 	return s;
 }
@@ -250,7 +308,7 @@ Tableau operator+(const Tableau& t1, const Tableau& t2) {
  * return: Le flux de sortie
  * 
  ******/
-ostream & operator<<(ostream& os, const Tableau& t) {
+template<typename T> ostream & operator<<(ostream& os, const Tableau<T>& t) {
 	if (t.size() == 0 ) {
 		os << "{}";
 		return os;
@@ -266,7 +324,10 @@ ostream & operator<<(ostream& os, const Tableau& t) {
 }
 
 // Il n'y a plus qu'une seule fonction transform, on lui passe un Functor1p
-... Tableau::transform(...) {
+template<typename T> void Tableau<T>::transform(const Functor1p<T>& f ) {
 	for (unsigned int i=0; i< sz; i++) 
-		A[i]=...;
+		A[i]=f(A[i]);
 }
+
+
+#endif

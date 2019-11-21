@@ -266,7 +266,7 @@ ostream & operator<<(ostream& os, const Tableau& t) {
 }
 
 // Il n'y a plus qu'une seule fonction transform, on lui passe un Functor1p
-... Tableau::transform(...) {
+void Tableau::transform(const Functor1p& f ) {
 	for (unsigned int i=0; i< sz; i++) 
-		A[i]=...;
+		A[i]=f(A[i]);
 }

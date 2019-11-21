@@ -7,12 +7,12 @@
 using namespace std;
 
 // Un objet-fonction general, a un parametre
-... class Functor1p {
+template <typename T=float> class Functor1p {
 public:
     virtual T operator()(T) const = 0;
 };
 
-template ... class Tableau {
+template <typename T=float, size_t S=100> class Tableau {
 public:
 
 	// Le constructeur principal 
@@ -55,7 +55,7 @@ private:
 // Une fonction qui n'est pas une methode
 // Le prototype ci-dessous fonctionne, mais entraine l'appel de 2 constructuers + 2 destructeurs inutiles !
 // Tableau operator+(Tableau t1, Tableau t2);
-template ... Tableau<T> operator+(const Tableau...& t1, const Tableau...& t2);
+template < typename T, size_t S> Tableau<T> operator+(const Tableau<T,S>& t1, const Tableau<T,S>& t2);
 
 // Operateur d'impression, déclaré ici
 template < typename T, size_t S> ostream & operator<<(ostream&, const Tableau<T,S>&);
