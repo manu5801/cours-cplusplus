@@ -9,8 +9,8 @@ using namespace std;
 // Le facteur d'homothétie est passé au constructeur de l'objet-fonction
 class homo {
 public:
-    homo(...) : ... {};
-    float ...(float x) const {return facteur*x;};
+    homo(float f) : facteur(f) {};
+    float operator()(float x) const {return facteur*x;};
 private:
     float facteur;
 };
@@ -19,8 +19,8 @@ private:
 // Le seuil est passé au constructeur de l'objet-fonction
 class ecret {
 public:
-    ecret(...) : ... {};
-    ... operator()(... x) const {return (x > seuil) ? seuil : x;};
+    ecret(float s) : seuil(s) {};
+    float operator()(float x) const {return (x > seuil) ? seuil : x;};
 private:
     float seuil;
 };

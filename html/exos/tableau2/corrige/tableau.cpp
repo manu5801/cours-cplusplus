@@ -269,11 +269,11 @@ ostream & operator<<(ostream& os, const Tableau& t) {
 // On est obligé de définir autant de fonctions transform qu'il y a de transformations (d'objets-fonctions) définies
 void Tableau::transform(const homo& f ) {
 	for (unsigned int i=0; i< sz; i++) 
-		A[i]=...;
+		A[i]=f(A[i]);
 }
 void Tableau::transform(const ecret& f ) {
 	for (unsigned int i=0; i< sz; i++) 
-		A[i]=...;
+		A[i]=f(A[i]);
 }
 
 
