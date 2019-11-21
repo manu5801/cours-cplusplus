@@ -36,14 +36,14 @@ public:
 		free(base);
 		base = nullptr;
 		if (debug) {
-			cout << "Ici destructeur -  size = " << size << endl;
+		    cout << "Ici destructeur -  size = " << size << endl;
 		}
 	};
 	void push (int);
 	int pop();
 	size_t getLength() const {return top;};
-	static void setDebug() { debug = true; };
-	static void clrDebug() { debug = false;};
+	static void setDebug() { ... };
+	static void clrDebug() { ... };
 	
 private:
 	size_t size;	// La taille max de la pile
@@ -52,7 +52,7 @@ private:
 	static bool debug;
 };
 
-bool Stack::debug = false;
+bool ... = false;
 
 void Stack::push (int i) {
 	if (top < size) {
