@@ -87,7 +87,7 @@ template <typename T> Tableau<T>::Tableau(size_t n): sz(n) {
 		A = (T *) malloc(sz*sizeof(T));
 		if ( A == NULL )
 		{
-			...;
+			throw (bad_alloc());
 		}
 		__copie(0.0,A,sz);
 	}
@@ -108,7 +108,7 @@ template<typename T> Tableau<T>::Tableau(const std::initializer_list<T>& l) {
 	A = (T *) malloc(sz*sizeof(T));
 	if ( A == NULL )
 	{
-		...;
+		throw (bad_alloc());
 	}
     //for (auto j=l.begin();j!=l.end();++j) {
 	//	 A[i++] = *j;
@@ -130,7 +130,7 @@ template<typename T> Tableau<T>::Tableau (const Tableau & t): sz(t.sz) {
 	A = (T *) malloc(sz*sizeof(T));
 	if ( A == NULL )
 	{
-		...;
+		throw (bad_alloc());
 	}
 	__copie(t.A,A,sz);
 }
@@ -160,7 +160,7 @@ template<typename T> Tableau<T> & Tableau<T>::operator=(const Tableau<T> &t) {
 			A = (T *) malloc(sz*sizeof(T));
 			if ( A == NULL )
 			{
-				...;
+				throw (bad_alloc());
 			}
 		}
 	};
@@ -223,7 +223,7 @@ template<typename T> Tableau<T>::~Tableau() {
 // (decommentez ce qui suit vous verrez si cela compile)
 template<typename T> T & Tableau<T>::operator[](size_t i) {
 	if (i>=sz) {
-		...;
+		throw (range_error ( "Debordement de Tableau" ));
 	} else {
 		return A[i];
 	};
@@ -232,7 +232,7 @@ template<typename T> T & Tableau<T>::operator[](size_t i) {
 // meme chose - version const
 template<typename T> T Tableau<T>::operator[](size_t i) const {
 	if (i>=sz) {
-		...;
+		throw (range_error ( "Debordement de Tableau" ));
 	} else {
 		return A[i];
 	};
@@ -243,7 +243,7 @@ template<typename T> T Tableau<T>::operator[](size_t i) const {
 template<typename T> Tableau<T> & Tableau<T>::operator+=(const Tableau<T> & t) {
 	cerr << "operateur+=(const Tableau &) -> += sur une zone mémoire" << '\n';
 	if (sz != t.sz) {
-		...;
+		throw (range_error ("Ne peut pas egaliser deux tableaux de tailles differentes"));
 	} else {
 		for (size_t i=0; i < sz; i++) {
 			A[i] += t[i];
@@ -300,7 +300,7 @@ template<typename T> void Tableau<T>::__copie (T src[], T dest[], size_t s) {
 template<typename T> Tableau<T> operator+(const Tableau<T>& t1, const Tableau<T>& t2) {
 	cerr << "operateur+" << '\n';
 	if (t1.size() != t2.size()) {
-		...;
+		throw (range_error ( cerr << "Ne peut pas ajouter deux Tableaux de tailles differentes" ) );
 	}
 	Tableau<T> s = t1;
 	s += t2;

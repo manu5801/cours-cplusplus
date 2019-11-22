@@ -38,7 +38,6 @@
       <li><a onclick="javascript=cacher_menu()" href="#modeles">Mod&egrave;les</a></li>
       <li><a onclick="javascript=cacher_menu()" href="#exceptions">Exceptions</a></li>
       <li><a onclick="javascript=cacher_menu()" href="#memoire">Gestion de la m&eacute;moire</a></li>
-      <li><a onclick="javascript=cacher_menu()" href="#stdlib">La biblioth&egrave;que standard.</a></li>
    </ul>
    </dd>
 </dl>
@@ -176,12 +175,13 @@
 
 <h2><a id="exceptions">Exceptions</a></h2>
 
+<h3>Sous-répertoire: tableau7</h3>
+
 <ul>
   <li>
-	<b>Corrig&eacute; <a href="exos/tableau7/tableau.hpp">code .hpp</a> <a href="exos/tableau7/traitements.hpp">code traitements .hpp</a> 
-	<a href="exos/tableau7/main.cpp">code main</a>, <a href="exos/tableau7/tableau.hpp.html">html .hpp</a>
-	 <a href="exos/tableau7/traitements.hpp.html">html traitements .hpp</a> <a href="exos/tableau7/main.cpp.html">html main</a></b><br />
-	  R&eacute;&eacute;crire le tableau en impl&eacute;mentant un m&eacute;canisme d'exception lorsqu'on essaie
+   <b>tableau7: Exercice à trous <a href="exos/tableau7/Makefile">Makefile</a> <a href="exos/tableau7/tableau.hpp">tableau.hpp</a> <a href="exos/tableau7/ecret.hpp">ecret.hpp</a> <a href="exos/tableau7/homo.hpp">homo.hpp</a> <a href="exos/tableau7/main.cpp">main.cpp</a></b><br />
+   <b>tableau7: Corrigé <a href="exos/tableau7/corrige/Makefile">Makefile</a> <a href="exos/tableau7/corrige/tableau.hpp">tableau.hpp</a> <a href="exos/tableau7/corrige/ecret.hpp">ecret.hpp</a> <a href="exos/tableau7/corrige/homo.hpp">homo.hpp</a> <a href="exos/tableau7/corrige/main.cpp">main.cpp</a></b><br />
+	  R&eacute;&eacute;crire le tableau (en partant de tableau4) en impl&eacute;mentant un m&eacute;canisme d'exception lorsqu'on essaie
       d'acc&eacute;der &agrave; une cellule du tableau en-dehors des limites, lorsqu'on alloue la mémoire, lorsqu'on ajoute des tableaux de tailles différentes.<br />
   </li>
 </ul>
@@ -190,22 +190,16 @@
 
 <h2><a id="memoire">Gestion de la m&eacute;moire</a></h2>
 
+<h3>Sous-répertoire: unique_ptr</h3>
+
 <ul>
-    <li>Pourquoi ce code ne veut pas compiler ?<a href="exos/unique_ptr/unique_ptr_non_copie.cpp">exercice</a> </li>    
-    <li>Un objet qui gère deux pointeurs, c'est problématique... et très dangereux ! <a href="exos/unique_ptr/problematique_ptr.cpp">exercice</a>,<a href="exos/unique_ptr/corrige/problematique_ptr.cpp">corrigé</a> </li>    
+    <li>Pourquoi ce code ne veut pas compiler ? <strong><a href="exos/unique_ptr/unique_ptr_non_copie.cpp">exercice </a></strong> </li>    
+    <li><strong>unique_ptr</strong>: Un objet qui gère deux pointeurs, c'est problématique... et très dangereux ! <strong><a href="exos/unique_ptr/problematique_ptr.cpp">problematique_ptr.cpp</a></strong><br />
+    <strong>Corrigé: <a href="exos/unique_ptr/corrige/problematique_ptr.cpp">problematique_ptr.cpp</a> </li>    </strong>
 </ul>
 <hr />
 
-<h2><a id="stdlib">biblioth&egrave;que standard</a></h2>
 
-<ul>
-    <li>Un array d'objets ou un vector d'objets ? Que se passe-t-il quand on met des objets dans une structure de données ?
-    <a href="exos/std/array.cpp">Exercice</a>, <a href="exos/std/corrige/array.cpp">Corrigé</a> </li>
-    <li>Un programme qui utilise la structure de données map pour compter le nombre d'occurrences de chaque mot 
-    dans un texte. <a href="exos/std/occurrences.cpp">Exercice</a>, <a href="exos/std/corrige/occurrences.cpp">Corrigé</a> </li></li>
-    <li><b>Programme en téléchargement.</b> Téléchargez <a href="exos/std/texte.zip">ce programme</a>, compilez-le en mode <b>-std C++0x</b> (gcc) ou <b>-std c++11</b>
- (clang) et exécutez-le comme ceci:<code>./a.out help</code> pour savoir comment il fonctionne</li>
-</ul>
 <hr />
 <address>
 	<a href="http://validator.w3.org/check?uri=referer"><img alt="xhtml" src="xhtml.png" /></a>
