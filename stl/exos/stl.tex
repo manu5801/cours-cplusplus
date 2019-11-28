@@ -12,8 +12,8 @@
 
 \setlength{\doublerulesep}{\arrayrulewidth}
 \pagestyle{fancy}
-\fancyhead[L]{IMFT- CALMIP\\  Formation C++}
-\fancyhead[R]{XX \\ P. Elyakime }
+\fancyhead[L]{CUTIS-IMFT- CALMIP\\  Formation C++}
+\fancyhead[R]{2019 \\ P. Elyakime }
 
 \begin{document}
 
@@ -26,33 +26,64 @@
 \end{center}
 
 
+\vspace{0.5cm}
+Compilation des exercices : \\ 
+$make$ $ex1$ ou $make$ $ex2$ ou ... ou $make$ $ex11$. \\
+$make$ $clean$ $ARG=ex5$ par exemple.\\
+$make$ $all$ et $make$ $cleanall$
+
 
 \vspace{1cm}
 
-\subsection*{\underline{Exercice 1}: Tableau dynamique - vector}
+\subsection*{\underline{Exercice 1}: Iterator }
+Ecrivez un programme qui crée un vecteur $v1$ contenant les entiers $1,2,3,4,5$. A l'aide d'un itérateur balayez le vecteur et affichez élément par élément. Faite de même en sens inverse en utilisant l'itérateur adéquate.\\
+Nous allons maintenant coder l'algorithme sort pour rechercher la valeur $val=4$ dans le vecteur $v1$ en utilisant des itérateurs. Déterminez la position de $val$ dans $v1$. N'oubliez pas la condition où $val$ n'est pas trouvé. Essayer désormais avec $val=10$. Que se passe t'il ? 
 
-\begin{itemize}
-	\item [1.] Allouez 5 entiers au vecteur vect
-    \item [2.] Ajoutez les entiers $6,7$ et $8$ à la fin de vect
-    \item [3.] Supprimez le dernier élément 
-    \item [4.] Affichez le nombre d'éléments qu'il contient
-    \item [5.] Parcourir à l'aide d'une boucle les valeurs de vect, affichez les.
-\end{itemize}
+
+\vspace{1cm}
+
+\subsection*{\underline{Exercice 2}: vector}
+
+Écrivez un programme qui crée un vecteur v1 de 10 float régulièrement répartis entre $0.0$ (inclue) et $1.0$ (non compris), complétez la fonction $showvec$ pour affichez le vecteur. \\
+Créez un nouveau vecteur v2 égale à v1 et effacez élément par élément la deuxième moitié de v2. Affichez v2.
 
 
 \vspace{.5cm}
 
-\subsection*{\underline{Exercice 2}: List }
+\subsection*{\underline{Exercice 3}: List }
 
+Ecrivez un programme qui crée une liste c1 contenant les 10 premières lettres de l'alphabet, complétez la fonction showlist pour afficher la liste. \\
+Créez une nouvelle liste c2 égale à c1 et effacez d'un bloc la première moitié de c2. Affichez c2.
+
+\subsection*{\underline{Exercice 4}: Deque }
+
+Ecrivez un programme qui insère à la fin du deque l'entier 10, en tête 20, à la fin 30 et et en tête 15. Complétez la fonction $showdq$ pour afficher le deque. \\
+Renseignez la taille du deque, la valeur en 2ieme position, en tête du deque, à la fin du deque. Enfin supp rimez le 1ier élément, affichez le deque, et supprimez la dernière valeur et affichez de nouveau le deque.\\
+
+
+\subsection*{\underline{Exercice 5}: File ou Queue  }
 \begin{itemize}
-	\item [1.] Ajoutez à la fin de la liste les éléments suivants : $5, 6, 1, 10, 7, 8, 4, 5$
-    \item [2.] Affichez la taille de la liste
-    \item [3.] Utilisez un itérateur pour parcourir la liste et affichez les éléments
-    \item [4.] Affichez le premier et le dernier élément
-    \item [5.] Parcourez avec un itérateur en inverse la liste
+	\item [1.] Ajoutez les nombres $1,4,2$ dans la file
+    \item [2.] Affichez la taille de la file
+    \item [3.] En faisant défiler les éléments de la file, affichez l'élément le plus ancien et supprimez le.
+    \item[4.] Affichez de nouveau la taille de la file
 \end{itemize}
 
-\subsection*{\underline{Exercice 3}: Map }
+\vspace{.5cm}
+
+
+\subsection*{\underline{Exercice 6}: Pile ou Stack }
+\begin{itemize}
+	\item [1.] Ajoutez les nombres $1,4,2$ dans la pile
+    \item [2.] Affichez la taille de la pile
+    \item [3.] En faisant défiler les éléments de la pile, affichez l'élément en haut de la pile et supprimez le.
+    \item[4.] Affichez de nouveau la taille de la pile
+\end{itemize}
+
+\vspace{.5cm}
+
+
+\subsection*{\underline{Exercice 7}: Map }
 \begin{itemize}
 	\item [1.] Remplissez la table associative (map) : mois et nombre de jours du mois
     \item [2.] Affichez la taille de la map
@@ -64,76 +95,50 @@
 \vspace{.5cm}
 
 
-\subsection*{\underline{Exercice 4}: FILE ou QUEUE : FIFO }
+\subsection*{\underline{Exercice 8}: String }
 \begin{itemize}
-	\item [1.] Ajoutez les nombres $1,4,2$ dans la file
-    \item [2.] Affichez la taille de la file
-    \item [3.] En faisant défiler les éléments de la file, affichez l'élément le plus ancien et supprimez le.
-    \item[4.] Affichez de nouveau la taille de la file
+	\item [1.] Initialisez s1 par la phrase : "coucou, dit le coucou au long cou."
+    \item [2.] Recherchez l'occurence 'le' dans s1
+    \item [3.] Recherchez les occurences 'cou' dans s1
+    \item [4.] Remplacez les occurences 'cou' dans s1 par 'do' et affichez s1
 \end{itemize}
 
 \vspace{.5cm}
 
 
-\subsection*{\underline{Exercice 5}: PILE ou STACK : LIFO }
+\subsection*{\underline{Exercice 9}: Tri d'un tableau }
 \begin{itemize}
-	\item [1.] Ajoutez les nombres $1,4,2$ dans la pile
-    \item [2.] Affichez la taille de la pile
-    \item [3.] En faisant défiler les éléments de la pile, affichez l'élément en haut de la pile et supprimez le.
-    \item[4.] Affichez de nouveau la taille de la pile
-\end{itemize}
-
-\vspace{.5cm}
-
-
-\subsection*{\underline{Exercice 6}: Tri d'un tableau - Sort }
-\begin{itemize}
-	\item [1.] Ajoutez les nombres $23, 5, -10, 0, 0, 321, 1, 2, 99, 30$ dans le tableau
+	\item [1.] Déclarer un vecteur d'entier initialisé à $1, 5, 2, 4, 3$ 
     \item [2.] Affichez les éléments du tableau
-    \item [3.] Triez le tableau à l'aide de la fonction sort $http://www.cplusplus.com/reference/algorithm/sort/$
-    \item[4.] Affichez de nouveau les éléments du tableau
+    \item [3.] Triez dans l'ordre croissant le tableau à l'aide de la fonction sort
+    \item [4.] Triez dans l'ordre décroissant le tableau à l'aide de la fonction sort
+    \item[5.] Affichez de nouveau les éléments du tableau
 \end{itemize}
 
 \vspace{.5cm}
 
-\subsection*{\underline{Exercice 7}: Tri décroissant d'un vector -Sort }
+\subsection*{\underline{Exercice 10}:  Recherche d'un élément }
 \begin{itemize}
-	\item [1.] Ajoutez les nombres $23, 5, -10, 0, 0, 321, 1, 2, 99, 30$ dans le vector
-    \item [2.] Affichez les éléments du vector
-    \item [3.] Faites un tri décroissant des éléments du vector à l'aide de la fonction sort $http://www.cplusplus.com/reference/algorithm/sort/$
-    \item[4.] Affichez de nouveau les éléments du vector
+	\item [1.] Initialisez le tableau tab avec les entiers suivants  $10,20,30,40,50$ et recherchez l'élément 30 avec la fonction find
+    \item [2.] Initialisez le vector vec avec les valeurs suivantes : $10, 20,30$ et recherchez l'élément 30, déterminez sa position en utilisant l'itérateur itV
+    \item [3.] Initialisez la liste myList avec les valeurs suivantes : $5, 19, 34, 3, 33$ et recherchez l'élément 34,  déterminez sa position en utilisant la fonction distance et l'itérateur itL
+\end{itemize}
+
+
+\subsection*{\underline{Exercice 11}: Suppression d'éléments }
+Ecrivez un programme en initialisant le vecteur d'entier vec={0,1,2,3,4,5,6,7,8,9} dans lequel vous :
+\begin{itemize}
+	\item [1.] Supprimerez le premier élément du vector, affichez la nouvelle liste d'éléments en utilisant la fonction "templaté" showvec que vous compléterez
+    \item [2.] Supprimerez les éléments suivants : $[debutListe+2;debutListe+5]$, affichez le vector
+    \item [3.] Supprimerez tous les éléments, affichez de nouveau le vector
 \end{itemize}
 
 \vspace{.5cm}
 
-\subsection*{\underline{Exercice 8}: Désallocation mémoire }
-\begin{itemize}
-	\item [1.] Supprimez le 1ier élément du vector et affichez la nouvelle liste d'éléments
-    \item [2.] Supprimez les éléments suivants : $[debutListe+2;debutListe+5]$ et affichez le vector
-    \item [3.] Supprimez tous les éléments, affichez de nouveau le vector
-\end{itemize}
 
-\vspace{.5cm}
 
-\subsection*{\underline{Exercice 9}:  }
-\begin{itemize}
-	\item [1.]
-    \item [2.] 
-    \item [3.] 
-\end{itemize}
 
-\subsection*{\underline{Exercice 10}:  Recherche d'un élément - Find }
-\begin{itemize}
-	\item [1.] Recherchez l'élément 30 dans le tableau tab
-    \item [2.] Recherchez l'élément 30 dans le vecteur vec, déterminez sa position
-    \item [3.] Recherchez l'élément 30 dans la liste l, déterminez sa position
-\end{itemize}
 
-\subsection*{\underline{Exercice 11}:   }
-\begin{itemize}
-	\item [1.] 
-    \item [2.] 
-    \item [3.] 
-\end{itemize}
+
 
 \end{document}
