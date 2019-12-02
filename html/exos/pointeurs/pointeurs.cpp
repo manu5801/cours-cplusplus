@@ -57,13 +57,6 @@ main() {
 	cout << "A[10] = " << A[DIMENSION] << endl;
 	cout << endl;
 
-	// Itération sur un tableau à la C, mais à la mode de C++11
-	for (auto x : A) {
-		x = 15.6;
-	}
-	imprimeTableau("Tableau modifié",A,DIMENSION);
-	
-
 #ifdef NIVEAU1
 	// *********************************************************************************
 	// On joue avec les références
