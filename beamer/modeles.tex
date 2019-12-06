@@ -281,9 +281,9 @@ Voir le fichier d'en-têtes \texttt{limits}
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Spécialisation partielle}
+\frametitle {Spécialisation}
 
-On peut spécialiser partiellement les modèles:
+On peut spécialiser complètement ou partiellement les modèles:
 
 \begin{lstlisting}[language=c++]
 template<typename T1, typename T2> class Machin {
@@ -297,6 +297,11 @@ template<typename T> class Machin<T,T> {
 
 // Le second type est double
 template<typename T1> class Machin<T1,double> {
+...
+}
+
+// T1 et T2 sont doubles
+template<> class Machin<double,double> {
 ...
 }
 
@@ -336,14 +341,15 @@ template<typename T1, typename T2> class Machin<T1 *, T2 *> {
 \begin{itemize}
 \item{Tout est fixé (dimensions, types, ...) lors de la compilation:\begin{itemize}\item{le code offrira moins de souplesse (dimensions)}\end{itemize} }
 \item{La compilation est plus lente}
-\item{L'exécutable généré peut être plus gros}
 \end{itemize}
 \end{block}
 
 \end{frame}
 
+\subsection{Bibliothèques}
+
 \begin{frame}
-\frametitle {Template libraries}
+\frametitle {Bibliothèques de modèles}
 De nombreuses bibliothèques reposent sur les templates:
 \begin{itemize}
 \item{La stl: Standard Template Library}
