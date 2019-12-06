@@ -15,11 +15,22 @@ template<typename T> void showvec( vector<...> v )
 int main( )
 {
 	std::vector<int> vec{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	showvec(vec);
 
+	// supprime un élément unique
+	vec.erase(...);
+	showvec(vec);
 
-	...
+	// supprime une gamme d’éléments
+	vec.erase(...,...);
+	showvec(vec);
+
+	// supprime tous les éléments
+	...;
+	//vec.erase(vec.begin(), vec.end());
+	showvec(vec);
 	
-	
-	
+	// vector [0,10] :
 	return 0;
+	
 }

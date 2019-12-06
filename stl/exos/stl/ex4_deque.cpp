@@ -18,7 +18,10 @@ int main()
 	
 	// Insertion de 10 a la fin, de 20 en tête, de 30 à la fin et de 15 en 
 	// tête
-	...
+	dq....(10);
+	dq....(20);
+	dq....(30);
+	dq....(15);
     	
     	// Affichage de dq
     	cout << "The deque dq is : "; 
@@ -26,16 +29,18 @@ int main()
   
   	// Taille, element en deuxime position, element en tete du deque et 
   	// a la fin
-	cout << ... ; 
-	cout << ... ; 
-	cout << ... ; 
-	cout << ... ; 
+	cout << "\nTaille : " << ...; 
+	cout << "\nElement en deuxieme position : " << ...; 
+	cout << "\nElement en tete : " << ...; 
+	cout << "\nElement a la fin : " << ...; 
 	
 	// Suppression de l'element en tete + affichage
 	...
+	showdq(dq);
   
 	// Suppression de l'element a la fin + affichage; 
     	...
+    	showdq(dq);
 	
 	return 0;
 

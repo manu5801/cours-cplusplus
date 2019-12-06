@@ -11,7 +11,7 @@ int main() {
   	cout << s1 << endl;
  
  	// Recherche de l'occurence 'le' dans s1
-	string le("...");
+	string le("le");
 	string::size_type pos = ...;
 	cout << "L'occurence '" << le << "' trouve a la position " << ... << endl;
  
@@ -31,7 +31,7 @@ int main() {
   	pos = 0;
   	pos = ...;
   	while (pos != string::npos) {
-    		...
+    		s1.replace(pos, ..., ...);
     		++pos;
     		pos = s1.find(match, pos);
   	}

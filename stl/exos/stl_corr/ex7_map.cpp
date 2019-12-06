@@ -21,7 +21,7 @@ int main()
 	cout << "La map contient " << nbJoursMois.size() << " elements : \n";
 	
 	// Affichage de la map 
-	for(map<string,unsigned int>::iterator it=nbJoursMois.begin(); it!=nbJoursMois.end(); ++it)
+	for(auto it=nbJoursMois.begin(); it!=nbJoursMois.end(); ++it)
 	{
 		cout << it->first << " -> \t" << it->second << endl;
 	}

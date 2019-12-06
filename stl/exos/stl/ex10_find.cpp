@@ -16,7 +16,7 @@ int main ()
 	cout << "Taille de tableau: " << taille << endl;
 		
 	// Recherchez l'élément 30 dans tab
-	p = ...;	
+	p = find(...);	
 	if (p == (tableau + taille))
 		cout << "Element non trouvé !\n";
 	else
@@ -24,7 +24,7 @@ int main ()
 	
 	
 	// Avec un vector
-	vector<int> ...;
+	vector<int> vec...;
 	vector<int>::iterator itV;
 	
 	// Recherchez l'élément 20 dans vec
@@ -37,7 +37,7 @@ int main ()
 		
 	
 	// Avec un vector
-	list<int> ...;
+	list<int> myList...;
 	list<int>::iterator itL;
 	
 	// Recherchez l'élément 34 dans l
@@ -45,7 +45,7 @@ int main ()
 	if (itL == myList.end())
 		cout << "Element non trouvé !\n";
 	else {
-		const int pos = ...
+		const int pos = distance(...,... ) + 1;
 		cout << "Element trouvé : " << *itL << " at position : " << pos <<endl;
 	}
 		
