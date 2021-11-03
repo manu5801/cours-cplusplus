@@ -880,6 +880,35 @@ r&eacute;servoir finira par se vider.</p>
  Le programmeur n'a g&eacute;n&eacute;ralement pas &agrave; s'en pr&eacute;occuper, elle est directement g&eacute;r&eacute;e
  par le syst&egrave;me. L'identit&eacute; de l'objet en C++ est simplement l'adresse de l'objet dans la m&eacute;moire.</p>
  
+<h4><a name="semantique">Donner du sens à nos classes</a></h4>
+<p>On ne crée par de nouveau objets seulement pour s'amuser. Les objets qui apparaissent dans les programmes doivent avoir un <strong>sens</strong>.
+On distingue trois grands types d'objets:</p>
+<ul>
+<li>Les objets à sémantique de valeur</li>
+<li>Les objets à sémantique d'entité</li>
+<li>Les objets gestionnaires de ressources</li>
+</ul>
+
+<h4><a name="sem-valeur">Sémantique de valeur</a></h4>
+<p>Une classe a une sémantique de valeur si deux objets <em>ayant le même état</em> (c'est-à-dire que leurs données membres sont égales) sont considérés
+comme <em>égaux</em>. On pourra surcharger les opérateurs pour ces types d'objets, cela permettra d'écrire un code plus simple à lire.
+La classe <strong>string</strong> de la stl correspond bien à cette sémantique de valeur</p>
+
+<h4><a name="sem-entite">Sémantique d'entité</a></h4>
+<p>Une classe a une sémantique d'entité si deux objets ayant le même état ne sont pas uniques pour autant: par exemple deux machines à café
+ayant la même quantité de café, d'eau etc. font tout de même deux machines à café différentes. Il s'agit ici de modéliser
+les objets de la "vie courante": il en résulte que les objets à sémantique d'entité seront essentiellement des objets "métiers".
+Ce sont sur ces objets qu'on voudra définir l'héritage, par contre nous ne chercherons pas à surcharger les opérateurs pour ces classes.
+Nous définirons une fonction de clônage, qui permettra de copier une entité sur une autre en tenant compte de la hiérarchie d'héritage. 
+</p>
+
+<h4><a  name="sem-ressources">Les gestionnaires de ressource</a></h4>
+<p>Une troisième sorte de classe est constituée par les gestionnaires de ressources. Il s'agit de classes dont <strong>l'unique raison d'être</strong> est de gérer (allouer et libérer)
+des ressources: mémoire, fichier etc. La stl contient plusieurs classes de ce type, elles vont nous faciliter la vie... si nous nous en servons.</p>
+
+<p><em><strong>Dans ce cours, nous étudierons les trois types d'objets, simplement pour savoir "comment ça marche". Mais dans la "vraie vie",
+nous définissions la plupart du temps des classes à sémantique d'entité, et nous utilisons en permanence des classes à sémantique de valeur ou gestionnaires de ressources,
+par le biais de la stl ou d'autres bibliothèques.</strong></em> </p>
 
 <h4><a name="obj-met">Des objets "m&eacute;tiers"</a></h4>
 

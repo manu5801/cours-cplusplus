@@ -82,8 +82,9 @@
 
 <p>Ce paragraphe  traite des  pointeurs,  des probl&egrave;mes
 li&eacute;s &agrave; l'allocation  dynamique de m&eacute;moire, et des  moyens qui existent
-de r&eacute;soudre ces probl&egrave;mes...   plut&ocirc;t d'&eacute;viter leur apparition, car en
-ce domaine le pr&eacute;ventif est bien plus ais&eacute; que le curatif...</p>
+de r&eacute;soudre ces probl&egrave;mes</p>
+
+<p><strong><em>Dans ce chapitre nous abordons les objets gestionnaires de ressources</em></strong></p>
 
 <h2><a name="alloc-dynam">Qu'est-ce que l'allocation dynamique de m&eacute;moire ?</a></h2>
 
@@ -95,14 +96,14 @@ constructeur de l'objet est appel&eacute;  en d&eacute;but de port&eacute;e; le 
 est appel&eacute; et la m&eacute;moire est rendue au syst&egrave;me &agrave; la fin de port&eacute;e. Les
 objets utilis&eacute;s ainsi utilisent une  partie de la m&eacute;moire vive appel&eacute;e
 <code>la pile</code>.  La structure  de pile est en effet parfaitement
-adapt&eacute;e  &agrave;  la  gestion  des  r&egrave;gles  de  port&eacute;e.  Or,  il  peut  &ecirc;tre
-int&eacute;ressant de stocker des donn&eacute;es &agrave; des endroits de la m&eacute;moire qui ne
+adapt&eacute;e  &agrave;  la  gestion  des  r&egrave;gles  de  port&eacute;e.  Or, les données peuvent être stockées
+&agrave; des endroits de la m&eacute;moire qui ne
 seront  pas sujets soumis  aux r&egrave;gles  de port&eacute;e;  cela peut  se faire
 gr&acirc;ce &agrave;:</p>
 
 <ul>
-  <li>d'une part  l'utilisation de pointeurs</li>
-  <li>d'autre part &agrave; des op&eacute;rateurs permettant de g&eacute;rer explicitement
+  <li>l'utilisation de pointeurs, ou d'objets à sémantique de pointeur</li>
+  <li>des op&eacute;rateurs permettant de g&eacute;rer explicitement
       l'allocation m&eacute;moire et sa lib&eacute;ration.</li>  
 </ul>
 
@@ -113,9 +114,9 @@ allou&eacute;e dans une autre z&ocirc;ne de la m&eacute;moire, appel&eacute;e <c
 (<code>heap</code>).</p>
 
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Le programmeur
-doit <em>effectivement</em> g&eacute;rer la  lib&eacute;ration de m&eacute;moire... s'il ne
-le fait pas, ou s'il le  fait mal, les pires cons&eacute;quences (&agrave; savoir un
-plantage du programme) peuvent arriver.</p></div>
+doit <em>effectivement</em> g&eacute;rer la  lib&eacute;ration de m&eacute;moire... Contrairement à d'autres langages,
+le C++ ne propose pas de "ramasse-miette": la libération des ressources est de la respnsabilité du développeur, qui peut
+ainsi choisir le moment où la ressource doit être libérée.</p></div>
 
 <h3><a name="pile-tas">Pointeurs empil&eacute;s, objets entass&eacute;s</a></h3>
 
@@ -124,8 +125,8 @@ adresser directement</em>  est la  pile.  Les pointeurs  se trouveront
 donc quelque  part dans  la pile, au  m&ecirc;me titre que  n'importe quelle
 variable. Les <em>objets point&eacute;s</em>,  par contre, se trouveront dans
 le tas. Il doit y avoir  <em>en permanence</em> un lien entre ces deux
-z&ocirc;nes de m&eacute;moire.  Garder ce lien intact est la premi&egrave;re pr&eacute;occupation
-d'une bonne gestion de la m&eacute;moire.</p>
+z&ocirc;nes de m&eacute;moire.  <em>Garder ce lien intact est la premi&egrave;re pr&eacute;occupation
+d'une bonne gestion de la m&eacute;moire.</em></p>
 
 <h3><a name="fuite-mem">Objets perdus et fuites de m&eacute;moire</a></h3>
 
@@ -143,7 +144,7 @@ au programme, et celui-ci sera interrompu brutalement.</p>
 
 <h3><a name="dangling">Les pointeurs qui pendouillent</a></h3>
 
-<p  >Il  est   parfaitement  possible  de  faire  pointer
+<p>Rien n'empêche de  faire  pointer
 plusieurs pointeurs vers  le m&ecirc;me objet.  Mais dans  ce cas si l'objet
 est d&eacute;truit (car le  programmeur a consciencieusement rendu la m&eacute;moire
 au syst&egrave;me)  les autres pointeurs  pointeront sur une z&ocirc;ne  de m&eacute;moire
@@ -152,7 +153,7 @@ n'importe  quoi   ("du  jargon"  (<code>garbage</code>)),   soit  elle
 contient  de  nouvelles  donn&eacute;es,  mais  qui  ne  sont  peut-&ecirc;tre  pas
 structur&eacute;es de  la m&ecirc;me mani&egrave;re  que les pr&eacute;c&eacute;dentes.  Le  pointeur va
 donc "pendouiller", et  si on cherche &agrave; l'utiliser,  il peut se passer
-n'importe quoi, mais le pire est &agrave; craindre.</p>
+n'importe quoi, y compris un plantage du programme.</p>
 
 <h3><a name="proprio">Propri&eacute;taires et r&eacute;f&eacute;rents</a></h3>
 
@@ -163,17 +164,12 @@ pointeurs:</p>
   <li>Un pointeur <em>propri&eacute;taire</em> de l'objet. Il a la responsabilit&eacute; de
       la destruction de cet objet. L'objet est le <em>r&eacute;f&eacute;rent</em>.</li>
   <li>Les autres pointeurs. Ils peuvent acc&eacute;der &agrave; l'objet tant que
-      celui-ci existe, mais ils ne sont pas cens&eacute;s s'occuper de sa destruction.</li>
+      celui-ci existe, mais ils ne sont pas cens&eacute;s s'occuper de sa destruction, ils sont "observateurs".</li>
 </ul>
 
 <p>Bien  s&ucirc;r, la propri&eacute;t&eacute;  d'un objet peut  passer d'un
-pointeur  &agrave;  l'autre. D'autre  part,  il  faut  bien avoir  pr&eacute;sent  &agrave;
-l'esprit que ces notions, importantes  lors de la phase de conception,
-<em>ne sont  pas pr&eacute;sentes  dans le langage  lui-m&ecirc;me</em>: le  C++ ne
-comprend en effet aucune gestion  de la m&eacute;moire, celle-ci restant &agrave; la
-charge du programmeur. Cependant, des objets (dont l'un d'entre eux se
-trouve  d&eacute;clar&eacute;  dans  la  biblioth&egrave;que standard)  vont  pouvoir  nous
-aider.</p>
+pointeur  &agrave;  l'autre. Ces notions <em>ne sont  pas pr&eacute;sentes  dans le langage  lui-m&ecirc;me</em>.
+Cependant, plusieurs objets de la bibliothèque standard vont nous aider.</p>
 
 <p><a href="#">top</a></p><hr />
 
@@ -290,7 +286,8 @@ seconde solution peut &ecirc;tre impl&eacute;ment&eacute;e par un <code>unique_p
 
 <h3><a id="uniq-ptr">L'objet <tt>unique_ptr</tt></a></h3>
 
-<p>Cet objet, défini dans la stl, définit un "smart pointer", c'est-à-dire un objet dont le rôle est de:</p>
+<p>Cet objet, défini dans la stl, définit un "smart pointer", c'est-à-dire un objet dont le seul obhjectif est la gestion de la mémoire.
+Son rôle est de:</p>
 
 <ul>
 <li>Encapsuler un pointeur renvoyé par un appel new ou new[]</li>
@@ -302,7 +299,8 @@ seconde solution peut &ecirc;tre impl&eacute;ment&eacute;e par un <code>unique_p
 de l'objet pointé, ce qui est une erreur si on ne prend pas des précautions. Si on déplace un pointeur, on passe simplement
 la responsabilité de l'un vers l'autre.</p>.
 
-<p>Le code suivant montre ce que devient notre code tableau défini plus haut lorsqu'on utilise un <tt>unique_ptr</tt> à la place d'un pointeur ordinaire:</p>
+<p>Le code suivant montre ce que devient notre code tableau défini plus haut lorsqu'on utilise un <tt>unique_ptr</tt> à la place
+d'un pointeur ordinaire:</p>
 
 <pre class="demo">
 #include <memory>

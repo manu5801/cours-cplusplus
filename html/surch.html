@@ -899,29 +899,41 @@ de gros soucis lors de l'exécution du code.</p></div>
 <p>Si vous ne fournissez pas ces deux fonctions le programme fonctionnera tout de même car on peut toujours remplacer un déplacement par une copie. 
 Simplement, étant moins optimisé, il risque d'avoir des performances inférieures.</p>
 
-<h4><a name="trio-cage">La mise en cage du trio infernal</a></h4>
+<h4><a name="trio-cage">Supprimer une fonction-membre du quintette (C++11)</a></h4>
 
-<p>Lorsque l'on  &eacute;crit un  objet, on  peut parfaitement
+<p>Lorsque l'on  &eacute;crit un  objet, on  peut
 <em>emp&ecirc;cher</em> les  utilisateurs de l'objet  en question d'utiliser
-copie et  constructeur de copie: pour  cela, il suffit  de les d&eacute;finir
-<em>dans  la  section  private</em>.   Ainsi,  seul  l'objet  lui-m&ecirc;me
-(c'est-&agrave;-dire  <em>vous</em>,  le  concepteur)  sera  capable  de  les
-utiliser.  Vous interdisez  aux <em>utilisateurs</em> de l'objet toute
-copie de  celui-ci.  Dans ce  cas, constructeur de copie  et op&eacute;rateur
-d'affectation peuvent d'ailleurs &ecirc;tre des fonctions vides...</p>
+copie et  constructeur de copie: pour  cela, il suffit  de les d&eacute;finir comme supprimés en utilisant le mot-clé <tt>delete</tt></p>
 
 <pre class="demo">
 class non_copiable {
 private:
-   non_copiable(const non_copiable&amp;) {};
-   non_copiable&amp; operator=(const non_copiable&amp;) {};
+   non_copiable(const non_copiable&amp;)=delete;
+   non_copiable&amp; operator=(const non_copiable&amp;)=delete;
    ...
 </pre>
 
-<p>Nous verrons  lors du  chapitre sur l'h&eacute;ritage  une mise en cage  un peu
-moins         brutale         de         l'op&eacute;rateur&nbsp;=         <a
+<p>D'où une nouvelle définition du trio ou quitette infernal: Si on doit <em>définir ou supprimer</em> une fonction du quintette, on doit les
+<em>définir ou supprimer toutes</em>.</p>
+
+<p>Nous en reparlerons dans le chapitre sur l'héritage.<a
 href="heritage.html#prot-affect"><img    alt="apr&egrave;s"   src="apres.gif" /></a>.</p>
 
+<h4><a name="zero">Le principe de responsabilité unique et la règle du zéro</a></h4>
+
+<p><strong>Bonne pratique:</strong> Les classes définies dans vos programmes (C++ ou pas) doivent obéir au principe de "responsabilité unique":
+une classe doit être responsable d'une seule chose, cela la rendra plus robuste. Or, les seules classes pour lesquelles nous devons fournir un constructeur et un destructeur qui ne soit pas le défaut sont les classes
+<strong>responsables d'une ressource</strong>. <em>Sauf que ces classes sont déjà écrites !</em></p>
+
+<p>D'où la règle du zéro:</p>
+
+<ul>
+<li>On n'utilise pas les pointeurs C, on utilise seulement les <tt>uniq_ptr</tt> ou <tt>shared_ptr</tt> (voir plus loin)</li>
+<li>On se repose sur les objet de la stl pour gérer les ressources</li>
+<li>En bref: on se repose sur le compilateur et sa bibliothèque</li>
+</ul>
+
+<p>Sur ces questions liées à la conception du code, voir ici: <a href="https://fr.wikipedia.org/wiki/Principe_de_responsabilit%C3%A9_unique">https://fr.wikipedia.org/wiki/Principe_de_responsabilit%C3%A9_unique</a></p>
 <p><a href="#">top</a></p><hr />
 
 <h3><a name="conv-ope">Conversions et op&eacute;rateurs</a></h3>

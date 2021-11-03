@@ -98,6 +98,8 @@ grand-chose  &agrave;  dire.  Plus  les  choses  se  pr&eacute;cisent, plus  on 
  Donc  &agrave; chaque &eacute;tape du  processus, on rajoutera  du code.  Le
 fait de partir  d'une classe de base g&eacute;n&eacute;rale  permet  d'exprimer directement dans le code des concepts abstraits</p>
 
+<div class="attention"><em><strong>Les classes étudiées dans ce chapitre ont une sémantique d'entité et la règle du zéro s'applique normalement.</strong></em></div>
+
 <h2 id="abstraites">Classes abstraites...</h2>
 
 <p>Reprenons  l'exemple des machines &agrave;  caf&eacute; abord&eacute; lors
@@ -140,7 +142,7 @@ class Cafetiere {
 }
 </pre>
 
-<p>La syntaxe <code>virtual faire_le_cafe() = 0</code> permet de d&eacute;finir une <strong>fonction virtuelle pure</strong>: on se contente ici de dire au compilateur que les objets <code>Cafetiere</code> seront dot&eacute;s de cette fonction, mais nous lui dirons ult&eacute;rieurement ce que ces fonctions devront faire concr&egrave;tement. Le diagramme UML met ces fonctions <em>en italique</em>.</p>
+<p>La syntaxe <code>virtual void faire_le_cafe() = 0</code> permet de d&eacute;finir une <strong>fonction virtuelle pure</strong>: on se contente ici de dire au compilateur que les objets <code>Cafetiere</code> seront dot&eacute;s de cette fonction, mais nous lui dirons ult&eacute;rieurement ce que ces fonctions devront faire concr&egrave;tement. Le diagramme UML met ces fonctions <em>en italique</em>.</p>
 <p>Le fait que la classe <code>Cafetiere</code> contienne dans sa d&eacute;finition <strong>au moins une fonction virtuelle pure</strong> entraine que cette classe est <em>abstraite</em>. D'o&ugrave; le nom de la classe en italiques dans le diagramme UML.</p>
 
 <h2 id="concretes">...Classes concr&egrave;tes </h2>
@@ -162,8 +164,8 @@ class Cafetiere {
 class <strong>CafetiereSoluble: public Cafetiere</strong> {
 
 public:
-  <strong>virtual int faire_le_cafe();
-  virtual int lire_etat();</strong>
+  <strong>void faire_le_cafe() override;
+  int lire_etat() override;</strong>
 
 protected:
   void verser_cafe();
@@ -175,8 +177,8 @@ private:
 class <strong>CafetierePoudre: public Cafetiere</strong> {
 
 public:
-  <strong>virtual int faire_le_cafe();
-  virtual int lire_etat();</strong>
+  <strong>void faire_le_cafe() override;
+  int lire_etat() override;</strong>
 
 protected:
   void verser_cafe_dans_filtre();
@@ -186,7 +188,9 @@ private:
 }
 </pre>
 
-<p>On a ainsi d&eacute;fini une <strong>relation d'h&eacute;ritage</strong> entre nos objets. On dit que <code>CafetierePoudre</code> <em>h&eacute;rite</em> de <code>Cafetiere</code>, ou encore que <code>Cafetiere</code> est une <em>super-classe</em> de <code>CafetierePoudre</code></p>
+<p>On a ainsi d&eacute;fini une <strong>relation d'h&eacute;ritage</strong> entre nos objets. On dit que <code>CafetierePoudre</code>
+<em>h&eacute;rite</em> de <code>Cafetiere</code>, ou encore que <code>Cafetiere</code> est une <em>super-classe</em>
+de <code>CafetierePoudre</code></p>
 
 <p>On  dit que la  classe <code>CafetiereSoluble</code> est
 <em>d&eacute;riv&eacute;e</em>            de            <code>Cafetiere</code>,
@@ -259,25 +263,8 @@ CafetiereSoluble ma_cafetiere;
 
 <h3 id="copie"> Constructeur de copie: </h3>
 
-<p>Le constructeur de copie doit être écrit de la manière suivante:</p>
-
-<pre class="demo">
-class CafetiereSoluble: public Cafetiere {
-public:
-   <b>CafetiereSoluble(const CafetiereSoluble&amp; m) : Cafetiere(m),cafe(m.cafe) {...};</b>
-}
-</pre>
-
-<p>en effet, il faut dire  <em>explicitement</em> au compilateur quel constructeur il dit appeler pour la classe de base. Cela
-peut   se  faire   dans   la   liste d'initialisation de <code>CafetiereSoluble</code>:</p>
-
-<p>L'expression <code>Cafetiere(m)</code> est correcte puisque  <code>m</code>   &eacute;tant   une CafetiereSoluble, <code>m</code> est <em>aussi</em> une <code>Cafetiere</code>.</p>
-
-<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-Si on utilise les contructeurs de copie par d&eacute;faut (c'est le cas, sauf lorsque l'on ne peut faire autrement), tout se passe correctement.</p></div>
-
-<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-En fait, cela fonctionne <em>parce que </em> le param&egrave;tre <code>m</code> est pass&eacute; par r&eacute;f&eacute;rence au constructeur de copie <a href="#virt-dest"><img alt="apres" src="apres.gif" /></a>. </p></div>
+<p>Nous sommes en présence d'objets ayant une sémantique d'identité, en conséquence il n'y a pas lieu de définir le constructeur de copie.
+On pourra éventuellement définir un clônage polymorphique (voir plus bas).</p>
 
 <h3 id="autres-const">Autres constructeurs</h3>
 
@@ -329,9 +316,8 @@ se passe la s&eacute;quence suivante:</p>
 </ol>
 
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-  Si   on  utilise  avec  des   pointeurs  ou  des
-r&eacute;f&eacute;rences, on peut avoir quelques surprises, qui n&eacute;cessitent l'utilisation de destructeurs virtuels. <a href="#virt-dest"><img alt="apres" src="apres.gif" /></a>
-</p></div>
+    Il sera la plupart du temps nécessaire de définir un destructeur virtuel au niveau de la balsse de base.
+</div>
 
 <h3 id="poly">Le polymorphisme</h3>
 
@@ -339,10 +325,10 @@ r&eacute;f&eacute;rences, on peut avoir quelques surprises, qui n&eacute;cessite
 trois machines &agrave; caf&eacute;, de deux types diff&eacute;rents, par l'interm&eacute;diaire d'un tableau de pointeurs:</p>
 
 <pre class="demo">
-Cafetiere* machines[3];
-machines[0] = new CafetiereSoluble(1.5,500,500,2,0.5);
-machines[1] = new CafetiereSoluble(1.5,500,500,2,0.5);
-machines[2] = new CafetierePoudre(1.5,500,500,2,0.9);
+vector&lt;shared_ptr&lt;Cafetiere&gt;&gt; machines;
+machines.push_back(make_shared&lt;CafetiereSoluble&gt;(1.5,500,500,2,0.5));
+machines.push_back(make_shared&lt;CafetiereSoluble&gt;(1.5,500,500,2,0.5));
+machines.push_back(make_shared&lt;CafetierePoudre&gt;(1.5,500,500,2,0.5));
 
 for (int i=0; i&lt;3; ++i) {
     if (machines[i]-&gt;lire_etat() == 1) {
@@ -352,7 +338,7 @@ for (int i=0; i&lt;3; ++i) {
 };
 </pre>
 
-<p>Le code ci-dessus d&eacute;clare un tableau de trois objets de type pointeur sur <code>Cafetiere</code>, puis remplit le tableau avec deux machines &agrave; caf&eacute; soluble et une en poudre. Souvenez-vous que les fonctions <code>lire_etat</code> et <code>faire_le_cafe</code> ont &eacute;t&eacute; d&eacute;lar&eacute;es avec le mot-cl&eacute; <code><b>virtual</b></code>: ce mot signifie que le compilateur ne cherche pas &agrave; savoir exactement quelle fonction <code>lire_etat</code> sera appel&eacute;e, ni quelle fonction <code>faire_le_cafe()</code> sera appel&eacute;e, puisque l'allocation m&eacute;moire se fait de manière dynamique: il retient donc simplement qu'il devra appeler la version de la fonction <code>faire_le_cafe</code> <em>qui va bien</em>, en fonction du type d'objet qui sera appel&eacute; &agrave; l'ex&eacute;cution du programme. Le mot <em>polymorphisme</em> d&eacute;crit la propri&eacute;t&eacute; de ces deux fonctions d'adopter "plusieurs formes", suivant le contexte du programme. On parle aussi d'&eacute;dition de liens dynamique. Remarquons qu'une fois  de plus,  on  retrouve une
+<p>Le code ci-dessus d&eacute;clare un vecteur de type pointeur sur <code>Cafetiere</code>, puis le remplit avec deux machines &agrave; caf&eacute; soluble et une en poudre. Souvenez-vous que les fonctions <code>lire_etat</code> et <code>faire_le_cafe</code> ont &eacute;t&eacute; d&eacute;lar&eacute;es avec le mot-cl&eacute; <code><b>virtual</b></code>: ce mot signifie que le compilateur ne cherche pas &agrave; savoir exactement quelle fonction <code>lire_etat</code> sera appel&eacute;e, ni quelle fonction <code>faire_le_cafe()</code> sera appel&eacute;e, puisque l'allocation m&eacute;moire se fait de manière dynamique: il retient donc simplement qu'il devra appeler la version de la fonction <code>faire_le_cafe</code> <em>qui va bien</em>, en fonction du type d'objet qui sera appel&eacute; &agrave; l'ex&eacute;cution du programme. Le mot <em>polymorphisme</em> d&eacute;crit la propri&eacute;t&eacute; de ces deux fonctions d'adopter "plusieurs formes", suivant le contexte du programme. On parle aussi d'&eacute;dition de liens dynamique. Remarquons qu'une fois  de plus,  on  retrouve une
 mani&egrave;re  de  penser  parfaitement  naturelle:  si je  vous  passe  une
 casserole (classe de base) en vous demandant de la laver (fonction qui
 op&egrave;re sur le  type g&eacute;n&eacute;rique casserole), je vous  passe en r&eacute;alit&eacute; une casserole bien particuli&egrave;re, et pas  toujours la m&ecirc;me (hier c'&eacute;tait le vieux chaudron &agrave; confiture qui  me vient de ma grand-m&egrave;re, aujourd'hui c'est une  casserole en  aluminium, dans les  deux cas il  s'agit d'un type de casserole particulier). Dans les deux cas vous allez la laver... mais suivant le type de casserole, vous vous y prendrez diff&eacute;remment. Par contre, la fonction <code><b>encaisser_monnaie</b></code> fait l'objet d'une &eacute;dition de liens statiques (il n'y a pas le mot <code>virtual</code> devant, donc il n'y a pas  ici de polymorphisme).</p>
@@ -364,7 +350,11 @@ originale, soit <b>un type dérivé</b> (on parle dans ce cas de "types de retou
 s'agit de deux fonctions diff&eacute;rentes, et le m&eacute;canisme d'&eacute;dition de liens dynamiques ne s'applique pas.</p></div>
 
 
-<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Pourquoi les fonctions ne sont-elles pas automatiquement virtuelles ? C'est le cas dans d'autres langages orient&eacute;s objets, java par exemple. Le probl&egrave;me avec les fonctions virtuelles, c'est qu'elles sont moins performantes que les fonctions classiques. C'est normal: le m&eacute;canisme d'&eacute;dition de liens dynamiques est tr&egrave;s puissant, mais il a un co&ucirc;t. Donc, il est recommand&eacute; de ne les utiliser <em>que lorsque c'est n&eacute;cessaire</em>, et pas lorsque la performance est r&eacute;dhibitoire.</p></div>
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" /> Pourquoi les fonctions ne sont-elles pas automatiquement virtuelles ? C'est le cas dans d'autres langages orient&eacute;s objets, java par exemple.
+Le probl&egrave;me avec les fonctions virtuelles, c'est qu'elles sont moins performantes que les fonctions classiques.
+C'est normal: le m&eacute;canisme d'&eacute;dition de liens dynamiques est tr&egrave;s puissant, mais il a un co&ucirc;t.
+Donc, il est recommand&eacute; de ne les utiliser <em>que lorsque c'est n&eacute;cessaire</em>,
+et pas lorsque la performance est r&eacute;dhibitoire.</p></div>
 
 <div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
 Si vous surchargez une fonction virtuelle, la fonction surcharg&eacute;e ne sera pas virtuelle 
@@ -420,8 +410,9 @@ le cas lors de l'appel d'un constructeur.</p>
 risque d'entra&icirc;ner des r&eacute;sultats catastrophiques:</p>
 
 <pre class="demo">
-for (int i=0; i&lt;10; i++) {
-    delete machines[i];
+    for (auto m: machines) {
+        m.reset();
+    }
 </pre>
 
 <p>Le probl&egrave;me ici  est que <em>seul</em> le destructeur
@@ -430,121 +421,44 @@ de la  classe de  base a &eacute;t&eacute;  appel&eacute;. Si  le destructeur de
 (rendre        la         m&eacute;moire        allou&eacute;e        pour        le
 <code>reservoir_cafe_en_poudre</code>,  par exemple),  c'est  rat&eacute;. Le
 destructeur n'a  pas &eacute;t&eacute;  appel&eacute;, et il  y a  un r&eacute;servoir &agrave;  caf&eacute; qui
-tra&icirc;ne au  fond de la m&eacute;moire...   Il est donc  toujours pr&eacute;f&eacute;rable de
+tra&icirc;ne au  fond de la m&eacute;moire...   Il est donc obligatoire de
 d&eacute;clarer   pour  la   classe  <code>Cafetiere</code>   un  destructeur
-virtuel... quitte &agrave; ce que celui-ci ne fasse rien:</p>
+virtuel... quitte &agrave; ce que celui-ci renoie sur le destructeur par défaut (règle du zéro):</p>
 
 <pre class="demo">
 class Cafetiere {
-  virtual ~Cafetiere() {};
+  virtual ~Cafetiere() = default;
 };
 </pre>
 
 <div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
-On pourrait
-bien   s&ucirc;r  consid&eacute;rer   que  tous   les  destructeurs   doivent  &ecirc;tre
-virtuels. Malheureusement,  d&eacute;clarer une fonction  virtuelle prend des
-ressources... c'est  d'ailleurs pour cela que toutes  les fonctions ne
-sont  pas  virtuelles.   G&eacute;n&eacute;ralement,   on  peut  consid&eacute;rer  que  la
-d&eacute;claration de  la <em>premi&egrave;re</em> fonction virtuelle  prend pas mal
-de  ressources,  les fonctions  suivantes  nettement  moins.  D'o&ugrave;  la
-recommandation  suivante: <em>toute  classe abstraite,  ainsi  que les
-classes qui  en d&eacute;rivent,  doivent avoir un  destructeur virtuel.</em>
-Une  classe non  abstraite  ayant  peu ou  pas de  classes d&eacute;riv&eacute;es  le
-destructeur   virtuel  a  moins   de  chances   d'&ecirc;tre  indispensable
+Toute <strong>classe de base contenant au moins une fonction virtuelle</strong> (et a fortiori une classe de base abstraite)
+<strong>doit</strong> proposer un destructeur virtuel.
 </p></div>
-
-<h3 id="affect">L'op&eacute;rateur d'affectation dans une classe de base</h3>
-
-<p>Si         l'op&eacute;rateur         d'affectation
-(<code>operator=()</code>)  d'une  classe  d&eacute;riv&eacute;e  doit  &ecirc;tre  d&eacute;fini
-(c'est-&agrave;-dire si  l'op&eacute;rateur d'affectation fourni  par le compilateur
-n'est  pas  suffisant),  celui-ci  <em>doit</em>  appeler  l'op&eacute;rateur
-d'affectation  de sa  classe de  base: sinon,  <em>tous les  champs ne
-seront pas copi&eacute;s  !!!</em>. Par contre, s'il n'est  pas n&eacute;cessaire de
-d&eacute;finir  un  op&eacute;rateur   d'affectation  particulier  pour  une  classe
-d&eacute;riv&eacute;e, le compilateur se chargera correctement d'appeler l'op&eacute;rateur
-d'affectation de la classe de base.</p>
-
-<pre class="demo">
-class CafetiereSoluble: public Cafetiere {
-public:
-    CafetiereSoluble&amp; operator=(const CafetiereSoluble&amp; c) {
-       Cafetiere::operator=(c);  // copie de la partie commune
-       cafe = c.cafe;            // copie du reservoir de caf&eacute;
-       return *this;
-    };
-}
-</pre>
-
-<h4 id="prot-affect">Prot&eacute;ger l'op&eacute;rateur d'affectation d'une
-classe de base abstraite</h4>
-
-<p>L'op&eacute;rateur d'affectation d'une classe de base
-abstraite  doit  normalement &ecirc;tre  d&eacute;clar&eacute; <em>dans  une section
-<code>protected</code></em>,  quitte &agrave;  d&eacute;clarer  un <code>operator=</code>
-<em>uniquement   dans    ce   but</em>.    En    effet,   par   d&eacute;faut
-l'<code>operator=</code> est  public. Mais pour  une classe abstraite,
-cela risque  de conduire &agrave;  des catastrophes:<img alt="NOOON" src="nepasfaire.png" /></p>
-
-<pre class="demo">
-void f(Cafetiere&amp;c1, const Cafetiere&amp;c2) {
-   ...
-   c1 = c2;
-   ...
-};
-
-main() {
-  CafetiereSoluble S;
-  CafetierePoudre P;
-  f (S,P);
-}
-</pre>
-
-<p>Cela aboutit &agrave; &eacute;crire une &eacute;galit&eacute; entre une machine &agrave;
-caf&eacute; en grains et une  machine &agrave; capuccino (caf&eacute; soluble+chocolat). Il
-est  clair  que  cela  ne  peut pas  fonctionner...   et  pourtant  le
-compilateur a b&ecirc;tement accept&eacute;. D'o&ugrave; le code suivant:</p>
-
-<pre class="demo">
-class Cafetiere {
-protected:
-    Cafetiere&amp; operator=(const Cafetiere&amp;c);
-}
-</pre>
-
-<p >L'op&eacute;rateur  =   &eacute;tant  d&eacute;clar&eacute;  dans  la  section
-protected,  il peut  &ecirc;tre utilis&eacute;  par les  classes  d&eacute;riv&eacute;es, <em>mais il est inaccessible pour le reste du monde</em>. De sorte que
-la fonction suivante ne sera pas compilée:</p>
-
-<pre class="demo">
-void f(Cafetiere&amp;c1, const Cafetiere&amp;c2) {
-   c1 = c2;     // ERREUR ! operator= est prive !
-};
-</pre>
 
 <h3 id="clonage-polymorphique">Le clônage polymorphique</h3>
 
 <p>Dans certains cas, on veut bénéficier d'une opération de copie d'un objet dans l'autre, en s'arrangeant pour que l'objet
 de destination prenne le type de l'objet copié. Il s'agit d'un clônage polymorphique, il ne s'obtient pas avec l'operateur=, mais
-avec une fonction Clone, définie dans <em>chaque classe</em> de la hiérarchie de la manière suivante:</p>
+avec une fonction <tt>clone</tt>, définie dans <em>chaque classe</em> de la hiérarchie de la manière suivante:</p>
 
 <pre class="demo">
 class Cafetiere {
    ...
-   <b>virtual Cafetiere* Clone() = 0;</b>
+   <b>virtual Cafetiere * Cafetiere clone() = 0;</b>
 }
 
 class CafetiereSoluble {
    ...
-   <b>virtual CafetiereSoluble* Clone()
+   <b>CafetiereSoluble * Cafetiere clone() override
    {
-        return new CafetiereSoluble(*this);
-   }</b>
+       return new CafetiereSoluble(*this);
+   }
+   </b>
 };
 
-void f(const Cafetiere&amp;c2) {
-   Cafetiere* c1 = c2.Clone();
+void f(const Cafetiere&amp; c2) {
+    Cafetiere * = c2.Clone();
    ...
 };
 
@@ -555,9 +469,14 @@ main() {
 </pre>
 
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-La fonction Clone doit être redéfinie dans <b>toutes les classes dérivées</b> de la classe de base. A chaque fois, la définition sera la même, mais 
-on doit la réécrire. Si on oublie une redéfinition, le compilateur ne s'apercevra de rien, mais on risque d'avoir un comportement erratique lors de l'exécution du programme.
-</p></div>
+La fonction <tt>clone</tt> doit être redéfinie dans <b>toutes les classes dérivées situées tout en bas de la hiérarchie</b> (les "feuilles"). A chaque fois, la définition sera la même, mais 
+on doit la réécrire.</p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Cela marche grâce à faculté du C++ de définir des types de retour covariants.</p></div>
+
+<div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
+Pour une mise en œuvre du clônage polymorphique ainsi que des <tt>shared_ptr</tt>, vous pouvez télécharger ce <a href="clonage/clonage.cpp">code jouet</a></p></div>
 
 <p><a href="#">top</a></p><hr /> 
 

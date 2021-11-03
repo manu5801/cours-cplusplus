@@ -449,10 +449,31 @@ Il est constitué par:
 \begin{itemize}
 \item{\textit{La bonne nouvelle}: Le système fournira \textbf{une version par défaut pour ces trois fonctions} }
 \item{\textit{la mauvaise nouvelle}: La version par défaut du système \textbf{ne convient pas toujours}, en particulier s'il y a allocation de ressources dans le constructeur}
-\item{\textit{La mauvaise nouvelle}: Si je dois écrire l'une des trois/cinq, \textbf{je dois écrire les trois/cinq} ! En effet, si vous fournissez l'un, les duex/quatre autres ne seront pas générés !}
+\item{\textit{La mauvaise nouvelle}: Si je dois écrire l'une des trois/cinq, \textbf{je dois écrire les trois/cinq} ! En effet, si vous fournissez l'un, les deux/quatre autres ne seront pas générés !}
 \item{\textit{La bonne nouvelle}: dans du code applicatif, \textbf{les versions par défaut sont la plupart du temps suffisantes}, surtout si on utilise des objets gestionnaires de ressources}
 \end{itemize}
 \end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {C++ moderne: La règle du zéro}
+
+\textbf{Les bonnes pratiques du C++ aujourd'hui}
+
+\begin{itemize}
+\item{On n'écrit pas ses objets gestionnaires de ressources}
+\item{On utilise les conteneurs de la stl}
+\item{En particulier, on n'utilise pas de pointeurs, seulement des unique\_ptr ou shared\ ptr}
+\end{itemize}
+
+\begin{block}{La VRAIE règle d'or du trio/quintette infernal: Zéro code}
+\begin{itemize}
+\item{\textit{La bonne nouvelle}: Pas de trio }
+\item{\textit{La très bonne nouvelle}: Pas de quintette }
+\item{\textit{L'excellente nouvelle}: On laisse faire le compilateur et la stl}
+\end{itemize}
+\end{block}
+
 \end{frame}
 
 \section{Conversions}
