@@ -286,19 +286,26 @@ seconde solution peut &ecirc;tre impl&eacute;ment&eacute;e par un <code>unique_p
 
 <h3><a id="uniq-ptr">L'objet <tt>unique_ptr</tt></a></h3>
 
-<p>Cet objet, défini dans la stl, définit un "smart pointer", c'est-à-dire un objet dont le seul obhjectif est la gestion de la mémoire.
-Son rôle est de:</p>
+<p>Cet objet, défini dans la stl, définit un "smart pointer", c'est-à-dire un objet dont le seul objectif est la gestion de la mémoire.
+Un unique_ptr a les caractéristiques suivantes:</p>
 
 <ul>
-<li>Encapsuler un pointeur renvoyé par un appel new ou new[]</li>
-<li>Libérer la mémoire allouée par celui-ci lorsque l'objet sort de sa portée: il y a un delete dans son destructeur.</li>
+<li>Il est toujours propriétaire de l'objet pointé</li>
+<li>Il ne peut être copié</li>
+<li>Il peut être déplacé, dans ce cas le pointeur original est détruit au profit du nouveau pointeur</li>
+<li>Lorsqu'il est détruit, l'objet pointé est détruit en même temps.</li>
 </ul>
 
-<p>Un unique_ptr est <strong>toujours</strong> propriétaire de l'objet sur lequel il pointe. Un <tt>unique_ptr</tt> <strong>ne peut pas être copié</strong>, mais 
-<strong>il peut être déplacé !</strong>. En effet si on copie un pointeur, on se retrouve avec deux pointeurs qui sont chacun responsables
-de l'objet pointé, ce qui est une erreur si on ne prend pas des précautions. Si on déplace un pointeur, on passe simplement
-la responsabilité de l'un vers l'autre.</p>.
+est <strong>toujours</strong> responsable de l'objet sur lequel il pointe. Un <tt>unique_ptr</tt> <strong>ne peut pas être copié</strong>, mais 
+<strong>il peut être déplacé</strong>. En effet si on copie un pointeur, on se retrouve avec deux pointeurs qui sont chacun responsables
+de l'objet pointé, ce qui est interdit. Alors que si on déplace un pointeur, on passe simplement la responsabilité de l'un vers l'autre.</p>.
 
+<p>Pour construire un unique_ptr en même temps qu'un objet, il est recommandé d'utiliser la fonction:</p>
+<ul>
+<li><tt>make_unique<int>(10)</tt> pour un pointeur vers un entier initialisé à 10</li>
+<li><tt>make_unique<int[]>(10)</tt> pour un pointeur vers un tableau de 10 entiers.</li>
+</ul>
+  
 <p>Le code suivant montre ce que devient notre code tableau défini plus haut lorsqu'on utilise un <tt>unique_ptr</tt> à la place
 d'un pointeur ordinaire:</p>
 
@@ -310,25 +317,42 @@ public:
 
 private:
   const size_t taille;
-  unique_ptr<int> buffer;
+  unique_ptr&lt;int[]&gt;&amp; buffer;
 };
 
-tableau::tableau(int s) : taille(s) {
-  buffer = (unique_ptr&lt;int&gt;) new int [taille];
+tableau::tableau(int s) : taille(s), buffer(make_unique<int[]>(taille)){};
 };
 
 void main() {
   tableau t1(1000);
-  try
-  {
-      tableau t2(100000000000000000);
-  } 
-  catch (bad_alloc & e)
-  {
-      cout << "oups, pas assez de mémoire !" << endl;
-  }
+  tableau t2(100000000000000000);
 };
 </pre>
+
+<p>Pour aller plus loin, vous pouvez aller voir <a href="exos/unique_ptr/"> ces exercices.</a></p>
+
+<p><a href="#">top</a></p><hr />
+
+<h3><a id="shared-ptr">L'objet <tt>shared_ptr</tt></a></h3>
+
+<p>Egalement dans la stl, une autre sorte de smart pointer: Un shared_ptr a les caractéristiques suivantes:</p>
+
+<ul>
+<li>Tous les shared_ptr pointant sur un même objet se partagent la responsabilité de l'objet</li>
+<li>On peut copier un shared_ptr: simplement, il y en aura un de plus, pointant sur le même objet</li>
+<li>Un comptage de référence est maintenu, de sorte qu'à tout moment on sait combien de shared_ptr pointent sur un objet donné</li>
+<li>Lorsqu'un shared_ptr est détruit: si le compte de références est de 1 il détruit l'objet pointé avant de disparaître</li>
+</ul>
+
+<p>Pour construire un shared_ptr en même temps qu'un objet, il est recommandé d'utiliser la fonction:</p>
+<ul>
+<li><tt>make_shared<int>(10)</tt> pour un pointeur vers un entier (en initialisant l'entier à 10)</li>
+
+<li><tt>make_shared<int[]>(10)</tt> pour un pointeur vers un tableau de 10 entiers</li>
+</ul>
+  
+<p>On l'a vu au chapitre sur l'héritage: un tableau ou mieux un conteneur (par exemple un vecteur) d'objets poylmorphes doit obligatiorement
+contenir des shared_ptr. Une illustration <a href="exos/clonage">se trouve ici</a>.</p>
 
 <p><a href="#">top</a></p><hr />
 

@@ -30,23 +30,23 @@ using namespace std;
 
 class Tab2 {
 private:
-	unique_ptr<int> base1;
-	unique_ptr<int> base2;
-	size_t s1;
-	size_t s2;
+    unique_ptr<int> base1;
+    unique_ptr<int> base2;
+    size_t s1;
+    size_t s2;
 
 public:
-	/***
-	* s1 et s2 = taille du premier et du second tableau
-	*
-	* En cas d'erreur d'allocation, new renvoie une exception de type bad_alloc
-	*
-	****************/
-	Tab2(size_t s1, size_t s2): s1(s1), s2(s2) 
-	{
-		base1 = unique_ptr<int>(new int[s1]);
-		base2 = unique_ptr<int>(new int[s2]);
-	};
+    /***
+    * s1 et s2 = taille du premier et du second tableau
+    *
+    * En cas d'erreur d'allocation, new renvoie une exception de type bad_alloc
+    *
+    ****************/
+    Tab2(size_t s1, size_t s2): s1(s1), s2(s2) 
+    {
+        base1 = unique_ptr<int>(new int[s1]);
+        base2 = unique_ptr<int>(new int[s2]);
+    };
 };
 
 int main() {
@@ -58,15 +58,14 @@ int main() {
        Comme c'est bizarre !
 */
 
-   for (;;) {
-	try {
-	    Tab2 t = {1000,1000};             // 1 - ca marche
-	    // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
- 	    // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
-    	} catch(const exception &e) {
-    	    cerr << e.what() << '\n';
-    	};
-   };
-
+    for (;;) {
+    try {
+        Tab2 t = {1000,1000};             // 1 - ca marche
+        // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
+         // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
+        } catch(const exception &e) {
+            cerr << e.what() << '\n';
+        };
+    };
 };
 

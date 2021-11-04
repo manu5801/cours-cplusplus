@@ -30,29 +30,29 @@ using namespace std;
 
 class Tab2 {
 private:
-	int* base1;
-	int* base2;
-	size_t s1;
-	size_t s2;
+    int* base1;
+    int* base2;
+    size_t s1;
+    size_t s2;
 
 public:
-	/***
-	* s1 et s2 = taille du premier et du second tableau
-	*
-	* En cas d'erreur d'allocation, new renvoie une exception de type bad_alloc
-	*
-	****************/
-	Tab2(size_t s1, size_t s2): s1(s1), s2(s2) 
-	{
-		base1 = new int[s1];
-		base2 = new int[s2];
-	};
-	~Tab2() {
-		delete[](base1); 
-		base1 = nullptr;
-		delete[](base2);
-		base2 = nullptr;
-	};
+    /***
+    * s1 et s2 = taille du premier et du second tableau
+    *
+    * En cas d'erreur d'allocation, new renvoie une exception de type bad_alloc
+    *
+    ****************/
+    Tab2(size_t s1, size_t s2): s1(s1), s2(s2) 
+    {
+        base1 = new int[s1];
+        base2 = new int[s2];
+    };
+    ~Tab2() {
+        delete[](base1); 
+        base1 = nullptr;
+        delete[](base2);
+        base2 = nullptr;
+    };
 };
 
 int main() {
@@ -65,13 +65,13 @@ int main() {
 */
 
    for (;;) {
-	try {
-	    Tab2 t = {1000,1000};             // 1 - ca marche
-	    // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
- 	    // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
-    	} catch(const exception &e) {
-    	    cerr << e.what() << '\n';
-    	};
+    try {
+        Tab2 t = {1000,1000};             // 1 - ca marche
+        // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
+        // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
+        } catch(const exception &e) {
+            cerr << e.what() << '\n';
+        };
    };
 
 };
