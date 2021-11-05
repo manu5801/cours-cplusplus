@@ -244,16 +244,27 @@ src="attention.gif" />Certains  compilateurs  n&eacute;cessitent  l'utilisation
 d'une option de compilation  pour utiliser la biblioth&egrave;que standard. A
 v&eacute;rifier dans votre documentation.</p></div>
 
-<h3><a name="typedef">Les instructions <code>typedef</code> et <code>auto</code></a></h3>
+<h3><a name="typedef">Les instructions <code>typedef</code>, <code>using</code> et <code>auto</code></a></h3>
 
-<p>L'instruction <code>typedef</code> (issue
-du <code>C</code>) ne d&eacute;finit pas, contrairement &agrave; ce que son nom
-pourrait laisser croire, un nouveau type. Elle ne fait que donner un
+<p>Les instructions <code>typedef</code> et <code>using</code> permettent de donner un
 autre nom (synonyme) <i> &agrave; un type existant</i>. Il est recommand&eacute; de
 s'en servir, car l'utilisation syst&eacute;matique des mod&egrave;les dans la
 biblioth&egrave;que standard rend le code difficilement compr&eacute;hensible si on
-ne l'utilise pas.</p>
+ne l'utilise pas. using est la manière "C++ moderne" de définir des aliases de types, plus lisible et plus riche
+que typedef (voir <a href="https://stackoverflow.com/questions/10747810/what-is-the-difference-between-typedef-and-using-in-c11">ici</a> pour les détails). </p>
+
 <p>Une autre manière de rendre le code lisible est l'utilisation du spécificateur de type <code>auto</code>.</p>
+
+<pre class="demo">
+// à l'ancienne
+typedef vector&lt;int&gt; vint_t;
+
+// en C++ moderne
+using vint_t = vector&lt;int&gt;
+
+vint_t v1;
+auto v2 = v1;
+</pre>
 
 <h3><a name="localtype">Les types locaux</a></h3>
 

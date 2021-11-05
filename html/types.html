@@ -36,6 +36,7 @@
 		<li><a onclick="javascript=cacher_menu()" href="types.html#expressions">Les expressions</a></li> 
 		<li><a onclick="javascript=cacher_menu()" href="types.html#instructions">Les instructions</a></li> 
 		<li><a onclick="javascript=cacher_menu()" href="types.html#constC">Les constantes en langage C</a></li> 		
+		<li><a onclick="javascript=cacher_menu()" href="types.html#constexpr">Les expressions constantes en langage C++</a></li> 		
 		<li><a onclick="javascript=cacher_menu()" href="types.html#decl-var">D&eacute;clarations de variables</a></li> 
 		<li><a onclick="javascript=cacher_menu()" href="types.html#type-predef">Les types de base</a></li>
 		<li><a onclick="javascript=cacher_menu()" href="types.html#type-deriv">Les types dérivés</a></li>
@@ -263,7 +264,7 @@ au programme appelant.</p>
 
 <h2 id="constC">Les constantes en langage C</h2>
 
-<p>Il n'est pas possible de déclarer en langage C des constantes autres que littérales (pi = 3.14).
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>Il n'est pas possible de déclarer en langage C des constantes autres que littérales (pi = 3.14).
 Le préprocesseur va nous permettre de définir des constantes symboliques, qui sont en fait vues comme des macros:</p>
 
 <pre class="demo">
@@ -363,6 +364,17 @@ nul `&#92;0'. Pour stocker une cha&#238;ne de n caract&#232;res, il faut donc n+
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />Attention &#224; bien faire la diff&#233;rence entre une constante
 de type caract&#232;re et une cha&#238;ne de caract&#232;res qui ne contient qu'un caract&#232;re&nbsp;: la premi&#232;re est un entier, la seconde
 est un tableau qui contient un caract&#232;re et `&#92;0'.</p></div>
+
+<h2 id="constexpr">Les expressions constantes en langage C++</h2>
+
+<img src="oiseau.png" style="float:left" title="C++ moderne" alt="C++ moderne" /><p>La directive <code>constexpr</code> remplace les <code>#define</code> du langage C. Elle est plus riche ( et doit être utilisée en C++ moderne à la place de <code>#define</code>.</p>
+
+
+<pre class="demo">
+constexpr int a=56;
+constexpr float pi=3.14;
+</pre>
+
 
 <h2 id="decl-var">D&eacute;clarations de variables</h2>
 
@@ -511,7 +523,8 @@ int B;                                      // 2 parties seulement
 
 <dl>
   <dt><code><b>const</b></code></dt> 
-  <dd>Permet de d&eacute;finir une variable constante. Par exemple, un objet constant. Nous verrons dans la suite que cela peut apporter quelques complications.</dd>
+  <dd>Permet de d&eacute;finir une variable constante. Par exemple, un objet constant. Utile pour apporter de la robustesse à votre code, au prix de quelques complications.
+  <br /><strong>Attention</strong>, ce n'est pas la même chose que la constexpr abordée plus haut !</dd>
   <dt><code><b>mutable</b></code></dt>
   <dd>Utilis&eacute; dans les d&eacute;claration de classes, en lien avec <code>const</code></dd>
   <dt><code><b>static</b></code></dt>
@@ -553,13 +566,14 @@ entier et  vice-versa; dans ce cas, <code>true</code>  se convertit en
 <code>1</code>,  <code>false</code>  se  convertit en  <code>0</code>.
 Dans l'autre  sens, <code>0</code> est  converti en <code>false</code>
 et tout  entier non  nul est converti  en <code>true</code>. </p>
+
 <h3>Le type &#233;num&#233;ration&nbsp;: enum</h3>
 
 <p>C'est un type particulier&nbsp;&#224; valeurs enti&#232;res; &#224; chaque &#233;num&#233;ration est associ&#233;e un ensemble de constantes nomm&#233;es.:</p>
 
 <pre class="demo">
-<b>enum</b> jour_t {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
-jour_t jour;
+<b>enum</b> Jour {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+Jour jour;
 ...
 jour = lundi;
 </pre>
@@ -567,10 +581,53 @@ jour = lundi;
 <p>Par d&#233;faut, la valeur associ&#233;e au premier nom est 0, au second 1, etc. Dans l'exemple pr&#233;c&#233;dent, la valeur associ&#233;e &#224; lundi sera 0, &#224; mardi 1, etc. Il est possible de pr&#233;ciser la valeur associ&#233;e &#224; un ou plusieurs noms. Dans ce cas, les constantes qui suivent les constantes affect&#233;es sont incr&#233;ment&#233;es de 1:</p>
 
 <pre class="demo">
-<b>enum</b> mois_t={JAN=1, FEV, MAR, AVR, MAI, JUN, JUL, AOU, SEP, OCT, NOV, DEC};
+<b>enum</b> Mois {janvier=1, fevrier, mars, avril, mai, juin, juillet, aout, septembre, octobre, novembre, decembre};
 </pre>
 
-<p>JAN vaut 1, FEV 2, MAR 3, etc.</p>
+<p>janvier vaut 1, fevrier 2, mars 3, etc.</p>
+
+
+<h3>Le type &#233;num&#233;ration&nbsp; du C++ moderne: enum class</h3>
+
+<p>L'inconvénient du type enum issu du C est qu'il s'agit simplement d'un sous-ensemble d'entiers, du coup il est possible de comparer des jour_t avec des mois_t.
+Le C++ moderne apporte un "vrai" type énumération, qui permet d'exprimer que les jours et les mois sont bien deux objets différents:</p>
+
+<pre class="demo">
+<b>enum class</b> Jour {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+<b>enum class</b> Mois {janvier, fevrier, mars, avril, mai, juin, juillet, aout, septembre, octobre, novembre, decembre};
+</pre>
+
+<p> <strong>Un tout petit code complet en C:</strong></p>
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><pre class="demo">
+#include &lt;stdio.h&gt;
+
+enum Jour {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+enum Mois {janvier, fevrier, mars, avril, mai, juin, juillet, aout, septembre, octobre, novembre, decembre};
+
+int main() {
+    enum Jour j = lundi;
+    enum Mois m = mardi;
+    if (j==m) {             /* Hé oui ça compile.... */
+        printf ( "hoho\n"); 
+    }
+}
+</pre>
+
+<p> <strong>Le même code (mais qui ne compile pas !) en C++:</strong></p>
+<img src="oiseau.png" style="float:left" title="C++ moderne" alt="C++ moderne" /><pre class="demo">
+#include &lt;stdio.h&gt;
+
+enum Jour {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+enum Mois {janvier=1, fevrier, mars, avril, mai, juin, juillet, aout, septembre, octobre, novembre, decembre};
+
+int main() {
+    Jour j = Jour::lundi;
+    Mois m = Mois::janvier;
+    if (j==m) {             // En C++ ça ne compile pas !
+        printf ( "hoho\n");
+    }
+}
+</pre>
 
 <h3>Les types r&#233;els</h3>
 
@@ -666,8 +723,9 @@ lorsqu'on utilise la bibliothèque standard: en effet, les déclarations de type
 
 <h2 id="tableau">Les tableaux</h2>
 
-<p>Ce chapitre décrit les tableaux, tels qu'ils sont utilisés en langage C. Nous verrons plus loin que le C++, s'il permet la définition de tableaux "à la C", 
-offre plusieurs autres possibilités pour définir des tableaux (par exemple ici: <a href="mem.html#new-tab"><img alt="après" src="apres.gif" /></a>)</p>
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>Ce chapitre décrit les tableaux, tels qu'ils sont utilisés en langage C. Nous verrons plus loin que le C++, s'il permet la définition de tableaux "à la C", 
+offre plusieurs autres possibilités pour définir des tableaux (par exemple ici: <a href="mem.html#new-tab"><img alt="après" src="apres.gif" /></a>).
+Du coup, ce chapitre est fait pour les ptérodactyles, en C++ moderne pas de tableaux !</p>
 
 <p>Un tableau est un ensemble d'&#233;l&#233;ments de m&#234;me type, chaque &#233;l&#233;ment du tableau &#233;tant rep&#233;r&#233; par son ou
 ses indices. Un tableau peut &#234;tre &#224; une dimension  (1 indice, identique &#224; un vecteur), &#224; 2 dimensions (2 indices, identique &#224; une matrice) ou &#224; n dimensions (n indices).</p>
@@ -1262,7 +1320,7 @@ objet interne &agrave; la fonction</strong>, car cet objet cesse d'exister lorsq
 
 <h3><a name="ptr-retptr">Retour d'un param&egrave;tre par pointeur</a></h3>
 
-<pre class="demo">
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><pre class="demo">
 <b>humain*</b> coit(homme&amp; h, femme&amp; f) {
    ...
    humain* enfant = new humain(h,f);
@@ -1294,7 +1352,7 @@ unique_ptr&lt;humain&gt; nouveau_ne = coit(pierre,marie);
 
 <h3><a name="ptr-retval">Retour d'un param&egrave;tre par valeur</a></h3>
 
-<pre class="demo">
+<img src="oiseau.png" style="float:left" alt="A éviter !" title="A éviter !" /><pre class="demo">
 <b>humain</b> coit(homme&amp; h, femme&amp; f) {
    ...
    humain enfant = h + f;
@@ -1395,11 +1453,10 @@ int B=5;
 
 <p>Ce type est essentiellement utilisé en paramètre de fonctions, il permet de poser une référence sur une rvalue,
 c'est-à-dire d'utiliser un objet qui n'a pas de nom, et qui normalement n'a qu'une existence temporaire </p>
-<p>Soit le programme suivant:</p>
 
 <h3><a name="ptr">Le type pointeur</a></h3>
 
-<p>De m&ecirc;me que ci-dessus, Le programme suivant
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>De m&ecirc;me que ci-dessus, Le programme suivant
 imprimera deux fois le chiffre 4:</p>
 
 <pre class="demo">
@@ -1466,7 +1523,7 @@ int * q  = (int *) p;
 
 <h3>Pointeurs et tableaux</h3>
 
-<p>Lorsque l'on d&#233;clare un tableau, le nom du tableau est en fait un pointeur sur le premier &#233;l&#233;ment du tableau (&#233;l&#233;ment d'indice 0).
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>Lorsque l'on d&#233;clare un tableau, le nom du tableau est en fait un pointeur sur le premier &#233;l&#233;ment du tableau (&#233;l&#233;ment d'indice 0).
 On peut incr&#233;menter un pointeur, ce qui revient &#224; le faire pointer sur l'&#233;l&#233;ment suivant. Ainsi, <code><b>tab+1</b></code> pointe sur l'élément d'indice 1 de <code>tab</code>.</p>
 
 <p>De fa&#231;on plus g&#233;n&#233;rale, on peut ajouter un entier i &#224; un pointeur: <code><b>tab+i</b></code> pointe sur l'&#233;l&#233;ment d'indice i de tab. 
@@ -1508,7 +1565,7 @@ individuelle. Donc tout calcul d'adresse est impossible.</p></div>
 
 <h2 id="structptr">Pointeurs sur une structure</h2>
 
-<p>L'acc&#232;s aux champs d'une structure par l'interm&#233;diaire
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>L'acc&#232;s aux champs d'une structure par l'interm&#233;diaire
 d'un pointeur se fait avec l'op&#233;rateur <code><b>-&gt;</b></code>:</p>
 
 <pre class="demo">
@@ -1675,7 +1732,7 @@ void f( const int&amp; X) {
 
 <h5><a name="ptr-prm">Passage des param&egrave;tres par pointeur</a></h5>
 
-<p>Les  possibilit&eacute;s   offertes  par  le  passage  de
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>Les  possibilit&eacute;s   offertes  par  le  passage  de
 param&egrave;tres  par  r&eacute;f&eacute;rence  rendent  obsol&egrave;te l'&eacute;quivalent  en  C:  le
 passage   des  param&egrave;tres   par  pointeurs.   Voici   deux  programmes
 &eacute;quivalents, &agrave; vous de d&eacute;cider lequel est le plus lisible:</p>
@@ -1693,7 +1750,7 @@ main() {
 };
 </pre>
 
-<p><b>En C++:</b></p>
+<img src="oiseau.png" style="float:left" alt="A éviter !" title="A éviter !" /><p><b>En C++:</b></p>
 
 <pre class="demo">
 void f(<b>int&amp; X</b>) {
@@ -1761,7 +1818,7 @@ du m&ecirc;me genre <a href="mem.html"><img  alt="apres" src="apres.gif" /></a><
 
 <h4><a name="const-ptr">Utilisation de const avec des pointeurs</a></h4>
 
-<p>Le descripteur <code>const</code>  peut s'employer
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>Le descripteur <code>const</code>  peut s'employer
 &eacute;galement   avec  des   pointeurs,  de   sorte  que   les  diff&eacute;rentes
 d&eacute;clarations ci-dessous sont  l&eacute;gales, et emp&ecirc;chent d'&eacute;crire certaines
 instructions... donc emp&ecirc;chent de faire certaines erreurs:</p>
@@ -1797,7 +1854,7 @@ cout &lt;&lt; "*a = " &lt;&lt; *a &lt;&lt; "\n";
 <p><a href="#">top</a></p><hr />
 
 <h2 id="malloc">Allocation dynamique de la mémoire en C</h2>
-<p>Un programme C ou C++ dispose en g&#233;n&#233;ral de 4 types de m&#233;moire&nbsp;:</p>
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>Un programme C ou C++ dispose en g&#233;n&#233;ral de 4 types de m&#233;moire&nbsp;:</p>
 
 <ul>
     <li>une m&#233;moire statique, ou permanente, g&#233;r&#233;e par le compilateur (allocation statique) o&#249; les variables
