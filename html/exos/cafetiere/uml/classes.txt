@@ -1,0 +1,80 @@
+@startuml
+
+abstract class Reservoir {
+    {abstract} doses_t #getRemplissage() const
+    {abstract} doses_t #getCapacite() const
+    pourcent_t +getEtat() const
+    {abstract} doses_t +prelever(doses_t doses, string& msg)
+    {abstract} doses_t +remplir(doses_t doses, string& msg)
+}
+
+class ReservoirEau {
+    doses_t -remplissage
+    doses_t #getRemplissage() const
+    doses_t #getCapacite() const
+    doses_t +prelever(doses_t doses, string& msg)
+    doses_t +remplir(doses_t doses, string& msg)
+}
+
+class ReservoirPoudre {
+    doses_t -remplissage
+    doses_t #getRemplissage() const
+    doses_t #getCapacite() const
+    doses_t +prelever(doses_t doses, string& msg)
+    doses_t +remplir (doses_t doses, string& msg)
+}
+
+class ReservoirSoluble {
+    doses_t -remplissage
+    doses_t #getRemplissage() const
+    doses_t #getCapacite() const
+    doses_t +prelever(doses_t doses, string& msg)
+    doses_t +remplir(doses_t doses, string& msg)
+}
+Reservoir <|-- ReservoirEau
+Reservoir <|-- ReservoirSoluble
+Reservoir <|-- ReservoirPoudre
+
+abstract class Cafetiere {
+    {abstract} void +faireLeCafe(doses_t eau, doses_t cafe)
+    string +getEtat()
+    {abstract} doses_t +remplirEau(doses_t)
+    {abstract} doses_t +remplirCafe(doses_t)
+    {abstract} pourcent_t #getEtatEau() = 0;
+    {abstract} pourcent_t #getEtatCafe() = 0;
+}
+    note left: getEtat renvoie deux caractères\n pour définir l'état de l'eau et du café:\n99 pour réservoirs pleins, 56 pour Eau 50%/café 60%
+
+abstract class Reservoir
+note left: getEtat renvoie l'état du remplissage en %\n et msg permet aux méthodes de dire ce qu'elles font
+
+abstract class Bouilloire {
+    doses_t +remplirEau(doses_t)
+    void +chaufferEau(string& msg) const
+    pourcent_t #getEtatEau() const
+    #reservoirEau eau    
+}
+
+class CafetiereSoluble {
+    void +faireLeCafe(doses_t eau, doses_t cafe)
+    pourcent_t #getEtatCafe() const
+    #ReservoirSoluble cafe
+}
+
+class CafetierePoudre {
+    void +faireLeCafe(doses_t eau, doses_t cafe)
+    pourcent_t #getEtatCafe() const
+    void -passerCafe() const
+    #ReservoirPoudre cafe
+}
+
+Cafetiere <|-- Bouilloire
+Bouilloire <|-- CafetiereSoluble
+Bouilloire <|-- CafetierePoudre
+
+Bouilloire o-- ReservoirEau
+CafetiereSoluble o-- ReservoirSoluble
+CafetierePoudre o-- ReservoirPoudre
+
+@enduml
+
