@@ -67,11 +67,13 @@ int main(int argc, char** argv) {
         }
         ++i;
         if (i==cafeteria.end()) i = cafeteria.begin();
+        cerr<< "++++++++++++++++++++\n";
+
     }
 
     // Etat final des machines
     for (auto& c : cafeteria) {
-        cerr << c->getEtat() << "\n";
+        cerr << c->getIds() << c->getEtat() << "\n";
     }
 }
 

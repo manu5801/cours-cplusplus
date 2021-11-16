@@ -10,12 +10,12 @@ using namespace std;
 void CafetierePoudre::faireLeCafe(doses_t e, doses_t c) {
     string msg;
     e = eau.prelever(e, msg);
-    cerr << msg << "\n";
+    cerr << getIds() << msg << "\n";
     c = cafe.prelever(c, msg);
-    cerr << msg << "\n";
+    cerr << getIds() << msg << "\n";
     passerCafe(msg);
-    cerr << msg << "\n";
-    cerr << "CAFETIERE CAFE POUDRE Votre café est prêt\n";
+    cerr << getIds() << msg << "\n";
+    cerr << getIds() << "CAFETIERE CAFE POUDRE  Votre café est prêt\n";
 }
 
 void CafetierePoudre::passerCafe(string & msg) const{
@@ -26,6 +26,6 @@ void CafetierePoudre::passerCafe(string & msg) const{
 doses_t CafetierePoudre::remplirCafe(doses_t c) {
     string msg;
     c = cafe.remplir(c, msg);
-    cerr << msg << "\n";
+    cerr << getIds() << msg << "\n";
     return c;
 }

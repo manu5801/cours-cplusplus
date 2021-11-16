@@ -1,7 +1,8 @@
 
+#include <iostream>
+using namespace std;
 
 #include "Bouilloire.hpp"
-
 
 
 void Bouilloire::chaufferEau() const{
@@ -11,7 +12,7 @@ void Bouilloire::chaufferEau() const{
 doses_t Bouilloire::remplirEau(doses_t r) {
     string msg;
     r = eau.remplir(r, msg);
-    cerr << msg << "\n";
+    cerr << getIds() << msg << "\n";
     return r;
 }
 
