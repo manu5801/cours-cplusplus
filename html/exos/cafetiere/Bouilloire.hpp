@@ -14,6 +14,6 @@ class Bouilloire: public Cafetiere {
 
         pourcent_t getEtatEau()  const override { return eau.getEtat(); };
 
-        void chaufferEau() const;
+        void chaufferEau(string& msg) const;
 };
 

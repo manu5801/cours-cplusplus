@@ -26,17 +26,21 @@ doses_t ReservoirPoudre::remplir(doses_t r, string& msg) {
 // Prélever p doses de café en poudre
 doses_t ReservoirPoudre::prelever(doses_t p, string& msg) {
 
+    doses_t p1 = p;
     if ( p > remplissage )
     {
-        p = remplissage;
+        p1 = remplissage;
     }
 
-    remplissage -= p;
-    msg = "RESERVOIR CAFE POUDRE  Prélèvement de " + to_string(p) + " doses de café -";
-    for (doses_t i=0; i<p; ++i)
+    msg = "RESERVOIR CAFE POUDRE  Prélèvement de " + to_string(p1) + " doses de café -";
+    for (doses_t i=0; i<p1; ++i)
     {
         msg += " pfouf!";
     }
-    usleep( p * SLEEP_PRELE_POUDRE );
-    return p;
+    if (p1 == remplissage) {
+        msg += " ATTENTION RESERVOIR VIDE !";
+    }
+    remplissage -= p1;
+    usleep( p1 * SLEEP_PRELE_POUDRE );
+    return p1;
 }

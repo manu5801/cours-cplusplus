@@ -26,17 +26,21 @@ doses_t ReservoirEau::remplir(doses_t r, string& msg) {
 // Prélever p doses d'eau chaude
 doses_t ReservoirEau::prelever(doses_t p, string& msg) {
 
+    doses_t p1 = p;
     if ( p > remplissage )
     {
-        p = remplissage;
+        p1 = remplissage;
     }
 
-    remplissage -= p;
-    msg = "RESERVOIR EAU          Prélèvement de " + to_string(p) + " volumes d'eau -";
-    for (doses_t i=0; i<p; ++i)
+    msg = "RESERVOIR EAU          Prélèvement de " + to_string(p1) + " volumes d'eau -";
+    for (doses_t i=0; i<p1; ++i)
     {
         msg += " pshit!";
     }
-    usleep( p * SLEEP_PRELE_EAU );
-    return p;
+    if (p1 == remplissage) {
+        msg += " ATTENTION RESERVOIR VIDE !";
+    }
+    remplissage -= p1;
+    usleep( p1 * SLEEP_PRELE_EAU );
+    return p1;
 }

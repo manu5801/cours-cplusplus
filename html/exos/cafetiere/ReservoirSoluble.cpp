@@ -26,17 +26,22 @@ doses_t ReservoirSoluble::remplir(doses_t r, string& msg) {
 // Prélever p doses de café soluble
 doses_t ReservoirSoluble::prelever(doses_t p, string& msg) {
 
+    doses_t p1 = p;
     if ( p > remplissage )
     {
-        p = remplissage;
+        p1 = remplissage;
     }
 
-    remplissage -= p;
-    msg = "RESERVOIR CAFE SOLUBLE Prélèvement de " + to_string(p) + " doses de café -";
-    for (doses_t i=0; i<p; ++i)
+    msg = "RESERVOIR CAFE SOLUBLE Prélèvement de " + to_string(p1) + " doses de café -";
+    for (doses_t i=0; i<p1; ++i)
     {
-        msg += " pfouf!";
+        msg += " pfuitt!";
     }
-    usleep( p * SLEEP_PRELE_SOLUBLE );
-    return p;
+        if (p1 == remplissage) {
+        msg += " ATTENTION RESERVOIR VIDE !";
+    }
+    remplissage -= p1;
+
+    usleep( p1 * SLEEP_PRELE_SOLUBLE );
+    return p1;
 }

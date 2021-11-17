@@ -48,15 +48,24 @@ int main(int argc, char** argv) {
     Cafeteria_t cafeteria = construitCafeteria(argv[1]);
 
     // Remplissage initial des machines
+    cerr<< "==== REMPLISSAGE ==========\n";
     for (auto c : cafeteria) {
         c->remplirEau(30);
         c->remplirCafe(30);
-        cerr<< "====================\n";
+        cerr<< "===========================\n";
     }
+
+    // Etat initial des machines
+    cerr << "\n==== ETAT DES MACHINES ====\n";
+    for (auto& c : cafeteria) {
+        cerr << c->getIds() << c->getEtat() << "\n";
+    }
+    cerr << "===========================\n\n";
 
     string cafes = argv[2];
     auto i = cafeteria.begin();
     
+    cerr<< "++++++++++++++++++++\n";
     for (auto c : cafes) {
         switch(c) {
             case 'E': (*i)->faireLeCafe(1,1); break;
@@ -72,9 +81,11 @@ int main(int argc, char** argv) {
     }
 
     // Etat final des machines
+    cerr << "\n==== ETAT DES MACHINES ====\n";
     for (auto& c : cafeteria) {
         cerr << c->getIds() << c->getEtat() << "\n";
     }
+    cerr << "===========================\n\n";
 }
 
 

@@ -5,8 +5,8 @@ using namespace std;
 #include "Bouilloire.hpp"
 
 
-void Bouilloire::chaufferEau() const{
-    string msg = "coucou";
+void Bouilloire::chaufferEau(string& msg) const{
+    msg = "BOUILLOIRE - CHAUFFAGE DE L'EAU";
 }
 
 doses_t Bouilloire::remplirEau(doses_t r) {
