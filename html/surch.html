@@ -31,25 +31,25 @@
 <dl>  
  <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
  <dd id="smenu1" style="height:20em;overflow: scroll;">
-	<ul>
-		<li><a href="surch.html#existant">Modifier une fonction sans remettre en cause l'existant</a> 
-		<ul>
-			<li><a href="surch.html#decl-def">D&eacute;claration et d&eacute;finition de fonctions</a></li> 
-			<li><a href="surch.html#surch-fonc">Surcharge de fonctions</a></li> 
-			<li><a href="surch.html#surch-construc">Le constructeur de copie</a></li> 
-			<li><a href="surch.html#valdef">Valeurs par d&eacute;faut des arguments</a></li> 
-			<li><a href="surch.html#valdef-construc">Valeurs par d&eacute;faut et constructeurs</a></li> 
-		</ul></li>
-		<li><a href="surch.html#surch-op">Surcharger les op&eacute;rateurs</a> 
-		<ul>
-			<li><a href="surch.html#ope-fonc">Op&eacute;rateurs et fonctions</a></li> 
-			<li><a href="surch.html#ope-plus">Les quatre op&eacute;rations</a></li> 
-			<li><a href="surch.html#ope-incr">Les op&eacute;rateurs d'incr&eacute;mentation ou d&eacute;cr&eacute;mentation</a></li>
-			<li><a href="surch.html#ope-affec">L'op&eacute;rateur d'affectation</a></li> 
-			<li><a href="surch.html#conv-ope">Conversions et op&eacute;rateurs</a></li> 
-			<li><a href="surch.html#autres-ope">Autres op&eacute;rateurs</a></li> 
-		</ul></li>
-	</ul> 
+    <ul>
+        <li><a href="surch.html#existant">Modifier une fonction sans remettre en cause l'existant</a> 
+        <ul>
+            <li><a href="surch.html#decl-def">D&eacute;claration et d&eacute;finition de fonctions</a></li> 
+            <li><a href="surch.html#surch-fonc">Surcharge de fonctions</a></li> 
+            <li><a href="surch.html#surch-construc">Le constructeur de copie</a></li> 
+            <li><a href="surch.html#valdef">Valeurs par d&eacute;faut des arguments</a></li> 
+            <li><a href="surch.html#valdef-construc">Valeurs par d&eacute;faut et constructeurs</a></li> 
+        </ul></li>
+        <li><a href="surch.html#surch-op">Surcharger les op&eacute;rateurs</a> 
+        <ul>
+            <li><a href="surch.html#ope-fonc">Op&eacute;rateurs et fonctions</a></li> 
+            <li><a href="surch.html#ope-plus">Les quatre op&eacute;rations</a></li> 
+            <li><a href="surch.html#ope-incr">Les op&eacute;rateurs d'incr&eacute;mentation ou d&eacute;cr&eacute;mentation</a></li>
+            <li><a href="surch.html#ope-affec">L'op&eacute;rateur d'affectation</a></li> 
+            <li><a href="surch.html#conv-ope">Conversions et op&eacute;rateurs</a></li> 
+            <li><a href="surch.html#autres-ope">Autres op&eacute;rateurs</a></li> 
+        </ul></li>
+    </ul> 
 </dd>
 </dl>
 <dl>
@@ -190,7 +190,7 @@ main() {
  Attention au  prototype du constructeur de copie.
 En particulier, le passage  <em>par r&eacute;f&eacute;rence</em> est indispensable: si l'on essaie de passer l'objet <em>par valeur</em>, on demande au compilateur de
 faire  une copie  de  l'objet afin  de  la passer  au constructeur  de
-copie. Comme le C++ est un langage r&eacute;cursif, le constructeur de copie va s'appeler lui-m&ecirc;me jusqu'&agrave; &eacute;puisement de la m&eacute;moire.</p></div>
+copie. Comme en C++ les appels de fonctions sont r&eacute;cursifs, le constructeur de copie va s'appeler lui-m&ecirc;me jusqu'&agrave; &eacute;puisement de la m&eacute;moire.</p></div>
 
 <div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
  De m&ecirc;me que
@@ -315,10 +315,11 @@ main() {
 }
 </pre>
 
-<p>Cela ne veut déjà pas dire grand-chose, mais surtout cela signifie que si j'ai besoin d'un tableau à un endroit du code (par exemple en paramètre
-d'appel de fonction), et que je fournisse par erreur un entier... le compilateur fera gentiment une conversion ! 
-Le mot-clé explicit permet de s'assurer que cette erreur sera bien découverte à la compilation et non pas à l'exécution.</p>
-
+<p>Cela signifie que le compilateur génèrera automatiquement des conversions d'entier vers tableau partout où ce sera nécessaire:
+si cette conversion a un sens c'est une très bonne chose, et une grande souplesse.
+Mais si elle n'a pas de sens, on va se retrouver avec des erreurs lors de l'exécution du code.
+Le mot-clé <code>explicit</code> permet de s'assurer que cette erreur sera
+découverte à la compilation et non pas à l'exécution.</p>
 
 <pre class="demo">
 class tableau {
@@ -417,91 +418,91 @@ d'associativit&eacute; d&eacute;finies  pour les op&eacute;rateurs  du langage s
     <td> :: </td>
     <td> R&eacute;solution de port&eacute;e</td>
     <td> NON </td>
-	<td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td> . </td>
     <td> S&eacute;lection de membre</td>
     <td> NON </td>
-	<td>&nbsp;</td>
+    <td>&nbsp;</td>
   </tr>
   <tr>
     <td> += <br />-= <br /> *= <br /> /= <br /> %= </td>
     <td> Op&eacute;rateurs unaires arithm&eacute;tiques.</td>
-	<td>OUI</td>
-	<td>Op&eacute;rations arithm&eacute;tiques unaires et performantes</td>
+    <td>OUI</td>
+    <td>Op&eacute;rations arithm&eacute;tiques unaires et performantes</td>
   </tr>
   <tr>
     <td> + <br />- <br /> * <br /> / <br /> % </td>
     <td> Op&eacute;rateurs binaires arithm&eacute;tiques.</td>
-	<td>OUI</td>
-	<td>Op&eacute;rations arithm&eacute;tiques binaires</td>
+    <td>OUI</td>
+    <td>Op&eacute;rations arithm&eacute;tiques binaires</td>
   </tr>
   <tr>
     <td> ++ <br />-- </td>
     <td> Incr&eacute;mentation, d&eacute;cr&eacute;mentation</td>
-	<td>OUI</td>
-	<td>It&eacute;rateurs</td>
+    <td>OUI</td>
+    <td>It&eacute;rateurs</td>
   </tr>
   <tr>
     <td> =</td>
     <td> Op&eacute;rateur d'&eacute;galit&eacute;.</td>
-	<td>OUI</td>
-	<td>Cl&ocirc;nage entre deux objets.</td>
+    <td>OUI</td>
+    <td>Cl&ocirc;nage entre deux objets.</td>
   </tr>
   <tr>
     <td> &gt;&gt;<br />&lt;&lt;</td>
     <td> D&eacute;calage &agrave; gauche ou &agrave; droite</td>
-	<td>OUI</td>
-	<td>entr&eacute;e<br />sortie.</td>
+    <td>OUI</td>
+    <td>entr&eacute;e<br />sortie.</td>
   </tr>
   <tr>
     <td> []</td>
     <td> Acc&egrave;s aux membres d'un tableau</td>
-	<td>OUI</td>
-	<td>Indi&ccedil;age g&eacute;n&eacute;ralis&eacute;</td>
+    <td>OUI</td>
+    <td>Indi&ccedil;age g&eacute;n&eacute;ralis&eacute;</td>
   </tr>
   <tr>
     <td> ()</td>
     <td> Appel de fonction</td>
-	<td>OUI</td>
-	<td>Objets-fonctions </td>
+    <td>OUI</td>
+    <td>Objets-fonctions </td>
   </tr>
   <tr>
      <td> !  </td>
     <td> Op&eacute;ration logique </td>
-	<td>OUI</td>
-	<td>Permet de comparer un objet &agrave; true/false</td>
+    <td>OUI</td>
+    <td>Permet de comparer un objet &agrave; true/false</td>
   </tr>
   <tr>
     <td> ==<br />!=</td>
     <td> Egalit&eacute;, non &eacute;galit&eacute;</td>
-	<td>OUI</td>
-	<td>Egalit&eacute;, non &eacute;galit&eacute; entre deux objets</td>
+    <td>OUI</td>
+    <td>Egalit&eacute;, non &eacute;galit&eacute; entre deux objets</td>
   </tr>
   <tr>
     <td> &gt;<br />&lt;<br />&gt;=<br />&lt;=</td>
     <td> In&eacute;galit&eacute;s</td>
-	<td>OUI</td>
-	<td>In&eacute;galit&eacute;s </td>
+    <td>OUI</td>
+    <td>In&eacute;galit&eacute;s </td>
   </tr>
   <tr>
     <td> -&gt; <br />-&gt;* <br /> .* </td>
     <td> S&eacute;lection de membre depuis un ou vers un pointeur.</td>
-	<td>OUI</td>
-	<td>Contr&ocirc;le de l'acc&egrave;s aux membres</td>
+    <td>OUI</td>
+    <td>Contr&ocirc;le de l'acc&egrave;s aux membres</td>
   </tr>
   <tr>
     <td>&amp; <br />* </td>
     <td> Pointeur, r&eacute;f&eacute;rence.</td>
-	<td>OUI</td>
-	<td>Objets &agrave; comptage de r&eacute;f&eacute;rence, it&eacute;rateurs</td>
+    <td>OUI</td>
+    <td>Objets &agrave; comptage de r&eacute;f&eacute;rence, it&eacute;rateurs</td>
   </tr>
   <tr>
     <td> int<br />long<br />short<br />float<br />double<br />etc. </td>
     <td> Conversion de types </td>
     <td> OUI</td>
-	<td> Conversion vers un type pr&eacute;d&eacute;fini depuis un objet</td>
+    <td> Conversion vers un type pr&eacute;d&eacute;fini depuis un objet</td>
   </tr>
 </table>
 
@@ -921,16 +922,18 @@ href="heritage.html#prot-affect"><img    alt="apr&egrave;s"   src="apres.gif" />
 
 <h4><a name="zero">Le principe de responsabilité unique et la règle du zéro</a></h4>
 
-<p><strong>Bonne pratique:</strong> Les classes définies dans vos programmes (C++ ou pas) doivent obéir au principe de "responsabilité unique":
-une classe doit être responsable d'une seule chose, cela la rendra plus robuste. Or, les seules classes pour lesquelles nous devons fournir un constructeur et un destructeur qui ne soit pas le défaut sont les classes
-<strong>responsables d'une ressource</strong>. <em>Sauf que ces classes sont déjà écrites !</em></p>
+<p><strong>Bonne pratique:</strong> Les classes définies dans vos programmes (C++ ou pas) doivent obéir au principe de
+"responsabilité unique": une classe doit être <strong>responsable d'une seule chose</strong>. Or, les seules classes pour
+lesquelles nous devons fournir un constructeur et un destructeur qui ne soit pas le défaut sont les classes
+<strong>responsables d'une ressource</strong>.</p>
+<p> <em>Sauf que ces classes sont déjà écrites !</em> (elles sont disponibles dans la stl)</p>
 
 <p>D'où la règle du zéro:</p>
 
 <ul>
-<li>On n'utilise pas les pointeurs C, on utilise seulement les <tt>uniq_ptr</tt> ou <tt>shared_ptr</tt> (voir plus loin)</li>
-<li>On se repose sur les objet de la stl pour gérer les ressources</li>
-<li>En bref: on se repose sur le compilateur et sa bibliothèque</li>
+<li>On <strong>n'utilise pas les pointeurs C</strong>, on utilise seulement les <tt>uniq_ptr</tt> ou <tt>shared_ptr</tt> (voir plus loin)</li>
+<li>On se repose sur les objets de la stl pour <strong>gérer les ressources</strong></li>
+<li>En bref: on se repose sur <strong>le compilateur et sa bibliothèque</strong></li>
 </ul>
 
 <p>Sur ces questions liées à la conception du code, voir ici: <a href="https://fr.wikipedia.org/wiki/Principe_de_responsabilit%C3%A9_unique">https://fr.wikipedia.org/wiki/Principe_de_responsabilit%C3%A9_unique</a></p>
@@ -983,13 +986,13 @@ class complexe {
 </pre>
 
 <p>A partir de maintenant, on peut faire une conversion de type comme on
-a l'habitude en C:</p>
+a l'habitude en C++:</p>
 
 <pre class="demo">
 ...
 
 complexe J(1,0);
-<b>float I = (float)J;</b>
+<b>float I = static_cast&lt;int&gt;(J);</b>
 </pre>
 
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
