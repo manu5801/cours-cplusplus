@@ -31,16 +31,16 @@
  <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
  <dd id="smenu1">
     <ul>
-	 <li><a onclick="javascript=cacher_menu()" href="excep.html#erreur">Que faire en cas d'erreur ?</a></li> 
+     <li><a onclick="javascript=cacher_menu()" href="excep.html#erreur">Que faire en cas d'erreur ?</a></li> 
      <li><a onclick="javascript=cacher_menu()" href="excep.html#poste">Une analogie avec la vie courante</a></li> 
      <li><a onclick="javascript=cacher_menu()" href="excep.html#excep">Le syst&egrave;me d'exceptions</a> 
      <li><a onclick="javascript=cacher_menu()" href="excep.html#exceptet">Exceptions et ...</a> 
      <ul>
-	   <li><a onclick="javascript=cacher_menu()" href="excep.html#const">...constructeurs</a></li>			
-	   <li><a onclick="javascript=cacher_menu()" href="excep.html#dest">...destructeurs</a></li>
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#const">...constructeurs</a></li>          
+       <li><a onclick="javascript=cacher_menu()" href="excep.html#dest">...destructeurs</a></li>
        <li><a onclick="javascript=cacher_menu()" href="excep.html#noexcept">noexcept</a></li>
-	 </ul></li>
-	</ul>
+     </ul></li>
+    </ul>
  </dd>
 </dl>
 <dl>
@@ -171,102 +171,108 @@ elles sont vides, il rentre chez lui tout simplement. La m&eacute;thode "facteur
 
 <h2><a name="excep">Le syst&egrave;me d'exceptions</a></h2>
 
-<p>Voici une implémentation de l'opérateur /= permettant de diviser un complexe par un flottant quelconque:</p>
+<p>Lorsque nous avons défini un tableau, les différents constructeurs ou opérator= appelaient une fonction <tt>malloc</tt>, mais ne vérifiaient jamais
+si l'allocation se faisait effectivement. Voici un constructeur:</p>
 
 <pre class="demo">
-complexe&amp; complexe::operator/=(float x) {
-  r /= x;
-  i /= x;
-  return *this;
-}</pre>
+tableau::tableau(int t): taille(t) {
+    buffer = malloc(t * sizeof(char));
+};
+</pre>
 
-<p>Il  n'y a ici <em>aucun  traitement d'erreur.</em> Si on passe 0 à cette fonction, le programme va se planter, mais nous n'avons aucun moyen de 
-récupérer la situation.</p>
-<p>Voici une première manière d'introduire un traitement d'erreur:</p>
+<p>Il n'y a aucun traitement d'erreur, si <code>malloc</code> ne fonctionne pas (par exemple parce qu'il n'y a pas assez de mémoire dans la machine), on ne
+le détectera pas et on sera confronté à un plantage aléatoire. Voici une première manière d'introduire un traitement d'erreur: </p>
+
 <pre class="demo">
-complexe&amp; complexe::operator/=(float x) {
-  if ( x == 0 ) <b>throw</b> ( "division par zéro" );  
-  r /= x;
-  i /= x;
-  return *this;
-}</pre>
+tableau::tableau(int t): taille(t) {
+    buffer = malloc(taille * sizeof(char));
+    if (buffer == nullptr) {
+        <b>throw ("malloc ne marche pas")</b>;
+    }
+    copie(b);
+};
+</pre>
 
 <p>La fonction se contente de "lancer" un <code>const char*</code>. Celui-ci sera "rattrapé" par une fonction située dans la pile d'appels (c'est-à-dire
 la fonction appelante, ou la fonction ayant appelé la fonction appelante, etc.) par exemple la fonction main, dont voici une première implémentation:</p>
 
 <pre class="demo">int main() {
-   complexe c(5,6);
+   ...
    <b>try</b>
    {
-   	float x;
-   	cout &lt;&lt; "Entrez un diviseur: ";
-	cin &gt;&gt; x;
-	c /= x;
+        cout &lt;&lt; "Entrez une taille souhaitée: ";
+        cin &gt;&gt; taille;
+        tableau t1(taille);
    }
-   <b>catch</b> ( const char * c )
+   <b>catch ( const char * c )</b>
    {
-    	cout &lt;&lt; c &lt;&lt; "\n";
+        cout &lt;&lt; c &lt;&lt; "\n";
    }
    return 0;
 }</pre>
-	
+    
 <p>La fonction <code>main</code> a "attrapé" l'objet envoyé (ici un <code>const char *</code>) et l'a simplement affiché. La version suivante va plus loin: elle
-demande à l'utilisateur de rentrer une valeur jusqu'à ce que celle-ci soit différente de 0.</p>
+demander à l'utilisateur de rentrer une taille correcte.</p>
 
 <pre class="demo">int main() {
-   complexe c(5,6);
+   ...
    <b>do</b>
    {
       try
       {
-         float x;
-         cout &lt;&lt; "Entrez un diviseur: ";
-         cin &gt;&gt; x;
-         c /= x;
+         size_t taille;
+         cout &lt;&lt; "Entrez une taille souhaitée: ";
+         cin &gt;&gt; taille;
+         tableau t1(taille);
+
+         // faire un truc avec le tableau
+         ...
+         // sortir de la boucle
          <b>break</b>;
       }
       catch ( const char * msg )
       {
-         cout &lt;&lt; msg &lt;&lt; " Recommencez\n";
+         cout &lt;&lt; msg &lt;&lt; " Recommencez avec une taille plus petite\n";
       }
    } <b>while (true)</b>;
    return 0;
 }</pre>
 
-<p>On voit donc ici que si le traitement de l'erreur (dans la fonction main) a changé, la génération de l'erreur, elle, est la même. Le code suivant montre
-une troisième manière de procéder: tout le traitement d'erreur se fait ici au niveau de la fonction <code>input_et_divise</code>:</p>
+<p>On voit ici que si le traitement de l'erreur (dans la fonction main) a changé, la génération de l'erreur, elle, est la même. Le code suivant montre
+une troisième manière de procéder: tout le traitement d'erreur se fait ici au niveau de la fonction <code>creation_tableau</code>, du coup main n'a plus à faire de traitement d'erreur:</p>
 
 <pre class="demo">
-void input_et_divise(complexe&amp; c) {
-   <b>do</b>
-   {
-      try
-      {
-         float x;
-         cout &lt;&lt; "Entrez un diviseur: ";
-         cin &gt;&gt; x;
-         c /= x;
-         <b>break</b>;
-      }
-      catch ( const char * msg )
-      {
-         cout &lt;&lt; msg &lt;&lt; " Recommencez\n";
-      }
-   } <b>while (true)</b>;
+    ...
+tableau creation_tableau() {
+    <b>do</b>
+    {
+        try
+        {
+            size_t taille;
+            cout &lt;&lt; "Entrez une taille souhaitée: ";
+            cin &gt;&gt; taille;
+    
+            tableau t(taille);
+            <b>return t</b>;
+        }
+        catch ( const char * msg )
+        {
+            cout &lt;&lt; msg &lt;&lt; " Recommencez avec une taille plus petite\n";
+        }
+    }
+    <b>while (true)</b>;
 }
 
 int main() {
-   complexe c(5,6);
-   input_et_divise(c);
-   cout &lt;&lt; "Partie reelle    : " &lt;&lt; c.get_r() &lt;&lt; "\n";
-   cout &lt;&lt; "Partie imaginaire: " &lt;&lt; c.get_i() &lt;&lt; "\n";
+    tableau t = creation_tableau();
+    ...
 }
 </pre>
 
 <h3><a name="hier">Les hi&eacute;rarchies d'objets exceptions</a></h3>
 
 <p>Plutôt que d'envoyer directement des chaines de caractère, il est beaucoup plus riche d'encapsuler ces messages dans des objets.
-On peut bien sûr définir ses propres exceptions, mais il est bien plus simple d'utiliser les exceptions déjà définies dans la bibliothèque standard du C++.
+On peut bien sûr définir ses propres exceptions, mais il est plus simple d'utiliser les exceptions déjà définies dans la bibliothèque standard du C++.
 Si vous préférez définir des objets exceptions, <em>faites-les dériver de l'une de ces classes</em> (ne serait-ce que la classe exception).</p>
 <p>La figure ci-dessous montre les différentes exceptions définies dans la bibliothèque standard, anisi que les liens d'hritage qui les relient. 
 La classe de base (<code>exception</code>) possède une méthode abstraite: <code>what()</code>, qui renvoie le message d'erreur encapsulé par l'objet.
@@ -294,81 +300,59 @@ Lors du throw, on pourra donc générer un message d'erreur suffisamment précis
 <p>Il est très simple d'utiliser ces exceptions dans votre programme. L'opérateur précédent peut être réécrit de la manière suivante:</p>
 
 <pre class="demo">
-complexe&amp; complexe::operator/=(float x) {
-  if ( x == 0 ) {
-     <b>domain_error e ("division par zero" );
-     throw (e)</b>;
-  }
-  r /= x;
-  i /= x;
-  return *this;
-}</pre>
+tableau::tableau(int t): taille(t) {
+    buffer = malloc(taille * sizeof(char));
+    if (buffer == nullptr) {
+        bad_alloc e;
+         throw (e);
+    }
+};
+</pre>    
 
 <p>ou encore, de manière plus concise:</p>
+<pre class="demo">
+tableau::tableau(int t): taille(t) {
+    buffer = malloc(taille * sizeof(char));
+    if (buffer == nullptr) {
+        throw bad_alloc();
+    }
+};
+</pre>
+
+<p>La fonction <code>creation_tableau</code> s'écrira comme indiqué ci-dessous. Si une exception de type <code>bad_alloc</code> est attrapée
+par la fonction, elle la traite. Si une autre exception dérivant du type générique <code>exception</code> est émise,
+elle ne sera pas attrapée par <code>creation_tableau</code>, mais elle sera traitée de manière générique par <code>main</code>.</p>
 
 <pre class="demo">
-complexe&amp; complexe::operator/=(float x) {
-  if ( x == 0 ) {
-     <b>throw domain_error( "division par zero" )</b>;
-  }
-  r /= x;
-  i /= x;
-  return *this;
-}</pre>
-
-<p>Le traitement d'erreur première manière s'écrira cette fois:</p>
-
-<pre class="demo">int main() {
-   complexe c(5,6);
-   try
-   {
-   	float x;
-   	cout &lt;&lt; "Entrez un diviseur: ";
-	cin &gt;&gt; x;
-	c /= x;
-   }
-   <b>catch ( exception &amp; e )</b> 
-   {
-    	cout &lt;&lt; e.what() &lt;&lt; "\n";
-   }
-   return 0;
-}</pre>
-
-<p>Le traitement d'erreur troisième manière s'écrira comme indiqué ci-dessous. Si une exception de type domain_error est attrapée
-par la fonction <code>input_et_divise</code>, elle la traite. Si une autre exception dérivant du type générique <code>exception</code> est émise,
-elle ne sera pas attrapée par <code>input_et_divise</code>, mais elle sera traitée de manière générique par <code>main</code>.</p>
-
-<pre class="demo">
-void input_et_divise(complexe&amp; c) {
-	do
-	{
-      try
-      {
-         float x;
-         cout &lt;&lt; "Entrez un diviseur: ";
-         cin &gt;&gt; x;
-         c /= x;
-         break;
-      }
-      <b>catch ( const domain_error&amp; e )</b>
-      {
-         cout &lt;&lt; e.what() &lt;&lt; " Recommencez\n";
-      }
-   } while (true);
+tableau creation_tableau() {
+    <b>do</b>
+    {
+        try
+        {
+            size_t taille;
+            cout &lt;&lt; "Entrez une taille souhaitée: ";
+            cin &gt;&gt; taille;
+    
+            tableau t(taille);
+            <b>return t</b>;
+        }
+        catch ( bad_alloc )
+        {
+            cout &lt;&lt; msg &lt;&lt; " Recommencez avec une taille plus petite\n";
+        }
+    }
+    <b>while (true)</b>;
 }
 
 int main() {
-   complexe c(5,6);
-   try
-   {
-      input_et_divise(c);
-      cout &lt;&lt; "Partie reelle    : " &lt;&lt; c.get_r() &lt;&lt; "\n";
-      cout &lt;&lt; "Partie imaginaire: " &lt;&lt; c.get_i() &lt;&lt; "\n";
-   }
-   catch ( const exception&amp; e )
-   {
-      cout &lt;&lt; e.what() &lt;&lt; "\n";
-   }
+    <b>try</b> {
+        tableau t = creation_tableau();
+        ...
+    }
+    <b>catch ( const exception& e )</b>
+    {
+      cout << e.what() << "\n";
+    }
 }
 </pre>
 
@@ -378,11 +362,9 @@ fait, plusieurs programmes de capture d'exceptions auraient pu &ecirc;tre
 exceptions:</p>
 <ul>
   <li>On pourrait se contenter de capturer les exceptions de type
-      <code>domain_error</code></li>
+      <code>bad_alloc</code></li>
   <li>Dans un traitement plus grossier, on peut capturer les exceptions
-      de type <code>logic_error</code></li>
-  <li>Dans un traitement encore plus grossier, on peut se contenter de
-       capturer les exceptions de type <code>exception</code>.</li>
+      de type <code>exception</code></li>
 </ul>
 </div>
 
@@ -392,18 +374,18 @@ afin de s'assurer que le bon objet sera au final utilis&eacute; (notamment la bo
 de la fonction <code>what()</code>).</p></div>
 <div class="regle"><p><img alt="REGLE  D'OR"  src="diam.gif" />
 Il est plus simple d'utiliser les exception prédéfinies, néanmoins il est possible de redéfinir
-ses propres exception. Dans ce cas, il est
+ses propres exception. <em>Dans ce cas, il est
 important de les définir de mani&egrave;re hi&eacute;rarchique, et
 de pr&eacute;f&eacute;rence comme des classes d&eacute;riv&eacute;es de la classe
 <code>exception</code>. Cela permet en effet le traitement
-hi&eacute;rarchis&eacute; des exceptions, ainsi qu'on vient de le voir.
+hi&eacute;rarchis&eacute; des exceptions, ainsi qu'on vient de le voir.</em>
 </p></div>
 
 <h3><a name="noncapt">Exceptions non captur&eacute;es</a></h3>
 
 <p>Que   se   passe-t-il    si   une   exception
-<code>bad_alloc</code> est g&eacute;n&eacute;r&eacute;e ?  Elle ne sera pas trait&eacute;e: &agrave; la place,
-elle sera transmise &agrave; nouveau &agrave; la fonction appelante, et ainsi de suite jusqu'à <code>main</code>.
+<code>domain_error</code> est g&eacute;n&eacute;r&eacute;e dans la fonction <code>create_tableau</code> ?  Elle ne sera pas trait&eacute;e: &agrave; la place,
+elle sera transmise &agrave; la fonction appelante, et ainsi de suite jusqu'à <code>main</code>.
 Si <code>main</code>  ne  pr&eacute;voit   aucune  capture
 d'exception, l'exception se terminera  par un arr&ecirc;t du programme. Il est cependant possible de prévoir simplement
 un traitement d'erreur pour les exceptions non prévues:</p>
@@ -426,25 +408,19 @@ un traitement d'erreur pour les exceptions non prévues:</p>
 
 <h3><a name="line">Introduire le numéro de ligne dans l'exception générée</a></h3>
 
-<p>Pour ajouter le nom du fichier et le numéro de la ligne, c'est un peu plus compliqué, parce que la macro <tt>__LINE__</tt> qui renvoie le numéro de ligne 
-renvoie un entier, alors que nous avons besoin d'une string. On peut toutefois s'en sortir avec deux macros (voir par exemple
-<a href="http://www.decompile.com/cpp/faq/file_and_line_error_string.htm">ici</a> pour des explications plus complètes sur la nécessité de passer
-par deux macros):</p>
+<p>Pour ajouter le nom du fichier et le numéro de la ligne, on peut utiliser la macro __LINE__ et la __FILE__. Attention,
+<tt>__LINE__</tt> renvoie un entier. En C il faut passer par deux macros (voir <a href="http://www.decompile.com/cpp/faq/file_and_line_error_string.htm">ici</a>),
+en C++11 on a plus de chance: on peut passer par un string et par la fonction <tt>to_string</tt>:
 
 <pre class="demo">
 #include &lt;stdexcept&gt;
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
-#define AT __FILE__ ":" TOSTRING(__LINE__)
 ...
-string msg = "ERREUR - division par 0 - Fichier ";
-msg += AT;
-throw(runtime_error(AT));
+throw(runtime_error(static_cast&lt;string&gt;("ERREUR - y a qqchose qui cloche - Fichier ") + __FILE__ + ":" + to_string(__LINE__));
 </pre>
 
 <h3><a name="callstack">Afficher la pile d'appels lors d'une exception</a></h3>
-<p>Contrairement à java, python ou perl, Il n'est pas évident d'afficher la pile d'appels lorsqu'une exception est générée: le C++ est un langage complé, 
+<p>Contrairement à java, python ou perl, Il n'est pas évident d'afficher la pile d'appels lorsqu'une exception est générée: le C++ est un langage compilé, 
 et les symboles sont en général absents de l'exécutable. La manière la plus évidente de procéder est d'utiliser le programme à travers un débogueur (<tt>gdb</tt> par exemple);
 il est possible d'afficher la pile d'appels sans passer par le débogueur. Cependant, cela nécessite de faire appel à des primitives système, qui dépendent du compilateur:
 ce code ne sera par définition pas portable.</p>
@@ -476,10 +452,7 @@ exemple  imaginer une  variable <code>err</code>  qui  indiquerait que
 l'objet est construit,  certes, mais dans un &eacute;tat  "bizarre", donc pas
 vraiment utilisable.   C'est ce qu'on appelle  les "objets zombies"...
 cela peut conduire &agrave;  des comportements inattendus (variables internes
-non initialis&eacute;es, par exemple),  &agrave; moins que l'objet soit suffisamment
-bien &eacute;crit pour que toutes  les fonctions-membres testent la valeur de
-<code>err</code>  afin   de  s'assurer   que  l'objet  n'est   pas  un
-zombie... Par contre, si le constructeur est interrompu par une exception, <em>l'objet ne sera pas
+non initialis&eacute;es, par exemple). Si le constructeur est interrompu par une exception, <em>l'objet ne sera pas
 construit du tout</em>...  Or, un vrai mort  vaut mieux qu'un faux zombie, qui
 ira  pr&eacute;tendre le  contraire ?</p>
 

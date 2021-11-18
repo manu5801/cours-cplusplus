@@ -28,7 +28,7 @@
     Sources: http://www.gnu.org/s/libc/manual/html_node/Backtraces.html
              http://tombarta.wordpress.com/2008/08/01/c-stack-traces-with-gcc
              
-    emmanuel.courcelle@toulouse.inp-toulouse.fr
+    emmanuel.courcelle@toulouse-inp.fr
     
 */
 
@@ -36,14 +36,11 @@
 #include <string>
 using namespace std;
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
-
 class rtstack: public runtime_error {
 public:
-	explicit rtstack(const string & __arg);
+    explicit rtstack(const string & __arg);
 private:
-	string __getStack() const throw();
+    string __getStack() const throw();
 };
 
 #endif

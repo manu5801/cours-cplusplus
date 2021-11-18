@@ -18,15 +18,15 @@ void e();
 
 int main(int argc, char ** argv)
 {
-	try
-	{
-		a(argc,argv);
-	}
-	catch (exception &exc)
-	{
-		cerr << exc.what();
-		return 1;
-	};
+    try
+    {
+        a(argc,argv);
+    }
+    catch (exception &exc)
+    {
+        cerr << exc.what();
+        return 1;
+    };
 }
 
 /* 
@@ -37,7 +37,7 @@ int main(int argc, char ** argv)
 
 void e()
 {
-	throw (rtstack((string)"Exception fichier - " + __FILE__ + ":" + TOSTRING(__LINE__)));
+    throw (rtstack(static_cast<string>("Exception fichier - ") + __FILE__ + ":" + to_string(__LINE__)));
 }
 
 void d() { e(); };
