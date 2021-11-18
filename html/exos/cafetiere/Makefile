@@ -1,5 +1,5 @@
 
-all: Cafeteria
+all: cafeteria
 
 .PHONY: clear
 
@@ -8,10 +8,10 @@ all: Cafeteria
 CXX=clang++
 CXXFLAGS=-g 
 
-OBJ=Reservoir.o ReservoirEau.o ReservoirSoluble.o ReservoirPoudre.o Cafetiere.o CafetiereSoluble.o CafetierePoudre.o Bouilloire.o
-EXE=Cafeteria
+OBJ=Reservoir.o ReservoirEau.o ReservoirSoluble.o ReservoirPoudre.o Cafetiere.o CafetiereSoluble.o CafetierePoudre.o Bouilloire.o Color.o
+EXE=cafeteria
 
-Cafeteria: Cafeteria.cpp $(OBJ)
+cafeteria: Cafeteria.cpp $(OBJ)
 	 $(CXX) -g -std=c++17 $^ -o $@
 
 #Reservoir.o: Reservoir.cpp

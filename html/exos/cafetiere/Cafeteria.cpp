@@ -17,18 +17,19 @@ using MachinePoudre_t  = shared_ptr<CafetierePoudre>;
 using Cafeteria_t = vector<MachineACafe_t>;
 
 void Usage() {
-    cerr << "Cafeteria PPPPSS EDFJ\n";
+    cerr << "Usage: cafeteria PPPPSS EDFJ\n";
+    cerr << "\n";
     cerr << "Premier argument = Les machines\n";
     cerr << "-------------------------------\n";
-    cerr << "P -> Machine à café Poudre\n";
-    cerr << "S -> Machine à café soluble\n";
-    cerr << "\n";
+    cerr << "       P -> Machine à café Poudre\n";
+    cerr << "       S -> Machine à café soluble\n";
+    cerr << "       \n";
     cerr << "Second argument = Les cafés\n";
-    cerr << "---------------------------\n";
-    cerr << "E -> Expresso\n";
-    cerr << "D -> Double\n";
-    cerr << "F -> Fort\n";
-    cerr << "J -> Jus de chaussette\n";
+    cerr << "-------------------------------\n";
+    cerr << "       E -> Expresso\n";
+    cerr << "       D -> Double\n";
+    cerr << "       F -> Fort\n";
+    cerr << "       J -> Jus de chaussette\n";
 }
 
 enum class MachineACafe_enum { CafetierePoudre, CafetiereSoluble };
@@ -109,7 +110,6 @@ int main(int argc, char** argv) {
             default:
                 cerr << "ERREUR - Type de machine inconnu !";
                 Usage();
-                exit(1);
          }
      }
      return cafeteria;
