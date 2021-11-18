@@ -43,3 +43,14 @@ string Cafetiere::getIds() const {
     string out = "M-";
     return out + oss.str() + ": ";
 }
+
+void Cafetiere::chaufferEau(string& msg) const{
+    msg = "CAFETIERE              CHAUFFAGE DE L'EAU";
+}
+
+doses_t Cafetiere::remplirEau(doses_t r) {
+    string msg;
+    r = eau.remplir(r, msg);
+    cerr << getIds() << msg << "\n";
+    return r;
+}

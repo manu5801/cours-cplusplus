@@ -8,7 +8,7 @@ all: cafeteria
 CXX=clang++
 CXXFLAGS=-g 
 
-OBJ=Reservoir.o ReservoirEau.o ReservoirSoluble.o ReservoirPoudre.o Cafetiere.o CafetiereSoluble.o CafetierePoudre.o Bouilloire.o Color.o
+OBJ=Reservoir.o ReservoirEau.o ReservoirSoluble.o ReservoirPoudre.o Cafetiere.o CafetiereSoluble.o CafetierePoudre.o Color.o
 EXE=cafeteria
 
 cafeteria: Cafeteria.cpp $(OBJ)

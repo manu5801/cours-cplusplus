@@ -19,11 +19,16 @@ class Cafetiere {
         
         virtual void faireLeCafe(doses_t eau, doses_t cafe) = 0;
         string getEtat();
-        virtual doses_t remplirEau(doses_t) = 0;
+
         virtual doses_t remplirCafe(doses_t) = 0;
+        doses_t remplirEau(doses_t);
+
 
     protected:
-        virtual pourcent_t getEtatEau()  const = 0;
+        ReservoirEau eau;
+        pourcent_t getEtatEau()  const { return eau.getEtat(); };
+        void chaufferEau(string& msg) const;
+
         virtual pourcent_t getEtatCafe() const = 0;
 
     private:
