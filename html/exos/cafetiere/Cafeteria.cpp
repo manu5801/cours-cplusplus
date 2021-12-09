@@ -57,11 +57,11 @@ int main(int argc, char** argv) {
     }
 
     // Etat initial des machines
-    cerr << "\n==== ETAT DES MACHINES ====\n";
+    cerr << "\n==== ETAT DES MACHINES (EC) ====\n";
     for (auto& c : cafeteria) {
         cerr << c->getIds() << c->getEtat() << "\n";
     }
-    cerr << "===========================\n\n";
+    cerr << "=================================\n\n";
 
     string cafes = argv[2];
     auto i = cafeteria.begin();
@@ -82,11 +82,11 @@ int main(int argc, char** argv) {
     }
 
     // Etat final des machines
-    cerr << "\n==== ETAT DES MACHINES ====\n";
+    cerr << "\n==== ETAT DES MACHINES (EC) ====\n";
     for (auto& c : cafeteria) {
         cerr << c->getIds() << c->getEtat() << "\n";
     }
-    cerr << "===========================\n\n";
+    cerr << "=================================\n\n";
 }
 
 

@@ -23,4 +23,4 @@ all: $(OBJ)
 .PHONY=clean
 
 clean:
-	rm -f *.o Cafeteria
+	rm -f *.o cafeteria
