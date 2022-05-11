@@ -1,0 +1,307 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usetheme{Warsaw}
+\usecolortheme{wolverine}
+\usepackage{color}
+
+\input{lstset.tex}
+
+\title{L'héritage}
+\subtitle{Introduction au C++ et à la programmation objet}
+\author{E. Courcelle}\institute{CALMIP, URA 3669}
+\date{Mai 2022}
+
+\pgfdeclareimage[height=0.5cm]{logo}{images/cnrs+inpt}
+\logo{\pgfuseimage{logo}}
+
+\addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\tableofcontents
+\end{frame}
+
+\section{Classes abstraites et concrètes}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une classe abstraite}
+
+\begin{block}{Une machine à café, ça... fait le café}
+...mais on ne précise pas comment. \em{Version diagramme}
+\end{block}
+
+\begin{centering}%
+\pgfimage[width=\paperheight]{images/cafetiere}%
+\par%
+\end{centering}%
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Une classe abstraite}
+
+\begin{block}{Une machine à café, ça... fait le café}
+...mais on ne précise pas comment. \em{Version code}
+\end{block}
+\begin{lstlisting}[language=c++]
+class Cafetiere {
+   public:
+      virtual void faire_le_cafe() = 0;
+      virtual int lire_etat() = 0;
+      void encaisser_monnaie();
+
+   protected:
+      void verser_eau();
+      void sucre();
+      void donner_gobelet();
+      void donner_cuiller();
+      
+   private:
+      ReservoirEau eau;
+      ReservoirSucre sucre;
+      ReservoirGobelets gobelets;
+      ReservoirCuillers cuillers;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Plusieurs classes concrètes}
+
+\begin{block}{Plusieurs manière de faire le café}
+...Les classes concrètes précisent les choses. \em{Version diagramme}
+\end{block}
+
+\begin{centering}%
+\pgfimage[width=\paperheight]{images/cafetiere2}%
+\par%
+\end{centering}%
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Plusieurs classes concrètes}
+
+\begin{block}{Plusieurs manière de faire le café}
+...Les classes concrètes précisent les choses. \em{Version code}
+\end{block}
+
+\begin{lstlisting}[language=c++]
+class CafetiereSoluble: public Cafetiere {
+
+public:
+  void faire_le_cafe() override;
+  int lire_etat() override;
+
+protected:
+  void verser_cafe();
+  
+private:
+  ReservoirCafeSoluble cafe;
+}
+
+class CafetierePoudre: public Cafetiere {
+
+public:
+  void faire_le_cafe() override;
+  int lire_etat() override;
+
+protected:
+  void verser_cafe_dans_filtre();
+  
+private:
+  ReservoirCafePoudre cafe;
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Sections private, protected, public}
+
+\begin{block}{private}
+\begin{itemize}
+\item{Données encapsulées par l'objet}
+\item{Fonctions membres correspondant au fonctionnement interne de l'objet.}
+\end{itemize}
+\em{On peut les modifier comme on veut !}
+\end{block}
+
+\begin{block}{protected}
+\begin{itemize}
+\item{Pas de données}
+\item{Fonctions membres accessibles par les objets dérivés, \textbf{et seulement eux}.}
+\end{itemize}
+\em{Attention aux modifications, risque de casser le code des classes dérivées} (mais ça reste relativement localisé)
+\end{block}
+
+\begin{block}{public}
+\begin{itemize}
+\item{Pas de données}
+\item{Fonctions membres accessibles par le code utilisateur de l'objet}.
+\end{itemize}
+\em{ ON NE CHANGE RIEN, risque de casser plein de code utilisateur}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Constructeurs par défaut}
+
+\begin{lstlisting}[language=c++]
+CafetiereSoluble ma_cafetiere;
+\end{lstlisting}
+
+\begin{block}{Que se passe-t-il ?}
+\begin{enumerate}
+\item Allocation de mémoire pour \tt{Cafetiere} \bf{et} \tt{CafetiereSoluble}
+\item Appel du \bf{constructeur par défaut} de \tt{Cafetiere}
+\item Appel du \bf{constructeur par défaut} de \tt{CafetiereSoluble}
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Passage de paramètres aux constructeurs}
+
+\begin{block}{Un constructeur peut en appeler un autre}
+Le constructeur de la classe dérivée \bf{appelle explicitement} le constructeur de la classe de base.
+
+\begin{enumerate}
+\item Allocation de mémoire pour \tt{Cafetiere} \bf{et} \tt{CafetiereSoluble}
+\item Appel du \bf{constructeur} de \tt{Cafetiere} \bf{avec ses paramètres}
+\item Initialisation des membres de \tt{CafetiereSoluble}
+\item Appel du code du constructeur de \tt{CafetiereSoluble}
+\end{enumerate}
+\end{block}
+
+\begin{lstlisting}[language=c++]
+class Cafetiere {
+public:
+   Cafetiere(float e, int g, int c,float s) : eau(e), gobelets(g), cuillers(c), sucre(s) {};
+...
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=c++]
+class CafetiereSoluble: public Cafetiere {
+public:
+   CafetiereSoluble(float e, int g, int c,float s, float f) : Cafetiere(e,g,c,s), cafe(f) {};
+...
+}
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le destructeur}
+
+\begin{block}{C'est pareil, sauf que c'est l'inverse}
+
+\begin{enumerate}
+\item Appel du code du destructeur de \tt{CafetiereSoluble}
+\item Appel du code du destructeur de \tt{Cafetiere}
+\item Désallocation de la mémoire
+\end{enumerate}
+\end{block}
+
+\begin{block}{...mais c'est comme les antibiotiques: c'est pas automatique !}
+Il faut définir pour chaque classe de la hiérarchie
+un destructeur virtuel. Il peut ne rien faire (\{\}), mais il garantit que le destructeur de la classe de base est bien appelé.
+\end{block}
+
+\begin{lstlisting}[language=c++]
+class Cafetiere {
+public:
+   virtual ~Cafetiere(){};
+   ...
+}
+classe CafetiereSoluble: public Cafetiere {
+    ~CafetiereSoluble(){};
+}
+\end{lstlisting}
+\end{frame}
+
+\section{Le polymorphisme}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Déclarations}
+
+\begin{block}{On peut pas !}
+\begin{lstlisting}[language=c++]
+Cafetiere C;
+\end{lstlisting}
+\end{block}
+
+\begin{block}{On peut !}
+\begin{lstlisting}[language=c++]
+Cafetiere* C;
+\end{lstlisting}
+\end{block}
+
+\begin{block}{On peut !}
+\begin{lstlisting}[language=c++]
+void ma_fonction(Cafetiere& c);
+
+CafetiereSoluble cs;
+CafetierePoudre cp;
+ma_fonction(cs);
+ma_fonction(cp);
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Un vecteur polymorphe}
+
+\begin{block}{Une cafeteria}
+Le code ci-dessous permet de déclarer un vecteur (tableau) polymorphe, c'est-à-dire un vecteur contenant des objets de plusieurs types.
+La notation est un peu lourde, elle fait appel à la stl, \bf{mais c'est la bonne manière de faire}.
+\end{block}
+
+\begin{lstlisting}[language=c++]
+vector<shared_ptr<Cafetiere>> machines;
+machines.push_back(make_shared<CafetiereSoluble>());
+machines.push_back(make_shared<CafetiereSoluble>());
+machines.push_back(make_shared<CafetierePoudre>());
+
+for (auto m : machines) {
+    if (m->lire_etat() == true) {
+       m->faire_le_cafe();
+       m->encaisser_monnaie();
+    };
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le clonage polymorphique}
+
+\begin{block}{Sémantique d'entité}
+Les objets dont nous parlons ont une sémantique d'entité, ils n'ont pas d'operator=, par contre ils
+peuvent implémenter le clonage polymorphique.
+\end{block}
+
+\begin{lstlisting}[language=c++]
+class Cafetiere {
+   ...
+   virtual Cafetiere * Cafetiere clone() = 0;
+}
+
+class CafetiereSoluble {
+   ...
+   CafetiereSoluble * Cafetiere clone() override
+   {
+       return new CafetiereSoluble(*this);
+   }
+   
+};
+\end{lstlisting}
+\end{frame}
+
+\end{document}
+  

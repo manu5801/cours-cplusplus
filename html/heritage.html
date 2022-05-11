@@ -31,28 +31,27 @@
  <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
  <dd id="smenu1">
  <ul>
-	<li><a onclick="javascript=cacher_menu()" href="heritage.html#abstraites">Classes abstraites...</a></li> 
+    <li><a onclick="javascript=cacher_menu()" href="heritage.html#abstraites">Classes abstraites...</a></li> 
     <li><a onclick="javascript=cacher_menu()" href="heritage.html#concretes">...Classes concr&ecirc;tes</a> 
-	<ul>
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#prot">Acc&egrave;s aux donn&eacute;es: la section protected</a></li> 
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#const">Constructeurs...</a></li>
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#copie">Le constructeur de copie</a></li>
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#autres-const">Autres constructeurs</a></li>
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#dest">...et destructeurs</a></li> 
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#poly">Le polymorphisme</a></li>
-	</ul></li>
+    <ul>
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#prot">Acc&egrave;s aux donn&eacute;es: la section protected</a></li> 
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#const">Constructeurs...</a></li>
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#copie">Le constructeur de copie</a></li>
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#autres-const">Autres constructeurs</a></li>
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#dest">...et destructeurs</a></li> 
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#poly">Le polymorphisme</a></li>
+    </ul></li>
     <li><a onclick="javascript=cacher_menu()" href="heritage.html#abc">Classes de bases abstraites</a>
     <ul>
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-const">Constructeurs virtuels...</a></li> 
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-dest">...et destructeurs virtuels</a></li> 
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-fct-const-dest">Appel de fonctions virtuelles depuis le constructeur ou le destructeur</a></li>
-		<li><a onclick="javascript=cacher_menu()" href="heritage.html#affect">L'op&eacute;rateur d'affectation dans une classe de base</a></li> 
-	</ul></li>
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-const">Constructeurs virtuels...</a></li> 
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#virt-dest">...et destructeurs virtuels</a></li> 
+        <li><a onclick="javascript=cacher_menu()" href="heritage.html#clonage-polymorphique">Le clonage polymorphique</a></li>
+    </ul></li>
     <li><a onclick="javascript=cacher_menu()" href="heritage.html#mult">L'h&eacute;ritage multiple</a>
     <ul>
         <li><a onclick="javascript=cacher_menu()" href="heritage.html#mult">Impl&eacute;mentation du "pattern" observateur en utilisant l'h&eacute;ritage multiple</a></li>
     </ul></li>
-	</ul>
+    </ul>
     </dd>
 </dl>
 <dl>
@@ -199,6 +198,8 @@ de <code>CafetierePoudre</code></p>
 <code>CafetiereSoluble</code>  sont <em>aussi</em>  des  variables de  type
 <code>Cafetiere</code>.   Les <code>CafetiereSoluble</code>  et <code>CafetierePoudre</code> sont donc des <em>sortes de</em>  Cafetiere, ils constituent une <em>extension</em> de <code>Cafetiere</code></p>
 
+<p>Le mot-clé <tt>override</tt> n'est pas obligatoire, mais il est <strong>fortement recommandé:</strong> en effet il informe le compilateur qu'on redéfinit une fonction virtuelle, cela permet au compilateur de faire des vérifications.</p>
+
 <h3 id="prot">Acc&egrave;s aux donn&eacute;es: la section protected</h3>
 
 <p>Puisque <code>CafetiereSoluble</code> et <code>CafetierePoudre</code> &eacute;tendent le type <code>Cafetiere</code>, ils encapsulent des objets tels que <code>eau</code>, qui repr&eacute;sente le r&eacute;servoir d'eau, etc. Mais parce que ces objets sont d&eacute;clar&eacute;s dans la section <code>private</code> de <code>Cafetiere</code>, <code>CafetiereSoluble</code> ni <code>CafetierePoudre</code> n'auront acc&egrave;s &agrave; ces variables.</p>
@@ -230,7 +231,7 @@ conception doit respecter les r&egrave;gles suivantes:</p>
 <div class="regle"><img alt="REGLE  D'OR"  src="diam.gif" />
 <ul>
   <li>Dans la section <code>private</code>, se trouvent les donn&eacute;es
-      encapsul&eacute;es par l'objet, ainsi que quelques fonctions membres correspondant au conctionnement interne de l'objet.</li>
+      encapsul&eacute;es par l'objet, ainsi que quelques fonctions membres correspondant au fonctionnement interne de l'objet.</li>
   <li>Dans la section <code>protected</code>, ne se trouvent
       <b>que</b> des fonctions-membres. </li>
   <li>Dans la fonction <code>public</code>, ne se trouvent
@@ -316,7 +317,7 @@ se passe la s&eacute;quence suivante:</p>
 </ol>
 
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-    Il sera la plupart du temps nécessaire de définir un destructeur virtuel au niveau de la balsse de base.
+    Il sera la plupart du temps nécessaire de définir un destructeur virtuel au niveau de la classe de base.
 </div>
 
 <h3 id="poly">Le polymorphisme</h3>
@@ -476,7 +477,7 @@ on doit la réécrire.</p></div>
 Cela marche grâce à faculté du C++ de définir des types de retour covariants.</p></div>
 
 <div class="attention"><p><img alt="ATTENTION" src="attention.gif" />
-Pour une mise en œuvre du clônage polymorphique ainsi que des <tt>shared_ptr</tt>, vous pouvez télécharger ce <a href="clonage/clonage.cpp">code jouet</a></p></div>
+Pour une mise en œuvre du clônage polymorphique ainsi que des <tt>shared_ptr</tt>, vous pouvez télécharger ce <a href="exos/shared_ptr/clonage.cpp">code jouet</a></p></div>
 
 <p><a href="#">top</a></p><hr /> 
 
