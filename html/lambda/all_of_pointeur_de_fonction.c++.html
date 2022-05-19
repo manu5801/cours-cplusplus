@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title>/home/manu/Documents/devt/c++/cours_c++/html/lambda/all_of_pointeur_de_fonction.c++</title>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta name="generator" content="Geany 1.36" />
+	<meta name="date" content="2022-05-19T11:39:02+0200" />
+	<style type="text/css">
+	body
+	{
+		font-family: FreeMono, monospace;
+		font-size: 12pt;
+	}
+	.style_4
+	{
+		color: #007f00;
+		background-color: #ffffff;
+	}
+	.style_5
+	{
+		color: #00007f;
+		background-color: #ffffff;
+		font-weight: bold;
+	}
+	.style_6
+	{
+		color: #ff8000;
+		background-color: #ffffff;
+	}
+	.style_9
+	{
+		color: #007f7f;
+		background-color: #ffffff;
+	}
+	.style_10
+	{
+		color: #301010;
+		background-color: #ffffff;
+	}
+	.style_11
+	{
+		color: #000000;
+		background-color: #ffffff;
+	}
+
+	</style>
+</head>
+
+<body>
+<p>
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;vector&gt;</span><br />
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;algorithm&gt;</span><br />
+<span class="style_9">#include&nbsp;</span><span class="style_6">&lt;iostream&gt;</span><br />
+<span class="style_5">using&nbsp;namespace&nbsp;</span><span class="style_11">std</span><span class="style_10">;</span><br />
+<br />
+<span class="style_5">int&nbsp;</span><span class="style_11">seuil</span><span class="style_10">=</span><span class="style_4">5</span><span class="style_10">;</span><br />
+<span class="style_5">bool&nbsp;</span><span class="style_11">grandNombre</span><span class="style_10">(&nbsp;</span><span class="style_5">int&nbsp;</span><span class="style_11">x</span><span class="style_10">)&nbsp;{&nbsp;</span><span class="style_5">return&nbsp;</span><span class="style_11">x&nbsp;</span><span class="style_10">&gt;&nbsp;</span><span class="style_11">seuil</span><span class="style_10">;&nbsp;};</span><br />
+<br />
+<span class="style_5">int&nbsp;</span><span class="style_11">main</span><span class="style_10">()</span><br />
+<span class="style_10">{</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">vector</span><span class="style_10">&lt;</span><span class="style_5">int</span><span class="style_10">&gt;&nbsp;</span><span class="style_11">v</span><span class="style_10">=&nbsp;{</span><span class="style_4">1</span><span class="style_10">,</span><span class="style_4">2</span><span class="style_10">,</span><span class="style_4">3</span><span class="style_10">,</span><span class="style_4">4</span><span class="style_10">,</span><span class="style_4">5</span><span class="style_10">,</span><span class="style_4">6</span><span class="style_10">,</span><span class="style_4">7</span><span class="style_10">,</span><span class="style_4">8</span><span class="style_10">,</span><span class="style_4">9</span><span class="style_10">};</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_5">if&nbsp;</span><span class="style_10">(</span><span class="style_11">all_of</span><span class="style_10">(</span><span class="style_11">v</span><span class="style_10">.</span><span class="style_11">begin</span><span class="style_10">(),</span><span class="style_11">v</span><span class="style_10">.</span><span class="style_11">end</span><span class="style_10">(),</span><span class="style_11">grandNombre</span><span class="style_10">))</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_10">{</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Tous&nbsp;les&nbsp;nombres&nbsp;sont&nbsp;supérieurs&nbsp;à&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">seuil&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">endl</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_10">}</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_5">else</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_10">{</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_11">cout&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_6">"Tous&nbsp;les&nbsp;nombres&nbsp;ne&nbsp;sont&nbsp;PAS&nbsp;supérieurs&nbsp;à&nbsp;"&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">seuil&nbsp;</span><span class="style_10">&lt;&lt;&nbsp;</span><span class="style_11">endl</span><span class="style_10">;</span><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="style_10">}</span><br />
+<span class="style_10">}</span><br />
+<br />
+
+</p>
+</body>
+</html>

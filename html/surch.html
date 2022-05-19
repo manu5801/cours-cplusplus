@@ -30,7 +30,7 @@
 </dl>
 <dl>  
  <dt><a href="index.html" title="sommaire" onmouseover="javascript:montre('smenu1')">Sommaire</a></dt>
- <dd id="smenu1" style="height:20em;overflow: scroll;">
+ <dd id="smenu1" style="height:25em;overflow: scroll;">
     <ul>
         <li><a href="surch.html#existant">Modifier une fonction sans remettre en cause l'existant</a> 
         <ul>
@@ -49,6 +49,7 @@
             <li><a href="surch.html#conv-ope">Conversions et op&eacute;rateurs</a></li> 
             <li><a href="surch.html#autres-ope">Autres op&eacute;rateurs</a></li> 
         </ul></li>
+        <li><a href="surch.html#fct-ptr">Trois nuances d'objets-fonctions</a></li>
     </ul> 
 </dd>
 </dl>
@@ -1002,14 +1003,6 @@ mais assez logique, compte-tenu du fait que le type est d&eacute;j&agrave; sp&ea
 dans le nom de l'op&eacute;rateur lui-m&ecirc;me.
 </p></div>
 
-<h3><a name="fct-ptr">Pointeurs de fonctions (en C)</a></h3>
-<p>Programme de tri d'un tableau de structures en C avec qsort</p>
-
-<h3><a name="fct-ptr">Fonctions objets (en C++)</a></h3>
-<p>On fait un vecteur de structures en C++ et on le tri avec std::sort, la fonction de comparaison est une fonction-objet</p>
-<h3><a name="fct-lda">Fonctions lambdas (en C++ depuis C++11)</a></h3>
-<p>On fait un vecteur de structures en C++ et on le tri avec std::sort, la fonction de comparaison est une lambda</p>
-
 <h3><a name="autres-ope">Autres op&eacute;rateurs</a></h3>
 
 <p>Certains   op&eacute;rateurs seront &eacute;voqu&eacute;s un peu plus loin:</p>
@@ -1034,6 +1027,57 @@ dans le nom de l'op&eacute;rateur lui-m&ecirc;me.
       d&eacute;tails, et le chapitre sur la biblioth&egrave;que standard, qui fait
       largement appel &agrave; cette notion d'objets fonctions</li>
 </ul>
+
+<h2><a name="fct-ptr">Trois nuances d'objets-fonctions</a></h2>
+
+<p>Ce paragraphe présente brièvement trois manières de déclarer des fonctions (ou des choses qui y ressemblent)
+et de passer ces fonctions en paramètres à d'autres fonctions.
+Cela est très utilisé par les objets de la Stl, par exemple (fonctions de tris, de filtres, etc.)</p>
+<p>Pour illustrer ces trois nuances, nous utiliserons un petit programme qui fait appel à l'algorithme <tt>all_of</tt> de la stl:
+il s'agit d'un algorithme générique, qui travaille sur un ensemble d'objets. Pour chaque objet, un "prédicat unaire" est appelé.
+Un prédicat unaire est une fonction à <strong>un seul</strong> paramètre (unaire), qui renvoie un booléen (<strong>prédicat</strong>).</p>
+<p><tt>all_of</tt> renverra <tt>true</tt> si <em>tous</em> les appels ont renvoyé <tt>true</tt>.</p>
+<p>Dans notre exemple, le prédicat consiste à déterminer si l'entier passé en paramètre est supérieur à une certaine valeur,
+appelée <tt>seuil</tt>. Donc on cherche à vérifier si, dans une collection d'entiers, il en existe au moins un qui dépasse le seuil.</p>
+
+<h4>Pointeurs de fonctions C</h4>
+<img src="dino.png" style="float:left" alt="A éviter !" title="A éviter !" /><p>En C, on peut définir des pointeurs sur des fonctions, en passant le pointeur à une fonction en tant que paramètre d'entrée, on passe la fonction</p>
+<p>Voir ici <a href="lambda/all_of_pointeur_de_fonction.c++.html">la version pointeur de fonctions</a> de notre programme,
+<a href="lambda/all_of_pointeur_de_fonction.c++">télécharger ici</a></p>
+
+<p>Cette version présente plusieurs inconvénients: la variable <tt>seuil</tt> est obligatoirement déclarée
+en tant que variable globale. La fonction a elle aussi une portée globale.</p>
+
+<h4>Fonctions objets</h4>
+<img src="oiseau.png" style="float:left" title="C++ moderne" alt="C++ moderne" /><p>En C++, il est préférable de définir un objet-fonction, c'est-à-dire un objet doté d'une fonction appelée <tt>operator()</tt>.</p>
+<p>Voir ici <a href="lambda/all_of_objet_fonction.c++.html">la version objet fonctions</a> de notre programme,
+<a href="lambda/all_of_objet_fonction.c++">télécharger ici</a></p>
+
+<p>Cette version a un avantage majeur sur le pointeur de fonction: on peut tout mettre dans la portée locale, aussi bien
+la déclaration de classe que la variable seuil. Elle permet de passer le seuil par l'intermédiaire du constructeur de l'objet,
+ce qui est nettement plus "propre" qu'utiliser une portée de variable globale. Néanmoins, la syntaxe reste assez lourde, clairement
+trop dans notre cas particulier, qui nécessite une déclaration de fonction triviale.</p>
+
+<h4><a name="fct-lda">Fonctions lambdas (depuis C++11)</a></h4>
+<img src="oiseau.png" style="float:left" title="C++ moderne" alt="C++ moderne" /><img src="oiseau.png" style="float:left" title="C++ moderne" alt="C++ moderne" /><p>En C++, depuis la norme 2011, on peut déclarer des fonctions "anonymes", appelées fonctions lamdas. </p>
+<p>Voir ici <a href="lambda/all_of_lambda.c++.html">la version lambda</a> de notre programme,
+<a href="lambda/all_of_lambda.c++">télécharger ici</a></p>
+
+<p>Cette version est moins lourde que la précédente, on voit que la définition de la fonction lamba se fait "en ligne" dans
+le passage de paraèmtres, seulement lorsqu'on en a besoin. Très pratique pour de petites fonctions triviales à utiliser avec les algorithmes de la stl.</p>
+
+<p>Une fonction lambda n'a pas de nom. On ne spécifie pas le type de retour, le compilateur va le deviner grâce à l'instruction <tt>return</tt>. Et elle a une spécification
+supplémentaire: <strong>[ ]</strong>, qui permet de spécifier explicitement ce qu'on fait des variables disponibles lors de l'appel:</p>
+<ul>
+<li><tt>[]</tt> elles sont inaccessibles</li>
+<li><tt>[=]</tt> elles sont toutes accessibles, par copie</li>
+<li><tt>[&]</tt> elles sont toutes accessibles, par référence</li>
+<li><tt>[ seuil]</tt> seul <tt>seuil</tt> est accessible, par copie.</li>
+<li><tt>[&seuil]</tt> seuil <tt>seuil</tt> est accessible, par référence</li>
+</ul>
+
+<p>Possibilités de panachage, <a href="https://en.wikipedia.org/wiki/Anonymous_function#C++_(since_C++11)">voir ici</a></p>
+
 
 <p><a href="#">top</a></p><hr />
 <address>
