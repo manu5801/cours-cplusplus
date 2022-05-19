@@ -35,7 +35,7 @@
 \begin{block}{Clonage}
 Initialiser un objet à partir d'un autre, c'est réaliser une opération de clonage:
 \begin{enumerate}
-\item allocation mémoire
+\item allocation mémoire (temps !)
 \item initialisation
 \end{enumerate}
 \em Cela peut conduire à des copies importantes en mémoire
@@ -52,7 +52,7 @@ UnObjet nouveau = existant;
 \begin{block}{Copie}
 Affecter un objet à partir d'un autre, c'est recopier l'état de l'objet mais sans refaire l'allocation
 \begin{enumerate}
-\item Effacer les données
+\item Effacer les données (parfois désallocation-réallocation)
 \item Recopier les données à partir de l'objet copié
 \end{enumerate}
 \em Cela peut conduire à des copies importantes en mémoire (temps)
@@ -127,7 +127,7 @@ UnObjet obj1 = *ptr2;
 \section{Passage de paramètres}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Par valeur}
+\frametitle {Passage par valeur}
 
 \begin{block}{Passage des paramètres par valeur}
 Le code suivant utilise un objet A en paramètre et retourne un flottant. A est passé par valeur, c'est-à-dire que:
@@ -156,15 +156,15 @@ float une_fonction(UnObjet A) {
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Par référence}
+\frametitle {Passage par référence}
 
 \begin{block}{Passage des paramètres par référence}
 Le code suivant utilise un objet A en paramètre, retourne un flottant mais modifie également l'état de A (c'est une variable de type Inout)
 \begin{enumerate}
 \item On utilise un "alias" pour nommer la variable A dans le contexte de la fonction
-\item L'alias est modifié dans le calcul, donc la variable originale est modifiée également.
 \item L'alias est utilisé pour le calcul
-\item Le résultat est renvoyé dans l'espace appelant
+\item L'alias est modifié dans le calcul, donc la variable originale est modifiée également.
+\item Le résultat est renvoyé d'une part dans l'espace appelant, d'autre part par le paramètre A
 \end{enumerate}
 \end{block}
 
@@ -187,7 +187,7 @@ float une_fonction(UnObjet& A) {
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Par const référence}
+\frametitle {Passage par const référence}
 
 \begin{block}{Passage des paramètres par const \&}
 Le code suivant utilise un objet A en paramètre et retourne un flottant sans modifier A.
@@ -241,8 +241,9 @@ UnObjet& une_fonction(float x) {
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Retour par pointeur}
 
-\begin{block}{Retour \*}
-Le code suivant crée un objet dans la fonction en passant par l'opérateur new renvoie le pointeur sur cet objet: ça marche pas, mais c'est vieux et moche.
+\begin{block}{Retour *}
+Le code suivant crée un objet dans la fonction en passant par l'opérateur new renvoie le pointeur sur cet objet:
+ça marche, mais c'est vieux et moche.
 
 \begin{enumerate}
 \item On crée l'objet dans le corps de la fonction en utilisant new (afin de déposer l'objet dans le tas et pas dans la pile)
@@ -266,7 +267,7 @@ UnObjet* une_fonction(float x) {
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Retour par valeur}
 
-\begin{block}{Retour \*}
+\begin{block}{On ne se prend pas la tête}
 Le code suivant crée un objet dans la fonction, et le renvoie tout simplement.
 
 \begin{enumerate}
@@ -284,6 +285,7 @@ UnObjet une_fonction(float x) {
 
 \begin{itemize}
 \item Avantage = Elégant et efficace grâce au Return Value Optimization (RVO) implémenté par tous les compilateurs actuels.
+\item Les dinosaures ne connaissaient pas le RVO !
 \item A utiliser pour du code moderne
 \end{itemize}
 \end{frame}
@@ -291,7 +293,7 @@ UnObjet une_fonction(float x) {
 \section{Le descripteur const}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Avec des pointeurs}
+\frametitle {const sur les pointeurs}
 
 \begin{block}{Pour les dinosaures}
 En C++ moderne, évitons d'utiliser des pointeurs "ordinaires..." Mais les dinosaures ont-ils vraiment disparu ?
@@ -300,8 +302,10 @@ En C++ moderne, évitons d'utiliser des pointeurs "ordinaires..." Mais les dinos
 \begin{lstlisting}[language=c++]
 const int* a = new(int);
 *a = 10;                        // Erreur car *a est constant
+a = NULL;
 int* const b = NULL;
 b = new(int);                   // Erreur car b est constant
+*b = 356;
 const int* const c = new(int);
 *c = 10;                        // Erreur car *c est constant
 c = NULL;                       // Erreur car c est constant
@@ -361,7 +365,7 @@ void free (void * ptr);
 \begin{lstlisting}[language=c++]
 size_t dimension = 1000;
 int* tab = (int *) calloc (dimension, sizeof(int));
-if ( tab==NULL) { ...traitement d'erreur... };
+if ( tab==NULL) { ...traitement des erreurs... };
 free(tab);
 \end{lstlisting}
 
