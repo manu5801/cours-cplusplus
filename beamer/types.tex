@@ -160,11 +160,11 @@ Très pratique, à condition de ne pas en abuser car le code risque d'être illi
 int a;
 if ( b == 1 )
 {
-	a = 3000;
+    a = 3000;
 }
 else
 {
-	a = -10;
+    a = -10;
 }
 
 // ...est equivalent a celui-ci:
@@ -1149,7 +1149,7 @@ f(&x);   // maintenant il y a 0 dans x
 \frametitle{Passage de paramètres par référence}
 \begin{block}{Passer un paramètre par référence en C++}
 Bien plus joli ! \\
-L'information "passé par référence" est codée dans le prototype de la fonction \\
+L'information "passée par référence" est codée dans le prototype de la fonction \\
 \textbf{et c'est tout !}
 \begin{lstlisting}[language=c++]
 void f(int& x) {
@@ -1207,7 +1207,8 @@ Une fonction peut renvoyer une valeur.
 \item{Car cela signifie une copie de l'objet pour passer "à l'extérieur" de la fonction}
 \end{itemize}}
 \item{Cest une \texttt{rvalue} (un truc qu'on ne peut pas mettre à \textbf{gauche} de =, du coup on le met à droite.) }
-\item{Renvoyer une variable ou un objet par valeur est le moyen normal de travailler, \textbf{avec des compilateurs modernes}.}
+\item Renvoyer une variable ou un objet par valeur est le moyen normal de travailler, \textbf{avec des compilateurs modernes}. Les
+compilateurs actuels implémentent en effet le RVO (Return Value Optimization).
 \end{itemize}
 
 \end{frame}
@@ -1227,7 +1228,7 @@ Une fonction \textbf{en C++} peut renvoyer une référence.
 \item{ça ne sert à rien}
 \item{Si le paramètre est un littéral... boum !}
 \end{itemize}
-\item{Cest une \texttt{lvalue} (un truc qu'on met à \textbf{gauche} de = )}
+\item Une référence est une \texttt{lvalue} (un truc qu'on peut mettre à \textbf{gauche} de = )
 \end{itemize}
 
 \begin{block}{Renvoyer une lvalue en C++}
@@ -1255,11 +1256,11 @@ Mais si vous faites du C++ (et surtout du C++11):
 \item{c'est ringard}
 \end{itemize}
 
-En C++: 
+En C++ moderne: 
 
 \begin{itemize}
 \item{On ne fait pas d'allocation dynamique, ou alors on la cache (voir plus loin)}
-\item{On renvoie des objets par valeur, pas des pointeurs}
+\item{On renvoie des objets par valeur, \textbf{pas} des pointeurs}
 \end{itemize}
 \end{frame}
 
