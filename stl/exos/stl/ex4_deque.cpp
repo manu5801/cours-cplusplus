@@ -18,10 +18,10 @@ int main()
 	
 	// Insertion de 10 a la fin, de 20 en tête, de 30 à la fin et de 15 en 
 	// tête
-	dq....(10);
-	dq....(20);
-	dq....(30);
-	dq....(15);
+	...
+	...;
+	...;
+	...;
     	
     	// Affichage de dq
     	cout << "The deque dq is : "; 

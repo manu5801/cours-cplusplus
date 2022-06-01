@@ -14,14 +14,14 @@ int main()
 	cout << "Taille de la file : " << ... << endl;
 
 	// Affichage de l'element le plus ancien et Depiler
-	while (!file.empty())
+	while (...)
 	{
-		cout << ... << endl;
+		cout << "Taille de la file : " << ... << endl;
 		...;
 	}
 	
 	// Taille de la file
-	...
+	cout << "Taille de la file : " << ... << endl;
 	
 	return 0;
 }

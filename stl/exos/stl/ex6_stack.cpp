@@ -11,17 +11,17 @@ int main()
 	...
 	
 	// Taille de la pile
-	...
+	cout << "Taille de la pile : " << ... << endl;
 	
 	// Affichage et suppression des elements de la pile
-	while (!pile.empty())
+	while (...)
 	{
 		cout << ... << endl;
 		...
 	}
 	
 	// Taille de la pile
-	...
+	cout << "Taille de la pile : " << ... << endl;
 	
 	return 0;
 }

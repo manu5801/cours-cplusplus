@@ -10,18 +10,19 @@ int main()
 	map<...,...> nbJoursMois;
 	
 	// Construction de la table associative: 
-	//  clé->mois et valeur-> nombre de jours
-	nbJoursMois["janvier"] = ...;
-	nbJoursMois["février"] = ...;
-	nbJoursMois["mars"] = ...;
-	nbJoursMois["avril"] = ...;
+	//  clé->mois et valeur-> nombre de jours pour les mois de janvier,
+	// février, mars et avril
+	nbJoursMois[...] = ...;
+	nbJoursMois[...] = ...;
+	nbJoursMois[...] = ...;
+	nbJoursMois[...] = ...;
 	// ...
 	
 	// Taille de la map
-	...
+	cout << "La map contient " <<  ... << " elements : \n";
 	
 	// Affichage de la map 
-	for(auto it=nbJoursMois.begin(); it!=...; ++it)
+	for(auto it=...; it!=...; ++it)
 	{
 		cout << ... << " -> \t" << ... << endl;
 	}

@@ -15,7 +15,7 @@ void showvec(vector <int> v)
      
 int main() 
 {
-	// Initialisation du vector
+	// Initialisation du vector avec la liste 1,5,2,4,3
 	vector<int> ...
 	
 	// Tri du vector v	
