@@ -6,9 +6,10 @@ using namespace std;
  
 int main() {
 
-	// Initialisation de s1 + Affichage
+	// Initialisation s1 par la phrase "coucou, dit le coucou au long cou"
 	string ...;
-  	cout << s1 << endl;
+	// Affichage
+  	cout << ... << endl;
  
  	// Recherche de l'occurence 'le' dans s1
 	string le("le");
@@ -16,7 +17,7 @@ int main() {
 	cout << "L'occurence '" << le << "' trouve a la position " << ... << endl;
  
   	// Recherche des occurences 'cou' dans s1
-	string cou("...");
+	string cou();
 	pos = 0;
 	pos = ...;
 	while (pos != string::npos) {

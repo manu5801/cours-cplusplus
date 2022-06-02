@@ -19,7 +19,7 @@ int main()
 	
 	// Creation de la liste c1 a partir de c
 	for (int i=0; i<10; i++)
-		c1.push_back(c[i]);
+		c1.push_back(...);
 	
 	// Affichage de c1
 	showvec(c1);
