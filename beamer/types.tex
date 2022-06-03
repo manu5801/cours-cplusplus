@@ -9,8 +9,8 @@
 
 \title{Les types de base}
 \subtitle{Introduction au C++ et à la programmation objet}
-\author{E. Courcelle}\institute{CALMIP, UMS 3669}
-\date{Décembre 2019}
+\author{E. Courcelle, P. ELYAKIME}\institute{CALMIP UMS 3669, IMFT UMR 5502}
+\date{Juin 2022}
 
 \addtobeamertemplate{footline}{\insertframenumber/\inserttotalframenumber}
 
@@ -30,36 +30,44 @@
 
 \section{Expressions et instructions}
 
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les expressions}
+\begin{itemize}
+\item{Expressions et instructions}
+\item{Les instructions conditionnelles}
+\item{Les boucles}
+\item{\textbf{break} et \textbf{continue}}
+\end{itemize}
+
+\end{frame}
+
 \subsection{Expressions et instructions}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Une expression pas trop compliquée}
+\frametitle {Les expressions}
+\begin{itemize}
+\item{Une expression pas trop compliquée :}
+\end{itemize}
+
 \begin{lstlisting}[language=c++]
 7;
 \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Une expression renvoie toujours une valeur}
-L'expression suivante renvoie 7:
-\begin{lstlisting}[language=c++]
-4 + 3;
-\end{lstlisting}
-
-L'expression suivante:
 \begin{itemize}
-\item{met 7 dans la variable b}
-\item{renvoie \textbf{aussi} la valeur 7}
+\item{Une expression renvoie toujours une valeur : }
 \end{itemize}
+
+
 \begin{lstlisting}[language=c++]
-b = 4 + 3;
+4 + 3; // Renvoie le 7
+
+b = 4 + 3; // met 7 dans la variable b et renvoie aussi la valeur 7
+
+a = (b = 4 + 3); // met 7 dans b et dans a:
 \end{lstlisting}
 
-Si bien que l'expression suivante met 7 dans b \textbf{et} dans a:
-\begin{lstlisting}[language=c++]
-a = (b = 4 + 3);
-\end{lstlisting}
 \end{frame}
+
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Instructions simples et complexes}
@@ -67,7 +75,7 @@ Une instruction peut être simple, dans ce cas \textbf{elle se termine par un ;}
 \begin{lstlisting}[language=c++]
 a = 4 + 3;
 \end{lstlisting}
-Ou alors c'est un \textbf{bloc}, il est délimité par { ou }
+Ou alors c'est un \textbf{bloc} et est délimité par $\{$ ou $\}$
 \begin{lstlisting}[language=c++]
 {
    a = 4 + 3;
@@ -84,6 +92,11 @@ En C++, on déclare les variables n'importe où.
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {L'instruction conditionnelle if}
+
+\begin{itemize}
+\item{Permet de tester si une condition est vraie ou non}
+\end{itemize}
+
 
 La forme générale:
 \begin{lstlisting}[language=c++]
@@ -104,9 +117,9 @@ else
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Les if imbriqués}
+\frametitle {Plusieurs instructions conditionnelles}
 
-On peut écrire aussi, même si ce n'est pas très lisible:
+Si on veut tester plusieurs conditions, on peut \textbf{imbriquer les if} mais ce n'est pas très lisible:
 \begin{lstlisting}[language=c++]
 if (expression1) 
    instruction1;
@@ -177,9 +190,22 @@ int A = b==1 ? 3000 : -10;
 \subsection{Les boucles}
 
 \begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les boucles}
+
+Permet de répéter l'exécution d'une série d'instructions à l'intérieur d'un programme. 
+Il existe plusieurs types de boucles en C++ :
+\begin{itemize}
+\item{for}
+\item{while}
+\item{do ... while}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {for}
 \begin{itemize}
-\item{Permet de boucler en spécifiant condition initiale, condition finale, et incrémentation d'un compteur}
+\item{Permet de boucler en spécifiant la condition initiale, la condition finale, et incrémentation d'un compteur}
 \item{Généralisée en C++ pour balayer un conteneur (par exemple un tableau) avec des itérateur}
 \item{La boucle peut ne jamais être exécutée}
 \end{itemize}
@@ -202,8 +228,8 @@ for (i=0; i<n; i++)
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {for (en C++11) }
-Cette forme de l'instruction \textbf{for} permet d'itérer à travers un conteneur (cf. la stl). C'est une instruction de haut niveau
-qui par derrière utilise les itérateurs, et qui se révèlera très pratique et très lisible:
+Syntaxe qui provient de la \textbf{STL} : permet d'itérer à travers un \textbf{conteneur}. C'est une instruction de haut niveau
+qui utilise la notion d'\textbf{itérateurs}, et qui se révèlera très pratique et très lisible:
 
 \begin{lstlisting}[language=c++]
 int somme = 0;
@@ -218,9 +244,12 @@ for ( auto element : mon_vecteur )
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {while}
 \begin{itemize}
-\item{Permet de boucler jusqu'à que la condition soit réalisée}
-\item{La boucle peut ne jamais être exécutée}
+\item{Permet de boucler jusqu'à ce que la \textbf{condition soit réalisée}}
+\item{La condition est évaluée en \textbf{début de boucle}}
+\item{La boucle peut ne \textbf{jamais être exécutée}}
 \end{itemize}
+
+
 \begin{lstlisting}[language=c++]
 while (c!=' ') {
    c = getchar();
@@ -229,25 +258,12 @@ while (c!=' ') {
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {while}
-\begin{itemize}
-\item{Permet de boucler jusqu'à que la condition soit réalisée}
-\item{La boucle peut ne jamais être exécutée}
-\end{itemize}
-\begin{lstlisting}[language=c++]
-while (c!=' ') {
-   c = getchar();
-   chaine[i++] = c;
-}
-\end{lstlisting}
-\end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {do... while}
 \begin{itemize}
-\item{Permet de boucler jusqu'à que la condition soit réalisée}
-\item{La condition est évaluée en fin de boucle}
+\item{Permet de boucler jusqu'à que la \textbf{condition soit réalisée}}
+\item{La condition est évaluée en \textbf{fin de boucle}}
 \item{En conséquence, la boucle est exécutée au moins une fois}
 \end{itemize}
 \begin{lstlisting}[language=c++]
@@ -297,12 +313,11 @@ for (cpt = 0; cpt < n; cpt++) {
 \subsection{Ecrivons du code lisible}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Non à l'obfuscation !}
-Puisqu'une instruction renvoie toujours une valeur, n'importe quelle instruction \\
-peut servir de condition dans un if ou une boucle.\\
-On peut donc faire plusieurs choses à la fois:
+\frametitle {Non au instructions compactées}
+Puisqu'une instruction renvoie toujours une valeur, n'importe quelle instruction peut servir de condition dans un if ou une boucle.\\
+On peut donc faire plusieurs choses à la fois, par exemple:
 \begin{itemize}
-\item{Exécuter une instruction, par exemple remplir une variable}
+\item{Exécuter une instruction en remplissant une variable}
 \item{Utiliser la valeur de la variable pour prendre une décision}
 \end{itemize}
 
@@ -326,26 +341,157 @@ else
 
 \section{Le préprocesseur}
 
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le préprocesseur}
+
+\;
+
+
+Le préprocesseur est la 1iere étape de la compilation qui procède à des opérations de transformations (rechercher/modifier) dans le code source, comme :
+
+\begin{itemize}
+\item{l'inclusion des fichiers d'entêtes }
+\item{La définition/lecture des macros}
+\item{La compilation conditionnelle}
+\end{itemize}
+
+
+\end{frame}
+
+\subsection{Les includes}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les fichiers sources en C++}
+
+Un code en C++ est composé des fichiers d'entête \textbf{.h} ou \textbf{.hpp} et des fichiers de codes sources \textbf{.cpp}. \\ \;
+
+Les fichiers d'entête \texttt{.hpp ou .h}, \textbf{utilisés par le compilateur}, contiennent:
+\begin{itemize}
+\item{Des \textbf{déclarations} de constantes, de fonctions, de classes}
+\item{Le code des fonctions déclarées \texttt{inline}}
+\item{Des modèles (templates)}
+\end{itemize} \;
+
+
+Les fichiers \texttt{.cpp}, \textbf{utilisés par l'éditeur de lien} contiennent:
+\begin{itemize}
+\item{Des variables globales}
+\item{Les définitions (le code) des fonctions}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Inclusion des fichiers d'entête}
+
+Tous les fichiers d'entête (les includes) se terminant par \texttt{.h} ou \texttt{.hpp} sont inclus au fichier principal pendant l'étape de préprocessing. 
+
+\begin{lstlisting}[language=c++]
+#include <iostream>
+#include<biblio/chemin/vers/un/fichier.hpp>
+#include "mes_fonctions.hpp"
+#include "ma_biblio/mes_fonctions.hpp"
+\end{lstlisting}
+
+\begin{block}{Où sont les include ?}
+Si les includes sont ceux du système (ou de bibliothèques ajoutées), on écrit entre \texttt{<} et \texttt{>}
+et le chemin est calculé:
+
+\begin{itemize}
+\item{Soit à partir des répertoires systèmes}
+\item{Soit à partir des répertoires donnés par le switch de compilateur \texttt{-I}}
+\end{itemize}
+
+Si les includes sont ceux de mon application, on écrit entre `` ``
+et le chemin est calculé à partir des répertoire courant.
+\end{block}
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les \#include en C++}
+Par convention, les include système en C++ n'ont pas d'extension:
+
+\begin{lstlisting}[language=c++]
+#include <iostream>
+#include <vector>
+\end{lstlisting}
+
+Les includes de la bibliothèque standard du C sont utilisables en C++ en :
+\begin{itemize}
+\item{ajoutant la lettre "c" au début}
+\item{retirant l'extension}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+#include <math.h>       // en langage C
+#include <cmath>        // la meme chose en langage C++
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Unicité des headers}
+C'est au programmeur de faire en sorte qu'un header ne soit pas inclus plusieurs fois ! (hé oui)
+Cela se fait de la manière suivante:
+
+\begin{lstlisting}[language=c++]
+#ifndef MON_MODULE
+#define MON_MODULE
+...
+#endif
+\end{lstlisting}
+\end{frame}
+
 \subsection{Les constantes en langage C}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Les constantes en langage C}
-Le préprocesseur du C est un programme séparé du compilateur. \\
-Il effectue des rechercher/remplacer tout au long du code.
+\frametitle {Les macros}
 
-il n'y a pas de constantes en C. \\
-Mais l'instruction \texttt{\#define} permet d'utiliser des symboles. \\
-Dans l'exemple ci-dessous,PI sera remplacé par 3.14
+
+Le préprocesseur du C effectue des rechercher/remplacer tout au long du code à partir de l'instruction \texttt{\#define} et remplace le symbole par sa valeur. \\
+Dans l'exemple ci-dessous, PI sera remplacé par 3.14
 
 \begin{lstlisting}[language=c++]
 #define PI 3.14
 \end{lstlisting}
 
-\begin{block}{En C++...}
-En C++, on peut définir de "vraies" constantes.
-\end{block}
+Il permet aussi de définir des fonctions, comme la fonction MAX qui sera remplacé par l'instruction qu'il définit dans le code :
+
+\begin{lstlisting}[language=c++]
+#define MAX(a,b) a>b?a:b
+\end{lstlisting}
+
 
 \end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Les constantes en langage C}
+Il n'est pas possible de déclarer en langage C des constantes, à part des constantes littérales (cf doc.) pendant la phase de compilation. \\
+On utilise donc l'instruction \texttt{\#define} pour construire une constante préprocesseur
+
+\begin{lstlisting}[language=c++]
+#define PI 3.14
+\end{lstlisting}
+
+\begin{block}{Depuis C++11}
+En C++, on peut définir de "vraies" constantes.\\
+A partir de la norme C++11, \texttt{\#define} peut être remplacé par \texttt{constexpr}. \\
+\texttt{constexpr} est beaucoup plus riche, et permet notamment d'évaluer une fonction à l'étape de la compilation
+\end{block}
+
+\begin{lstlisting}[language=c++]
+constexpr int a=56;
+constexpr float pi=3.14;
+\end{lstlisting}
+
+
+\end{frame}
+
+
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Les constantes Chaines de caractères}
@@ -385,86 +531,11 @@ d'une condition:
 \end{lstlisting}
 \end{frame}
 
-\subsection{Les includes}
 
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {\#include}
-Permet d'inclure un fichier lors de la compilation, en principe un fichier \texttt{.h} ou \texttt{.hpp}
-
-\begin{block}{Où sont les include ?}
-Si les includes sont ceux du système (ou de bibliothèques ajoutées), on écrit entre \texttt{<} et \texttt{>}
-et le chemin est calculé:
-
-\begin{itemize}
-\item{Soit à partir des répertoires systèmes}
-\item{Soit à partir des répertoires donnés par le switch de compilateur \texttt{-I}}
-\end{itemize}
-
-Si les includes sont ceux mon application, on écrit entre `` ``
-et le chemin est calculé à partir des répertoire courant.
-\end{block}
-
-\begin{lstlisting}[language=c++]
-#include <iostream>
-#include<biblio/chemin/vers/un/fichier.hpp>
-#include "mes_fonctions.hpp"
-#include "ma_biblio/mes_fonctions.hpp"
-\end{lstlisting}
-
-\begin{block}{Fichiers .hpp et .cpp}
-Les fichiers \texttt{.hpp} contiennent:
-\begin{itemize}
-\item{Des \textbf{déclarations} de contantes, de fonctions, de classes}
-\item{Le code des fonctions déclarées \texttt{inline}}
-\item{Des modèles (templates)}
-\end{itemize}
-\textbf{Ils sont utilisés par le compilateur}
-
-Les fichiers \texttt{.cpp} contiennent:
-\begin{itemize}
-\item{Des variables globales}
-\item{Les définitions (le code) des fonctions}
-\end{itemize}
-\textbf{Ils sont utilisés par l'éditeur de lien}
-\end{block}
-
-\end{frame}
-
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {\#include en C++}
-Par convention, les include système en C++ n'ont pas d'extension:
-
-\begin{lstlisting}[language=c++]
-#include <iostream>
-#include <vector>
-\end{lstlisting}
-
-Les includes de la bibliothèque standard du C sont utilisables en C++ en :
-\begin{itemize}
-\item{ajoutant la lettre "c" au début}
-\item{retirant l'extension}
-\end{itemize}
-
-\begin{lstlisting}[language=c++]
-#include <math.h>       // en langage C
-#include <cmath>        // la meme chose en langage C++
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle {Les Once Only headers}
-C'est au programmeur de faire en sorte qu'un header ne soit pas inclus plusieurs fois ! (hé oui)
-Cela se fait de la manière suivante:
-
-\begin{lstlisting}[language=c++]
-#ifndef MON_MODULE
-#define MON_MODULE
-...
-#endif
-\end{lstlisting}
-\end{frame}
 
 \section{Déclarations de variables}
+
+
 
 \subsection{Les variables simples}
 
@@ -493,20 +564,66 @@ on peut utiliser cette variable. \\
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Variable globale}
+Une variable globale est définit à l'extérieur de toute fonction, de toute classe, ... et est accessible dans tout le programme :
+\begin{lstlisting}[language=c++]
+..
+int A;  			// variable globale
+
+int main() {
+	int B;			// variable locale a main
+	int C=f1();
+};
+
+int f1() {          
+	int C=A;		// pas de pb, A est accessible
+	C += B;			// ERREUR B n'est pas connu ici
+	return C;
+}
+
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Différences entre C et C++}
 
-\begin{block}{En C...}
-En C, les variables \textbf{doivent} être déclarées en début de bloc. \\
-En C++, on peut les déclarer simplement lorsqu'on en a besoin.
-\end{block}
-\begin{block}{En C++...}
-En C++, on peut déclarer des indices de boucle for \textbf{dans la boucle elle-même}:
+\begin{itemize}
+
+\item{En C, les variables \textbf{doivent} être déclarées en début de bloc}
+\item{En C++, on peut les déclarer n'importe où}
+\end{itemize}  
+ 
+\textbf{Par exemple :} en C++, on peut déclarer des indices de boucle for dans la boucle elle-même: 
+
 \begin{lstlisting}[language=c++]
 for (int i=0; i<10; i++) {
    ...
 }
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {La structure d'une déclaration de variables}
+
+La forme générale :
+\begin{block}{}
+[descripteur] [type de base] [déclarateur] [initialisateur]
 \end{block}
+
+\begin{itemize}
+\item{un descripteur optionnel : const, extern, virtual, ...}
+\item{un type de base obligatoire : int, float, double, ...}
+\item{un déclarateur obligatoire : nom choisi par le programmeur, un ou plusieurs}
+\item{un initialiseur optionnel}
+\end{itemize}
+
+\begin{lstlisting}[language=c++]
+char* ctbl[] = {"bleu","blanc","rouge"}; 
+const int A = 2;
+int B; 
+\end{lstlisting}
 \end{frame}
 
 \subsection{Les types de base}
@@ -522,12 +639,10 @@ long long C = 1000;
 unsigned int = A;
 
 \end{lstlisting}
-\begin{block}{ATTENTION ! PIEGE !}
-Tout ce qu'on sait, c'est que \textbf{short} prend moins d'octets que \textbf{int}, \\
-qui en prend moins que \textbf{long}, qui lui-même en prend moins que \textbf{long long}. \\
-Mais d'une machine à l'autre, les tailles des entiers \\ 
-ne sont pas obligatoirement les mêmes. \\
-Les types unsigned ne sont \textbf{jamais} négatifs.
+\begin{block}{Remarques}
+Le type \textbf{short} prend moins d'octets que \textbf{int}, qui en prend moins que \textbf{long}, qui lui-même en prend moins que \textbf{long long}... \\
+Dépends du processeurs 32 ou 64 bits: par exemple pour \textbf{int} 4 ou 8 octets.\\
+Il existe des entiers signés (\textbf{signed}) et non signé (\textbf{unsigned}) qui ne sont \textbf{jamais} négatifs.
 \end{block}
 \end{frame}
 
@@ -553,6 +668,35 @@ Une variable booléenne peut prendre les valeurs true ou false, \\
 ce qui conduit à des codes plus lisibles.
 \end{block}
 \end{frame}
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle {Le type énumération en C++}
+
+En C, le type \textbf{enum} est un sous-ensemble d'entiers (janvier et lundi valent 1, février et mardi 2, etc), on peut donc comparer des jours avec des mois ! \\
+\begin{lstlisting}[language=c++]
+enum Jour {lundi=1, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+enum Mois {janvier=1, fevrier, mars, avril, mai, juin, juillet, aout, septembre, octobre, novembre, decembre};
+}
+\end{lstlisting}
+
+En C++11, le type \textbf{enum class} permet d'exprimer que les jours et les mois sont bien deux objets différents : le code suivant ne compile pas !
+\begin{lstlisting}[language=c++]
+#include <stdio.h>
+enum class Jour {lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche};
+enum class Mois {janvier, fevrier, mars, avril, mai, juin, juillet, aout, septembre, octobre, novembre, decembre};
+
+int main() {
+	Jour j = Jour::lundi;
+	Mois m = Mois::janvier;
+	if (j==m) printf ( "hoho\n"); 
+}
+\end{lstlisting}
+
+
+
+\end{frame}
+
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle {Les types float}
@@ -619,8 +763,9 @@ uint64_d du;
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Le type auto}
-\textbf{En C++11 uniquement}, permet de donner à une variable \\ 
-le même type qu'une autre variable:
+
+Depuis \textbf{C++11}, il existe le type \textbf{auto} \textbf{utilisé avec un initialiseur} et qui donne à la variable initialisée le même type que la variable à droite du signe $=$.
+
 \begin{lstlisting}[language=c++]
 int A = 4;
 auto B = A; // B est initialise a partir de A, et a le meme type
@@ -642,31 +787,69 @@ auto B = A; // B est initialise a partir de A, et a le meme type
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Les tableaux}
-\begin{block}{Les tableaux en C}
-En C, un tableau est:
+
+Une variable ne permet de stocker qu'un seule valeur. Si on veut en stocker plusieurs, on utilise la structure de données appelée \textbf{tableau} qui peut être : 
 \begin{itemize}
-\item{Une adresse de base}
-\item{Un type d'éléments, permettant de connaitre la taille de la cellule}
-\item{Une zone de la mémoire pour stocker le tableau}
+\item{\textbf{statique} si la taille est fixée une fois pour toute}
+\item{\textbf{dynamique} si la taille varie au cours de l'exécution du programme}
+\end{itemize}
+
+
+\begin{block}{Syntaxe de déclaration d'un tableau statique}
+type identificateur[taille];\\
+identificateur[i];  // pour accéder à l'élément i
+\end{block}
+où i est un entier, et vaut 0, ..., taille-1  
+
+
+\begin{block}{Remarques}
+\begin{itemize} 
+\item{Un tableau statique est une adresse de base vers une zone de la mémoire pour stocker le tableau (= ensemble de "cases" mémoires) }
+\item{Selon le type de ses éléments, une case ne fait pas la même taille}
 \end{itemize}
 \end{block}
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les tableaux statiques - Exemple}
+
 \begin{lstlisting}[language=c++]
-#define TAILLE 10
-int A[TAILLE];
+#include <iostream>
+using namespace std;
+
+int main() {
+
+	int i;
+	int const tailleTableau=10; 
+	int tableau[tailleTableau]; 
+
+	for (int i=0; i<tailleTableau; i++ ) {
+      tableau[i]=i*i;
+      cout<<"Le tableau ["<<i<<"] contient la valeur "<<tableau[i]<<endl;
+  }
+
+   return 0;
+}
 \end{lstlisting}
-\begin{block}{ATTENTION, PIEGE}
-\textbf{C'est au programmeur de se souvenir de la taille du tableau}
-\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les tableaux}
+
 \begin{block}{Pointeurs et tableaux}
 \textbf{Les notions de tableau et de pointeur sont interchangeables}
 \end{block}
 \begin{block}{Les tableaux en C++}
-En C++, la stdlib propose le type \texttt{vector} ou \texttt{array}, bien plus souples à utiliser que les tableaux C
+En C++, la STL propose le type \texttt{vector} ou \texttt{array}, bien plus souples à utiliser que les tableaux C
 \end{block}
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Initialiser le tableau}
+\frametitle{Initialiser un tableau statique}
 Le tableau \textbf{doit être initialisé}, le C ne le fera pas automatiquement
 \begin{lstlisting}[language=c++]
 int a[5]   = {34,35,36,37,12};
@@ -676,9 +859,8 @@ int b[]    = {1,2,3,4};    // b est de dimension 4
 \end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Passer le tableau à une fonction}
-Comme le C ne connait que l'adresse de base, le développeur doit \\
-\textbf{passer explicitement la taille du tableau} \\
+\frametitle{Passer un tableau en argument à une fonction}
+Comme le C ne connaît que l'adresse de base, le développeur doit \textbf{passer explicitement la taille du tableau} \\
 Deux manières de procéder:
 \begin{lstlisting}[language=c++]
 // Declaration de la fonction: 1ere maniere
@@ -703,7 +885,7 @@ int main() {
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Les structures}
-Permet de mettre dans une entité unique plusieurs données de types différents.
+Un tableau permet de regrouper des données de même type, si nous souhaitons regrouper des données de types différents, nous utiliserons une structure.
 \begin{lstlisting}[language=c++]
 // Declaration d'une personne
 struct personne {
@@ -725,6 +907,22 @@ Pour déclarer des objets nous utiliserons des \textbf{classes}, \\ qui dériven
 \end{frame}
 
 \section{Les opérateurs}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les opérateurs}
+
+\begin{itemize}
+\item{Les opérateurs d'affectations}
+\item{Les opérateurs arithmétique}
+\item{Les opérateurs d'incrémentation ou de décrémentation}
+\item{Les opérateurs de comparaison}
+\item{Les opérateurs logiques}
+\item{Les opérateurs pour nombres binaires}
+\end{itemize}
+
+
+\end{frame}
+
 \subsection{Les opérateurs}
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Affectation}
@@ -843,34 +1041,80 @@ une autre signification: sortie ou entrée
 \end{frame}
 
 \section{Les fonctions}
-\subsection{Les fonctions}
+
+
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Les fonctions}
-Deux parties, la première est \textbf{optionnelle}:
-\begin{itemize}
-\item{La déclaration: l'interface}
-\item{La définition: L'implémentation, le code de la fonction}
-\end{itemize}
 
-\begin{block}{La déclaration}
-Se trouve dans le fichier .hpp \\
-Comprend trois parties:
 \begin{itemize}
-\item{Le type de retour, éventuellement void}
-\item{Le nom de la fonction}
-\item{Les types des arguments}
+\item{Déclaration et définition d'une fonction}
+\item{Récursivité}
+\item{Utiliser les fonctions des bibliothèques systèmes}
+\item{Fonction main dans un .cpp}
+\item{La compilation}
 \end{itemize}
+\end{frame}
+
+
+\subsection{Les fonctions}
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les fonctions - déclaration }
+
+La déclaration de l'interface d'une fonction est optionnelle mais très conseillée. On le fait dans les fichiers d'entête \textbf{.hpp} (en C++) ou \textbf{.h} (en C)
+
+
+\begin{block}{Syntaxe d'une déclaration d'interface}
+[type de retour] NomFonction ( Liste des types des arguments )
+\end{block}
+Le type de retour peut être \textbf{void} si elle ne renvoie rien.\\ 
+
+
+\begin{block}{Le fichier \texttt{hyperbolique.hpp}}
+\begin{lstlisting}[language=c++]
+// Une declaration de fonction qui prend un parametre flottant,
+// renvoie un parametre flottant
+float sinh(float);
+float cosh(float);
+...
+\end{lstlisting}
 \end{block}
 
-\begin{block}{La définition}
-Se trouve dans le fichier .cpp \\
-Comprend deux parties:
+
+\end{frame}
+
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les fonctions - définition}
+
+La définition d'une fonction s'écrit dans le fichier \textbf{.cpp} (en C++) ou \textbf{.c} (en C) :
 \begin{itemize}
 \item{La déclaration, doit être \textbf{la même} que dans le fichier .h}
-\item{Le corps de la fonction: le code}
+\item{Le corps de la fonction contient le code }
 \end{itemize}
+
+\begin{block}{Le fichier \texttt{hyperbolique.cpp}}
+\begin{lstlisting}[language=c++]
+// en debut de fichier, on inclue le header
+#include "hyperbolique.hpp"
+
+// La definition de sinh
+float sinh(float x) {
+   result = exp(x) - exp(-x);
+   result /= 2;
+   return result;
+}
+// La definition de cosh
+float cosh(float x) {
+   result = exp(x) + exp(-x);
+   result /= 2;
+   return result;
+}
+
+\end{lstlisting}
 \end{block}
 \end{frame}
+
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Les fonctions sont récursives}
@@ -905,53 +1149,9 @@ ou par des éditeurs tiers:
 \end{lstlisting}
 \end{block}
 
-
 \end{frame}
 
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Les déclarations dans le .hpp}
-Les déclarations de fonctions se trouvent  \\
-dans les fichiers \texttt{.hpp } (en C++) \\
-ou dans les fichiers \texttt{.h} (en C)
 
-\begin{block}{Le fichier \texttt{hyperbolique.hpp}}
-\begin{lstlisting}[language=c++]
-// Une declaration de fonction qui prend un parametre flottant,
-// renvoie un parametre flottant
-float sinh(float);
-float cosh(float);
-...
-\end{lstlisting}
-\end{block}
-\end{frame}
-
-\begin{frame}[fragile=singleslide,shrink=20]
-\frametitle{Les définitions dans le .cpp}
-Les définitions des fonctions se trouvent \\
-dans les fichiers \texttt{.cpp} (en C++) \\
-ou dans les fichiers \texttt{.c} (en C)
-
-\begin{block}{Le fichier \texttt{hyperbolique.cpp}}
-\begin{lstlisting}[language=c++]
-// en debut de fichier, on inclue le header
-#include "hyperbolique.hpp"
-
-// La definition de sinh
-float sinh(float x) {
-   result = exp(x) - exp(-x);
-   result /= 2;
-   return result;
-}
-// La definition de cosh
-float cosh(float x) {
-   result = exp(x) + exp(-x);
-   result /= 2;
-   return result;
-}
-
-\end{lstlisting}
-\end{block}
-\end{frame}
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{La fonction main dans un .cpp}
@@ -959,7 +1159,6 @@ Tout exécutable doit avoir une fonction main ! \\
 Les fonctions appelées:
 \begin{itemize}
 \item{doivent être déclarées en incluant les fichiers d'en-têtes}
-\item{n'ont pas besoin d'être définies dans l'unité de compilation considérée}
 \item{doivent être résolues à l'édition de liens}
 \end{itemize}
 
@@ -982,26 +1181,42 @@ int main() {
 
 \begin{block}{Compiler et linker tout d'un coup}
 \begin{lstlisting}[language=c++]
-c++ -o cosinh2 hyperbolique.cpp cosinh2.cpp
+g++ -o cosinh2 hyperbolique.cpp cosinh2.cpp
 \end{lstlisting}
 \end{block}
 
 \begin{block}{Compiler en plusieurs fois}
 \begin{lstlisting}[language=c++]
-c++ -c -o hyperbolique.o hyperbolique.cpp
-c++ -c -o cosinh2.o cosinh2.cpp
-c++ -o cosinh2 cosinh2.o hyperbolique.o
+g++ -c -o hyperbolique.o hyperbolique.cpp
+g++ -c -o cosinh2.o cosinh2.cpp
+g++ -o cosinh2 cosinh2.o hyperbolique.o
 \end{lstlisting}
 \end{block}
 
 \begin{block}{Faire une bibliothèque et utiliser la bibliothèque}
 \begin{lstlisting}[language=c++]
-c++ -c -o hyperbolique.o hyperbolique.cpp
+g++ -c -o hyperbolique.o hyperbolique.cpp
 ar -c libhyper.a hyperbolique.o
-c++ -o cosinh2 cosinh2.cpp -l hyper
+g++ -o cosinh2 cosinh2.cpp -l hyper
 \end{lstlisting}
 \end{block}
 
+\end{frame}
+
+\section{Les pointeurs}
+
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les pointeurs}
+
+\begin{itemize}
+\item{Les références: un alias}
+\item{Les pointeurs}
+\item{Le pointeur nul}
+\item{Passage de paramètres valeur ou par référence}
+\item{Renvoyer une valeur ou une référence}
+
+\end{itemize}
 \end{frame}
 
 \subsection{Pointeurs et références}
@@ -1196,6 +1411,7 @@ void f(const int& x) {
 \end{itemize}
 \end{frame}
 
+
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Renvoyer une valeur}
 Une fonction peut renvoyer une valeur.
@@ -1206,7 +1422,7 @@ Une fonction peut renvoyer une valeur.
 \item{vos objets n'ont pas de constructeur de déplacement (en C++, voir plus loin)}
 \item{Car cela signifie une copie de l'objet pour passer "à l'extérieur" de la fonction}
 \end{itemize}}
-\item{Cest une \texttt{rvalue} (un truc qu'on ne peut pas mettre à \textbf{gauche} de =, du coup on le met à droite.) }
+\item{C'est une \texttt{rvalue} (un truc qu'on ne peut pas mettre à \textbf{gauche} de =, du coup on le met à droite.) }
 \item Renvoyer une variable ou un objet par valeur est le moyen normal de travailler, \textbf{avec des compilateurs modernes}. Les
 compilateurs actuels implémentent en effet le RVO (Return Value Optimization).
 \end{itemize}
@@ -1297,6 +1513,25 @@ p->age    = 20;
 \end{block}
 \end{frame}
 
+\section{Les tableaux et pointeurs}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les tableaux et pointeurs}
+
+
+\begin{itemize}
+\item{Pointeurs et tableaux}
+\item{Intialiser, copier des tableaux}
+\item{Allocation et désallocation dynamique de la mémoire en C}
+\item{Allocation et désallocation dynamique de la mémoire en C++}
+\item{les tableaux de la STL}
+\end{itemize}
+
+
+
+\end{frame}
+
+
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Pointeurs et tableaux}
 Les pointeurs permettent de faire du calcul d'adresse:
@@ -1355,11 +1590,11 @@ Ce sont des pointeurs vers un type de données non précisé.
 \end{itemize}
 \end{frame}
 
-\subsection{Allocation dynamique de mémoire}
+\subsection{Allocation dynamique de mémoire en C}
 
 \begin{frame}[fragile=singleslide,shrink=20]
 \frametitle{Allocation dynamique de la mémoire}
-Quatre fonctions pour allouer/libérer la mémoire:
+L'entête $<stdlib.h>$ fournit 4 fonctions pour allouer/libérer la mémoire:
 \begin{itemize}
 \item{\texttt{malloc} pour allouer de la mémoire}
 \item{\texttt{calloc} pour allouer et initialiser de la mémoire}
@@ -1439,9 +1674,102 @@ cout << tab[0] << '\n';    // tab[0] pareil avant et apres realloc
 \end{block}
 \end{frame}
 
+\subsection{Allocation dynamique de mémoire en C++}
 
-\begin{frame}
-(à suivre)
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Allocation dynamique de la mémoire en C++}
+Un tableau dynamique est un tableau dont le nombre de cases peut varier au cours de l'exécution du programme. Il permet d'ajuster la taille du tableau au besoin du programmeur.\\
+Le C++ fournit les opérateurs \textbf{new} et \textbf{delete} pour allouer et désallouer de la mémoire dynamiquement.
+
+\begin{block}{Syntaxe de \textbf{new} et \textbf{delete}}
+pointeur = new type[taille];\\
+delete[] pointeur;
+\end{block}
+
+L'opérateur new[] permet d'allouer une zone mémoire pouvant stocker \textbf{taille} éléments de type \textbf{type}, et retourne l'adresse de cette zone. 
+
+\begin{block}{Attention}
+N'oubliez surtout pas les crochets juste après delete, sinon le tableau ne sera pas correctement libéré
+\end{block}
+
 \end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Tableaux à 2 dimensions - Exemple}
+\begin{lstlisting}[language=c++]
+#include <iostream>
+using std::cout;
+using std::cin;
+
+int **t;
+int nColonnes;
+int nLignes;
+ 
+void Free_Tab(); 
+ 
+int main(){
+ 
+  cout << "Nombre de colonnes : ";  cin >> nColonnes;
+  cout << "Nombre de lignes : ";  cin >> nLignes;
+ 
+  t = new int* [ nLignes ];
+  for (int i=0; i < nLignes; i++)
+    t[i] = new int[ nColonnes ];
+ 
+
+  for (int i=0; i < nLignes; i++)
+    for (int j=0; j < nColonnes; j++)
+      t[i][j] = i*j;
+ 
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Tableaux à 2 dimensions - Exemple}
+\begin{lstlisting}[language=c++]
+
+  for (int i=0; i < nLignes; i++) {
+ 
+    for (int j=0; j < nColonnes; j++)
+      cout << t[i][j] << " ";
+    cout << std::endl;
+  }
+ 
+  Free_Tab();
+  system("pause>nul");
+  return 0;
+}
+ 
+void Free_Tab(){
+ 
+  for (int i=0; i < nLignes; i++)
+    delete[] t[i];
+  delete[] t;
+}
+\end{lstlisting}
+
+\end{frame}
+
+
+\subsection{Les tableaux de la STL}
+
+\begin{frame}[fragile=singleslide,shrink=20]
+\frametitle{Les tableaux de la STL}
+
+La STL offre des tableaux à 1 dimension (conteneurs) beaucoup plus pratiques à utiliser et qui gèrent eux même la mémoire :  
+
+\begin{itemize}
+\item{vector}
+\item{array}
+\item{...}
+\end{itemize}
+
+et pour les tableaux à plusieurs dimensions voir avec la librairie \textbf{BOOST}
+
+\end{frame}
+
+
 
 \end{document}
