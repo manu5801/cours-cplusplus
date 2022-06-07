@@ -34,7 +34,8 @@ void imprimeTableau(string msg, int A[],size_t s) {
 	};
 }
 
-#define DIMENSION 10
+//#define DIMENSION 10
+constexpr int DIMENSION=10;
 
 // Décommentez ces trois lignes l'une après l'autre
 // au fur et à mesure que vous progresserez dans l'exercice
@@ -43,7 +44,7 @@ void imprimeTableau(string msg, int A[],size_t s) {
 //#define NIVEAU2
 //#define NIVEAU3
 
-main() {
+int main() {
 	// *********************************************************************************
 	// On joue avec les tableaux "à la C"
 	// Allouer un tableau de int de dimension 10, le remplir et l'imprimer
