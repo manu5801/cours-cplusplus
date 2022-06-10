@@ -296,14 +296,14 @@ Un unique_ptr a les caractéristiques suivantes:</p>
 <li>Lorsqu'il est détruit, l'objet pointé est détruit en même temps.</li>
 </ul>
 
-est <strong>toujours</strong> responsable de l'objet sur lequel il pointe. Un <tt>unique_ptr</tt> <strong>ne peut pas être copié</strong>, mais 
-<strong>il peut être déplacé</strong>. En effet si on copie un pointeur, on se retrouve avec deux pointeurs qui sont chacun responsables
+est <strong>toujours</strong> responsable de l'objet sur lequel il pointe. Un <tt>unique_ptr</tt> <strong>ne peut pas être copié</strong> (mais 
+il peut être déplacé). En effet si on copie un pointeur, on se retrouve avec deux pointeurs qui sont chacun responsables
 de l'objet pointé, ce qui est interdit. Alors que si on déplace un pointeur, on passe simplement la responsabilité de l'un vers l'autre.</p>.
 
 <p>Pour construire un unique_ptr en même temps qu'un objet, il est recommandé d'utiliser la fonction:</p>
 <ul>
-<li><tt>make_unique<int>(10)</tt> pour un pointeur vers un entier initialisé à 10</li>
-<li><tt>make_unique<int[]>(10)</tt> pour un pointeur vers un tableau de 10 entiers.</li>
+<li><tt>make_unique&lt;int&gt;(10)</tt> pour un pointeur vers un entier initialisé à 10</li>
+<li><tt>make_unique&lt;int[]&gt;(10)</tt> pour un pointeur vers un tableau de 10 entiers.</li>
 </ul>
   
 <p>Le code suivant montre ce que devient notre code tableau défini plus haut lorsqu'on utilise un <tt>unique_ptr</tt> à la place
@@ -320,7 +320,7 @@ private:
   unique_ptr&lt;int[]&gt;&amp; buffer;
 };
 
-tableau::tableau(int s) : taille(s), buffer(make_unique<int[]>(taille)){};
+tableau::tableau(int s) : taille(s), buffer(make_unique&lt;int[]&gt;(taille)){};
 };
 
 void main() {

@@ -30,8 +30,8 @@ using namespace std;
 
 class Tab2 {
 private:
-    unique_ptr<int> base1;
-    unique_ptr<int> base2;
+    unique_ptr<int[]> base1;
+    unique_ptr<int[]> base2;
     size_t s1;
     size_t s2;
 
@@ -42,10 +42,11 @@ public:
     * En cas d'erreur d'allocation, new renvoie une exception de type bad_alloc
     *
     ****************/
-    Tab2(size_t s1, size_t s2): s1(s1), s2(s2) 
+    Tab2(size_t s1, size_t s2): s1(s1), s2(s2), base1(make_unique<int[]>(s1)), base2(make_unique<int[]>(s2))
     {
-        base1 = unique_ptr<int>(new int[s1]);
-        base2 = unique_ptr<int>(new int[s2]);
+	// oups, ne compile pas car l'operator= a ete deleted !
+        // base1 = make_unique<int[]>(s1);
+        // base2 = make_unique<int[]>(s2);
     };
 };
 
