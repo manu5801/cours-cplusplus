@@ -346,13 +346,13 @@ void main() {
 
 <p>Pour construire un shared_ptr en même temps qu'un objet, il est recommandé d'utiliser la fonction:</p>
 <ul>
-<li><tt>make_shared<int>(10)</tt> pour un pointeur vers un entier (en initialisant l'entier à 10)</li>
+<li><tt>make_shared&lt;int&gt;(10)</tt> pour un pointeur vers un entier (en initialisant l'entier à 10)</li>
 
-<li><tt>make_shared<int[]>(10)</tt> pour un pointeur vers un tableau de 10 entiers</li>
+<li><tt>make_shared&lt;int[]&gt;(10)</tt> pour un pointeur vers un tableau de 10 entiers</li>
 </ul>
   
 <p>On l'a vu au chapitre sur l'héritage: un tableau ou mieux un conteneur (par exemple un vecteur) d'objets poylmorphes doit obligatiorement
-contenir des shared_ptr. Une illustration <a href="exos/clonage">se trouve ici</a>.</p>
+contenir des shared_ptr.</p>
 
 <p><a href="#">top</a></p><hr />
 
@@ -449,7 +449,7 @@ Les trois principes fondamentaux pour g&eacute;rer les ressources sont:</p>
 </dl>
 </div>
 
-<p><code>unique_ptr</code>, <code>ifstream</code> ou <code>ofstream</code> sont des exemples d'objets dont l'unique raison
+<p><code>unique_ptr</code>, <code>shared_ptr</code>, <code>ifstream</code> ou <code>ofstream</code> sont des exemples d'objets dont l'unique raison
 d'&ecirc;tre est la gestion d'une ressource.</p>
 
 <p><a href="#">top</a></p><hr />
