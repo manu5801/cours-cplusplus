@@ -19,19 +19,14 @@ using namespace std;
 *
 * Le constructeur alloue la mémoire
 * Le destructeur la libère
-* Donc tout va bien
-*
-* Vraiment ? Pas si sur.... Ce code est vraiment problématique !
-*
-* 1/ Vérifiez ce qui se passe en décommentant tour à tout les lignes marquées 1, 2, 3 
-* 2/ Remplacez les pointeurs dans Tab2 par des unique_ptr et vérifiez qu'il n'y a plus de problème
+* Donc tout va bien... PARCE QU'ON UTILISE unique_ptr !
 *
 ****************/
 
 class Tab2 {
 private:
-	int* base1;
-	int* base2;
+	unique_ptr<int[]> base1;
+	unique_ptr<int[]> base2;
 	size_t s1;
 	size_t s2;
 
@@ -42,15 +37,9 @@ public:
 	* En cas d'erreur d'allocation, new renvoie une exception de type bad_alloc
 	*
 	****************/
-	Tab2(size_t s1, size_t s2): s1(s1), s2(s2),
-                                    base1(new int[s1]),
-                                    base2(new int[s2]) {};
-
-	~Tab2() 
-        { 
-             delete[] base1; 
-             delete[] base2; 
-        };	
+	Tab2(size_t s1, size_t s2): s1(s1), s2(s2), 
+                                    base1(make_unique<int[]>(s1)), 
+                                    base2(make_unique<int[]>(s2)) {};
 };
 
 int main() {
@@ -64,9 +53,9 @@ int main() {
 
    for (;;) {
 	try {
-	    Tab2 t = {1000,1000};             // 1 - ca marche
+	    Tab2 t = {1000,1000};          // 1 - ca marche
 	    // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
- 	    // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
+ 	    // Tab2 t = {1000,10000000000};   // 3 - Pas non plus de fuite !
             
     	} catch(const exception &e) {
     	    cerr << e.what() << '\n';
