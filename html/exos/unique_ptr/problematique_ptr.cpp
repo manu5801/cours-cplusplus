@@ -44,13 +44,18 @@ public:
 	****************/
 	Tab2(size_t s1, size_t s2): s1(s1), s2(s2),
                                     base1(new int[s1]),
-                                    base2(new int[s2]) {};
+                                    base2(new int[s2]) 
+                                    {
+                                        for (size_t i = 0; i < s1; ++i) base1[i] = i;
+                                        for (size_t i = 0; i < s2; ++i) base2[i] = i*i;
+                                    };
 
 	~Tab2() 
         { 
              delete[] base1; 
              delete[] base2; 
         };	
+
 };
 
 int main() {
@@ -62,14 +67,15 @@ int main() {
        Comme c'est bizarre !
 */
 
+   int i = 0;
    for (;;) {
 	try {
-	    Tab2 t = {1000,1000};             // 1 - ca marche
+	    Tab2 t = {1000,1000};          // 1 - ca marche
 	    // Tab2 t = {10000000000,1000};   // 2 - Pas de fuite: pourquoi ?
  	    // Tab2 t = {1000,10000000000};   // 3 - Fuite de mémoire: pourquoi ?
-            
+            cout << ++i << " ok\n";
     	} catch(const exception &e) {
-    	    cerr << e.what() << '\n';
+    	    cerr << ++i << " " << e.what() << '\n';
     	};
    };
 };
